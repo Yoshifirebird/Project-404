@@ -57,7 +57,7 @@ public class CameraFollow : MonoBehaviour
 			_HolderIndex++;
 			// Check if the index is bigger than the amount of variables we have
 			if (_HolderIndex > (_Variables.Length - 1))
-				// Reset it back to 0 to avoid errors
+				// Reset it back to 0 to avoid out of bounds errors
 				_HolderIndex = 0;
 			 
 			// Assign the current holder with the variable at the given index
