@@ -683,7 +683,8 @@ MonoBehaviour:
   - _FOV: 40
     _Offset: {x: 0, y: 5, z: -20}
   _FollowSpeed: 5
-  _FOVChangeSpeed: 2
+  _FOVChangeSpeed: 3
+  _RotationSpeed: 2
 --- !u!1 &1722327203
 GameObject:
   m_ObjectHideFlags: 0

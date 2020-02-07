@@ -24,6 +24,7 @@ public class CameraFollow : MonoBehaviour
 	[Header("Settings")]
 	[SerializeField] float _FollowSpeed = 5f;
 	[SerializeField] float _FOVChangeSpeed = 2f;
+    [SerializeField] float _RotationSpeed = 2f;
 
 	CFVariableHolder _CurrentHolder;
 	int _HolderIndex = 0;
@@ -47,8 +48,14 @@ public class CameraFollow : MonoBehaviour
 
 	void Update()
 	{
-		// Smoothly interpolate the needed values
-		SetVariables();
+        // Rotates the view to the right if the player presses E, otherwise to the left if the player presses Q
+        if (Input.GetKey(KeyCode.E))
+            RotateView(_RotationSpeed);
+        else if (Input.GetKey(KeyCode.Q))
+            RotateView(-_RotationSpeed);
+
+        // Smoothly interpolate the needed values
+        SetVariables();
 
 		// Check if the player presses the R key
 		if (Input.GetKeyDown(KeyCode.R))
@@ -74,4 +81,10 @@ public class CameraFollow : MonoBehaviour
 		// Look at the target position
 		transform.LookAt(_ToFollow.position);
 	}
+
+    void RotateView(float direction)
+    {
+        // Transform the camera to the right. Works because the Camera's always looking at the player (using transform.LookAt)
+        transform.Translate(Vector3.right * Time.deltaTime * direction);
+    }
 }
