@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.25573456, g: 0.31691366, b: 0.41952753, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -676,15 +676,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ToFollow: {fileID: 674491537}
   _Variables:
-  - _FOV: 60
-    _Offset: {x: 0, y: 5, z: -10}
+  - _FOV: 20
+    _Offset: {x: 0, y: 5, z: 16}
   - _FOV: 50
-    _Offset: {x: 0, y: 5, z: -15}
-  - _FOV: 40
-    _Offset: {x: 0, y: 5, z: -20}
+    _Offset: {x: 0, y: 6, z: 16}
+  - _FOV: 45
+    _Offset: {x: 0, y: 12, z: 26}
   _FollowSpeed: 5
   _FOVChangeSpeed: 3
-  _RotationSpeed: 2
+  _RotationSpeed: 12
 --- !u!1 &1722327203
 GameObject:
   m_ObjectHideFlags: 0
