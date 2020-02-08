@@ -27,26 +27,18 @@ public class PlayerMovementController : MonoBehaviour
 
     private void Update()
     {
-        HandleMovement();
-    }
-
-    void HandleMovement()
-    {
         // If we're not grounded and not on a slope
         if (!IsGrounded())
         {
             // Work out our gravitational Y velocity and apply it
-            float yVelocity = _Gravity * Time.deltaTime;
-            _Controller.SimpleMove(Vector3.down * yVelocity * Time.deltaTime);
+            _Controller.SimpleMove(Vector3.down * _Gravity);
         }
 
         // Get input from the 'Horizontal' and 'Vertical' axis, and normalize it
         // so as to not the player move quicker when going diagonally
-        var mDirection = new Vector3(
-                                        Input.GetAxis("Horizontal"),
-                                        0,
-                                        Input.GetAxis("Vertical")
-                                        ).normalized;
+        var mDirection = new Vector3(Input.GetAxis("Horizontal"),
+                                     0,
+                                     Input.GetAxis("Vertical")).normalized;
 
         // If the player has even touched the H and V axis
         if (Mathf.Abs(mDirection.x) <= _MovementDeadzone.x && Mathf.Abs(mDirection.z) <= _MovementDeadzone.y)
@@ -77,8 +69,8 @@ public class PlayerMovementController : MonoBehaviour
             if (hit.normal == Vector3.up)
                 return hit.distance <= 0.2;
 
-            // If there is, move down but only the distance away, this creates a slope-like effect
-            // cancelling out the bouncing found if you remove this function
+            // Move down but only the distance away, this cancels out the bouncing
+            // effect that you can achieve by removing this function
             _Controller.Move(Vector3.down * hit.distance);
             return true;
         }

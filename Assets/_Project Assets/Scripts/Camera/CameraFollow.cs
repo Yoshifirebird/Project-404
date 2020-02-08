@@ -41,9 +41,6 @@ public class CameraFollow : MonoBehaviour
         _FocusRotationSpeed = 5;
         _FOVChangeSpeed = 2;
         _AdjustRotationSpeed = 2;
-
-        // Set the default index
-        _HolderIndex = 1;
     }
 
     void Awake()
@@ -58,7 +55,8 @@ public class CameraFollow : MonoBehaviour
         }
 
         // Assign the current holder and the associated variables
-        _CurrentHolder = _DefaultHolders[0];
+        _HolderIndex = Mathf.FloorToInt(_DefaultHolders.Length / 2);
+        _CurrentHolder = _DefaultHolders[_HolderIndex];
         _OrbitRadius = _CurrentHolder._Offset.x;
         _GroundOffset = _CurrentHolder._Offset.y;
     }
@@ -120,8 +118,8 @@ public class CameraFollow : MonoBehaviour
         if (Input.GetButton("CameraReset"))
         {
             // Todo: make camera reset back to it's initial position behind the player
-            Vector3 newPosition = _ToFollow.position - _ToFollow.forward;
-            transform.position = newPosition;
+            Vector3 newPosition = _ToFollow.forward;
+            transform.position = Vector3.Lerp(transform.position, newPosition + new Vector3(0, _CurrentHolder._Offset.y, _CurrentHolder._Offset.x), _FocusRotationSpeed * Time.deltaTime);
         }
 
         if (Input.GetButtonDown("ZoomLevel"))
