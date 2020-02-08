@@ -16,5 +16,5 @@ public interface IHealth
 
     // Supposed to return the amount of health an object / entity has
     int GetHealth();
+    int GetMaxHealth();
 }
-

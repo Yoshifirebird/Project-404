@@ -1,0 +1,55 @@
+﻿/*
+ * Player.cs
+ * Created by: Ambrosia
+ * Created on: 8/2/2020 (dd/mm/yy)
+ * Created for: having a generalised manager for the seperate Player scripts
+ */
+
+using UnityEngine;
+
+[RequireComponent(typeof(PlayerMovementController))]
+public class Player : MonoBehaviour, IHealth
+{
+    //[Header("Components")]
+    PlayerMovementController _MovementController;
+
+    [Header("Settings")]
+    [SerializeField] int _MaxHealth = 100;
+    [SerializeField] int _CurrentHealth = 100;
+
+    void Awake()
+    {
+        // In case the current health or max health was changed in the inspector
+        _CurrentHealth = _MaxHealth;
+
+        _MovementController = GetComponent<PlayerMovementController>();
+    }
+
+    void Update()
+    {
+        // Handle health
+        if (_CurrentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Debug.Log("Player is dead!");
+        Debug.Break();
+    }
+
+    #region Health
+
+    // 'Getter' functions
+    public int GetHealth() => _CurrentHealth;
+    public int GetMaxHealth() => _MaxHealth;
+    // 'Setter' functions
+    public void GiveHealth(int give) => _CurrentHealth += give;
+    public void TakeHealth(int take) => _CurrentHealth -= take;
+    public void SetHealth(int set) => _CurrentHealth = set;
+
+    #endregion
+
+}

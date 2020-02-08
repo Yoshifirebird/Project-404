@@ -9,7 +9,6 @@ using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour
 {
-    // Uncomment these when there are variables in place
     //[Header("Components")]
     CharacterController _Controller;
     Camera _MainCamera;
