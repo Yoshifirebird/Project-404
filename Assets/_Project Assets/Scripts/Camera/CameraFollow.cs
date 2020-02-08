@@ -21,11 +21,11 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] CFCameraVars[] _DefaultHolders;    // Default View variables
     [SerializeField] CFCameraVars[] _TopViewHolders;  // Top View variables
     Camera _MainCamera;
-    Player _Player;
 
     [Header("Settings")]
     [SerializeField] float _FollowSpeed;
     [SerializeField] float _FOVChangeSpeed;
+    [SerializeField] float _FocusRotationSpeed;
     [SerializeField] float _AdjustRotationSpeed;
 
     int _HolderIndex;
@@ -38,6 +38,7 @@ public class CameraFollow : MonoBehaviour
     {
         // Apply movement/rotation settings
         _FollowSpeed = 5;
+        _FocusRotationSpeed = 5;
         _FOVChangeSpeed = 2;
         _AdjustRotationSpeed = 2;
 
@@ -49,8 +50,6 @@ public class CameraFollow : MonoBehaviour
     {
         // Grab the main camera's 'Camera' component
         _MainCamera = Camera.main;
-        // Grab the player's instance
-        _Player = Player.player;
 
         if (_DefaultHolders.Length != _TopViewHolders.Length)
         {
@@ -81,7 +80,7 @@ public class CameraFollow : MonoBehaviour
     {
         // Set OrbitRadius and GroundOffset to the X and Y offsets of the current holder
         _OrbitRadius = Mathf.Lerp(_OrbitRadius, _CurrentHolder._Offset.x, _FOVChangeSpeed * Time.deltaTime);
-        _GroundOffset = Mathf.Lerp(_GroundOffset, _CurrentHolder._Offset.y + _Player.transform.position.y, _FOVChangeSpeed * Time.deltaTime);
+        _GroundOffset = Mathf.Lerp(_GroundOffset, _CurrentHolder._Offset.y + _ToFollow.transform.position.y, _FOVChangeSpeed * Time.deltaTime);
 
         // Calculate the position we're moving to, apply the offset and then move the camera
         Vector3 targetPosition = (transform.position - _ToFollow.transform.position).normalized
@@ -118,13 +117,11 @@ public class CameraFollow : MonoBehaviour
         else if (Input.GetButton("LeftTrigger"))
             RotateView(-_AdjustRotationSpeed);
 
-        if (Input.GetButtonDown("CameraReset"))
+        if (Input.GetButton("CameraReset"))
         {
             // Todo: make camera reset back to it's initial position behind the player
-            Vector3 finalPosition = _ToFollow.forward;
-            finalPosition.x -= _CurrentHolder._Offset.x;
-            finalPosition.y -= _CurrentHolder._Offset.y;
-            transform.position = finalPosition;
+            Vector3 newPosition = _ToFollow.position - _ToFollow.forward;
+            transform.position = newPosition;
         }
 
         if (Input.GetButtonDown("ZoomLevel"))
@@ -151,5 +148,14 @@ public class CameraFollow : MonoBehaviour
                 _TopView = true;
             }
         }
+    }
+
+    private float AngleOnXZPlane(Transform item)
+    {
+        // get rotation as vector
+        Vector3 direction = item.rotation * item.forward;
+
+        // return angle in degrees when projected onto xz plane
+        return Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
     }
 }
