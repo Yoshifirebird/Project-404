@@ -22,6 +22,10 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] CFCameraVars[] _TopViewHolders;  // Top View variables
     Camera _MainCamera;
 
+    [Header("Audio")]
+    [SerializeField] AudioClip _ChangeZoomAudio;
+    AudioSource _AudioSource;
+
     [Header("Settings")]
     [SerializeField] float _FollowSpeed;
     [SerializeField] float _FOVChangeSpeed;
@@ -47,6 +51,7 @@ public class CameraFollow : MonoBehaviour
     {
         // Grab the main camera's 'Camera' component
         _MainCamera = Camera.main;
+        _AudioSource = GetComponent<AudioSource>();
 
         if (_DefaultHolders.Length != _TopViewHolders.Length)
         {
@@ -100,6 +105,9 @@ public class CameraFollow : MonoBehaviour
 
     void ApplyChangedZoomLevel(CFCameraVars[] currentHolder)
     {
+        // Play the zoom audio
+        _AudioSource.PlayOneShot(_ChangeZoomAudio);
+
         // Wrap the holder index
         if (_HolderIndex > currentHolder.Length - 1)
             _HolderIndex = 0;
