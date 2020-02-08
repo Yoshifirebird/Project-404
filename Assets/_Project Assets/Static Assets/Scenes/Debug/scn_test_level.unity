@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.25576356, g: 0.31685284, b: 0.4193715, a: 1}
+  m_IndirectSpecularColor: {r: 0.25618857, g: 0.3174317, b: 0.42013627, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -330,6 +330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _MovementSpeed: 8
+  _RotationSpeed: 3
   _Gravity: 9.81
 --- !u!114 &674491540
 MonoBehaviour:
@@ -746,19 +747,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ToFollow: {fileID: 674491537}
-  _Variables:
-  - _FOV: 20
-    _Offset: {x: 0, y: 5, z: -16}
+  _DefaultHolders:
   - _FOV: 50
-    _Offset: {x: 0, y: 6, z: -16}
-  - _FOV: 45
-    _Offset: {x: 0, y: 12, z: -26}
-  _AlternateAngles:
-  - _FOV: 30
-    _Offset: {x: 0, y: 17, z: 32}
-  _FollowSpeed: 5
-  _FOVChangeSpeed: 2
-  _RotationSpeed: 32
+    _Offset: {x: 10, y: 5}
+  - _FOV: 60
+    _Offset: {x: 15, y: 10}
+  - _FOV: 70
+    _Offset: {x: 20, y: 15}
+  _AlternateHolders:
+  - _FOV: 60
+    _Offset: {x: 12.5, y: 12}
+  - _FOV: 70
+    _Offset: {x: 15, y: 16.5}
+  - _FOV: 80
+    _Offset: {x: 17.5, y: 17}
+  _FollowSpeed: 7.5
+  _RotationSpeed: 45
+  _FOVChangeSpeed: 3.5
+  _AdjustRotationSpeed: 10
 --- !u!1 &1722327203
 GameObject:
   m_ObjectHideFlags: 0

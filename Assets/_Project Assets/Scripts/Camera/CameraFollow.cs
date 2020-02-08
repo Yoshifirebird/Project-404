@@ -11,117 +11,131 @@ using UnityEngine;
 public class CFVariableHolder
 {
     public float _FOV = 75f;
-    public Vector3 _Offset = Vector3.one;
+    public Vector2 _Offset = Vector2.one;
 }
 
 public class CameraFollow : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] Transform _ToFollow;
-    [SerializeField] CFVariableHolder[] _Variables;
-    [SerializeField] CFVariableHolder[] _AlternateAngles;
+    [SerializeField] CFVariableHolder[] _DefaultHolders;    // Default View variables
+    [SerializeField] CFVariableHolder[] _TopViewHolders;  // Top View variables
     Camera _MainCamera;
 
     [Header("Settings")]
-    [SerializeField] float _FollowSpeed = 5f;
-    [SerializeField] float _FOVChangeSpeed = 2f;
-    [SerializeField] float _RotationSpeed = 2f;
+    [SerializeField] float _FollowSpeed;
+    [SerializeField] float _RotationSpeed;
+    [SerializeField] float _FOVChangeSpeed;
+    [SerializeField] float _AdjustRotationSpeed;
 
-    int _HolderIndex = 1;
+    int _HolderIndex;
     CFVariableHolder _CurrentHolder;
     float _OrbitRadius;
     float _GroundOffset;
     bool _TopView = false;
+
+    CameraFollow()
+    {
+        // Apply movement/rotation settings
+        _FollowSpeed = 5;
+        _FOVChangeSpeed = 2;
+        _RotationSpeed = 2;
+        _AdjustRotationSpeed = 2;
+
+        // Set the default index
+        _HolderIndex = 1;
+    }
 
     void Awake()
     {
         // Grab the main camera's 'Camera' component
         _MainCamera = Camera.main;
 
-        // Check if the '_Variables' variable wasn't assigned
-        if (_Variables == null)
+        if (_DefaultHolders.Length != _TopViewHolders.Length)
         {
-            Debug.LogError("'Variables' wasn't assigned, and as a result is null.");
-            // Break from playing as we've prevented another error down the line 
+            Debug.LogError("Top View holders must have the same length as default holders!");
             Debug.Break();
         }
 
-        // Assign each variable so as not to be null on runtime
-        _CurrentHolder = _Variables[_HolderIndex];
-        _OrbitRadius = _Variables[_Variables.Length - 1]._Offset.z;
-        _GroundOffset = _Variables[_Variables.Length - 1]._Offset.y;
+        _CurrentHolder = _DefaultHolders[_HolderIndex];
+        _OrbitRadius = _DefaultHolders[_HolderIndex]._Offset.x;
+        _GroundOffset = _DefaultHolders[_HolderIndex]._Offset.y;
     }
 
     void Update()
     {
         if (Input.GetButton("RightTrigger"))
-            RotateView(_RotationSpeed);
+            RotateView(_AdjustRotationSpeed);
         else if (Input.GetButton("LeftTrigger"))
-            RotateView(-_RotationSpeed);
+            RotateView(-_AdjustRotationSpeed);
 
-        if (Input.GetButton("CameraReset"))
-        {
-            // Todo: make camera reset back to it's initial position behind the player
-        }
+        if (Input.GetButton("CameraReset")) ; // Remove the ; when doing this if statement
+                                              // Todo: make camera reset back to it's initial position behind the player
 
-        SetVariables();
+        ApplyVariables();
 
         if (Input.GetButtonDown("ZoomLevel"))
         {
+            // Increment the holder index to go to the next zoom level
             _HolderIndex++;
-            ChangeZoomLevel();
+            // Does a basic check to see if we're in top view, and if it is use the alternate holders
+            ApplyChangedZoomLevel(_TopView ? _TopViewHolders : _DefaultHolders);
         }
 
         // Check if the player presses the Camera button
         if (Input.GetButtonDown("CameraAngle"))
         {
-            if (!_TopView)
+            if (_TopView)
             {
-                ChangeZoomLevel();
-                _CurrentHolder = _AlternateAngles[0];
-                _TopView = true;
+                // we're in top view, so change it to the default view
+                ApplyChangedZoomLevel(_DefaultHolders);
+                _TopView = false;
             }
             else
             {
-                ChangeZoomLevel();
-                _OrbitRadius = _AlternateAngles[0]._Offset.z;
-                _GroundOffset = _AlternateAngles[0]._Offset.y;
-                _TopView = false;
+                // we're not in top view, so change it to the top view
+                ApplyChangedZoomLevel(_TopViewHolders);
+                _TopView = true;
             }
         }
     }
 
-    void SetVariables()
+    void LateUpdate()
     {
-        _OrbitRadius = Mathf.Lerp(_OrbitRadius, _CurrentHolder._Offset.z, _FOVChangeSpeed * Time.deltaTime);
-        _GroundOffset = Mathf.Lerp(_GroundOffset, _CurrentHolder._Offset.y, _FOVChangeSpeed * Time.deltaTime);
-
-        transform.position = (transform.position - _ToFollow.transform.position).normalized * Mathf.Abs(_OrbitRadius) + _ToFollow.transform.position;
-        transform.position = new Vector3(transform.position.x, Player.player.transform.position.y + _GroundOffset, transform.position.z);
-
-        _MainCamera.fieldOfView = Mathf.Lerp(_MainCamera.fieldOfView, _CurrentHolder._FOV, _FOVChangeSpeed * Time.deltaTime);
+        // To stop jittery rotation, we apply the lookat after rotation and other functions have been caleld
         transform.LookAt(_ToFollow.position);
+    }
+
+    void ApplyVariables()
+    {
+        // Smoothly change the orbit radius to the X offset in the current holder
+        _OrbitRadius = Mathf.Lerp(_OrbitRadius, _CurrentHolder._Offset.x, _FOVChangeSpeed * Time.deltaTime);
+        // Smoothly change the ground offset to the Y offset in the current holder
+        _GroundOffset = Mathf.Lerp(_GroundOffset, _CurrentHolder._Offset.y + Player.player.transform.position.y, _FOVChangeSpeed * Time.deltaTime);
+
+        // Calculate the position we're aiming to go to
+        Vector3 targetPosition = (transform.position - _ToFollow.transform.position).normalized * Mathf.Abs(_OrbitRadius) + _ToFollow.transform.position;
+        targetPosition.y = _GroundOffset;
+        // Smoothly change our position towards the targetPosition
+        transform.position = Vector3.Lerp(transform.position, targetPosition, _FollowSpeed * Time.deltaTime);
+
+        // Smoothly change the field of view to be the FOV variable in the current holder
+        _MainCamera.fieldOfView = Mathf.Lerp(_MainCamera.fieldOfView, _CurrentHolder._FOV, _FOVChangeSpeed * Time.deltaTime);
     }
 
     void RotateView(float direction)
     {
+        // Move the camera right by an offset of 'direction'
+        // This works because we call 'LookAt' in LateUpdate
         transform.Translate(Vector3.right * Time.deltaTime * direction);
     }
 
-    void ChangeZoomLevel()
+    void ApplyChangedZoomLevel(CFVariableHolder[] currentHolder)
     {
-        if (_HolderIndex > (_Variables.Length - 1))
-        {
+        // Wrap the holder index
+        if (_HolderIndex > currentHolder.Length - 1)
             _HolderIndex = 0;
-            _OrbitRadius = _Variables[_Variables.Length - 1]._Offset.z;
-            _GroundOffset = _Variables[_Variables.Length - 1]._Offset.y;
-        }
-        else
-        {
-            _OrbitRadius = _Variables[_HolderIndex - 1]._Offset.z;
-            _GroundOffset = _Variables[_HolderIndex - 1]._Offset.y;
-        }
-
-        _CurrentHolder = _Variables[_HolderIndex];
+        // Assign the current holder
+        _CurrentHolder = currentHolder[_HolderIndex];
     }
 }
