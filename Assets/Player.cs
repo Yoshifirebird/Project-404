@@ -21,7 +21,7 @@ public class Player : MonoBehaviour, IHealth
     {
         // In case the current health or max health was changed in the inspector
         _CurrentHealth = _MaxHealth;
-
+        // Grab the PlayerMovementController component on the player
         _MovementController = GetComponent<PlayerMovementController>();
     }
 
@@ -29,9 +29,8 @@ public class Player : MonoBehaviour, IHealth
     {
         // Handle health
         if (_CurrentHealth <= 0)
-        {
+            // If the health is less than or equal to 0, we're dead so play the dead function!
             Die();
-        }
     }
 
     void Die()
