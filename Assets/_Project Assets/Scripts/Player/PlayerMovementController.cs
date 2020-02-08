@@ -67,8 +67,8 @@ public class PlayerMovementController : MonoBehaviour
 
         // Calculate the bottom position of the character controller
         Vector3 bottom = transform.position - Vector3.up * (_Controller.height / 2);
-        // Check if there is anything beneath us, with a max distance of 0.2 units
-        if (Physics.Raycast(bottom, Vector3.down, out RaycastHit hit, 0.2f))
+        // Check if there is anything beneath us, with a max distance of 0.3 units
+        if (Physics.Raycast(bottom, Vector3.down, out RaycastHit hit, 0.3f))
         {
             // If there is, move down but only the distance away, this creates a slope-like effect
             // cancelling out the bouncing found if you remove this function
