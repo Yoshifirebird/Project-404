@@ -58,7 +58,7 @@ public class CameraFollow : MonoBehaviour
         }
 
         // Assign the current holder and the associated variables
-        _CurrentHolder = _DefaultHolders[_HolderIndex];
+        _CurrentHolder = _DefaultHolders[0];
         _OrbitRadius = _CurrentHolder._Offset.x;
         _GroundOffset = _CurrentHolder._Offset.y;
     }
@@ -148,14 +148,5 @@ public class CameraFollow : MonoBehaviour
                 _TopView = true;
             }
         }
-    }
-
-    private float AngleOnXZPlane(Transform item)
-    {
-        // get rotation as vector
-        Vector3 direction = item.rotation * item.forward;
-
-        // return angle in degrees when projected onto xz plane
-        return Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
     }
 }

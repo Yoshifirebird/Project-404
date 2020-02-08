@@ -70,8 +70,13 @@ public class PlayerMovementController : MonoBehaviour
         // Calculate the bottom position of the character controller
         // then check if there is any collider beneath us
         Vector3 bottom = transform.position - Vector3.up * (_Controller.height / 2);
-        if (Physics.Raycast(bottom, Vector3.down, out RaycastHit hit, 0.5f))
+        if (Physics.Raycast(bottom, Vector3.down, out RaycastHit hit, 1f))
         {
+            // Check if the raycast hit a floor,
+            // and then check the distance between the floor and the player
+            if (hit.normal == Vector3.up)
+                return hit.distance <= 0.2;
+
             // If there is, move down but only the distance away, this creates a slope-like effect
             // cancelling out the bouncing found if you remove this function
             _Controller.Move(Vector3.down * hit.distance);
