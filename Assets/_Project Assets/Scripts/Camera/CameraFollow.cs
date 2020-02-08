@@ -8,7 +8,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class CFVariableHolder
+public class CFCameraVars
 {
     public float _FOV = 75f;
     public Vector2 _Offset = Vector2.one;
@@ -18,18 +18,17 @@ public class CameraFollow : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] Transform _ToFollow;
-    [SerializeField] CFVariableHolder[] _DefaultHolders;    // Default View variables
-    [SerializeField] CFVariableHolder[] _TopViewHolders;  // Top View variables
+    [SerializeField] CFCameraVars[] _DefaultHolders;    // Default View variables
+    [SerializeField] CFCameraVars[] _TopViewHolders;  // Top View variables
     Camera _MainCamera;
 
     [Header("Settings")]
     [SerializeField] float _FollowSpeed;
-    [SerializeField] float _RotationSpeed;
     [SerializeField] float _FOVChangeSpeed;
     [SerializeField] float _AdjustRotationSpeed;
 
     int _HolderIndex;
-    CFVariableHolder _CurrentHolder;
+    CFCameraVars _CurrentHolder;
     float _OrbitRadius;
     float _GroundOffset;
     bool _TopView = false;
@@ -39,7 +38,6 @@ public class CameraFollow : MonoBehaviour
         // Apply movement/rotation settings
         _FollowSpeed = 5;
         _FOVChangeSpeed = 2;
-        _RotationSpeed = 2;
         _AdjustRotationSpeed = 2;
 
         // Set the default index
@@ -65,6 +63,52 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
+        ApplyCurrentHolder();
+        HandleControls();
+    }
+
+    void LateUpdate()
+    {
+        // To stop jittery rotation, we apply the lookat after rotation and other functions have been caleld
+        transform.LookAt(_ToFollow.position);
+    }
+
+    void ApplyCurrentHolder()
+    {
+        // Set OrbitRadius and GroundOffset to the X and Y offsets of the current holder
+        _OrbitRadius = Mathf.Lerp(_OrbitRadius, _CurrentHolder._Offset.x, _FOVChangeSpeed * Time.deltaTime);
+        _GroundOffset = Mathf.Lerp(_GroundOffset, _CurrentHolder._Offset.y + Player.player.transform.position.y, _FOVChangeSpeed * Time.deltaTime);
+
+        // Calculate the position we're moving to, apply the offset and then move the camera
+        Vector3 targetPosition = (transform.position - _ToFollow.transform.position).normalized
+                                 * Mathf.Abs(_OrbitRadius)
+                                 + _ToFollow.transform.position;
+        targetPosition.y = _GroundOffset;
+        transform.position = Vector3.Lerp(transform.position, targetPosition, _FollowSpeed * Time.deltaTime);
+
+        // Change the field of view to the currently selected FOV
+        _MainCamera.fieldOfView = Mathf.Lerp(_MainCamera.fieldOfView, _CurrentHolder._FOV, _FOVChangeSpeed * Time.deltaTime);
+    }
+
+    void RotateView(float direction)
+    {
+        // Move the camera right by an offset of 'direction'
+        // This works because we call 'LookAt' in LateUpdate
+        transform.Translate(Vector3.right * Time.deltaTime * direction);
+    }
+
+    void ApplyChangedZoomLevel(CFCameraVars[] currentHolder)
+    {
+        // Wrap the holder index
+        if (_HolderIndex > currentHolder.Length - 1)
+            _HolderIndex = 0;
+
+        // Assign the current holder
+        _CurrentHolder = currentHolder[_HolderIndex];
+    }
+
+    void HandleControls()
+    {
         if (Input.GetButton("RightTrigger"))
             RotateView(_AdjustRotationSpeed);
         else if (Input.GetButton("LeftTrigger"))
@@ -72,8 +116,6 @@ public class CameraFollow : MonoBehaviour
 
         if (Input.GetButton("CameraReset")) ; // Remove the ; when doing this if statement
                                               // Todo: make camera reset back to it's initial position behind the player
-
-        ApplyVariables();
 
         if (Input.GetButtonDown("ZoomLevel"))
         {
@@ -99,45 +141,5 @@ public class CameraFollow : MonoBehaviour
                 _TopView = true;
             }
         }
-    }
-
-    void LateUpdate()
-    {
-        // To stop jittery rotation, we apply the lookat after rotation and other functions have been caleld
-        transform.LookAt(_ToFollow.position);
-    }
-
-    void Move()
-    {
-        // Set OrbitRadius and GroundOffset to the X and Y offsets of the current holder
-        _OrbitRadius = Mathf.Lerp(_OrbitRadius, _CurrentHolder._Offset.x, _FOVChangeSpeed * Time.deltaTime);
-        _GroundOffset = Mathf.Lerp(_GroundOffset, _CurrentHolder._Offset.y + Player.player.transform.position.y, _FOVChangeSpeed * Time.deltaTime);
-
-        // Calculate the position we're moving to, apply the offset and then move the camera
-        Vector3 targetPosition = (transform.position - _ToFollow.transform.position).normalized
-                                 * Mathf.Abs(_OrbitRadius)
-                                 + _ToFollow.transform.position;
-        targetPosition.y = _GroundOffset;
-        transform.position = Vector3.Lerp(transform.position, targetPosition, _FollowSpeed * Time.deltaTime);
-
-        // Change the field of view to the currently selected FOV
-        _MainCamera.fieldOfView = Mathf.Lerp(_MainCamera.fieldOfView, _CurrentHolder._FOV, _FOVChangeSpeed * Time.deltaTime);
-    }
-
-    void RotateView(float direction)
-    {
-        // Move the camera right by an offset of 'direction'
-        // This works because we call 'LookAt' in LateUpdate
-        transform.Translate(Vector3.right * Time.deltaTime * direction);
-    }
-
-    void ApplyChangedZoomLevel(CFVariableHolder[] currentHolder)
-    {
-        // Wrap the holder index
-        if (_HolderIndex > currentHolder.Length - 1)
-            _HolderIndex = 0;
-
-        // Assign the current holder
-        _CurrentHolder = currentHolder[_HolderIndex];
     }
 }
