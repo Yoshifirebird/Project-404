@@ -10,6 +10,9 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMovementController))]
 public class Player : MonoBehaviour, IHealth
 {
+    // Singleton
+    public static Player player;
+
     //[Header("Components")]
     PlayerMovementController _MovementController;
 
@@ -23,6 +26,9 @@ public class Player : MonoBehaviour, IHealth
         _CurrentHealth = _MaxHealth;
         // Grab the PlayerMovementController component on the player
         _MovementController = GetComponent<PlayerMovementController>();
+
+        if (player == null)
+            player = this;
     }
 
     void Update()
@@ -39,7 +45,7 @@ public class Player : MonoBehaviour, IHealth
         Debug.Break();
     }
 
-    #region Health
+    #region Health Implementation
 
     // 'Getter' functions
     public int GetHealth() => _CurrentHealth;
