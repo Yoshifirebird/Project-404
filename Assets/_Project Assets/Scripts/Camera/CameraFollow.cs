@@ -10,21 +10,21 @@ using UnityEngine;
 [System.Serializable]
 public class CFVariableHolder
 {
-	public float _FOV = 75f;
-	public Vector3 _Offset = Vector3.one;
+    public float _FOV = 75f;
+    public Vector3 _Offset = Vector3.one;
 }
 
 public class CameraFollow : MonoBehaviour
 {
-	[Header("Components")]
-	[SerializeField] Transform _ToFollow;
-	[SerializeField] CFVariableHolder[] _Variables;
+    [Header("Components")]
+    [SerializeField] Transform _ToFollow;
+    [SerializeField] CFVariableHolder[] _Variables;
     [SerializeField] CFVariableHolder[] _AlternateAngles;
-	Camera _MainCamera;
+    Camera _MainCamera;
 
-	[Header("Settings")]
-	[SerializeField] float _FollowSpeed = 5f;
-	[SerializeField] float _FOVChangeSpeed = 2f;
+    [Header("Settings")]
+    [SerializeField] float _FollowSpeed = 5f;
+    [SerializeField] float _FOVChangeSpeed = 2f;
     [SerializeField] float _RotationSpeed = 2f;
 
     int _HolderIndex = 1;
@@ -33,27 +33,27 @@ public class CameraFollow : MonoBehaviour
     float _GroundOffset;
     bool _TopView = false;
 
-	void Awake()
-	{
-		// Grab the main camera's 'Camera' component
-		_MainCamera = Camera.main;
+    void Awake()
+    {
+        // Grab the main camera's 'Camera' component
+        _MainCamera = Camera.main;
 
-		// Check if the '_Variables' variable wasn't assigned
-		if (_Variables == null)
-		{
-			Debug.LogError("'Variables' wasn't assigned, and as a result is null.");
-			// Break from playing as we've prevented another error down the line 
-			Debug.Break();
-		}
+        // Check if the '_Variables' variable wasn't assigned
+        if (_Variables == null)
+        {
+            Debug.LogError("'Variables' wasn't assigned, and as a result is null.");
+            // Break from playing as we've prevented another error down the line 
+            Debug.Break();
+        }
 
-		// Assign each variable so as not to be null on runtime
-		_CurrentHolder = _Variables[_HolderIndex];
+        // Assign each variable so as not to be null on runtime
+        _CurrentHolder = _Variables[_HolderIndex];
         _OrbitRadius = _Variables[_Variables.Length - 1]._Offset.z;
         _GroundOffset = _Variables[_Variables.Length - 1]._Offset.y;
-	}
+    }
 
-	void Update()
-	{
+    void Update()
+    {
         // Rotates the view to the right or left depending on the button the player presses
         if (Input.GetButton("RightTrigger"))
             RotateView(_RotationSpeed);
@@ -68,9 +68,9 @@ public class CameraFollow : MonoBehaviour
         // Smoothly interpolate the needed values
         SetVariables();
 
-		// Check if the player presses the Zoom button
-		if (Input.GetButtonDown("ZoomLevel"))
-		{
+        // Check if the player presses the Zoom button
+        if (Input.GetButtonDown("ZoomLevel"))
+        {
             // Increment the variable index
             _HolderIndex++;
             ChangeZoomLevel();
@@ -95,8 +95,8 @@ public class CameraFollow : MonoBehaviour
         }
     }
 
-	void SetVariables()
-	{
+    void SetVariables()
+    {
         // Interpolates between the last offsets and the current offsets for a smoother transition
         _OrbitRadius = Mathf.Lerp(_OrbitRadius, _CurrentHolder._Offset.z, _FOVChangeSpeed * Time.deltaTime);
         _GroundOffset = Mathf.Lerp(_GroundOffset, _CurrentHolder._Offset.y, _FOVChangeSpeed * Time.deltaTime);
@@ -108,9 +108,9 @@ public class CameraFollow : MonoBehaviour
 
         // Linearly interpolate between the current FOV and the target FOV
         _MainCamera.fieldOfView = Mathf.Lerp(_MainCamera.fieldOfView, _CurrentHolder._FOV, _FOVChangeSpeed * Time.deltaTime);
-		// Look at the target position
-		transform.LookAt(_ToFollow.position);
-	}
+        // Look at the target position
+        transform.LookAt(_ToFollow.position);
+    }
 
     void RotateView(float direction)
     {
@@ -118,7 +118,7 @@ public class CameraFollow : MonoBehaviour
         transform.Translate(Vector3.right * Time.deltaTime * direction);
     }
 
-    void ChangeZoomLevel ()
+    void ChangeZoomLevel()
     {
         // Check if the index is bigger than the amount of variables we have
         if (_HolderIndex > (_Variables.Length - 1))
