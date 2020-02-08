@@ -15,6 +15,7 @@ public class PlayerMovementController : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] float _MovementSpeed = 3;
+    [SerializeField] Vector2 _MovementDeadzone;
     [SerializeField] float _RotationSpeed = 3;
     [SerializeField] float _Gravity = -Physics.gravity.y;
 
@@ -48,7 +49,7 @@ public class PlayerMovementController : MonoBehaviour
                                         ).normalized;
 
         // If the player has even touched the H and V axis
-        if (mDirection.x == 0 && mDirection.z == 0)
+        if (mDirection.x <= _MovementDeadzone.x && mDirection.z <= _MovementDeadzone.y)
             return;
 
         // Make the movement vector relative to the camera's position/rotation

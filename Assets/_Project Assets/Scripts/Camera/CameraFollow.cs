@@ -1,6 +1,6 @@
 ﻿/*
  * CameraFollow.cs
- * Created by: Ambrosia
+ * Created by: Ambrosia, Neo
  * Created on: 6/2/2020 (dd/mm/yy)
  * Created for: needing the camera to follow the player and alter it's variables on a button press
  */
@@ -72,7 +72,8 @@ public class CameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
-        // To stop jittery rotation, we apply the lookat after rotation and other functions have been caleld
+        // To stop jittery rotation, we apply the LookAt after 
+        // rotation and movement has been applied
         transform.LookAt(_ToFollow.position);
     }
 
@@ -117,8 +118,14 @@ public class CameraFollow : MonoBehaviour
         else if (Input.GetButton("LeftTrigger"))
             RotateView(-_AdjustRotationSpeed);
 
-        if (Input.GetButtonDown("CameraReset")) // Remove the ; when doing this if statement
-            RotateView(_Player.transform.rotation.eulerAngles.y + transform.rotation.eulerAngles.y); // Todo: make camera reset back to it's initial position behind the player
+        if (Input.GetButtonDown("CameraReset"))
+        {
+            // Todo: make camera reset back to it's initial position behind the player
+            Vector3 finalPosition = _ToFollow.forward;
+            finalPosition.x -= _CurrentHolder._Offset.x;
+            finalPosition.y -= _CurrentHolder._Offset.y;
+            transform.position = finalPosition;
+        }
 
         if (Input.GetButtonDown("ZoomLevel"))
         {
@@ -128,7 +135,7 @@ public class CameraFollow : MonoBehaviour
             ApplyChangedZoomLevel(_TopView ? _TopViewHolders : _DefaultHolders);
         }
 
-        // Check if the player presses the Camera button
+        // Check if the player presses the CameraAngle button
         if (Input.GetButtonDown("CameraAngle"))
         {
             if (_TopView)

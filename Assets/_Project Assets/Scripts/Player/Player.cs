@@ -45,7 +45,7 @@ public class Player : MonoBehaviour, IHealth
         Debug.Break();
     }
 
-    #region Health
+    #region Health Implementation
 
     // 'Getter' functions
     public int GetHealth() => _CurrentHealth;
