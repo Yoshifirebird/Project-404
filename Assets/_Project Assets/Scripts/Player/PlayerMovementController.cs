@@ -15,6 +15,7 @@ public class PlayerMovementController : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] float _MovementSpeed = 3;
+    [SerializeField] float _RotationSpeed = 3;
     [SerializeField] float _Gravity = -Physics.gravity.y;
 
     private void Awake()
@@ -28,7 +29,7 @@ public class PlayerMovementController : MonoBehaviour
         HandleMovement();
     }
 
-    private void HandleMovement()
+    void HandleMovement()
     {
         if (!IsGrounded())
         {
@@ -55,7 +56,9 @@ public class PlayerMovementController : MonoBehaviour
         // Remove any Y momentum gained when doing the TransformDirection
         mDirection.y = 0;
 
-        // Apply the movement using '_MovementSpeed' as a multiplier
+        // Rotate the player
+        HandleRotation(mDirection);
+        // Move the player
         _Controller.Move(mDirection * _MovementSpeed * Time.deltaTime);
     }
 
@@ -81,5 +84,10 @@ public class PlayerMovementController : MonoBehaviour
         // We couldn't ground ourselves whilst travelling down a slope
         // and the controller says we're not, so I guess we aren't grounded
         return false;
+    }
+
+    void HandleRotation(Vector3 movementDirection)
+    {
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movementDirection), _RotationSpeed * Time.deltaTime);
     }
 }
