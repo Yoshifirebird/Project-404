@@ -118,7 +118,7 @@ public class CameraFollow : MonoBehaviour
         if (Input.GetButton("CameraReset"))
         {
             // Todo: make camera reset back to it's initial position behind the player
-            Vector3 newPosition = _ToFollow.forward;
+            Vector3 newPosition = _ToFollow.localPosition - _ToFollow.forward;
             transform.position = Vector3.Lerp(transform.position, newPosition + new Vector3(0, _CurrentHolder._Offset.y, _CurrentHolder._Offset.x), _FocusRotationSpeed * Time.deltaTime);
         }
 
