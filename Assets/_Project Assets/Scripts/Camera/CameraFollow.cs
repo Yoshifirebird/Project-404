@@ -1,8 +1,8 @@
 ﻿/*
  * CameraFollow.cs
- * Created by: Ambrosia, Neo
+ * Created by: Neo
  * Created on: 6/2/2020 (dd/mm/yy)
- * Created for: needing the camera to follow the player and alter it's variables on a button press
+ * Created for: following a target with incrementable offset and field of view
  */
 
 using UnityEngine;
