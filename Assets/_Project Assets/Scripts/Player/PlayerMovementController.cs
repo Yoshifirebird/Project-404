@@ -40,9 +40,11 @@ public class PlayerMovementController : MonoBehaviour
 
         // Get input from the 'Horizontal' and 'Vertical' axis, and normalize it to not let
         // the player move quicker when going diagonally
-        var mDirection = new Vector3(Input.GetAxis("Horizontal"),
-                             0,
-                             Input.GetAxis("Vertical")).normalized;
+        var mDirection = new Vector3(
+                                        Input.GetAxis("Horizontal"),
+                                        0,
+                                        Input.GetAxis("Vertical")
+                                        ).normalized;
 
         // If the player has even touched the H and V axis
         if (mDirection.x == 0 && mDirection.z == 0)

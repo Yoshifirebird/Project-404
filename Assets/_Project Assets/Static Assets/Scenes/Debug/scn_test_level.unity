@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.25615495, g: 0.3174765, b: 0.42029935, a: 1}
+  m_IndirectSpecularColor: {r: 0.25576356, g: 0.31685284, b: 0.4193715, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -329,7 +329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39484de00c5da6b41b7ecfb52ca20b66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MovementSpeed: 5
+  _MovementSpeed: 8
   _Gravity: 9.81
 --- !u!114 &674491540
 MonoBehaviour:
@@ -630,7 +630,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   volumeAnchorOverride: {fileID: 0}
-  antialiasing: 2
+  antialiasing: 1
   SMAAQuality: 2
   dithering: 1
   stopNaNs: 0
@@ -748,11 +748,14 @@ MonoBehaviour:
   _ToFollow: {fileID: 674491537}
   _Variables:
   - _FOV: 20
-    _Offset: {x: 0, y: 5, z: 16}
+    _Offset: {x: 0, y: 5, z: -16}
   - _FOV: 50
-    _Offset: {x: 0, y: 6, z: 16}
+    _Offset: {x: 0, y: 6, z: -16}
   - _FOV: 45
-    _Offset: {x: 0, y: 12, z: 26}
+    _Offset: {x: 0, y: 12, z: -26}
+  _AlternateAngles:
+  - _FOV: 30
+    _Offset: {x: 0, y: 17, z: 32}
   _FollowSpeed: 5
   _FOVChangeSpeed: 2
   _RotationSpeed: 32

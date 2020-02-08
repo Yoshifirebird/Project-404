@@ -19,6 +19,7 @@ public class CameraFollow : MonoBehaviour
 	[Header("Components")]
 	[SerializeField] Transform _ToFollow;
 	[SerializeField] CFVariableHolder[] _Variables;
+    [SerializeField] CFVariableHolder[] _AlternateAngles;
 	Camera _MainCamera;
 
 	[Header("Settings")]
@@ -26,10 +27,11 @@ public class CameraFollow : MonoBehaviour
 	[SerializeField] float _FOVChangeSpeed = 2f;
     [SerializeField] float _RotationSpeed = 2f;
 
-	CFVariableHolder _CurrentHolder;
-	int _HolderIndex = 0;
+    int _HolderIndex = 1;
+    CFVariableHolder _CurrentHolder;
     float _OrbitRadius;
     float _GroundOffset;
+    bool _TopView = false;
 
 	void Awake()
 	{
@@ -52,38 +54,45 @@ public class CameraFollow : MonoBehaviour
 
 	void Update()
 	{
-        // Rotates the view to the right if the player presses E, otherwise to the left if the player presses Q
-        if (Input.GetKey(KeyCode.E))
+        // Rotates the view to the right or left depending on the button the player presses
+        if (Input.GetButton("RightTrigger"))
             RotateView(_RotationSpeed);
-        else if (Input.GetKey(KeyCode.Q))
+        else if (Input.GetButton("LeftTrigger"))
             RotateView(-_RotationSpeed);
+
+        if (Input.GetButton("CameraReset"))
+        {
+            // Todo: make camera reset back to it's initial position behind the player
+        }
 
         // Smoothly interpolate the needed values
         SetVariables();
 
-		// Check if the player presses the R key
-		if (Input.GetKeyDown(KeyCode.R))
+		// Check if the player presses the Zoom button
+		if (Input.GetButtonDown("ZoomLevel"))
 		{
+            // Increment the variable index
+            _HolderIndex++;
+            ChangeZoomLevel();
+        }
 
-			// Increment the variable index
-			_HolderIndex++;
-            // Set the offsets to the last value
-            _OrbitRadius = _Variables[_HolderIndex - 1]._Offset.z;
-            _GroundOffset = _Variables[_HolderIndex - 1]._Offset.y;
-            // Check if the index is bigger than the amount of variables we have
-            if (_HolderIndex > (_Variables.Length - 1))
+        // Check if the player presses the Camera button
+        if (Input.GetButtonDown("CameraAngle"))
+        {
+            if (!_TopView)
             {
-                // Reset it back to 0 to avoid out of bounds errors
-                _HolderIndex = 0;
-                // Set the offsets to the last value, in this case, the last member in the list of variables
-                _OrbitRadius = _Variables[_Variables.Length - 1]._Offset.z;
-                _GroundOffset = _Variables[_Variables.Length - 1]._Offset.y;
+                ChangeZoomLevel();
+                _CurrentHolder = _AlternateAngles[0];
+                _TopView = true;
             }
-
-
-            // Assign the current holder with the variable at the given index
-            _CurrentHolder = _Variables[_HolderIndex];
-		}
+            else
+            {
+                ChangeZoomLevel();
+                _OrbitRadius = _AlternateAngles[0]._Offset.z;
+                _GroundOffset = _AlternateAngles[0]._Offset.y;
+                _TopView = false;
+            }
+        }
     }
 
 	void SetVariables()
@@ -107,5 +116,27 @@ public class CameraFollow : MonoBehaviour
     {
         // Transform the camera to the right. Works because the Camera's always looking at the player (using transform.LookAt)
         transform.Translate(Vector3.right * Time.deltaTime * direction);
+    }
+
+    void ChangeZoomLevel ()
+    {
+        // Check if the index is bigger than the amount of variables we have
+        if (_HolderIndex > (_Variables.Length - 1))
+        {
+            // Reset it back to 0 to avoid out of bounds errors
+            _HolderIndex = 0;
+            // Set the offsets to the last value, in this case, the last member in the list of variables
+            _OrbitRadius = _Variables[_Variables.Length - 1]._Offset.z;
+            _GroundOffset = _Variables[_Variables.Length - 1]._Offset.y;
+        }
+        else
+        {
+            // Set the offsets to the last value
+            _OrbitRadius = _Variables[_HolderIndex - 1]._Offset.z;
+            _GroundOffset = _Variables[_HolderIndex - 1]._Offset.y;
+        }
+
+        // Assign the current holder with the variable at the given index
+        _CurrentHolder = _Variables[_HolderIndex];
     }
 }
