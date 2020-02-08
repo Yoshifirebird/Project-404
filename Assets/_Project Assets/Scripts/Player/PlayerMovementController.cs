@@ -31,16 +31,16 @@ public class PlayerMovementController : MonoBehaviour
 
     void HandleMovement()
     {
+        // If we're not grounded and not on a slope
         if (!IsGrounded())
         {
-            // Get the Y velocity we're about to apply
+            // Work out our gravitational Y velocity and apply it
             float yVelocity = _Gravity * Time.deltaTime;
-            // Apply a downwards movement using the Y velocity
             _Controller.SimpleMove(Vector3.down * yVelocity * Time.deltaTime);
         }
 
-        // Get input from the 'Horizontal' and 'Vertical' axis, and normalize it to not let
-        // the player move quicker when going diagonally
+        // Get input from the 'Horizontal' and 'Vertical' axis, and normalize it
+        // so as to not the player move quicker when going diagonally
         var mDirection = new Vector3(
                                         Input.GetAxis("Horizontal"),
                                         0,
@@ -52,37 +52,33 @@ public class PlayerMovementController : MonoBehaviour
             return;
 
         // Make the movement vector relative to the camera's position/rotation
+        // and remove any Y momentum gained from doing the TransformDirection
         mDirection = _MainCamera.transform.TransformDirection(mDirection);
-        // Remove any Y momentum gained when doing the TransformDirection
         mDirection.y = 0;
 
-        // Rotate the player
+        // Rotate and move the player
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(mDirection), _RotationSpeed * Time.deltaTime);
-        // Move the player
         _Controller.Move(mDirection.normalized * _MovementSpeed * Time.deltaTime);
     }
 
     bool IsGrounded()
     {
-        // If the character controller says we're grounded
         if (_Controller.isGrounded)
-            // We're grounded
             return true;
 
         // Calculate the bottom position of the character controller
+        // then check if there is any collider beneath us
         Vector3 bottom = transform.position - Vector3.up * (_Controller.height / 2);
-        // Check if there is anything beneath us
         if (Physics.Raycast(bottom, Vector3.down, out RaycastHit hit, 0.5f))
         {
             // If there is, move down but only the distance away, this creates a slope-like effect
             // cancelling out the bouncing found if you remove this function
             _Controller.Move(Vector3.down * hit.distance);
-            // We're now grounded
             return true;
         }
 
-        // We couldn't ground ourselves whilst travelling down a slope
-        // and the controller says we're not, so I guess we aren't grounded
+        // We couldn't ground ourselves whilst travelling down a slope and 
+        // the controller says we're not grounded so return false
         return false;
     }
 }

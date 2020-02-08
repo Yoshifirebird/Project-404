@@ -21,6 +21,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] CFCameraVars[] _DefaultHolders;    // Default View variables
     [SerializeField] CFCameraVars[] _TopViewHolders;  // Top View variables
     Camera _MainCamera;
+    Player _Player;
 
     [Header("Settings")]
     [SerializeField] float _FollowSpeed;
@@ -48,6 +49,8 @@ public class CameraFollow : MonoBehaviour
     {
         // Grab the main camera's 'Camera' component
         _MainCamera = Camera.main;
+        // Grab the player's instance
+        _Player = Player.player;
 
         if (_DefaultHolders.Length != _TopViewHolders.Length)
         {
@@ -77,7 +80,7 @@ public class CameraFollow : MonoBehaviour
     {
         // Set OrbitRadius and GroundOffset to the X and Y offsets of the current holder
         _OrbitRadius = Mathf.Lerp(_OrbitRadius, _CurrentHolder._Offset.x, _FOVChangeSpeed * Time.deltaTime);
-        _GroundOffset = Mathf.Lerp(_GroundOffset, _CurrentHolder._Offset.y + Player.player.transform.position.y, _FOVChangeSpeed * Time.deltaTime);
+        _GroundOffset = Mathf.Lerp(_GroundOffset, _CurrentHolder._Offset.y + _Player.transform.position.y, _FOVChangeSpeed * Time.deltaTime);
 
         // Calculate the position we're moving to, apply the offset and then move the camera
         Vector3 targetPosition = (transform.position - _ToFollow.transform.position).normalized
@@ -114,8 +117,8 @@ public class CameraFollow : MonoBehaviour
         else if (Input.GetButton("LeftTrigger"))
             RotateView(-_AdjustRotationSpeed);
 
-        if (Input.GetButton("CameraReset")) ; // Remove the ; when doing this if statement
-                                              // Todo: make camera reset back to it's initial position behind the player
+        if (Input.GetButtonDown("CameraReset")) // Remove the ; when doing this if statement
+            RotateView(_Player.transform.rotation.eulerAngles.y + transform.rotation.eulerAngles.y); // Todo: make camera reset back to it's initial position behind the player
 
         if (Input.GetButtonDown("ZoomLevel"))
         {
