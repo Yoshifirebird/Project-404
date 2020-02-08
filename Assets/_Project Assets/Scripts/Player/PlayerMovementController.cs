@@ -36,7 +36,7 @@ public class PlayerMovementController : MonoBehaviour
             float yVelocity = _Gravity * Time.deltaTime;
             // Apply a downwards movement using the Y velocity
             _Controller.SimpleMove(Vector3.down * yVelocity * Time.deltaTime);
-        }        
+        }
 
         // Get input from the 'Horizontal' and 'Vertical' axis, and normalize it to not let
         // the player move quicker when going diagonally
