@@ -31,10 +31,13 @@ public class PlayerMovementController : MonoBehaviour
 
     private void HandleMovement()
     {
-        // Get the Y velocity we're about to apply
-        float yVelocity = _Gravity * Time.deltaTime;
-        // Apply a downwards movement using the Y velocity
-        _Controller.SimpleMove(Vector3.down * yVelocity * Time.deltaTime);
+        if (!IsGrounded())
+        {
+            // Get the Y velocity we're about to apply
+            float yVelocity = _Gravity * Time.deltaTime;
+            // Apply a downwards movement using the Y velocity
+            _Controller.SimpleMove(Vector3.down * yVelocity * Time.deltaTime);
+        }        
 
         // Get input from the 'Horizontal' and 'Vertical' axis, and normalize it to not let
         // the player move quicker when going diagonally
@@ -53,5 +56,29 @@ public class PlayerMovementController : MonoBehaviour
 
         // Apply the movement using '_MovementSpeed' as a multiplier
         _Controller.Move(mDirection * _MovementSpeed * Time.deltaTime);
+    }
+
+    bool IsGrounded()
+    {
+        // If the character controller says we're grounded
+        if (_Controller.isGrounded)
+            // We're grounded
+            return true;
+
+        // Calculate the bottom position of the character controller
+        Vector3 bottom = transform.position - Vector3.up * (_Controller.height / 2);
+        // Check if there is anything beneath us, with a max distance of 0.2 units
+        if (Physics.Raycast(bottom, Vector3.down, out RaycastHit hit, 0.2f))
+        {
+            // If there is, move down but only the distance away, this creates a slope-like effect
+            // cancelling out the bouncing found if you remove this function
+            _Controller.Move(Vector3.down * hit.distance);
+            // We're now grounded
+            return true;
+        }
+
+        // We couldn't ground ourselves whilst travelling down a slope
+        // and the controller says we're not, so I guess we aren't grounded
+        return false;
     }
 }
