@@ -57,9 +57,10 @@ public class CameraFollow : MonoBehaviour
             Debug.Break();
         }
 
+        // Assign the current holder and the associated variables
         _CurrentHolder = _DefaultHolders[_HolderIndex];
-        _OrbitRadius = _DefaultHolders[_HolderIndex]._Offset.x;
-        _GroundOffset = _DefaultHolders[_HolderIndex]._Offset.y;
+        _OrbitRadius = _CurrentHolder._Offset.x;
+        _GroundOffset = _CurrentHolder._Offset.y;
     }
 
     void Update()
