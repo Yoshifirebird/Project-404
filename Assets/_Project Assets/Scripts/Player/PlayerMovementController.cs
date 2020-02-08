@@ -49,7 +49,7 @@ public class PlayerMovementController : MonoBehaviour
                                         ).normalized;
 
         // If the player has even touched the H and V axis
-        if (mDirection.x <= _MovementDeadzone.x && mDirection.z <= _MovementDeadzone.y)
+        if (Mathf.Abs(mDirection.x) <= _MovementDeadzone.x && mDirection.z <= Mathf.Abs(_MovementDeadzone.y))
             return;
 
         // Make the movement vector relative to the camera's position/rotation
