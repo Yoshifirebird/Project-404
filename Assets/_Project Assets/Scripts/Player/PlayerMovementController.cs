@@ -57,7 +57,7 @@ public class PlayerMovementController : MonoBehaviour
         mDirection.y = 0;
 
         // Rotate the player
-        HandleRotation(mDirection);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(mDirection), _RotationSpeed * Time.deltaTime);
         // Move the player
         _Controller.Move(mDirection * _MovementSpeed * Time.deltaTime);
     }
@@ -84,10 +84,5 @@ public class PlayerMovementController : MonoBehaviour
         // We couldn't ground ourselves whilst travelling down a slope
         // and the controller says we're not, so I guess we aren't grounded
         return false;
-    }
-
-    void HandleRotation(Vector3 movementDirection)
-    {
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movementDirection), _RotationSpeed * Time.deltaTime);
     }
 }
