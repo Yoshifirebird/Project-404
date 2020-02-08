@@ -107,20 +107,20 @@ public class CameraFollow : MonoBehaviour
         transform.LookAt(_ToFollow.position);
     }
 
-    void ApplyVariables()
+    void Move()
     {
-        // Smoothly change the orbit radius to the X offset in the current holder
+        // Set OrbitRadius and GroundOffset to the X and Y offsets of the current holder
         _OrbitRadius = Mathf.Lerp(_OrbitRadius, _CurrentHolder._Offset.x, _FOVChangeSpeed * Time.deltaTime);
-        // Smoothly change the ground offset to the Y offset in the current holder
         _GroundOffset = Mathf.Lerp(_GroundOffset, _CurrentHolder._Offset.y + Player.player.transform.position.y, _FOVChangeSpeed * Time.deltaTime);
 
-        // Calculate the position we're aiming to go to
-        Vector3 targetPosition = (transform.position - _ToFollow.transform.position).normalized * Mathf.Abs(_OrbitRadius) + _ToFollow.transform.position;
+        // Calculate the position we're moving to, apply the offset and then move the camera
+        Vector3 targetPosition = (transform.position - _ToFollow.transform.position).normalized
+                                 * Mathf.Abs(_OrbitRadius)
+                                 + _ToFollow.transform.position;
         targetPosition.y = _GroundOffset;
-        // Smoothly change our position towards the targetPosition
         transform.position = Vector3.Lerp(transform.position, targetPosition, _FollowSpeed * Time.deltaTime);
 
-        // Smoothly change the field of view to be the FOV variable in the current holder
+        // Change the field of view to the currently selected FOV
         _MainCamera.fieldOfView = Mathf.Lerp(_MainCamera.fieldOfView, _CurrentHolder._FOV, _FOVChangeSpeed * Time.deltaTime);
     }
 
@@ -136,6 +136,7 @@ public class CameraFollow : MonoBehaviour
         // Wrap the holder index
         if (_HolderIndex > currentHolder.Length - 1)
             _HolderIndex = 0;
+
         // Assign the current holder
         _CurrentHolder = currentHolder[_HolderIndex];
     }
