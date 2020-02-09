@@ -28,11 +28,9 @@ public class PlayerMovementController : MonoBehaviour
     private void Update()
     {
         // If we're not grounded and not on a slope
-        if (!IsGrounded())
-        {
-            // Work out our gravitational Y velocity and apply it
-            _Controller.Move(Vector3.down * _Gravity * Time.deltaTime);
-        }
+        if (!IsGrounded())        
+            // Apply gravity
+            _Controller.Move(Vector3.down * _Gravity * Time.deltaTime);        
 
         // Get input from the 'Horizontal' and 'Vertical' axis, and normalize it
         // so as to not the player move quicker when going diagonally
