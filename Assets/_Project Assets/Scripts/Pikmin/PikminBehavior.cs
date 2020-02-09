@@ -20,6 +20,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     [Header("Movement")]
     [SerializeField] float _MovementSpeed = 5f;
+    [SerializeField] [Range(-1, 1)] float _StoppingAngle = 0.5f;
     [SerializeField] float _Gravity = 15;
 
     [Header("AI")]
@@ -66,10 +67,20 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         if (Vector3.Distance(transform.position, position) <= _StoppingDistance)
             return;
 
+        // Calculations to check whether or not the Pikmin are in front or behind the leader
+        var heading = _Player.transform.position - transform.position;
+        var dot = Vector3.Dot(heading, transform.forward);
+
         // Get the target direction we want to move in, set the Y velocity to 0
         // so we don't glide into the air, and move the Pikmin
         Vector3 direction = position - transform.position;
         direction.y = 0;
+
+        if (_StoppingAngle < dot)
+        {
+            // To-do: make the Pikmin follow the player and attempt to keep behind him at all times
+        }
+
         _Controller.Move(direction.normalized * _MovementSpeed * Time.deltaTime);
     }
 
