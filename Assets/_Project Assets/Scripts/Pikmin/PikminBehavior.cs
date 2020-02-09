@@ -7,6 +7,7 @@
 
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
 public class PikminBehavior : MonoBehaviour, IPooledObject
 {
     // Enumerations
