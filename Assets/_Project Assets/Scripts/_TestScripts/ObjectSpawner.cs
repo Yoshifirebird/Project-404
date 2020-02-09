@@ -11,6 +11,7 @@ public class ObjectSpawner : MonoBehaviour
 {
     [SerializeField] string _PoolTag;
     [SerializeField] Vector3 _SpawnLocation;
+    [SerializeField] int _Amount;
 
     ObjectPooler _ObjectPooler;
 
@@ -19,12 +20,8 @@ public class ObjectSpawner : MonoBehaviour
         // Grab the ObjectPooler instance
         _ObjectPooler = ObjectPooler.Instance;
 
-        // Call the SpawnFromPool function and spawn objects in the tagged pool at the spawn location
-        _ObjectPooler.SpawnFromPool(_PoolTag, _SpawnLocation, Quaternion.identity);
-    }
-
-    void FixedUpdate()
-    {
-
+        for (int i = 0; i < _Amount; i++)
+            // Call the SpawnFromPool function and spawn objects in the tagged pool at the spawn location
+            _ObjectPooler.SpawnFromPool(_PoolTag, _SpawnLocation + (Vector3.back / 2) * i, Quaternion.identity);
     }
 }

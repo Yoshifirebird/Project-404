@@ -110,8 +110,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MovementSpeed: 5
   _Gravity: 15
-  _StoppingDistance: 2
+  _StoppingDistance: 0.5
   _State: 0
+  _TargetPosition: {fileID: 0}
 --- !u!143 &1252674777806234721
 CharacterController:
   m_ObjectHideFlags: 0
