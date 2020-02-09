@@ -18,10 +18,12 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] Vector2 _MovementDeadzone;
     [SerializeField] float _RotationSpeed = 3;
     [SerializeField] float _Gravity = -Physics.gravity.y;
+    Vector3 _BaseHeight;
 
     private void Awake()
     {
         _Controller = GetComponent<CharacterController>();
+        _BaseHeight = Vector3.up * (_Controller.height / 2);
         _MainCamera = Camera.main;
     }
 
@@ -59,8 +61,7 @@ public class PlayerMovementController : MonoBehaviour
 
         // Calculate the bottom position of the character controller
         // then check if there is any collider beneath us
-        Vector3 bottom = transform.position - Vector3.up * (_Controller.height / 2);
-        if (Physics.Raycast(bottom, Vector3.down, out RaycastHit hit, 1f))
+        if (Physics.Raycast(transform.position - _BaseHeight, Vector3.down, out RaycastHit hit, 1f))
         {
             // Check if the raycast hit a floor,
             // and then check the distance between the floor and the player
