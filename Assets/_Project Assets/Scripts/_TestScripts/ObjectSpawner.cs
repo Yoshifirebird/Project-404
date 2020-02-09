@@ -18,11 +18,13 @@ public class ObjectSpawner : MonoBehaviour
     {
         // Grab the ObjectPooler instance
         _ObjectPooler = ObjectPooler.Instance;
+
+        // Call the SpawnFromPool function and spawn objects in the tagged pool at the spawn location
+        _ObjectPooler.SpawnFromPool(_PoolTag, _SpawnLocation, Quaternion.identity);
     }
 
     void FixedUpdate()
     {
-        // Call the SpawnFromPool function and spawn objects in the tagged pool at the spawn location
-        _ObjectPooler.SpawnFromPool(_PoolTag, _SpawnLocation, Quaternion.identity);
+
     }
 }

@@ -161,7 +161,7 @@ Material:
     - _DstBlend: 10
     - _EmissiveColorMode: 1
     - _EmissiveExposureWeight: 1
-    - _EmissiveIntensity: 32
+    - _EmissiveIntensity: 128
     - _EmissiveIntensityUnit: 1
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
@@ -243,11 +243,11 @@ Material:
     - Color_B4189F90: {r: 1.562717, g: 0.7573414, b: 0.7573414, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 9.759997, g: 9.759997, b: 32, a: 32}
+    - _Color: {r: 39.03999, g: 39.03999, b: 128, a: 128}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissiveColor: {r: 9.759997, g: 9.759997, b: 32, a: 32}
+    - _EmissiveColor: {r: 39.03999, g: 39.03999, b: 128, a: 128}
     - _EmissiveColorLDR: {r: 0.30499995, g: 0.30499995, b: 1, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
@@ -257,7 +257,7 @@ Material:
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
-    - _UnlitColor: {r: 0, g: 0, b: 0, a: 0.039215688}
+    - _UnlitColor: {r: 0, g: 0, b: 0, a: 0.015686275}
 --- !u!114 &3815287245022214058
 MonoBehaviour:
   m_ObjectHideFlags: 11

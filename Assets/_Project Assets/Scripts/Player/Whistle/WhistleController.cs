@@ -25,14 +25,14 @@ public class WhistleController : MonoBehaviour
     Vector3 _StartingScale;
     bool _IsWhistling;
 
-	private void Awake()
+	void Awake()
 	{
         _StartingScale = transform.localScale;
         _TargetScale = _StartingScale;
 		_Camera = Camera.main;
 	}
 	
-	private void Update()
+	void Update()
 	{
 		// Shoot a raycast from the mouse position for an infinite distance, filtering out any
 		// hits other than objects that are on the _GroundLayer layer
@@ -45,24 +45,24 @@ public class WhistleController : MonoBehaviour
 		}
 
         HandleWhistle();
+	}
 
+    void OnTriggerEnter(Collider other)
+    {
         if (_IsWhistling)
         {
-            if (Physics.SphereCast(transform.position, _WhistleScale.x, Vector3.up, out hit, Mathf.Infinity, ~_GroundLayer.value, QueryTriggerInteraction.Ignore))
-            {
-                CheckPikmin(hit.transform.gameObject);
-            }
-            if (Physics.SphereCast(transform.position, _WhistleScale.x, Vector3.down, out hit, Mathf.Infinity, ~_GroundLayer.value, QueryTriggerInteraction.Ignore))
-            {
-                CheckPikmin(hit.transform.gameObject);
-            }
+            CheckPikmin(other.gameObject);
         }
-	}
+    }
 
     void CheckPikmin(GameObject toCheck)
     {
-        print("Checking if " + toCheck.name + " is a pikmin...");
-        // do something here
+        var pikminComponent = toCheck.GetComponent<PikminBehavior>();
+        if (pikminComponent == null)
+            return;
+
+        pikminComponent._State = PikminBehavior.States.Formation;
+        print(toCheck.name + " is now in our formation!");
     }
 
     void HandleWhistle()
@@ -107,6 +107,7 @@ public class WhistleController : MonoBehaviour
     {
         set.x = to.x;
         set.z = to.x;
+
         set.y = to.y;
     }
 }
