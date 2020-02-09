@@ -31,7 +31,7 @@ public class PlayerMovementController : MonoBehaviour
         if (!IsGrounded())
         {
             // Work out our gravitational Y velocity and apply it
-            _Controller.SimpleMove(Vector3.down * _Gravity);
+            _Controller.Move(Vector3.down * _Gravity * Time.deltaTime);
         }
 
         // Get input from the 'Horizontal' and 'Vertical' axis, and normalize it
