@@ -87,8 +87,8 @@ public class WhistleController : MonoBehaviour
         {
             _CurrentWhistleTime += Time.deltaTime;
             transform.localScale = new Vector3(transform.localScale.x,
-            Mathf.Lerp(transform.localScale.y, _TargetScale.y, _WhistleHeightGrowSpeed),
-            transform.localScale.z);
+                                               Mathf.Lerp(transform.localScale.y, _TargetScale.y, _WhistleHeightGrowSpeed),
+                                               transform.localScale.z);
         }
 
         if (_CurrentWhistleTime >= _WhistleMaxTime)
@@ -99,8 +99,8 @@ public class WhistleController : MonoBehaviour
         }
 
         transform.localScale = new Vector3(Mathf.Lerp(transform.localScale.x, _TargetScale.x, _WhistleRadiusGrowSpeed),
-            transform.localScale.y,
-            Mathf.Lerp(transform.localScale.z, _TargetScale.z, _WhistleRadiusGrowSpeed));
+                                           transform.localScale.y,
+                                           Mathf.Lerp(transform.localScale.z, _TargetScale.z, _WhistleRadiusGrowSpeed));
 
     }
 
