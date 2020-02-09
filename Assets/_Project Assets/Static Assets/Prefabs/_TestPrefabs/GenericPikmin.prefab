@@ -90,7 +90,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2228488479455306374}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -110,9 +110,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MovementSpeed: 5
   _Gravity: 15
-  _StoppingDistance: 0.5
+  _StoppingDistance: 1.5
   _State: 0
-  _TargetPosition: {fileID: 0}
 --- !u!143 &1252674777806234721
 CharacterController:
   m_ObjectHideFlags: 0
