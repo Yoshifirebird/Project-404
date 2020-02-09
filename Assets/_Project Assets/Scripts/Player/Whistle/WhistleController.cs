@@ -9,11 +9,12 @@ using UnityEngine;
 
 public class WhistleController : MonoBehaviour
 {
-	Camera _Camera;
+    Camera _Camera;
 
-	[Header("Settings")]
-	[SerializeField] LayerMask _GroundLayer;
-	[SerializeField] float _YAxisOffset = 0.5f;
+    [Header("Settings")]
+    [SerializeField] LayerMask _GroundLayer;
+    [SerializeField] float _MaxDistance = Mathf.Infinity;
+    [SerializeField] float _YAxisOffset = 0.5f;
 
     [Header("Whistling")]
     [SerializeField] Vector2 _WhistleScale;
@@ -25,27 +26,27 @@ public class WhistleController : MonoBehaviour
     Vector3 _StartingScale;
     bool _IsWhistling;
 
-	void Awake()
-	{
+    void Awake()
+    {
         _StartingScale = transform.localScale;
         _TargetScale = _StartingScale;
-		_Camera = Camera.main;
-	}
-	
-	void Update()
-	{
-		// Shoot a raycast from the mouse position for an infinite distance, filtering out any
-		// hits other than objects that are on the _GroundLayer layer
-		if (Physics.Raycast(_Camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, Mathf.Infinity, _GroundLayer.value, QueryTriggerInteraction.Ignore))
-		{
-			// Move the whistle to the hit point
-			Vector3 position = hit.point;
-			position.y += _YAxisOffset;
-			transform.position = position;
-		}
+        _Camera = Camera.main;
+    }
+
+    void Update()
+    {
+        // Shoot a raycast from the mouse position for an infinite distance, filtering out any
+        // hits other than objects that are on the _GroundLayer layer
+        if (Physics.Raycast(_Camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, _MaxDistance, _GroundLayer.value, QueryTriggerInteraction.Ignore))
+        {
+            // Move the whistle to the hit point
+            Vector3 position = hit.point;
+            position.y += _YAxisOffset;
+            transform.position = position;
+        }
 
         HandleWhistle();
-	}
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -82,7 +83,7 @@ public class WhistleController : MonoBehaviour
         }
 
         //If the whistle's radius is almost maxed, start adding time
-        if(transform.localScale.x + 1.5f >= _WhistleScale.x)
+        if (transform.localScale.x + 1.5f >= _WhistleScale.x)
         {
             _CurrentWhistleTime += Time.deltaTime;
             transform.localScale = new Vector3(transform.localScale.x,
@@ -90,7 +91,7 @@ public class WhistleController : MonoBehaviour
             transform.localScale.z);
         }
 
-        if(_CurrentWhistleTime >= _WhistleMaxTime)
+        if (_CurrentWhistleTime >= _WhistleMaxTime)
         {
             _IsWhistling = false;
             _TargetScale = _StartingScale;

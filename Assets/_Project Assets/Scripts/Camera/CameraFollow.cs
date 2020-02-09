@@ -141,18 +141,8 @@ public class CameraFollow : MonoBehaviour
         // Check if the player presses the CameraAngle button
         if (Input.GetButtonDown("CameraAngle"))
         {
-            if (_TopView)
-            {
-                // we're in top view, so change it to the default view
-                ApplyChangedZoomLevel(_DefaultHolders);
-                _TopView = false;
-            }
-            else
-            {
-                // we're not in top view, so change it to the top view
-                ApplyChangedZoomLevel(_TopViewHolders);
-                _TopView = true;
-            }
+            ApplyChangedZoomLevel(_TopView ? _DefaultHolders : _TopViewHolders);
+            _TopView = !_TopView;
         }
     }
 }
