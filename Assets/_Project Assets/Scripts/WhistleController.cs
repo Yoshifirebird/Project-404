@@ -82,9 +82,12 @@ public class WhistleController : MonoBehaviour
         }
 
         //If the whistle's radius is almost maxed, start adding time
-        if(transform.localScale.x + 0.1f >= _WhistleScale.x)
+        if(transform.localScale.x + 1.5f >= _WhistleScale.x)
         {
             _CurrentWhistleTime += Time.deltaTime;
+            transform.localScale = new Vector3(transform.localScale.x,
+            Mathf.Lerp(transform.localScale.y, _TargetScale.y, _WhistleHeightGrowSpeed),
+            transform.localScale.z);
         }
 
         if(_CurrentWhistleTime >= _WhistleMaxTime)
@@ -95,7 +98,7 @@ public class WhistleController : MonoBehaviour
         }
 
         transform.localScale = new Vector3(Mathf.Lerp(transform.localScale.x, _TargetScale.x, _WhistleRadiusGrowSpeed),
-            Mathf.Lerp(transform.localScale.y, _TargetScale.y, _WhistleHeightGrowSpeed),
+            transform.localScale.y,
             Mathf.Lerp(transform.localScale.z, _TargetScale.z, _WhistleRadiusGrowSpeed));
 
     }
