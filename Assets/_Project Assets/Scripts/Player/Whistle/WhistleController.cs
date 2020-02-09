@@ -63,7 +63,7 @@ public class WhistleController : MonoBehaviour
             return;
 
         pikminComponent._State = PikminBehavior.States.Formation;
-        print(toCheck.name + " is now in our formation!");
+        pikminComponent._TargetPosition = Player.player.transform;
     }
 
     void HandleWhistle()
