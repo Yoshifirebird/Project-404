@@ -16,11 +16,11 @@ public class WhistleController : MonoBehaviour
 	[SerializeField] float _YAxisOffset = 0.5f;
 
     [Header("Whistling")]
+    [SerializeField] Vector2 _WhistleScale;
     [SerializeField] [Range(0, 1)] float _WhistleRadiusGrowSpeed;
     [SerializeField] [Range(0, 1)] float _WhistleHeightGrowSpeed;
     [SerializeField] float _WhistleMaxTime;
     float _CurrentWhistleTime;
-    [SerializeField] Vector3 _WhistleScale;
     Vector3 _TargetScale;
     Vector3 _StartingScale;
     bool _IsWhistling;
@@ -46,7 +46,24 @@ public class WhistleController : MonoBehaviour
 
         HandleWhistle();
 
+        if (_IsWhistling)
+        {
+            if (Physics.SphereCast(transform.position, _WhistleScale.x, Vector3.up, out hit, Mathf.Infinity, ~_GroundLayer.value, QueryTriggerInteraction.Ignore))
+            {
+                CheckPikmin(hit.transform.gameObject);
+            }
+            if (Physics.SphereCast(transform.position, _WhistleScale.x, Vector3.down, out hit, Mathf.Infinity, ~_GroundLayer.value, QueryTriggerInteraction.Ignore))
+            {
+                CheckPikmin(hit.transform.gameObject);
+            }
+        }
 	}
+
+    void CheckPikmin(GameObject toCheck)
+    {
+        print("Checking if " + toCheck.name + " is a pikmin...");
+        // do something here
+    }
 
     void HandleWhistle()
     {
@@ -54,7 +71,7 @@ public class WhistleController : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             _IsWhistling = true;
-            _TargetScale = _WhistleScale;
+            SetVector3ToVector2(ref _TargetScale, _WhistleScale);
             _CurrentWhistleTime = 0;
         }
         else if (Input.GetMouseButtonUp(1))
@@ -83,4 +100,10 @@ public class WhistleController : MonoBehaviour
 
     }
 
+    void SetVector3ToVector2(ref Vector3 set, Vector2 to)
+    {
+        set.x = to.x;
+        set.z = to.x;
+        set.y = to.y;
+    }
 }
