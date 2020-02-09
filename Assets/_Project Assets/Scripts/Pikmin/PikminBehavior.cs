@@ -18,9 +18,13 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     CharacterController _Controller;
     Player _Player;
 
-    [Header("Settings")]
+    [Header("Movement")]
     [SerializeField] float _MovementSpeed = 5f;
     [SerializeField] float _Gravity = 15;
+
+    [Header("AI")]
+    // The distance away from the target when we'll stop moving towards it
+    [SerializeField] float _StoppingDistance = 2f;
 
     [HideInInspector] public States _State;
     Vector3 _BaseHeight;
@@ -59,6 +63,9 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void MoveTowards(Vector3 position)
     {
+        if (Vector3.Distance(transform.position, position) <= _StoppingDistance)
+            return;
+
         // Get the target direction we want to move in, set the Y velocity to 0
         // so we don't glide into the air, and move the Pikmin
         Vector3 direction = position - transform.position;
