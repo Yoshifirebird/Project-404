@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.5247015, g: 0.2601918, b: 0.20204166, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1144,8 +1144,8 @@ MonoBehaviour:
   _GroundLayer:
     serializedVersion: 2
     m_Bits: 512
-  _YAxisOffset: 0.5
-  _WhistleScale: {x: 10, y: 0.5}
+  _YAxisOffset: 0.1
+  _WhistleScale: {x: 10, y: 10}
   _WhistleRadiusGrowSpeed: 0.042
   _WhistleHeightGrowSpeed: 0.05
   _WhistleMaxTime: 2
@@ -1158,7 +1158,7 @@ Transform:
   m_GameObject: {fileID: 1377970437}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: 45, y: 0.25, z: 44}
-  m_LocalScale: {x: 1, y: 0.49999994, z: 1}
+  m_LocalScale: {x: 1, y: 0.2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
