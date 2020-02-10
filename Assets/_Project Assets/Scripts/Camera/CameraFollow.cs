@@ -17,8 +17,8 @@ public class CFCameraVars
 public class CameraFollow : MonoBehaviour
 {
     [Header("Components")]
-    [SerializeField] CFCameraVars[] _DefaultHolders;    // Default View variables
-    [SerializeField] CFCameraVars[] _TopViewHolders;  // Top View variables
+    [SerializeField] CFCameraVars[] _DefaultHolders;
+    [SerializeField] CFCameraVars[] _TopViewHolders;
     Camera _MainCamera;
 
     [Header("Audio")]
@@ -30,11 +30,10 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] float _FOVChangeSpeed;
 
     [Header("Rotation")]
-    [SerializeField] float _RotateTowardsTargetSpeed;
-
-    [SerializeField] float _CircleRotateSpeed;
+    [SerializeField] float _LookAtTargetSpeed;
+    [SerializeField] float _RotationCircleSpeed;
     [SerializeField] float _ResetRotationSpeed;
-    [SerializeField] float _QERotationSpeed;
+    [SerializeField] float _TriggerRotationSpeed;
 
     Transform _PlayerPosition;
     PlayerMovementController _MovementController;
@@ -46,17 +45,17 @@ public class CameraFollow : MonoBehaviour
 
     CameraFollow()
     {
-        // Apply movement/rotation settings
         _FollowSpeed = 5;
-        _RotateTowardsTargetSpeed = 5;
-        _ResetRotationSpeed = 5;
         _FOVChangeSpeed = 2;
-        _QERotationSpeed = 2;
+
+        _LookAtTargetSpeed = 5;
+        _RotationCircleSpeed = 7.5f;
+        _ResetRotationSpeed = 5;
+        _TriggerRotationSpeed = 2;
     }
 
     void Awake()
     {
-        // Grab the main camera's 'Camera' component
         _MainCamera = Camera.main;
         _PlayerPosition = Player.player.transform;
         _MovementController = Player.player.GetMovementController();
@@ -68,7 +67,6 @@ public class CameraFollow : MonoBehaviour
             Debug.Break();
         }
 
-        // Assign the current holder and the associated variables
         _HolderIndex = Mathf.FloorToInt(_DefaultHolders.Length / 2);
         _CurrentHolder = _DefaultHolders[_HolderIndex];
         _OrbitRadius = _CurrentHolder._Offset.x;
@@ -81,79 +79,85 @@ public class CameraFollow : MonoBehaviour
         HandleControls();
 
         // Rotate the camera
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(_PlayerPosition.position - transform.position), _RotateTowardsTargetSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation,
+                                             Quaternion.LookRotation(_PlayerPosition.position - transform.position),
+                                             _LookAtTargetSpeed * Time.deltaTime);
     }
-
+    
+    /// <summary>
+    /// Applies the CurrentHolder variable to the Camera's variables
+    /// </summary>
     void ApplyCurrentHolder()
     {
-        // Set OrbitRadius and GroundOffset to the X and Y offsets of the current holder
+        _MainCamera.fieldOfView = Mathf.Lerp(_MainCamera.fieldOfView, _CurrentHolder._FOV, _FOVChangeSpeed * Time.deltaTime);
         _OrbitRadius = Mathf.Lerp(_OrbitRadius, _CurrentHolder._Offset.x, _FOVChangeSpeed * Time.deltaTime);
         _GroundOffset = Mathf.Lerp(_GroundOffset, _CurrentHolder._Offset.y + _PlayerPosition.transform.position.y, _FOVChangeSpeed * Time.deltaTime);
 
-        // Calculate the position we're moving to, apply the offset and then move the camera
+        // Calculates the position the Camera wants to be in, using Ground Offset and Orbit Radius
         Vector3 targetPosition = (transform.position - _PlayerPosition.transform.position).normalized
                                  * Mathf.Abs(_OrbitRadius)
                                  + _PlayerPosition.transform.position;
         targetPosition.y = _GroundOffset;
         transform.position = Vector3.Lerp(transform.position, targetPosition, _FollowSpeed * Time.deltaTime);
-
-        // Change the field of view to the currently selected FOV
-        _MainCamera.fieldOfView = Mathf.Lerp(_MainCamera.fieldOfView, _CurrentHolder._FOV, _FOVChangeSpeed * Time.deltaTime);
     }
 
-    void RotateView(float direction)
-    {
-        // Move the camera right by an offset of 'direction'
-        transform.position = Vector3.Lerp(transform.position, transform.position + transform.right * direction, _CircleRotateSpeed * Time.deltaTime);
-    }
-
-    void ApplyChangedZoomLevel(CFCameraVars[] currentHolder)
-    {
-        // Play the zoom audio
-        _AudioSource.PlayOneShot(_ChangeZoomAudio);
-
-        // Wrap the holder index
-        if (_HolderIndex > currentHolder.Length - 1)
-            _HolderIndex = 0;
-
-        // Assign the current holder
-        _CurrentHolder = currentHolder[_HolderIndex];
-    }
-
+    /// <summary>
+    /// Handles every type of control the Player has over the Camera
+    /// </summary>
     void HandleControls()
     {
         if (Input.GetButton("RightTrigger"))
-            RotateView(_QERotationSpeed);
+            RotateView(_TriggerRotationSpeed);
         else if (Input.GetButton("LeftTrigger"))
-            RotateView(-_QERotationSpeed);
-
-        if (Input.GetButton("CameraReset"))
-        {
-            // Calculate the difference between the two rotations
-            float rotateBy = transform.eulerAngles.y - _MovementController._RotationBeforeIdle.eulerAngles.y;
-            // Make sure we don't rotate over 360 degrees, there is literally no point
-            if (rotateBy > 180)
-                rotateBy -= 360;
-            else if (rotateBy < -180)
-                rotateBy += 360;
-
-            // Finally rotate using the focus speed
-            RotateView(rotateBy * _ResetRotationSpeed * Time.deltaTime);
-        }
+            RotateView(-_TriggerRotationSpeed);
 
         if (Input.GetButtonDown("ZoomLevel"))
         {
-            // Increment the holder index to go to the next zoom level
             _HolderIndex++;
-            // Does a basic check to see if we're in top view, and if it is use the alternate holders
             ApplyChangedZoomLevel(_TopView ? _TopViewHolders : _DefaultHolders);
         }
 
-        // Check if the player presses the CameraAngle button
         if (Input.GetButtonDown("CameraAngle"))
         {
             ApplyChangedZoomLevel(_TopView ? _DefaultHolders : _TopViewHolders);
             _TopView = !_TopView;
         }
+
+        if (Input.GetButton("CameraReset"))
+        {
+            // Gets the difference between the two rotations, and then makes sure it doesn't overrotate
+            float difference = transform.eulerAngles.y - _MovementController._RotationBeforeIdle.eulerAngles.y;
+            if (difference > 180)
+                difference -= 360;
+            else if (difference < -180)
+                difference += 360;
+
+            RotateView(difference * _ResetRotationSpeed * Time.deltaTime);
+        }
+    }
+
+    /// <summary>
+    /// Moves Camera in a given direction
+    /// </summary>
+    /// <param name="direction"></param>
+    void RotateView(float direction)
+    {
+        transform.position = Vector3.Lerp(transform.position,
+                                          transform.position + transform.right * direction,
+                                          _RotationCircleSpeed * Time.deltaTime);
+    }
+
+    /// <summary>
+    /// Changes zoom level based on the holder index, and plays audio
+    /// </summary>
+    /// <param name="currentHolder"></param>
+    void ApplyChangedZoomLevel(CFCameraVars[] currentHolder)
+    {
+        _AudioSource.PlayOneShot(_ChangeZoomAudio);
+
+        if (_HolderIndex > currentHolder.Length - 1)
+            _HolderIndex = 0;
+
+        _CurrentHolder = currentHolder[_HolderIndex];
     }
 }
