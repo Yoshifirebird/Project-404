@@ -62,8 +62,8 @@ public class WhistleController : MonoBehaviour
         if (pikminComponent == null)
             return;
 
-        pikminComponent._State = PikminBehavior.States.Formation;
-        pikminComponent._TargetPosition = Player.player.transform;
+        pikminComponent.SetState(PikminBehavior.States.Formation);
+        pikminComponent.SetTarget(Player.player.transform);
     }
 
     void HandleWhistle()

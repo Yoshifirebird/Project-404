@@ -9,7 +9,8 @@ using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour
 {
-    //[Header("Components")]
+    [Header("Components")]
+    [SerializeField] Transform _WhistleTransform;
     CharacterController _Controller;
     Camera _MainCamera;
 
@@ -18,6 +19,10 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] Vector2 _MovementDeadzone;
     [SerializeField] float _RotationSpeed = 3;
     [SerializeField] float _Gravity = -Physics.gravity.y;
+
+    [SerializeField] float _LookAtWhistleTime = 2.5f;
+    float _IdleTimer = 0;
+
     Vector3 _BaseHeight;
 
     private void Awake()
@@ -30,9 +35,20 @@ public class PlayerMovementController : MonoBehaviour
     private void Update()
     {
         // If we're not grounded and not on a slope
-        if (!IsGrounded())        
+        if (!IsGrounded())
             // Apply gravity
-            _Controller.Move(Vector3.down * _Gravity * Time.deltaTime);        
+            _Controller.Move(Vector3.down * _Gravity * Time.deltaTime);
+
+        // Add time to the idle timer
+        _IdleTimer += Time.deltaTime;
+
+        // Check if we've been idle long enough to look at the whistle
+        if (_IdleTimer > _LookAtWhistleTime)
+        {
+            Vector3 finalLookPosition = _WhistleTransform.position - transform.position;
+            finalLookPosition.y = 0;
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(finalLookPosition), _RotationSpeed * Time.deltaTime);
+        }
 
         // Get input from the 'Horizontal' and 'Vertical' axis, and normalize it
         // so as to not the player move quicker when going diagonally
@@ -43,6 +59,9 @@ public class PlayerMovementController : MonoBehaviour
         // If the player has even touched the H and V axis
         if (Mathf.Abs(mDirection.x) <= _MovementDeadzone.x && Mathf.Abs(mDirection.z) <= _MovementDeadzone.y)
             return;
+
+        // We've moved, so the idle timer gets reset
+        _IdleTimer = 0;
 
         // Make the movement vector relative to the camera's position/rotation
         // and remove any Y momentum gained from doing the TransformDirection
