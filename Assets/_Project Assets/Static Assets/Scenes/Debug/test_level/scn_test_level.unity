@@ -1781,6 +1781,7 @@ MonoBehaviour:
   _FollowSpeed: 7.5
   _FOVChangeSpeed: 3
   _RotationSpeed: 7.5
+  _ResetSpeed: 5
   _QERotationSpeed: 10
 --- !u!82 &1688596380
 AudioSource:

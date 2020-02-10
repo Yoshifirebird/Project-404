@@ -31,6 +31,7 @@ public class CameraFollow : MonoBehaviour
 
     [Header("Rotation")]
     [SerializeField] float _RotationSpeed;
+    [SerializeField] float _ResetSpeed;
     [SerializeField] float _QERotationSpeed;
 
     Transform _PlayerPosition;
@@ -46,6 +47,7 @@ public class CameraFollow : MonoBehaviour
         // Apply movement/rotation settings
         _FollowSpeed = 5;
         _RotationSpeed = 5;
+        _ResetSpeed = 5;
         _FOVChangeSpeed = 2;
         _QERotationSpeed = 2;
     }
@@ -125,8 +127,16 @@ public class CameraFollow : MonoBehaviour
 
         if (Input.GetButton("CameraReset"))
         {
-            // Todo: fix bug of player / camera spazzing when walking backwards whilst resetting camera
-            RotateView(transform.eulerAngles.y - _MovementController._RotationBeforeIdle.eulerAngles.y);
+            // Calculate the difference between the two rotations
+            float rotateBy = transform.eulerAngles.y - _MovementController._RotationBeforeIdle.eulerAngles.y;
+            // Make sure we don't rotate over 360 degrees, there is literally no point
+            if (rotateBy > 180)
+                rotateBy -= 360;
+            else if (rotateBy < -180)
+                rotateBy += 360;
+
+            // Finally rotate using the focus speed
+            RotateView(rotateBy * _ResetSpeed * Time.deltaTime);
         }
 
         if (Input.GetButtonDown("ZoomLevel"))
