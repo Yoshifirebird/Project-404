@@ -21,6 +21,8 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] float _Gravity = -Physics.gravity.y;
 
     [SerializeField] float _LookAtWhistleTime = 2.5f;
+
+    [HideInInspector] public Quaternion _RotationBeforeIdle;
     float _IdleTimer = 0;
 
     Vector3 _BaseHeight;
@@ -48,6 +50,10 @@ public class PlayerMovementController : MonoBehaviour
             Vector3 finalLookPosition = _WhistleTransform.position - transform.position;
             finalLookPosition.y = 0;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(finalLookPosition), _RotationSpeed * Time.deltaTime);
+        }
+        else
+        {
+            _RotationBeforeIdle = transform.rotation;
         }
 
         // Get input from the 'Horizontal' and 'Vertical' axis, and normalize it

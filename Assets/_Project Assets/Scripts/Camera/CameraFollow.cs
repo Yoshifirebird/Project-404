@@ -17,7 +17,6 @@ public class CFCameraVars
 public class CameraFollow : MonoBehaviour
 {
     [Header("Components")]
-    [SerializeField] Transform _ToFollow;
     [SerializeField] CFCameraVars[] _DefaultHolders;    // Default View variables
     [SerializeField] CFCameraVars[] _TopViewHolders;  // Top View variables
     Camera _MainCamera;
@@ -26,12 +25,16 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] AudioClip _ChangeZoomAudio;
     AudioSource _AudioSource;
 
-    [Header("Settings")]
+    [Header("Movement / Camera Specific")]
     [SerializeField] float _FollowSpeed;
     [SerializeField] float _FOVChangeSpeed;
-    [SerializeField] float _FocusRotationSpeed;
-    [SerializeField] float _AdjustRotationSpeed;
 
+    [Header("Rotation")]
+    [SerializeField] float _RotationSpeed;
+    [SerializeField] float _QERotationSpeed;
+
+    Transform _PlayerPosition;
+    PlayerMovementController _MovementController;
     int _HolderIndex;
     CFCameraVars _CurrentHolder;
     float _OrbitRadius;
@@ -42,15 +45,17 @@ public class CameraFollow : MonoBehaviour
     {
         // Apply movement/rotation settings
         _FollowSpeed = 5;
-        _FocusRotationSpeed = 5;
+        _RotationSpeed = 5;
         _FOVChangeSpeed = 2;
-        _AdjustRotationSpeed = 2;
+        _QERotationSpeed = 2;
     }
 
     void Awake()
     {
         // Grab the main camera's 'Camera' component
         _MainCamera = Camera.main;
+        _PlayerPosition = Player.player.transform;
+        _MovementController = Player.player.GetMovementController();
         _AudioSource = GetComponent<AudioSource>();
 
         if (_DefaultHolders.Length != _TopViewHolders.Length)
@@ -70,25 +75,21 @@ public class CameraFollow : MonoBehaviour
     {
         ApplyCurrentHolder();
         HandleControls();
-    }
 
-    void LateUpdate()
-    {
-        // To stop jittery rotation, we apply the LookAt after 
-        // rotation and movement has been applied
-        transform.LookAt(_ToFollow.position);
+        // Rotate the camera
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(_PlayerPosition.position - transform.position), _RotationSpeed * Time.deltaTime);
     }
 
     void ApplyCurrentHolder()
     {
         // Set OrbitRadius and GroundOffset to the X and Y offsets of the current holder
         _OrbitRadius = Mathf.Lerp(_OrbitRadius, _CurrentHolder._Offset.x, _FOVChangeSpeed * Time.deltaTime);
-        _GroundOffset = Mathf.Lerp(_GroundOffset, _CurrentHolder._Offset.y + _ToFollow.transform.position.y, _FOVChangeSpeed * Time.deltaTime);
+        _GroundOffset = Mathf.Lerp(_GroundOffset, _CurrentHolder._Offset.y + _PlayerPosition.transform.position.y, _FOVChangeSpeed * Time.deltaTime);
 
         // Calculate the position we're moving to, apply the offset and then move the camera
-        Vector3 targetPosition = (transform.position - _ToFollow.transform.position).normalized
+        Vector3 targetPosition = (transform.position - _PlayerPosition.transform.position).normalized
                                  * Mathf.Abs(_OrbitRadius)
-                                 + _ToFollow.transform.position;
+                                 + _PlayerPosition.transform.position;
         targetPosition.y = _GroundOffset;
         transform.position = Vector3.Lerp(transform.position, targetPosition, _FollowSpeed * Time.deltaTime);
 
@@ -99,7 +100,6 @@ public class CameraFollow : MonoBehaviour
     void RotateView(float direction)
     {
         // Move the camera right by an offset of 'direction'
-        // This works because we call 'LookAt' in LateUpdate
         transform.Translate(Vector3.right * Time.deltaTime * direction);
     }
 
@@ -119,15 +119,14 @@ public class CameraFollow : MonoBehaviour
     void HandleControls()
     {
         if (Input.GetButton("RightTrigger"))
-            RotateView(_AdjustRotationSpeed);
+            RotateView(_QERotationSpeed);
         else if (Input.GetButton("LeftTrigger"))
-            RotateView(-_AdjustRotationSpeed);
+            RotateView(-_QERotationSpeed);
 
         if (Input.GetButton("CameraReset"))
         {
-            // Todo: make camera reset back to it's initial position behind the player
-            Vector3 newPosition = _ToFollow.localPosition - _ToFollow.forward;
-            transform.position = Vector3.Lerp(transform.position, newPosition + new Vector3(0, _CurrentHolder._Offset.y, _CurrentHolder._Offset.x), _FocusRotationSpeed * Time.deltaTime);
+            // Todo: fix bug of player / camera spazzing when walking backwards whilst resetting camera
+            RotateView(transform.eulerAngles.y - _MovementController._RotationBeforeIdle.eulerAngles.y);
         }
 
         if (Input.GetButtonDown("ZoomLevel"))

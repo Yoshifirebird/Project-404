@@ -57,4 +57,8 @@ public class Player : MonoBehaviour, IHealth
     public void SetHealth(int set) => _CurrentHealth = set;
 
     #endregion
+
+    #region Getter functions
+    public PlayerMovementController GetMovementController() => _MovementController;
+    #endregion
 }
