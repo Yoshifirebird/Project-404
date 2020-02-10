@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.66742617, g: 0.9995462, b: 1.6660168, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1780,10 +1780,10 @@ MonoBehaviour:
   _ChangeZoomAudio: {fileID: 8300000, guid: f6196303e1515ae41bf22a25947f9bf4, type: 3}
   _FollowSpeed: 7.5
   _FOVChangeSpeed: 3
-  _RotateTowardsTargetSpeed: 5
-  _CircleRotateSpeed: 5
+  _LookAtTargetSpeed: 7.5
+  _RotationCircleSpeed: 7.5
   _ResetRotationSpeed: 5
-  _QERotationSpeed: 2
+  _TriggerRotationSpeed: 2
 --- !u!82 &1688596380
 AudioSource:
   m_ObjectHideFlags: 0

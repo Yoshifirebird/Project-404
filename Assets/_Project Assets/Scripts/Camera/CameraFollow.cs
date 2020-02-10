@@ -75,15 +75,15 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
-        ApplyCurrentHolder();
-        HandleControls();
-
         // Rotate the camera
         transform.rotation = Quaternion.Lerp(transform.rotation,
                                              Quaternion.LookRotation(_PlayerPosition.position - transform.position),
                                              _LookAtTargetSpeed * Time.deltaTime);
+
+        ApplyCurrentHolder();
+        HandleControls();
     }
-    
+
     /// <summary>
     /// Applies the CurrentHolder variable to the Camera's variables
     /// </summary>
