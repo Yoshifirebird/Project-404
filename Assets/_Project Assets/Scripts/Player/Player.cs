@@ -8,6 +8,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMovementController))]
+[RequireComponent(typeof(PlayerUIController))]
 public class Player : MonoBehaviour, IHealth
 {
     // Singleton
@@ -56,5 +57,4 @@ public class Player : MonoBehaviour, IHealth
     public void SetHealth(int set) => _CurrentHealth = set;
 
     #endregion
-
 }
