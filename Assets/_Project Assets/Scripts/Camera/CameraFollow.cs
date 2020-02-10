@@ -30,8 +30,10 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] float _FOVChangeSpeed;
 
     [Header("Rotation")]
-    [SerializeField] float _RotationSpeed;
-    [SerializeField] float _ResetSpeed;
+    [SerializeField] float _RotateTowardsTargetSpeed;
+
+    [SerializeField] float _CircleRotateSpeed;
+    [SerializeField] float _ResetRotationSpeed;
     [SerializeField] float _QERotationSpeed;
 
     Transform _PlayerPosition;
@@ -46,8 +48,8 @@ public class CameraFollow : MonoBehaviour
     {
         // Apply movement/rotation settings
         _FollowSpeed = 5;
-        _RotationSpeed = 5;
-        _ResetSpeed = 5;
+        _RotateTowardsTargetSpeed = 5;
+        _ResetRotationSpeed = 5;
         _FOVChangeSpeed = 2;
         _QERotationSpeed = 2;
     }
@@ -79,7 +81,7 @@ public class CameraFollow : MonoBehaviour
         HandleControls();
 
         // Rotate the camera
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(_PlayerPosition.position - transform.position), _RotationSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(_PlayerPosition.position - transform.position), _RotateTowardsTargetSpeed * Time.deltaTime);
     }
 
     void ApplyCurrentHolder()
@@ -102,7 +104,7 @@ public class CameraFollow : MonoBehaviour
     void RotateView(float direction)
     {
         // Move the camera right by an offset of 'direction'
-        transform.Translate(Vector3.right * Time.deltaTime * direction);
+        transform.position = Vector3.Lerp(transform.position, transform.position + transform.right * direction, _CircleRotateSpeed * Time.deltaTime);
     }
 
     void ApplyChangedZoomLevel(CFCameraVars[] currentHolder)
@@ -136,7 +138,7 @@ public class CameraFollow : MonoBehaviour
                 rotateBy += 360;
 
             // Finally rotate using the focus speed
-            RotateView(rotateBy * _ResetSpeed * Time.deltaTime);
+            RotateView(rotateBy * _ResetRotationSpeed * Time.deltaTime);
         }
 
         if (Input.GetButtonDown("ZoomLevel"))

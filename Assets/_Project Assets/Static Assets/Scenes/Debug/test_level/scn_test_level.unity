@@ -1648,7 +1648,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   volumeAnchorOverride: {fileID: 0}
-  antialiasing: 0
+  antialiasing: 1
   SMAAQuality: 2
   dithering: 1
   stopNaNs: 1
@@ -1780,8 +1780,9 @@ MonoBehaviour:
   _ChangeZoomAudio: {fileID: 8300000, guid: f6196303e1515ae41bf22a25947f9bf4, type: 3}
   _FollowSpeed: 7.5
   _FOVChangeSpeed: 3
-  _RotationSpeed: 7.5
-  _ResetSpeed: 5
+  _RotateTowardsTargetSpeed: 5
+  _CircleRotateSpeed: 0
+  _ResetRotationSpeed: 5
   _QERotationSpeed: 10
 --- !u!82 &1688596380
 AudioSource:
