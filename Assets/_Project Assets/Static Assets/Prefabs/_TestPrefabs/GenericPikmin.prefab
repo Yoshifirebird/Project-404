@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2228488479455306373}
   - component: {fileID: 2228488479455306377}
   - component: {fileID: 7353386188237174948}
+  - component: {fileID: 1900282830807916722}
   m_Layer: 0
   m_Name: GenericPikmin
   m_TagString: Untagged
@@ -110,13 +111,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MovementSpeed: 5
   _RotationSpeed: 5
-  _Gravity: 15
-  _GroundLayer:
-    serializedVersion: 2
-    m_Bits: 512
+  _GiveUpDistance: 50
   _StoppingDistance: 1.5
   _StoppingAngle: 0.5
-  _State: 0
 --- !u!54 &7353386188237174948
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -133,3 +130,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 3
+--- !u!136 &1900282830807916722
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2228488479455306374}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.55
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

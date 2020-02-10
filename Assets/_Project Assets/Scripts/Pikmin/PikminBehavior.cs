@@ -23,11 +23,12 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     [SerializeField] float _RotationSpeed = 5f;
 
     [Header("AI")]
+    [SerializeField] float _GiveUpDistance = 50f;
     [SerializeField] float _StoppingDistance = 2f;
     [SerializeField] [Range(-1, 1)] float _StoppingAngle = 0.5f;
 
-    [HideInInspector] public States _State;
-    [HideInInspector] public Transform _TargetPosition;
+    States _State;
+    Transform _TargetPosition;
 
     void IPooledObject.OnObjectSpawn()
     {
@@ -48,10 +49,26 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
                 // check surroundings for things to do
                 break;
             case States.Formation:
+                // Todo: implement a timer to do this instead of instantly giving up
+                if (Vector3.Distance(transform.position, _TargetPosition.position) > _GiveUpDistance)
+                    _State = States.Idle;
+
                 MoveTowards(_TargetPosition.position);
                 break;
             case States.Attacking:
                 break;
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (_State == States.Formation)
+            return;
+
+        if (other.CompareTag("Player"))
+        {
+            SetState(States.Formation);
+            SetTarget(other.transform);
         }
     }
 
@@ -81,4 +98,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         velocity.y = _Rigidbody.velocity.y;
         _Rigidbody.velocity = velocity;
     }
+
+    public void SetState(States state) => _State = state;
+    public void SetTarget(Transform setTo) => _TargetPosition = setTo;
 }
