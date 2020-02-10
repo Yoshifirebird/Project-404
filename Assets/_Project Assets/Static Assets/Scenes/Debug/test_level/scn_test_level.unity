@@ -1781,9 +1781,9 @@ MonoBehaviour:
   _FollowSpeed: 7.5
   _FOVChangeSpeed: 3
   _RotateTowardsTargetSpeed: 5
-  _CircleRotateSpeed: 0
+  _CircleRotateSpeed: 5
   _ResetRotationSpeed: 5
-  _QERotationSpeed: 10
+  _QERotationSpeed: 2
 --- !u!82 &1688596380
 AudioSource:
   m_ObjectHideFlags: 0
