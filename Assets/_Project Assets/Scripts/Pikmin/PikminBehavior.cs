@@ -10,95 +10,69 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PikminBehavior : MonoBehaviour, IPooledObject
 {
-    // Enumerations
     public enum States { Idle, Formation, Attacking }
-    public enum Colour { Red, Blue, Yellow }
 
-    //[Header("Components")]
+    [Header("Components")]
+    public PikminSO _Data; // Only public for debugging reasons
+    public States _State;
+
     Rigidbody _Rigidbody;
     Player _Player;
 
-    [Header("Movement")]
-    [SerializeField] float _MovementSpeed = 5f;
-    [SerializeField] float _RotationSpeed = 5f;
-
-    [Header("AI")]
-    [SerializeField] float _GiveUpDistance = 50f;
-    [SerializeField] float _StoppingDistance = 2f;
-    [SerializeField] [Range(-1, 1)] float _StoppingAngle = 0.5f;
-
-    States _State;
-    Transform _TargetPosition;
-
     void IPooledObject.OnObjectSpawn()
     {
-        // Grab components
-        _Rigidbody = GetComponent<Rigidbody>();
         _Player = Player.player;
+        _Rigidbody = GetComponent<Rigidbody>();
 
         // Set required variables
         _State = States.Idle;
     }
 
-    void Update()
+    void FixedUpdate()
     {
+        if (Physics.Raycast(transform.position, Vector3.down, 1f) == false)
+        {
+            _Rigidbody.MovePosition(_Rigidbody.position + Vector3.down * _Data._Gravity * Time.fixedDeltaTime);
+        }
+
         switch (_State)
         {
             case States.Idle:
-                // Would play idle animation,
-                // check surroundings for things to do
+                HandleIdle();
                 break;
             case States.Formation:
-                // Todo: implement a timer to do this instead of instantly giving up
-                if (Vector3.Distance(transform.position, _TargetPosition.position) > _GiveUpDistance)
-                    _State = States.Idle;
-
-                MoveTowards(_TargetPosition.position);
+                HandleFormation();
                 break;
             case States.Attacking:
+                HandleAttacking();
+                break;
+            default:
                 break;
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void HandleIdle()
     {
-        if (_State == States.Formation)
-            return;
-
-        if (other.CompareTag("Player"))
-        {
-            SetState(States.Formation);
-            SetTarget(other.transform);
-        }
+        print("I be idlin'");
     }
 
-    void MoveTowards(Vector3 position)
+    void HandleFormation()
     {
-        if (Vector3.Distance(transform.position, position) <= _StoppingDistance)
-            return;
+        print("I be in formation!");
 
-        // Calculations to check whether or not the AI are in front or behind the leader
-        var heading = position - transform.position;
-        var dot = Vector3.Dot(heading, transform.forward);
-
-        // Get the target direction we want to move in, set the Y velocity to 0
-        // so we don't glide into the air, and move the AI
-        Vector3 direction = position - transform.position;
+        var direction = _Player.transform.position - _Rigidbody.position;
         direction.y = 0;
+        direction.Normalize();
 
-        if (_StoppingAngle < dot)
-        {
-            // To-do: make the AI follow the player and attempt to keep behind him at all times
-        }
-
-        // Rotate the Pikmin to look towards where they're moving
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), _RotationSpeed * Time.deltaTime);
-
-        Vector3 velocity = direction.normalized * _MovementSpeed;
-        velocity.y = _Rigidbody.velocity.y;
-        _Rigidbody.velocity = velocity;
+        _Rigidbody.MovePosition(_Rigidbody.position + (direction * _Data._MovementSpeed * Time.fixedDeltaTime));
     }
 
-    public void SetState(States state) => _State = state;
-    public void SetTarget(Transform setTo) => _TargetPosition = setTo;
+    void HandleAttacking()
+    {
+        print("I be attackin'");
+    }
+
+    #region Setters
+    public void SetData(PikminSO setTo) => _Data = setTo;
+    #endregion
 }

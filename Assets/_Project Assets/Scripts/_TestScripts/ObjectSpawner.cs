@@ -1,5 +1,5 @@
 ﻿/*
- * PLACEHOLDER_PikminBehavior.cs
+ * ObjectSpawner.cs
  * Created by: Neo
  * Created on: 9/2/2020 (dd/mm/yy)
  * Created for: Testing the pooling system by spawning objects from a pool at a set location.
