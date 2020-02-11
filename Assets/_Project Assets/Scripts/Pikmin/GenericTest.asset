@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Colour: 0
   _HeadType: 0
-  _MovementSpeed: 2
+  _MovementSpeed: 9.29
   _Gravity: 5
   _AttackDamage: 1
