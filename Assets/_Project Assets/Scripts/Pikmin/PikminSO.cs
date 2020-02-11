@@ -16,6 +16,7 @@ public class PikminSO : ScriptableObject
     public Headtype _HeadType;
 
     public float _MovementSpeed;
+    public float _RotationSpeed;
     public float _Gravity;
 
     public int _AttackDamage;

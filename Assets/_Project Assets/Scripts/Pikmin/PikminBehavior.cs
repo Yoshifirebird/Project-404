@@ -28,11 +28,11 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         _State = States.Idle;
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        if (Physics.Raycast(transform.position, Vector3.down, 1f) == false)
+        if (Physics.Raycast(transform.position, Vector3.down, 1) == false)
         {
-            _Rigidbody.MovePosition(_Rigidbody.position + Vector3.down * _Data._Gravity * Time.fixedDeltaTime);
+            transform.position += Vector3.down * _Data._Gravity * Time.deltaTime;
         }
 
         switch (_State)
@@ -60,11 +60,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     {
         print("I be in formation!");
 
-        var direction = _Player.transform.position - _Rigidbody.position;
-        direction.y = 0;
-        direction.Normalize();
-
-        _Rigidbody.MovePosition(_Rigidbody.position + (direction * _Data._MovementSpeed * Time.fixedDeltaTime));
+        transform.position = Vector3.Lerp(transform.position, _Player.transform.position, _Data._MovementSpeed * Time.deltaTime);
     }
 
     void HandleAttacking()
@@ -72,6 +68,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         print("I be attackin'");
     }
 
+    /* void TurnRagdoll () => _Rigidbody.isKinematic = false;     */
     #region Setters
     public void SetData(PikminSO setTo) => _Data = setTo;
     #endregion
