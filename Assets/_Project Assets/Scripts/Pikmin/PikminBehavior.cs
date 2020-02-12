@@ -30,15 +30,18 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     {
         if (_Player == null)
             _Player = Player.player;
+
+        if (_Rigidbody == null)
+            _Rigidbody = GetComponent<Rigidbody>();
+
+        // Add to the Pikmin on the field and the total amount of Pikmin
         var pikminManager = _Player.GetPikminManager();
         pikminManager.IncrementPikminOnField();
         PlayerStats._TotalPikmin++;
 
+        // Reset state machines
         _State = States.Idle;
         _PreviousState = States.Idle;
-
-        if (_Rigidbody == null)
-            _Rigidbody = GetComponent<Rigidbody>();
     }
 
     void Update()
