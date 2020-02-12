@@ -28,6 +28,7 @@ public class CameraFollow : MonoBehaviour
     [Header("Movement / Camera Specific")]
     [SerializeField] float _FollowSpeed;
     [SerializeField] float _FOVChangeSpeed;
+    [SerializeField] float _ResetRotationTimeLimit = 2;
 
     [Header("Rotation")]
     [SerializeField] float _LookAtTargetSpeed;
@@ -41,6 +42,7 @@ public class CameraFollow : MonoBehaviour
     CFCameraVars _CurrentHolder;
     float _OrbitRadius;
     float _GroundOffset;
+    float _ResetRotationTimer;
     bool _TopView = false;
 
     CameraFollow()
@@ -52,6 +54,8 @@ public class CameraFollow : MonoBehaviour
         _RotationCircleSpeed = 7.5f;
         _ResetRotationSpeed = 5;
         _TriggerRotationSpeed = 2;
+
+        _ResetRotationTimer = 0;
     }
 
     void Awake()
@@ -123,7 +127,7 @@ public class CameraFollow : MonoBehaviour
             _TopView = !_TopView;
         }
 
-        if (Input.GetButton("CameraReset"))
+        if (Input.GetButton("CameraReset") && _ResetRotationTimer < _ResetRotationTimeLimit)
         {
             // Gets the difference between the two rotations, and then makes sure it doesn't overrotate
             float difference = transform.eulerAngles.y - _MovementController._RotationBeforeIdle.eulerAngles.y;
@@ -133,6 +137,11 @@ public class CameraFollow : MonoBehaviour
                 difference += 360;
 
             RotateView(difference * _ResetRotationSpeed * Time.deltaTime);
+            _ResetRotationTimer += Time.deltaTime;
+        }
+        else if (Input.GetButtonUp("CameraReset"))
+        {
+            _ResetRotationTimer = 0;
         }
     }
 
