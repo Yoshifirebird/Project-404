@@ -65,18 +65,17 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void HandleIdle()
     {
-        print("I be idlin'");
+        // stubbed
     }
 
     void HandleFormation()
     {
-        print("I be in formation!");
         MoveTowards(_Player.transform.position);
     }
 
     void HandleAttacking()
     {
-        print("I be attackin'");
+        // stubbed
     }
 
     void MoveTowards(Vector3 towards)
