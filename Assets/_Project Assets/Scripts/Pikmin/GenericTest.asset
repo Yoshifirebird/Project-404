@@ -16,5 +16,4 @@ MonoBehaviour:
   _HeadType: 0
   _MovementSpeed: 5
   _RotationSpeed: 15
-  _Gravity: 23.34
   _AttackDamage: 1
