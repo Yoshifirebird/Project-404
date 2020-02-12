@@ -62,7 +62,7 @@ public class WhistleController : MonoBehaviour
         if (pikminComponent == null)
             return;
 
-        pikminComponent._State = PikminBehavior.States.Formation;
+        pikminComponent.AddToSquad();
     }
 
     void HandleWhistle()

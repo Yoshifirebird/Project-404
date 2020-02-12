@@ -16,6 +16,7 @@ public class Player : MonoBehaviour, IHealth
 
     //[Header("Components")]
     PlayerMovementController _MovementController;
+    PlayerPikminManager _PikminManager;
 
     [Header("Settings")]
     [SerializeField] int _MaxHealth = 100;
@@ -23,10 +24,9 @@ public class Player : MonoBehaviour, IHealth
 
     void Awake()
     {
-        // In case the current health or max health was changed in the inspector
-        _CurrentHealth = _MaxHealth;
-        // Grab the PlayerMovementController component on the player
+        _CurrentHealth = _MaxHealth; // Reset health back to Max Health
         _MovementController = GetComponent<PlayerMovementController>();
+        _PikminManager = GetComponent<PlayerPikminManager>();
 
         if (player == null)
             player = this;
@@ -64,7 +64,8 @@ public class Player : MonoBehaviour, IHealth
 
     #endregion
 
-    #region Getter functions
+    #region Global Getters
     public PlayerMovementController GetMovementController() => _MovementController;
+    public PlayerPikminManager GetPikminManager() => _PikminManager;
     #endregion
 }

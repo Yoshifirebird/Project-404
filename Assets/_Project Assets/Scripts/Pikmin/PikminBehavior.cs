@@ -16,23 +16,29 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PikminBehavior : MonoBehaviour, IPooledObject
 {
-    public enum States { Idle, Formation, Attacking }
+    public enum States { Idle, Formation, Attacking, Dead }
 
     [Header("Components")]
-    public PikminSO _Data; // Only public for debugging reasons
-    public States _State;
+    [SerializeField] PikminSO _Data;
 
-    Vector3 _Velocity;
+    States _State;
+    States _PreviousState;
     Rigidbody _Rigidbody;
     Player _Player;
 
     void IPooledObject.OnObjectSpawn()
     {
-        _Player = Player.player;
-        _Rigidbody = GetComponent<Rigidbody>();
+        if (_Player == null)
+            _Player = Player.player;
+        var pikminManager = _Player.GetPikminManager();
+        pikminManager.IncrementPikminOnField();
+        PlayerStats._TotalPikmin++;
 
-        _Velocity = Vector3.zero;
         _State = States.Idle;
+        _PreviousState = States.Idle;
+
+        if (_Rigidbody == null)
+            _Rigidbody = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -45,17 +51,20 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             case States.Attacking:
                 HandleAttacking();
                 break;
+            case States.Dead:
+                HandleDeath();
+                break;
             default:
                 break;
         }
     }
 
-    // Movement using rigidbody requires FixedUpdate
     void FixedUpdate()
     {
         switch (_State)
         {
             case States.Formation:
+                // Movement using rigidbody requires FixedUpdate
                 HandleFormation();
                 break;
             default:
@@ -78,6 +87,17 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         // stubbed
     }
 
+    void HandleDeath()
+    {
+        // We may not have been properly removed from the squad, so do it ourself
+        if (_PreviousState == States.Formation)
+            RemoveFromSquad();
+
+        PlayerStats._TotalPikmin--;
+        // TODO: handle death animation + timer later
+        ObjectPooler.Instance.StoreInPool("Pikmin");
+    }
+
     void MoveTowards(Vector3 towards)
     {
         // cache the direction of the player
@@ -94,7 +114,30 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         transform.rotation = Quaternion.Lerp(transform.rotation, rotation, _Data._RotationSpeed * Time.deltaTime);
     }
 
+    public void AddToSquad()
+    {
+        if (_State != States.Formation)
+        {
+            ChangeState(States.Formation);
+            _Player.GetPikminManager().IncrementSquadCount();
+        }
+    }
+
+    public void RemoveFromSquad()
+    {
+        if (_State == States.Formation)
+        {
+            ChangeState(States.Idle);
+            _Player.GetPikminManager().DecrementSquadCount();
+        }
+    }
+
     #region Setters
     public void SetData(PikminSO setTo) => _Data = setTo;
+    public void ChangeState(States setTo)
+    {
+        _PreviousState = _State;
+        _State = setTo;
+    }
     #endregion
 }
