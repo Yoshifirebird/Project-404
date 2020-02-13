@@ -22,17 +22,13 @@ public class PlayerUIController : MonoBehaviour
 	[SerializeField] Text _OnFieldText;
 	[SerializeField] Text _DayText;
 
-	[SerializeField] Player _Player;
+	Player _Player;
 	PlayerPikminManager _PikminManager;
 
-
-	//[Header("Settings")]
-
-
-	void Awake()
+	void Start()
 	{
-		//_Player = GetComponent<Player>();
-		_PikminManager = _Player.GetComponent<PlayerPikminManager>();
+		_Player = Player.player;
+		_PikminManager = _Player.GetPikminManager();
 		_MaxHealth = _Player.GetMaxHealth();
 		_ReferenceHealth = _Player.GetHealth();
 	}
