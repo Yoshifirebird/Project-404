@@ -71,6 +71,9 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 1
     min: 0
+  upperHemisphereLuxColor:
+    m_OverrideState: 0
+    m_Value: {x: 0, y: 0, z: 0}
   desiredLuxValue:
     m_OverrideState: 0
     m_Value: 20000
@@ -85,19 +88,19 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
   top:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: {r: 0, g: 0, b: 2, a: 1}
     hdr: 1
     showAlpha: 0
     showEyeDropper: 1
   middle:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: {r: 0.59607846, g: 1.3960785, b: 2.0078433, a: 1}
     hdr: 1
     showAlpha: 0
     showEyeDropper: 1
   bottom:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: {r: 0, g: 0, b: 0, a: 1}
     hdr: 1
     showAlpha: 0

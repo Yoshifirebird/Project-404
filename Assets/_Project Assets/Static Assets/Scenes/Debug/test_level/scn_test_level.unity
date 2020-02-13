@@ -24,7 +24,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 4
+  m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
@@ -129,11 +129,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 620851749}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: 19eed1259990c08448a5c023520eae58,
-        type: 3}
-      propertyPath: m_Name
-      value: Yellow Onion
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 19eed1259990c08448a5c023520eae58,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -188,6 +183,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 19eed1259990c08448a5c023520eae58,
+        type: 3}
+      propertyPath: m_Name
+      value: Yellow Onion
       objectReference: {fileID: 0}
     - target: {fileID: -444521105353760620, guid: 19eed1259990c08448a5c023520eae58,
         type: 3}
@@ -917,11 +917,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 620851749}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: 19eed1259990c08448a5c023520eae58,
-        type: 3}
-      propertyPath: m_Name
-      value: Blue Onion
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 19eed1259990c08448a5c023520eae58,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -976,6 +971,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 19eed1259990c08448a5c023520eae58,
+        type: 3}
+      propertyPath: m_Name
+      value: Blue Onion
       objectReference: {fileID: 0}
     - target: {fileID: -444521105353760620, guid: 19eed1259990c08448a5c023520eae58,
         type: 3}
@@ -1110,21 +1110,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 298264381}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: 4b35296d851d4ed4f984bbb3e0bc6fc7,
-        type: 3}
-      propertyPath: m_Name
-      value: Level Model
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 4b35296d851d4ed4f984bbb3e0bc6fc7,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 4b35296d851d4ed4f984bbb3e0bc6fc7,
-        type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 4b35296d851d4ed4f984bbb3e0bc6fc7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1205,6 +1190,21 @@ PrefabInstance:
       propertyPath: m_LightmapParameters
       value: 
       objectReference: {fileID: 15200, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: -927199367670048503, guid: 4b35296d851d4ed4f984bbb3e0bc6fc7,
+        type: 3}
+      propertyPath: m_Name
+      value: Level Model
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 4b35296d851d4ed4f984bbb3e0bc6fc7,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 4b35296d851d4ed4f984bbb3e0bc6fc7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b35296d851d4ed4f984bbb3e0bc6fc7, type: 3}
 --- !u!1001 &1344364208
@@ -1214,11 +1214,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 620851749}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: 19eed1259990c08448a5c023520eae58,
-        type: 3}
-      propertyPath: m_Name
-      value: Red Onion
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 19eed1259990c08448a5c023520eae58,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1273,6 +1268,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 19eed1259990c08448a5c023520eae58,
+        type: 3}
+      propertyPath: m_Name
+      value: Red Onion
       objectReference: {fileID: 0}
     - target: {fileID: -444521105353760620, guid: 19eed1259990c08448a5c023520eae58,
         type: 3}
@@ -1977,6 +1977,11 @@ MonoBehaviour:
   m_UseScreenSpaceShadows: 0
   m_InteractsWithSky: 1
   m_AngularDiameter: 0
+  m_FlareSize: 2
+  m_FlareTint: {r: 1, g: 1, b: 1, a: 1}
+  m_FlareFalloff: 4
+  m_SurfaceTexture: {fileID: 0}
+  m_SurfaceTint: {r: 1, g: 1, b: 1, a: 1}
   m_Distance: 150000000
   m_UseRayTracedShadows: 0
   m_NumRayTracingSamples: 4
@@ -2014,6 +2019,8 @@ MonoBehaviour:
   m_NormalBias: 0.75
   m_SlopeBias: 0.5
   m_ShadowUpdateMode: 0
+  m_BarnDoorAngle: 90
+  m_BarnDoorLength: 0.05
   m_ShadowCascadeRatios:
   - 0.05
   - 0.2
@@ -2177,6 +2184,59 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 838713201}
     m_Modifications:
+    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
+      propertyPath: _HealthColor.atime0
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
+      propertyPath: _HealthColor.key0.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
+      propertyPath: _HealthColor.key1.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
+      propertyPath: _HealthColor.atime1
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
+      propertyPath: _HealthColor.key2.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
+      propertyPath: _HealthColor.atime2
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
+      propertyPath: _HealthColor.m_NumAlphaKeys
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
+      propertyPath: _HealthColor.key3.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
+      propertyPath: _HealthColor.atime3
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
+      propertyPath: _HealthColor.key4.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
+      propertyPath: _HealthColor.atime4
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
+      propertyPath: _HealthColor.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3307481715241775579, guid: d41b186de976741e7b0d21c71289ec7c,
+        type: 3}
+      propertyPath: m_Name
+      value: pref_UI Main Display
+      objectReference: {fileID: 0}
     - target: {fileID: 7201761726049287411, guid: d41b186de976741e7b0d21c71289ec7c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2281,59 +2341,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3307481715241775579, guid: d41b186de976741e7b0d21c71289ec7c,
-        type: 3}
-      propertyPath: m_Name
-      value: pref_UI Main Display
-      objectReference: {fileID: 0}
-    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
-      propertyPath: _HealthColor.atime0
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
-      propertyPath: _HealthColor.key0.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
-      propertyPath: _HealthColor.key1.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
-      propertyPath: _HealthColor.atime1
-      value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
-      propertyPath: _HealthColor.key2.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
-      propertyPath: _HealthColor.atime2
-      value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
-      propertyPath: _HealthColor.m_NumAlphaKeys
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
-      propertyPath: _HealthColor.key3.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
-      propertyPath: _HealthColor.atime3
-      value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
-      propertyPath: _HealthColor.key4.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
-      propertyPath: _HealthColor.atime4
-      value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 2039986319, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
-      propertyPath: _HealthColor.m_Mode
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d41b186de976741e7b0d21c71289ec7c, type: 3}
