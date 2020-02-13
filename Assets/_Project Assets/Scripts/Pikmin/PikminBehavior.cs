@@ -87,7 +87,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void HandleFormation()
     {
-        MoveTowards(_PlayerPikminManager.GetFormationCenter().position);
+        MoveTowards(_PlayerPikminManager.GetFormationCenter().position, GetSpeed(_Data._HeadType));
     }
 
     void HandleAttacking()
@@ -106,13 +106,13 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         ObjectPooler.Instance.StoreInPool("Pikmin");
     }
 
-    void MoveTowards(Vector3 towards)
+    void MoveTowards(Vector3 towards, float speed)
     {
         // cache the direction of the player
         var direction = (towards - transform.position);
 
         // calculate the velocity needed
-        var velocity = (direction.normalized) * _Data._MovementSpeed;
+        var velocity = (direction.normalized) * speed;
         velocity.y = _Rigidbody.velocity.y;
         _Rigidbody.velocity = velocity;
 
@@ -120,6 +120,20 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         // look at the direction of the player and smoothly interpolate to it
         var rotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Lerp(transform.rotation, rotation, _Data._RotationSpeed * Time.deltaTime);
+    }
+
+    float GetSpeed(Headtype headtype)
+    {
+        switch (headtype)
+        {
+            default:
+            case Headtype.Leaf:
+                return 5;
+            case Headtype.Bud:
+                return 7;
+            case Headtype.Flower:
+                return 9;
+        }
     }
 
     public void AddToSquad()
