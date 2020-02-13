@@ -127,6 +127,7 @@ public class CameraFollow : MonoBehaviour
             _TopView = !_TopView;
         }
 
+        // Make sure the player doesn't hold the button for longer than intended
         if (Input.GetButton("CameraReset") && _ResetRotationTimer < _ResetRotationTimeLimit)
         {
             // Gets the difference between the two rotations, and then makes sure it doesn't overrotate
