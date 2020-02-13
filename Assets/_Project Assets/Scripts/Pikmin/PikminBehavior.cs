@@ -24,12 +24,17 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     States _State;
     States _PreviousState;
     Rigidbody _Rigidbody;
+
     Player _Player;
+    PlayerPikminManager _PlayerPikminManager;
 
     void IPooledObject.OnObjectSpawn()
     {
         if (_Player == null)
+        {
             _Player = Player.player;
+            _PlayerPikminManager = _Player.GetPikminManager();
+        }
 
         if (_Rigidbody == null)
             _Rigidbody = GetComponent<Rigidbody>();
@@ -82,7 +87,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void HandleFormation()
     {
-        MoveTowards(_Player.transform.position);
+        MoveTowards(_PlayerPikminManager.GetFormationCenter().position);
     }
 
     void HandleAttacking()

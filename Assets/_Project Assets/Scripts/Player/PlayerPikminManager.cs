@@ -8,7 +8,10 @@
 using UnityEngine;
 
 public class PlayerPikminManager : MonoBehaviour
-{    
+{
+    [Header("Components")]
+    [SerializeField] Transform _FormationCenter;
+
     int _PikminOnField = 0;     // How many Pikmin there are currently alive
     int _SquadCount = 0;        // How many Pikmin there are currently in the Player's squad
 
@@ -22,5 +25,6 @@ public class PlayerPikminManager : MonoBehaviour
     #region Global Getters
     public int GetPikminOnField() => _PikminOnField;
     public int GetSquadCount() => _SquadCount;
+    public Transform GetFormationCenter() => _FormationCenter;
     #endregion
 }
