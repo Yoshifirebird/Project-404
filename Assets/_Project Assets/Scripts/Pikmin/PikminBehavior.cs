@@ -124,16 +124,15 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     float GetSpeed(Headtype headtype)
     {
-        switch (headtype)
+        switch(headtype)
         {
-            default:
-            case Headtype.Leaf:
-                return 5;
             case Headtype.Bud:
                 return 7;
             case Headtype.Flower:
                 return 9;
-        }
+            default:
+                return 5;
+        };
     }
 
     public void AddToSquad()
