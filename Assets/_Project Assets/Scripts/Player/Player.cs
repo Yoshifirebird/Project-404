@@ -8,7 +8,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMovementController))]
-[RequireComponent(typeof(PlayerUIController))]
+//[RequireComponent(typeof(PlayerUIController))]
 public class Player : MonoBehaviour, IHealth
 {
     // Singleton

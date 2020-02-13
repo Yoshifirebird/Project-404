@@ -1,6 +1,6 @@
 ﻿/*
  * PlayerUIController.cs
- * Created by: Ambrosia
+ * Created by: Ambrosia & Newgame+ LD
  * Created on: 10/2/2020 (dd/mm/yy)
  * Created for: needing a controller for the UI to show appropriate variables
  * Notes: Dependant on the 'Player' component
@@ -13,24 +13,28 @@ public class PlayerUIController : MonoBehaviour
 {
 	[Header("Components")]
 	[SerializeField] Image _HealthCircle;
+	[SerializeField] Gradient _HealthColor;
+	int _ReferenceHealth;	//Newgame+ LD: This is to track if the player has lost or gained HP
+	int _MaxHealth;
 
 	[SerializeField] Text _TotalPikminText;
 	[SerializeField] Text _InSquadText;
 	[SerializeField] Text _OnFieldText;
 	[SerializeField] Text _DayText;
 
-	Player _Player;
+	[SerializeField] Player _Player;
 	PlayerPikminManager _PikminManager;
-	int _MaxHealth;
+
 
 	//[Header("Settings")]
 
 
 	void Awake()
 	{
-		_Player = GetComponent<Player>();
-		_PikminManager = GetComponent<PlayerPikminManager>();
+		//_Player = GetComponent<Player>();
+		_PikminManager = _Player.GetComponent<PlayerPikminManager>();
 		_MaxHealth = _Player.GetMaxHealth();
+		_ReferenceHealth = _Player.GetHealth();
 	}
 
 	void Update()
@@ -45,11 +49,15 @@ public class PlayerUIController : MonoBehaviour
 		{
 			_Player.TakeHealth(10);
 		}
+			
+		if(_Player.GetHealth() < _ReferenceHealth) print("Ouch! I lost some HP!");
+		_ReferenceHealth = _Player.GetHealth();
 
-		float step = (float)_Player.GetHealth() / (float)_MaxHealth;
+		float step = (float)_ReferenceHealth / (float)_MaxHealth;
 		// Sets the fill amount to be a fraction (0 - dead, _MaxHealth - alive)
-		_HealthCircle.fillAmount = step;
-		_HealthCircle.color = Color.Lerp(Color.red, Color.green, step);
+		// Newgame+ LD: I've also added a smooth movement to it like in Pikmin 1, and it uses a gradient now.
+		_HealthCircle.fillAmount = Mathf.MoveTowards(_HealthCircle.fillAmount,step, Time.deltaTime);
+		_HealthCircle.color = _HealthColor.Evaluate(step);
 	}
 
 	void SetPikminStats()
