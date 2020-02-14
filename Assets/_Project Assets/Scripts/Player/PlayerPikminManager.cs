@@ -16,30 +16,76 @@ public class PlayerPikminManager : MonoBehaviour
     [Header("Settings")]
     public float _MaxPikminDistanceForThrow = 5;
 
-    [HideInInspector] public GameObject _ClosestPikmin;
-
-    HashSet<GameObject> _PikminOnField = new HashSet<GameObject>(); // // How many Pikmin there are currently alive
-    int _SquadCount = 0;        // How many Pikmin there are currently in the Player's squad
+    List<GameObject> _PikminOnField = new List<GameObject>(); // // How many Pikmin there are currently alive
+    List<GameObject> _Squad = new List<GameObject>();        // How many Pikmin there are currently in the Player's squad
 
     private void Update()
     {
+        // Check if we've got more than 0 Pikmin in
+        // our squad and we press the Throw key (currently Space)
         if (Input.GetKeyDown(KeyCode.Space) && GetPikminOnFieldCount() > 0)
         {
-            
+            GameObject closestPikmin = null;
+            float closestPikminDistance = _MaxPikminDistanceForThrow;
+
+            // Grab the colliders using our position and a given radius
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, _MaxPikminDistanceForThrow);
+            foreach (var collider in hitColliders)
+            {
+                // Check if the collider's gameobject is a pikmin
+                var pikminComponent = collider.GetComponent<PikminBehavior>();
+                if (pikminComponent != null)
+                {
+                    // Check if they're even in the squad
+                    if (pikminComponent.GetState() != PikminBehavior.States.Formation)
+                        continue;
+
+                    // Assign it on our first run
+                    if (closestPikmin == null)
+                    {
+                        closestPikmin = collider.gameObject;
+                        continue;
+                    }
+
+                    // Grab the distance to the player, compare it against the current max and
+                    // then  assign it based on the result of the if statement
+                    float distanceToPlayer = Vector3.Distance(collider.transform.position, transform.position);
+                    if (distanceToPlayer < closestPikminDistance)
+                    {
+                        closestPikmin = collider.gameObject;
+                        closestPikminDistance = distanceToPlayer;
+                    }
+                }
+            }
+
+            // We've finally got the closest Pikmin
+            if (closestPikmin != null)
+            {
+                // Todo: do this part of the Pikmin throwing... 
+
+                // As an example of what we can do, throw the Pikmin and 
+                // change its state to thrown
+                var pikminComponent = closestPikmin.GetComponent<PikminBehavior>();
+                pikminComponent.RemoveFromSquad();
+                pikminComponent.ChangeState(PikminBehavior.States.Thrown);
+
+                var rigidbody = closestPikmin.GetComponent<Rigidbody>();
+                rigidbody.AddForce(Vector3.up * 1000 + closestPikmin.transform.forward * 500);
+            }
         }
     }
 
     #region Global Setters
     public void AddPikminOnField(GameObject toAdd) => _PikminOnField.Add(toAdd);
-    public void IncrementSquadCount() => _SquadCount++;
+    public void AddToSquad(GameObject toAdd) => _Squad.Add(toAdd);
     public void RemovePikminOnField(GameObject toRem) => _PikminOnField.Remove(toRem);
-    public void DecrementSquadCount() => _SquadCount--;
+    public void RemoveFromSquad(GameObject toRem) => _Squad.Remove(toRem);
     #endregion
 
     #region Global Getters
-    public HashSet<GameObject> GetPikminOnField() => _PikminOnField;
+    public List<GameObject> GetPikminOnField() => _PikminOnField;
     public int GetPikminOnFieldCount() => _PikminOnField.Count;
-    public int GetSquadCount() => _SquadCount;
+    public int GetSquadCount() => _Squad.Count;
     public Transform GetFormationCenter() => _FormationCenter;
     #endregion
 }

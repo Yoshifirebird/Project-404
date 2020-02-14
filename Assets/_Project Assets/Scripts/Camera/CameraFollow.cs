@@ -23,39 +23,37 @@ public class CameraFollow : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] AudioClip _ChangeZoomAudio;
-    AudioSource _AudioSource;
 
     [Header("Movement / Camera Specific")]
     [SerializeField] float _FollowSpeed;
     [SerializeField] float _FOVChangeSpeed;
-    [SerializeField] float _ResetRotationTimeLimit = 2;
 
     [Header("Rotation")]
-    [SerializeField] float _LookAtTargetSpeed;
-    [SerializeField] float _RotationCircleSpeed;
-    [SerializeField] float _ResetRotationSpeed;
+    [SerializeField] float _LookAtRotationSpeed;
+
+    [Header("Controlled Rotation")]
+    [SerializeField] float _CameraResetSpeed;
     [SerializeField] float _TriggerRotationSpeed;
 
+    CFCameraVars _CurrentHolder;
+    AudioSource _AudioSource;
     Transform _PlayerPosition;
     PlayerMovementController _MovementController;
-    int _HolderIndex;
-    CFCameraVars _CurrentHolder;
     float _OrbitRadius;
     float _GroundOffset;
-    float _ResetRotationTimer;
+    int _HolderIndex;
     bool _TopView = false;
 
     CameraFollow()
     {
+        // Movement / Camera Specific
         _FollowSpeed = 5;
         _FOVChangeSpeed = 2;
-
-        _LookAtTargetSpeed = 5;
-        _RotationCircleSpeed = 7.5f;
-        _ResetRotationSpeed = 5;
+        // Rotation
+        _LookAtRotationSpeed = 5;
+        // Controlled Rotation
+        _CameraResetSpeed = 5;
         _TriggerRotationSpeed = 2;
-
-        _ResetRotationTimer = 0;
     }
 
     void Awake()
@@ -82,11 +80,13 @@ public class CameraFollow : MonoBehaviour
         // Rotate the camera
         transform.rotation = Quaternion.Lerp(transform.rotation,
                                              Quaternion.LookRotation(_PlayerPosition.position - transform.position),
-                                             _LookAtTargetSpeed * Time.deltaTime);
+                                             _LookAtRotationSpeed * Time.deltaTime);
 
         ApplyCurrentHolder();
         HandleControls();
     }
+
+    float _TimeCounter = 0;
 
     /// <summary>
     /// Applies the CurrentHolder variable to the Camera's variables
@@ -98,6 +98,7 @@ public class CameraFollow : MonoBehaviour
         _GroundOffset = Mathf.Lerp(_GroundOffset, _CurrentHolder._Offset.y + _PlayerPosition.transform.position.y, _FOVChangeSpeed * Time.deltaTime);
 
         // Calculates the position the Camera wants to be in, using Ground Offset and Orbit Radius
+
         Vector3 targetPosition = (transform.position - _PlayerPosition.transform.position).normalized
                                  * Mathf.Abs(_OrbitRadius)
                                  + _PlayerPosition.transform.position;
@@ -128,7 +129,7 @@ public class CameraFollow : MonoBehaviour
         }
 
         // Make sure the player doesn't hold the button for longer than intended
-        if (Input.GetButton("CameraReset") && _ResetRotationTimer < _ResetRotationTimeLimit)
+        if (Input.GetButton("CameraReset"))
         {
             // Gets the difference between the two rotations, and then makes sure it doesn't overrotate
             float difference = transform.eulerAngles.y - _MovementController._RotationBeforeIdle.eulerAngles.y;
@@ -136,13 +137,8 @@ public class CameraFollow : MonoBehaviour
                 difference -= 360;
             else if (difference < -180)
                 difference += 360;
-
-            RotateView(difference * _ResetRotationSpeed * Time.deltaTime);
-            _ResetRotationTimer += Time.deltaTime;
-        }
-        else if (Input.GetButtonUp("CameraReset"))
-        {
-            _ResetRotationTimer = 0;
+            // Invert the difference, convert it to radians and apply the camera reset speed
+            RotateView(-difference * _CameraResetSpeed * Mathf.Deg2Rad);
         }
     }
 
@@ -150,12 +146,7 @@ public class CameraFollow : MonoBehaviour
     /// Moves Camera in a given direction
     /// </summary>
     /// <param name="direction"></param>
-    void RotateView(float direction)
-    {
-        transform.position = Vector3.Lerp(transform.position,
-                                          transform.position + transform.right * direction,
-                                          _RotationCircleSpeed * Time.deltaTime);
-    }
+    void RotateView(float angle) => transform.RotateAround(_PlayerPosition.position, Vector3.up, angle);
 
     /// <summary>
     /// Changes zoom level based on the holder index, and plays audio

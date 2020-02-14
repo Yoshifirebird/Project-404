@@ -48,7 +48,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     }
 
     void Update()
-    {
+    { 
         switch (_State)
         {
             case States.Idle:
@@ -81,6 +81,19 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         }
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        if (_State == States.Thrown)
+        {
+            // See if there's anything beneath us
+            if (Physics.Raycast(transform.position, Vector3.down, 1f))
+            {
+                _State = States.Idle;
+                // CHECK BENEATH US, TODO
+            }
+        }
+    }
+
     void HandleIdle()
     {
         /* stubbed
@@ -97,13 +110,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     void HandleFormation()
     {
         MoveTowards(_PlayerPikminManager.GetFormationCenter().position, GetSpeed(_Data._HeadType));
-
-        // Handle the closest pikmin stuff for throwing for the Player
-        float distanceToPlayer = Vector3.Distance(transform.position, _Player.transform.position);
-        if (distanceToPlayer <= _PlayerPikminManager._MaxPikminDistanceForThrow)
-        {
-
-        }
     }
 
     void HandleAttacking()
@@ -184,7 +190,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         if (_State != States.Formation)
         {
             ChangeState(States.Formation);
-            _Player.GetPikminManager().IncrementSquadCount();
+            _Player.GetPikminManager().AddToSquad(gameObject);
         }
     }
 
@@ -193,7 +199,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         if (_State == States.Formation)
         {
             ChangeState(States.Idle);
-            _Player.GetPikminManager().DecrementSquadCount();
+            _Player.GetPikminManager().RemoveFromSquad(gameObject);
         }
     }
 
@@ -205,5 +211,9 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         _PreviousState = _State;
         _State = setTo;
     }
+    #endregion
+
+    #region Getters
+    public States GetState() => _State;
     #endregion
 }
