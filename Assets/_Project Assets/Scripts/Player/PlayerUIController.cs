@@ -51,7 +51,6 @@ public class PlayerUIController : MonoBehaviour
 
 		float step = (float)_ReferenceHealth / (float)_MaxHealth;
 		// Sets the fill amount to be a fraction (0 - dead, _MaxHealth - alive)
-		// Newgame+ LD: I've also added a smooth movement to it like in Pikmin 1, and it uses a gradient now.
 		_HealthCircle.fillAmount = Mathf.MoveTowards(_HealthCircle.fillAmount,step, Time.deltaTime);
 		_HealthCircle.color = _HealthColor.Evaluate(step);
 	}
@@ -61,6 +60,6 @@ public class PlayerUIController : MonoBehaviour
 		_TotalPikminText.text = PlayerStats._TotalPikmin.ToString();
 		_DayText.text = PlayerStats._Day.ToString();
 		_InSquadText.text = _PikminManager.GetSquadCount().ToString();
-		_OnFieldText.text = _PikminManager.GetPikminOnField().ToString();
+		_OnFieldText.text = _PikminManager.GetPikminOnFieldCount().ToString();
 	}
 }

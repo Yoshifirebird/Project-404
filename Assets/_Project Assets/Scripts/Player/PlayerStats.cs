@@ -8,6 +8,5 @@
 public static class PlayerStats
 {
     public static int _Day = 0;
-
     public static int _TotalPikmin = 0;
 }

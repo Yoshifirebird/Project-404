@@ -5,11 +5,11 @@
  * Created for: making the Pikmin have Artificial Intelligence
  */
 
- /* Barebones basic Pikmin behaviour
-  * Idle: look around, stay still, if an object it can interact with touches it, start interacting with it
-  * Formation: stay behind player, follow player if walks too far away, look at player
-  * Attacking: attack object, check if still attacking (if not then go to idle)
-  */
+/* Barebones basic Pikmin behaviour
+ * Idle: look around, stay still, if an object it can interact with touches it, start interacting with it
+ * Formation: stay behind player, follow player if walks too far away, look at player
+ * Attacking: attack object, check if still attacking (if not then go to idle)
+ */
 
 using UnityEngine;
 
@@ -22,11 +22,10 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     [SerializeField] PikminSO _Data;
     States _State;
     States _PreviousState;
-    Rigidbody _Rigidbody;
 
+    Rigidbody _Rigidbody;
     Player _Player;
     PlayerPikminManager _PlayerPikminManager;
-
 
     void IPooledObject.OnObjectSpawn()
     {
@@ -40,8 +39,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             _Rigidbody = GetComponent<Rigidbody>();
 
         // Add to the Pikmin on the field and the total amount of Pikmin
-        var pikminManager = _Player.GetPikminManager();
-        pikminManager.IncrementPikminOnField();
+        _PlayerPikminManager.AddPikminOnField(gameObject);
         PlayerStats._TotalPikmin++;
 
         // Reset state machines
@@ -81,17 +79,11 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             default:
                 break;
         }
-
-        //Ignore this, only for testing purposes.
-        if(Input.GetKeyDown(KeyCode.Space) && _PlayerPikminManager.GetSquadCount() > 0){
-           ChangeState(States.Thrown);
-        }
     }
 
     void HandleIdle()
     {
-        // stubbed
-        /*
+        /* stubbed
         Set general regions for Pikmin to be dismissed into (not unlike formation center); likely
         dynamic regions based on the surrounding terrain (don't dismiss non-blue into water, etc.).
         If not dynamic, shift around which Pikmin are dismissed into which region.
@@ -105,6 +97,13 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     void HandleFormation()
     {
         MoveTowards(_PlayerPikminManager.GetFormationCenter().position, GetSpeed(_Data._HeadType));
+
+        // Handle the closest pikmin stuff for throwing for the Player
+        float distanceToPlayer = Vector3.Distance(transform.position, _Player.transform.position);
+        if (distanceToPlayer <= _PlayerPikminManager._MaxPikminDistanceForThrow)
+        {
+
+        }
     }
 
     void HandleAttacking()
@@ -148,28 +147,28 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         Create triangle based on x and z coords (abs of distance x from player to whistle cursor),
         generate some arbitrary height value y based on x, and calculate atan(y/x). 
         */
-        
+
     }
 
     void MoveTowards(Vector3 towards, float speed)
     {
         // cache the direction of the player
-        var direction = (towards - transform.position);
+        Vector3 direction = (towards - transform.position);
 
         // calculate the velocity needed
-        var velocity = (direction.normalized) * speed;
+        Vector3 velocity = direction.normalized * speed;
         velocity.y = _Rigidbody.velocity.y;
         _Rigidbody.velocity = velocity;
 
         direction.y = 0;
         // look at the direction of the player and smoothly interpolate to it
-        var rotation = Quaternion.LookRotation(direction);
+        Quaternion rotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Lerp(transform.rotation, rotation, _Data._RotationSpeed * Time.deltaTime);
     }
 
     float GetSpeed(Headtype headtype)
     {
-        switch(headtype)
+        switch (headtype)
         {
             case Headtype.Bud:
                 return 7;
