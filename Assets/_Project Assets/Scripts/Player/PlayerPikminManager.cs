@@ -13,8 +13,9 @@ public class PlayerPikminManager : MonoBehaviour
     [Header("Components")]
     [SerializeField] Transform _FormationCenter;
 
-    [Header("Settings")]
-    public float _MaxPikminDistanceForThrow = 5;
+    [Header("Throwing")]
+    [SerializeField] float _PikminGrabRadius = 5;
+    [SerializeField] float _VerticalMaxGrabRadius = 1.5f;
 
     List<GameObject> _PikminOnField = new List<GameObject>(); // // How many Pikmin there are currently alive
     List<GameObject> _Squad = new List<GameObject>();        // How many Pikmin there are currently in the Player's squad
@@ -28,10 +29,10 @@ public class PlayerPikminManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && GetPikminOnFieldCount() > 0)
         {
             GameObject closestPikmin = null;
-            float closestPikminDistance = _MaxPikminDistanceForThrow;
+            float closestPikminDistance = _PikminGrabRadius;
 
             // Grab the colliders using our position and a given radius
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, _MaxPikminDistanceForThrow);
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, _PikminGrabRadius);
             foreach (var collider in hitColliders)
             {
                 // Check if the collider's gameobject is a pikmin
@@ -42,17 +43,18 @@ public class PlayerPikminManager : MonoBehaviour
                     if (pikminComponent.GetState() != PikminBehavior.States.Formation)
                         continue;
 
+                    // Vertical check, make sure Pikmin don't get thrown if too far up
+                    // or downwards from the position of the Player
+                    float verticalDistance = Mathf.Abs(transform.position.y - collider.transform.position.y);
+                    if (verticalDistance > _VerticalMaxThrowRadius)
+                        continue;
+
                     // Assign it on our first run
                     if (closestPikmin == null)
                     {
                         closestPikmin = collider.gameObject;
                         continue;
                     }
-
-                    // Vertical check, make sure Pikmin don't get thrown if too far up
-                    // or downwards from the position of the Player
-                    if (Mathf.Abs(collider.transform.position.y - transform.position.y) >= 1)
-                        continue;
 
                     // Grab the distance to the player, compare it against the current max and
                     // then  assign it based on the result of the if statement
