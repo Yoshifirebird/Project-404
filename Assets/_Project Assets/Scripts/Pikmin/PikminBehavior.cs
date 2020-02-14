@@ -16,17 +16,17 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PikminBehavior : MonoBehaviour, IPooledObject
 {
-    public enum States { Idle, Formation, Attacking, Dead }
+    public enum States { Idle, Formation, Attacking, Dead, Thrown }
 
     [Header("Components")]
     [SerializeField] PikminSO _Data;
-
     States _State;
     States _PreviousState;
     Rigidbody _Rigidbody;
 
     Player _Player;
     PlayerPikminManager _PlayerPikminManager;
+
 
     void IPooledObject.OnObjectSpawn()
     {
@@ -62,6 +62,9 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             case States.Dead:
                 HandleDeath();
                 break;
+            case States.Thrown:
+                HandleThrown();
+                break;
             default:
                 break;
         }
@@ -78,11 +81,25 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             default:
                 break;
         }
+
+        //Ignore this, only for testing purposes.
+        if(Input.GetKeyDown(KeyCode.Space) && _PlayerPikminManager.GetSquadCount() > 0){
+           ChangeState(States.Thrown);
+        }
     }
 
     void HandleIdle()
     {
         // stubbed
+        /*
+        Set general regions for Pikmin to be dismissed into (not unlike formation center); likely
+        dynamic regions based on the surrounding terrain (don't dismiss non-blue into water, etc.).
+        If not dynamic, shift around which Pikmin are dismissed into which region.
+
+        Simply move towards region. If interactable objects present (pellets, enemies, etc.),
+        check for object's "territorial radius" and move towards to perform appropriate interaction
+        (attack, carry, drink nectar, etc.).
+        */
     }
 
     void HandleFormation()
@@ -93,6 +110,24 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     void HandleAttacking()
     {
         // stubbed
+
+        /*
+        Psuedo-code:
+            if(Idle && InEnemyRadius){
+                MoveTowards(Enemy);
+                //Similar code to below, position and collision stuff different to account for ground-based
+                //attack, etc.
+            }
+
+            if(Thrown){
+                DetectEnemyCollision;
+                Position = PointOnEnemyBody;
+                DecreaseEnemyHealth;
+                //Function involving enemy DEF, Pikmin ATK (weight*type?), and time (most basic function layout)
+                //Deplete health every dt seconds, amount calculated by above values.
+                //Maybe lock on if very close to enemy collider (similar to purples when stunning in 2).
+            }
+         */
     }
 
     void HandleDeath()
@@ -104,6 +139,16 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         PlayerStats._TotalPikmin--;
         // TODO: handle death animation + timer later
         ObjectPooler.Instance.StoreInPool("Pikmin");
+    }
+
+    void HandleThrown()
+    {
+        /*
+        Need to get whistle position. Calculate using trajectory formulas (get angle via atan).
+        Create triangle based on x and z coords (abs of distance x from player to whistle cursor),
+        generate some arbitrary height value y based on x, and calculate atan(y/x). 
+        */
+        
     }
 
     void MoveTowards(Vector3 towards, float speed)
@@ -155,6 +200,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     #region Setters
     public void SetData(PikminSO setTo) => _Data = setTo;
+
     public void ChangeState(States setTo)
     {
         _PreviousState = _State;
