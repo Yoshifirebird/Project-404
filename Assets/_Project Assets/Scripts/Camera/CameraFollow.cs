@@ -86,8 +86,6 @@ public class CameraFollow : MonoBehaviour
         HandleControls();
     }
 
-    float _TimeCounter = 0;
-
     /// <summary>
     /// Applies the CurrentHolder variable to the Camera's variables
     /// </summary>
