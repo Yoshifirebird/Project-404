@@ -24,6 +24,11 @@ public class PlayerPikminManager : MonoBehaviour
 
     private void Update()
     {
+        HandleThrowing();
+    }
+
+    void HandleThrowing()
+    {
         // Check if we've got more than 0 Pikmin in
         // our squad and we press the Throw key (currently Space)
         if (Input.GetKeyDown(KeyCode.Space) && GetPikminOnFieldCount() > 0)
