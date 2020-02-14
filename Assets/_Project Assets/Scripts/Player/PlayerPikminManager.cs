@@ -19,6 +19,8 @@ public class PlayerPikminManager : MonoBehaviour
     List<GameObject> _PikminOnField = new List<GameObject>(); // // How many Pikmin there are currently alive
     List<GameObject> _Squad = new List<GameObject>();        // How many Pikmin there are currently in the Player's squad
 
+    GameObject _PikminInHand;
+
     private void Update()
     {
         // Check if we've got more than 0 Pikmin in
@@ -61,17 +63,25 @@ public class PlayerPikminManager : MonoBehaviour
             // We've finally got the closest Pikmin
             if (closestPikmin != null)
             {
-                // Todo: do this part of the Pikmin throwing... 
-
-                // As an example of what we can do, throw the Pikmin and 
-                // change its state to thrown
-                var pikminComponent = closestPikmin.GetComponent<PikminBehavior>();
-                pikminComponent.RemoveFromSquad();
-                pikminComponent.ChangeState(PikminBehavior.States.Thrown);
-
-                var rigidbody = closestPikmin.GetComponent<Rigidbody>();
-                rigidbody.AddForce(Vector3.up * 1000 + closestPikmin.transform.forward * 500);
+                _PikminInHand = closestPikmin;
             }
+        }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            _PikminInHand.transform.position = transform.position + transform.right;
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        { 
+            // Todo: do this part of the Pikmin throwing... 
+
+            // As an example of what we can do, throw the Pikmin and 
+            // change its state to thrown
+            var pikminComponent = _PikminInHand.GetComponent<PikminBehavior>();
+            pikminComponent.RemoveFromSquad();
+            pikminComponent.ChangeState(PikminBehavior.States.Thrown);
+
+            var rigidbody = _PikminInHand.GetComponent<Rigidbody>();
+            rigidbody.AddForce(Vector3.up * 1000 + transform.forward * 500);
         }
     }
 
