@@ -49,6 +49,11 @@ public class PlayerPikminManager : MonoBehaviour
                         continue;
                     }
 
+                    // Vertical check, make sure Pikmin don't get thrown if too far up
+                    // or downwards from the position of the Player
+                    if (Mathf.Abs(collider.transform.position.y - transform.position.y) >= 1)
+                        continue;
+
                     // Grab the distance to the player, compare it against the current max and
                     // then  assign it based on the result of the if statement
                     float distanceToPlayer = Vector3.Distance(collider.transform.position, transform.position);
