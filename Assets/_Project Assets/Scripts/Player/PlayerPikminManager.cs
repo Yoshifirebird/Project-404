@@ -46,7 +46,7 @@ public class PlayerPikminManager : MonoBehaviour
                     // Vertical check, make sure Pikmin don't get thrown if too far up
                     // or downwards from the position of the Player
                     float verticalDistance = Mathf.Abs(transform.position.y - collider.transform.position.y);
-                    if (verticalDistance > _VerticalMaxThrowRadius)
+                    if (verticalDistance > _VerticalMaxGrabRadius)
                         continue;
 
                     // Assign it on our first run
