@@ -69,6 +69,7 @@ public class CameraFollow : MonoBehaviour
             Debug.Break();
         }
 
+        // Calculate the middle of the camera array, and access variables from the middle
         _HolderIndex = Mathf.FloorToInt(_DefaultHolders.Length / 2);
         _CurrentHolder = _DefaultHolders[_HolderIndex];
         _OrbitRadius = _CurrentHolder._Offset.x;
@@ -77,7 +78,7 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
-        // Rotate the camera
+        // Rotate the camera to look at the Player
         transform.rotation = Quaternion.Lerp(transform.rotation,
                                              Quaternion.LookRotation(_PlayerPosition.position - transform.position),
                                              _LookAtRotationSpeed * Time.deltaTime);
@@ -91,12 +92,12 @@ public class CameraFollow : MonoBehaviour
     /// </summary>
     void ApplyCurrentHolder()
     {
+        // Smoothly change the OrbitRadius, GroundOffset and the Camera's field of view
         _MainCamera.fieldOfView = Mathf.Lerp(_MainCamera.fieldOfView, _CurrentHolder._FOV, _FOVChangeSpeed * Time.deltaTime);
         _OrbitRadius = Mathf.Lerp(_OrbitRadius, _CurrentHolder._Offset.x, _FOVChangeSpeed * Time.deltaTime);
         _GroundOffset = Mathf.Lerp(_GroundOffset, _CurrentHolder._Offset.y + _PlayerPosition.transform.position.y, _FOVChangeSpeed * Time.deltaTime);
 
         // Calculates the position the Camera wants to be in, using Ground Offset and Orbit Radius
-
         Vector3 targetPosition = (transform.position - _PlayerPosition.transform.position).normalized
                                  * Mathf.Abs(_OrbitRadius)
                                  + _PlayerPosition.transform.position;
@@ -109,6 +110,8 @@ public class CameraFollow : MonoBehaviour
     /// </summary>
     void HandleControls()
     {
+        // Check if we're holding either the Left or Right trigger and
+        // rotate around the player using TriggerRotationSpeed if so
         if (Input.GetButton("RightTrigger"))
             RotateView(_TriggerRotationSpeed);
         else if (Input.GetButton("LeftTrigger"))
@@ -119,14 +122,12 @@ public class CameraFollow : MonoBehaviour
             _HolderIndex++;
             ApplyChangedZoomLevel(_TopView ? _TopViewHolders : _DefaultHolders);
         }
-
         if (Input.GetButtonDown("CameraAngle"))
         {
             ApplyChangedZoomLevel(_TopView ? _DefaultHolders : _TopViewHolders);
-            _TopView = !_TopView;
+            _TopView = !_TopView; // Invert if we're using the TopView
         }
 
-        // Make sure the player doesn't hold the button for longer than intended
         if (Input.GetButton("CameraReset"))
         {
             // Gets the difference between the two rotations, and then makes sure it doesn't overrotate
@@ -141,9 +142,9 @@ public class CameraFollow : MonoBehaviour
     }
 
     /// <summary>
-    /// Moves Camera in a given direction
+    /// Rotates the camera using a given angle around the Player
     /// </summary>
-    /// <param name="direction"></param>
+    /// <param name="angle"></param>
     void RotateView(float angle) => transform.RotateAround(_PlayerPosition.position, Vector3.up, angle);
 
     /// <summary>
