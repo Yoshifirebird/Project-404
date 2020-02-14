@@ -764,6 +764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _FormationCenter: {fileID: 1910141952}
+  _MaxPikminDistanceForThrow: 5
 --- !u!1 &838713200
 GameObject:
   m_ObjectHideFlags: 0
@@ -1769,11 +1770,9 @@ MonoBehaviour:
   _ChangeZoomAudio: {fileID: 8300000, guid: f6196303e1515ae41bf22a25947f9bf4, type: 3}
   _FollowSpeed: 7.5
   _FOVChangeSpeed: 3
-  _ResetRotationTimeLimit: 2
-  _LookAtTargetSpeed: 7.5
-  _RotationCircleSpeed: 7.5
-  _ResetRotationSpeed: 5
-  _TriggerRotationSpeed: 2
+  _LookAtRotationSpeed: 5
+  _CameraResetSpeed: 2.5
+  _TriggerRotationSpeed: 1
 --- !u!82 &1688596380
 AudioSource:
   m_ObjectHideFlags: 0
