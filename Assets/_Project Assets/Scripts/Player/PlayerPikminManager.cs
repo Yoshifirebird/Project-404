@@ -66,24 +66,30 @@ public class PlayerPikminManager : MonoBehaviour
                 _PikminInHand = closestPikmin;
             }
         }
-        if (Input.GetKey(KeyCode.Space))
+
+        // The rest of the throwing code all depends if
+        // the PikminInHand is null or not
+        if (_PikminInHand != null)
         {
-            _PikminInHand.transform.position = transform.position + transform.right;
-        }
-        if (Input.GetKeyUp(KeyCode.Space))
-        { 
-            // Todo: do this part of the Pikmin throwing... 
+            if (Input.GetKey(KeyCode.Space))
+            {
+                _PikminInHand.transform.position = transform.position + transform.right;
+            }
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                // Todo: do this part of the Pikmin throwing... 
 
-            // As an example of what we can do, throw the Pikmin and 
-            // change its state to thrown
-            var pikminComponent = _PikminInHand.GetComponent<PikminBehavior>();
-            pikminComponent.RemoveFromSquad();
-            pikminComponent.ChangeState(PikminBehavior.States.Thrown);
+                // As an example of what we can do, throw the Pikmin and 
+                // change its state to thrown
+                var pikminComponent = _PikminInHand.GetComponent<PikminBehavior>();
+                pikminComponent.RemoveFromSquad();
+                pikminComponent.ChangeState(PikminBehavior.States.Thrown);
 
-            var rigidbody = _PikminInHand.GetComponent<Rigidbody>();
-            rigidbody.AddForce(Vector3.up * 1000 + transform.forward * 500);
+                var rigidbody = _PikminInHand.GetComponent<Rigidbody>();
+                rigidbody.AddForce(Vector3.up * 1000 + transform.forward * 500);
 
-            _PikminInHand = null;
+                _PikminInHand = null;
+            }
         }
     }
 
