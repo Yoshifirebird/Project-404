@@ -82,6 +82,8 @@ public class PlayerPikminManager : MonoBehaviour
 
             var rigidbody = _PikminInHand.GetComponent<Rigidbody>();
             rigidbody.AddForce(Vector3.up * 1000 + transform.forward * 500);
+
+            _PikminInHand = null;
         }
     }
 
