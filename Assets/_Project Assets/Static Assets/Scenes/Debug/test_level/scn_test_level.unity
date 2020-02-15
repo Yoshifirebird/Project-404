@@ -855,6 +855,8 @@ MonoBehaviour:
   _ThrowingGravity: -9.81
   _LaunchAngle: 50
   _WhistleTransform: {fileID: 1377970439}
+  _StartingOffset: 1.5
+  _DistancePerPikmin: 0.03
 --- !u!1 &838713200
 GameObject:
   m_ObjectHideFlags: 0
