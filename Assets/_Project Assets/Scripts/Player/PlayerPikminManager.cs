@@ -1,5 +1,4 @@
-﻿using System;
-/*
+﻿/*
  * PlayerPikminManager.cs
  * Created by: Ambrosia
  * Created on: 12/2/2020 (dd/mm/yy)
@@ -21,6 +20,10 @@ public class PlayerPikminManager : MonoBehaviour
     [SerializeField] float _LaunchAngle = 50.0f;
     [SerializeField] Transform _WhistleTransform;
 
+    [Header("Formation")]
+    [SerializeField] float _StartingOffset;
+    [SerializeField] float _DistancePerPikmin; // How much is added to the offset for each pikmin
+
     List<GameObject> _PikminOnField = new List<GameObject>(); // // How many Pikmin there are currently alive
     List<GameObject> _Squad = new List<GameObject>();        // How many Pikmin there are currently in the Player's squad
 
@@ -29,6 +32,7 @@ public class PlayerPikminManager : MonoBehaviour
     private void Update()
     {
         HandleThrowing();
+        HandleFormation();
     }
 
     void HandleThrowing()
@@ -127,6 +131,12 @@ public class PlayerPikminManager : MonoBehaviour
             }
         }
     }
+
+    void HandleFormation()
+    {
+        _FormationCenter.localPosition = new Vector3(_FormationCenter.localPosition.x, _FormationCenter.localPosition.y, -_StartingOffset - _DistancePerPikmin * _Squad.Count);
+    }
+
 
     #region Global Setters
     public void AddPikminOnField(GameObject toAdd) => _PikminOnField.Add(toAdd);
