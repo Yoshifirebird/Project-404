@@ -17,7 +17,8 @@ public class PlayerPikminManager : MonoBehaviour
     [Header("Throwing")]
     [SerializeField] float _PikminGrabRadius = 5;
     [SerializeField] float _VerticalMaxGrabRadius = 1.5f;
-    [SerializeField] float _Angle = 50.0f;
+    [SerializeField] float _ThrowingGravity = Physics.gravity.y;
+    [SerializeField] float _LaunchAngle = 50.0f;
     [SerializeField] Transform _WhistleTransform;
 
     List<GameObject> _PikminOnField = new List<GameObject>(); // // How many Pikmin there are currently alive
@@ -106,11 +107,11 @@ public class PlayerPikminManager : MonoBehaviour
                 float vd = _WhistleTransform.position.y - _PikminInHand.transform.position.y;
                 float d = Vector3.Distance(pikiPos, whistlePos);
 
-                float g = Physics.gravity.y;
-                float angle = Mathf.Deg2Rad * _Angle;
+                float g = _ThrowingGravity;
+                float angle = Mathf.Deg2Rad * _LaunchAngle;
 
                 //Calculate horizontal and vertical velocity
-                float velX = Mathf.Sqrt(g * d * d / (2.0f * (vd - d * Mathf.Tan(angle))));
+                float velX = Mathf.Sqrt(g * d * d / (2.0f * (vd - (d * Mathf.Tan(angle)))));
                 float velY = velX * Mathf.Tan(angle);
 
                 //Face whistle and convert local velocity to global, and apply it
