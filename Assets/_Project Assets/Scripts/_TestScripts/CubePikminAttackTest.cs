@@ -12,7 +12,7 @@ using UnityEngine.UI;
 public class CubePikminAttackTest : MonoBehaviour, IPikminAttack, IHealth
 {
     [SerializeField] Image _BillboardHealth;
-    [SerializeField] float _HealthCircleSpeed = 7.5;
+    [SerializeField] float _HealthCircleSpeed = 7.5f;
     [SerializeField] int _MaxHealth;
     int _CurrentHealth;
     readonly List<GameObject> _AttachedPikmin = new List<GameObject>();
@@ -21,10 +21,12 @@ public class CubePikminAttackTest : MonoBehaviour, IPikminAttack, IHealth
     void Awake() => _CurrentHealth = _MaxHealth;
     void Update()
     {
+        // Smoothly transition between values to avoid hard changing
         _BillboardHealth.fillAmount = Mathf.Lerp(_BillboardHealth.fillAmount,
                                                  _CurrentHealth / (float)_MaxHealth,
                                                  _HealthCircleSpeed * Time.deltaTime);
 
+        // Check we're dead, if so then detach the pikmin and destroy ourself
         if (_CurrentHealth <= 0)
         {
             foreach (GameObject attached in _AttachedPikmin)
