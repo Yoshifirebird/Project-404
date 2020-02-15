@@ -12,7 +12,7 @@ using UnityEngine.UI;
 public class CubePikminAttackTest : MonoBehaviour, IPikminAttack, IHealth
 {
     [SerializeField] Image _BillboardHealth;
-    [SerializeField] float _HealthCircleSpeed = 5;
+    [SerializeField] float _HealthCircleSpeed = 7.5;
     [SerializeField] int _MaxHealth;
     int _CurrentHealth;
     readonly List<GameObject> _AttachedPikmin = new List<GameObject>();
