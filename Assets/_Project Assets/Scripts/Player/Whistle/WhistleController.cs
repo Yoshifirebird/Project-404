@@ -62,6 +62,7 @@ public class WhistleController : MonoBehaviour
         if (pikminComponent == null)
             return;
 
+        pikminComponent.LatchOntoObject(null);
         pikminComponent.AddToSquad();
     }
 

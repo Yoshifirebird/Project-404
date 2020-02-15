@@ -6,7 +6,7 @@
  */
 
 /* Barebones basic Pikmin behaviour
- * Idle: look around, stay still, if an object it can interact with touches it, start interacting with it
+ * Idle: look around, stay still, if an object it can interact with touches it, start Attacking with it
  * Formation: stay behind player, follow player if walks too far away, look at player
  * Attacking: attack object, check if still attacking (if not then go to idle)
  */
@@ -16,12 +16,21 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PikminBehavior : MonoBehaviour, IPooledObject
 {
-    public enum States { Idle, Formation, Attacking, Dead, Thrown }
+    /* Idle - do nothing as of (15/2/2020)
+     * Formation - move towards formation position
+     * Attacking - general term for attack, grab, etc.
+     * Latched - holding onto another object
+     * Dead - do a few things like destroying itself
+     */
+    public enum States { Idle, Formation, Attacking, Dead, WaitingNull }
 
     [Header("Components")]
     [SerializeField] PikminSO _Data;
     States _State;
     States _PreviousState;
+
+    float _AttackTimer = 0;
+    GameObject _AttackingObject;
 
     Rigidbody _Rigidbody;
     Player _Player;
@@ -45,10 +54,20 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         // Reset state machines
         _State = States.Idle;
         _PreviousState = States.Idle;
+
+        _AttackingObject = null;
     }
 
     void Update()
-    { 
+    {
+        // Check if we've been attacking and we still have a valid attacking object
+        if (_PreviousState == States.Attacking && _AttackingObject != null)
+        {
+            // null out the attacking object and reset the interaction timer
+            _AttackingObject = null;
+            _AttackTimer = 0;
+        }
+
         switch (_State)
         {
             case States.Idle:
@@ -60,9 +79,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             case States.Dead:
                 HandleDeath();
                 break;
-            case States.Thrown:
-                HandleThrown();
-                break;
+            case States.WaitingNull:
             default:
                 break;
         }
@@ -83,15 +100,18 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void OnCollisionEnter(Collision collision)
     {
-        if (_State == States.Thrown)
+        // If we're being thrown, or other
+        if (_State == States.WaitingNull)
         {
             // See if there's anything beneath us
             if (Physics.Raycast(transform.position, Vector3.down, 1f))
             {
-                _State = States.Idle;
+                ChangeState(States.Idle);
                 _Rigidbody.velocity = Vector3.zero;
-                // CHECK BENEATH US, TODO
             }
+
+            // And check if we can attack
+            CheckForAttack(collision.gameObject);
         }
     }
 
@@ -108,33 +128,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         */
     }
 
-    void HandleFormation()
-    {
-        MoveTowards(_PlayerPikminManager.GetFormationCenter().position, GetSpeed(_Data._HeadType));
-    }
-
-    void HandleAttacking()
-    {
-        // stubbed
-
-        /*
-        Psuedo-code:
-            if(Idle && InEnemyRadius){
-                MoveTowards(Enemy);
-                //Similar code to below, position and collision stuff different to account for ground-based
-                //attack, etc.
-            }
-
-            if(Thrown){
-                DetectEnemyCollision;
-                Position = PointOnEnemyBody;
-                DecreaseEnemyHealth;
-                //Function involving enemy DEF, Pikmin ATK (weight*type?), and time (most basic function layout)
-                //Deplete health every dt seconds, amount calculated by above values.
-                //Maybe lock on if very close to enemy collider (similar to purples when stunning in 2).
-            }
-         */
-    }
+    void HandleFormation() => MoveTowards(_PlayerPikminManager.GetFormationCenter().position, GetSpeed(_Data._HeadType));
 
     void HandleDeath()
     {
@@ -147,15 +141,53 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         ObjectPooler.Instance.StoreInPool("Pikmin");
     }
 
-    void HandleThrown()
+    #region Attacking
+    void HandleAttacking()
     {
-        /*
-        Need to get whistle position. Calculate using trajectory formulas (get angle via atan).
-        Create triangle based on x and z coords (abs of distance x from player to whistle cursor),
-        generate some arbitrary height value y based on x, and calculate atan(y/x). 
-        */
+        // If the thing we were Attacking with doesn't exist anymore
+        if (_AttackingObject == null)
+        {
+            // Remove ourself from the attached object
+            LatchOntoObject(null);
+            ChangeState(States.Idle);
+            return;
+        }
 
+        // Increment the timer to check if we can attack again
+        _AttackTimer += Time.deltaTime;
+        if (_AttackTimer < _Data._TimeBetweenAttacks)
+            return;
+
+        // We can attack, so grab the PikminAttack component and attack!
+        _AttackingObject.GetComponent<IPikminAttack>().Attack(gameObject, _Data._AttackDamage);
+        // Reset the timer as we've attacked
+        _AttackTimer = 0;
     }
+
+    void CheckForAttack(GameObject toCheck)
+    {
+        // Check if the object in question has the pikminattack component
+        var interactable = toCheck.GetComponent<IPikminAttack>();
+        if (interactable != null)
+        {
+            // It does, we can attack!
+            // Set our state to attacking, assign the attack variables and latch!
+            ChangeState(States.Attacking);
+            _AttackingObject = toCheck;
+            LatchOntoObject(toCheck.transform);
+            interactable.OnAttach(gameObject);
+        }
+    }
+
+    public void LatchOntoObject(Transform parent)
+    { 
+        transform.parent = parent;
+        _Rigidbody.isKinematic = parent != null;
+        GetComponent<Collider>().isTrigger = parent != null;
+    }
+    #endregion
+
+    #region General Purpose Useful Functions
 
     void MoveTowards(Vector3 towards, float speed)
     {
@@ -186,10 +218,16 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         };
     }
 
+    #region Squad
     public void AddToSquad()
     {
-        if (_State != States.Formation)
+        if (_State != States.Formation && _State != States.WaitingNull)
         {
+            if (_AttackingObject != null)
+            {
+                LatchOntoObject(null);
+            }
+
             ChangeState(States.Formation);
             _Player.GetPikminManager().AddToSquad(gameObject);
         }
@@ -203,6 +241,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             _Player.GetPikminManager().RemoveFromSquad(gameObject);
         }
     }
+    #endregion
 
     #region Setters
     public void SetData(PikminSO setTo) => _Data = setTo;
@@ -211,10 +250,14 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     {
         _PreviousState = _State;
         _State = setTo;
+
+        if (transform.parent != null)
+            transform.parent = null;
     }
     #endregion
 
     #region Getters
     public States GetState() => _State;
+    #endregion
     #endregion
 }
