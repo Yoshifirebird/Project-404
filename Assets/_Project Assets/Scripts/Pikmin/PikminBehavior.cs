@@ -49,7 +49,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
         // Add to the Pikmin on the field and the total amount of Pikmin
         _PlayerPikminManager.AddPikminOnField(gameObject);
-        PlayerStats._TotalPikmin++;
+        PlayerStats.IncrementTotal(_Data._Colour);
 
         // Reset state machines
         _State = States.Idle;
@@ -136,7 +136,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         if (_PreviousState == States.Formation)
             RemoveFromSquad();
 
-        PlayerStats._TotalPikmin--;
+        PlayerStats.DecrementTotal(_Data._Colour);
         // TODO: handle death animation + timer later
         ObjectPooler.Instance.StoreInPool("Pikmin");
     }
