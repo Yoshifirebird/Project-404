@@ -46,10 +46,10 @@ public class WhistleController : MonoBehaviour
             position.y += _YAxisOffset;
             position -= _Player.position;
             position = Vector3.ClampMagnitude(position, _MaxDistance) + _Player.position;
+            
             if(Physics.Raycast(position, Vector3.down, out RaycastHit point, Mathf.Infinity, _GroundLayer.value, QueryTriggerInteraction.Ignore))
             {
-                position = point.point;
-                transform.position = position;
+                transform.position = point.point;
             }
         }
 
