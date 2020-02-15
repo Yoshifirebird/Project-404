@@ -766,6 +766,8 @@ MonoBehaviour:
   _FormationCenter: {fileID: 1910141952}
   _PikminGrabRadius: 5
   _VerticalMaxGrabRadius: 1.5
+  _Angle: 50
+  _WhistleTransform: {fileID: 1377970439}
 --- !u!1 &838713200
 GameObject:
   m_ObjectHideFlags: 0
