@@ -92,10 +92,6 @@ public class PlayerPikminManager : MonoBehaviour
             }
             if (Input.GetKeyUp(KeyCode.Space))
             {
-                // Todo: do this part of the Pikmin throwing... 
-
-                // As an example of what we can do, throw the Pikmin and 
-                // change its state to thrown
                 var pikminComponent = _PikminInHand.GetComponent<PikminBehavior>();
                 pikminComponent.RemoveFromSquad();
                 pikminComponent.ChangeState(PikminBehavior.States.Thrown);
@@ -103,29 +99,30 @@ public class PlayerPikminManager : MonoBehaviour
                 var rigidbody = _PikminInHand.GetComponent<Rigidbody>();
 
                 //Use Vector3s with X and Z coordinates only to calculate distance between Pikmin and whistle                
-                Vector3 whistlePos = new Vector3(_WhistleTransform.position.x, 0.0f, _WhistleTransform.position.z);
-                Vector3 pikiPos = new Vector3(rigidbody.position.x, 0.0f, rigidbody.position.z);
+                Vector3 whistlePos = new Vector3(_WhistleTransform.position.x, 0, _WhistleTransform.position.z);
+                Vector3 pikiPos = new Vector3(_PikminInHand.transform.position.x, 0, _PikminInHand.transform.position.z);
 
                 //Calculate vertical and horizontal distance between Pikmin and whistle
-                float vd = _WhistleTransform.position.y - rigidbody.position.y;
+                float vd = _WhistleTransform.position.y - _PikminInHand.transform.position.y;
                 float d = Vector3.Distance(pikiPos, whistlePos);
 
-                float g = Physics.gravity.y;                
+                float g = Physics.gravity.y;
                 float angle = Mathf.Deg2Rad * _Angle;
 
                 //Calculate horizontal and vertical velocity
-                float velX = Mathf.Sqrt(g*d*d/(2.0f*(vd-d*Mathf.Tan(angle))));
+                float velX = Mathf.Sqrt(g * d * d / (2.0f * (vd - d * Mathf.Tan(angle))));
                 float velY = velX * Mathf.Tan(angle);
-                
-                //Face whistle and convert local velocity to global
-                rigidbody.transform.LookAt(whistlePos);
-                rigidbody.velocity = rigidbody.transform.TransformDirection(new Vector3(0.0f, velY, velX));  
+
+                //Face whistle and convert local velocity to global, and apply it
+                transform.LookAt(new Vector3(whistlePos.x, transform.position.y, whistlePos.z));
+                _PikminInHand.transform.LookAt(new Vector3(whistlePos.x, _PikminInHand.transform.position.y, whistlePos.z));
+                rigidbody.velocity = _PikminInHand.transform.TransformDirection(new Vector3(0.0f, velY, velX));
 
                 //TODO: Adjust targeting to be more accurate to whistle position/avoid having Pikmin
                 //be thrown directly in front of Olimar rather than onto the whistle.
-                
+
                 _PikminInHand = null;
-                
+
             }
         }
     }

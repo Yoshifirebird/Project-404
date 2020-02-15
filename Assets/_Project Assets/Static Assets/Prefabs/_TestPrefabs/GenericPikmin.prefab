@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3b2931345a0587948ae88332ef58c8eb, type: 2}
+  - {fileID: 2100000, guid: c704d083f24e06747bd6839f91444224, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -89,10 +89,10 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2228488479455306374}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 6f6d0db684a83eb4e9baff82f9cd40c7, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.4
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -109,7 +109,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Data: {fileID: 11400000, guid: 88166cdec3d7d8b4abd1d7b065d99ec2, type: 2}
-  _State: 1
 --- !u!54 &3400432145710095406
 Rigidbody:
   m_ObjectHideFlags: 0
