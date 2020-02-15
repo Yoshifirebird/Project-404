@@ -13,10 +13,12 @@ public class WhistleController : MonoBehaviour
 
     [Header("Components")]
     [SerializeField] Transform _Player;
+    [SerializeField] Transform _Throw;
 
     [Header("Settings")]
     [SerializeField] LayerMask _GroundLayer;
-    [SerializeField] float _MaxDistance = Mathf.Infinity;
+    [SerializeField] float _WhistleMaxDistance = Mathf.Infinity;
+    [SerializeField] float _ThrowMaxDistance = Mathf.Infinity;
     [SerializeField] float _YAxisOffset = 0.5f;
 
     [Header("Whistling")]
@@ -45,11 +47,25 @@ public class WhistleController : MonoBehaviour
             Vector3 position = hit.point;
             position.y += _YAxisOffset;
             position -= _Player.position;
-            position = Vector3.ClampMagnitude(position, _MaxDistance) + _Player.position;
-            if(Physics.Raycast(position, Vector3.down, out RaycastHit point, Mathf.Infinity, _GroundLayer.value, QueryTriggerInteraction.Ignore))
+            RaycastHit point;
+
+            // Whistle
+            position = Vector3.ClampMagnitude(position, _WhistleMaxDistance) + _Player.position;
+            if(Physics.Raycast(position, Vector3.down, out point, Mathf.Infinity, _GroundLayer.value, QueryTriggerInteraction.Ignore))
             {
-                position = point.point;
-                transform.position = position;
+                transform.position = point.point;
+            }
+
+            //Reset position for the next object
+            position = hit.point;
+            position.y += _YAxisOffset;
+            position -= _Player.position;
+
+            //Throw Distance
+            position = Vector3.ClampMagnitude(position, _ThrowMaxDistance) + _Player.position;
+            if (Physics.Raycast(position, Vector3.down, out point, Mathf.Infinity, _GroundLayer.value, QueryTriggerInteraction.Ignore))
+            {
+                _Throw.transform.position = point.point;
             }
         }
 
