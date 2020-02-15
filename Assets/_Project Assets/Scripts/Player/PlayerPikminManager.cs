@@ -39,7 +39,7 @@ public class PlayerPikminManager : MonoBehaviour
     {
         // Check if we've got more than 0 Pikmin in
         // our squad and we press the Throw key (currently Space)
-        if (Input.GetKeyDown(KeyCode.Space) && GetPikminOnFieldCount() > 0)
+        if (Input.GetButtonDown("ThrowPikmin") && GetPikminOnFieldCount() > 0)
         {
             GameObject closestPikmin = null;
             float closestPikminDistance = _PikminGrabRadius;
