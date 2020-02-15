@@ -81,7 +81,7 @@ public class CameraFollow : MonoBehaviour
         // Rotate the camera to look at the Player
         transform.rotation = Quaternion.Lerp(transform.rotation,
                                              Quaternion.LookRotation(_PlayerPosition.position - transform.position),
-                                             _LookAtRotationSpeed * Time.deltaTime);
+                                             0.15f);
 
         ApplyCurrentHolder();
         HandleControls();
@@ -102,7 +102,7 @@ public class CameraFollow : MonoBehaviour
                                  * Mathf.Abs(_OrbitRadius)
                                  + _PlayerPosition.transform.position;
         targetPosition.y = _GroundOffset;
-        transform.position = Vector3.Lerp(transform.position, targetPosition, _FollowSpeed * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, targetPosition, 0.15f);
     }
 
     /// <summary>
