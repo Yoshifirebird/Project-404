@@ -126,6 +126,11 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         check for object's "territorial radius" and move towards to perform appropriate interaction
         (attack, carry, drink nectar, etc.).
         */
+        float yVelocity = _Rigidbody.velocity.y;
+        Vector3 velocity = _Rigidbody.velocity;
+        velocity *= Time.deltaTime;
+        velocity.y = yVelocity;
+        _Rigidbody.velocity = velocity;
     }
 
     void HandleFormation() => MoveTowards(_PlayerPikminManager.GetFormationCenter().position, GetSpeed(_Data._HeadType));
