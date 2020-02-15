@@ -12,6 +12,7 @@ using UnityEngine.UI;
 public class CubePikminAttackTest : MonoBehaviour, IPikminAttack, IHealth
 {
     [SerializeField] Image _BillboardHealth;
+    [SerializeField] float _HealthCircleSpeed = 5;
     [SerializeField] int _MaxHealth;
     int _CurrentHealth;
     readonly List<GameObject> _AttachedPikmin = new List<GameObject>();
@@ -20,7 +21,7 @@ public class CubePikminAttackTest : MonoBehaviour, IPikminAttack, IHealth
     void Awake() => _CurrentHealth = _MaxHealth;
     void Update()
     {
-        _BillboardHealth.fillAmount = Mathf.Lerp(_BillboardHealth.fillAmount, _CurrentHealth / (float)_MaxHealth, 2 * Time.deltaTime);
+        _BillboardHealth.fillAmount = Mathf.Lerp(_BillboardHealth.fillAmount, _CurrentHealth / (float)_MaxHealth, _HealthCircleSpeed * Time.deltaTime);
 
         if (_CurrentHealth <= 0)
         {
