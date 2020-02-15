@@ -39,7 +39,7 @@ public class WhistleController : MonoBehaviour
         // hits other than objects that are on the _GroundLayer layer
         if (Physics.Raycast(_Camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, Mathf.Infinity, _GroundLayer.value, QueryTriggerInteraction.Ignore))
         {
-            // Move the whistle to the hit point
+            // TODO: CLAMP THE VECTOR TO _MaxDistance
             Vector3 position = hit.point;
             position.y += _YAxisOffset;
             transform.position = position;
