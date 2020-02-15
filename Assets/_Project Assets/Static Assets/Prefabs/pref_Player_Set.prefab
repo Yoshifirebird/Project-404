@@ -685,10 +685,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc91044be0ff634c8016134c006c89f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _Player: {fileID: 7170182417332651284}
   _GroundLayer:
     serializedVersion: 2
     m_Bits: 512
-  _MaxDistance: Infinity
+  _MaxDistance: 50
   _YAxisOffset: 0.1
   _WhistleScale: {x: 12, y: 15}
   _WhistleRadiusGrowSpeed: 0.2

@@ -11,6 +11,9 @@ public class WhistleController : MonoBehaviour
 {
     Camera _Camera;
 
+    [Header("Components")]
+    [SerializeField] Transform _Player;
+
     [Header("Settings")]
     [SerializeField] LayerMask _GroundLayer;
     [SerializeField] float _MaxDistance = Mathf.Infinity;
@@ -37,12 +40,13 @@ public class WhistleController : MonoBehaviour
     {
         // Shoot a raycast from the mouse position for an infinite distance, filtering out any
         // hits other than objects that are on the _GroundLayer layer
-        if (Physics.Raycast(_Camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, _MaxDistance, _GroundLayer.value, QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(_Camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, Mathf.Infinity, _GroundLayer.value, QueryTriggerInteraction.Ignore))
         {
-            // TODO: CLAMP THE VECTOR TO _MaxDistance
             Vector3 position = hit.point;
             position.y += _YAxisOffset;
-            transform.position = position;
+            position -= _Player.position;
+
+            transform.position = Vector3.ClampMagnitude(position,_MaxDistance) + _Player.position;
         }
 
         HandleWhistle();
