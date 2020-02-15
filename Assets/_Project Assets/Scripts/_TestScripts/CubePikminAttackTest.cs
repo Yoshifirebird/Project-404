@@ -21,11 +21,13 @@ public class CubePikminAttackTest : MonoBehaviour, IPikminAttack, IHealth
     void Awake() => _CurrentHealth = _MaxHealth;
     void Update()
     {
-        _BillboardHealth.fillAmount = Mathf.Lerp(_BillboardHealth.fillAmount, _CurrentHealth / (float)_MaxHealth, _HealthCircleSpeed * Time.deltaTime);
+        _BillboardHealth.fillAmount = Mathf.Lerp(_BillboardHealth.fillAmount,
+                                                 _CurrentHealth / (float)_MaxHealth,
+                                                 _HealthCircleSpeed * Time.deltaTime);
 
         if (_CurrentHealth <= 0)
         {
-            foreach (var attached in _AttachedPikmin)
+            foreach (GameObject attached in _AttachedPikmin)
             {
                 attached.transform.parent = null;
             }
