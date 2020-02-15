@@ -25,7 +25,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     public enum States { Idle, Formation, Attacking, Dead, WaitingNull }
 
     [Header("Components")]
-    [SerializeField] PikminSO _Data;
+    public PikminSO _Data;
     States _State;
     States _PreviousState;
 
