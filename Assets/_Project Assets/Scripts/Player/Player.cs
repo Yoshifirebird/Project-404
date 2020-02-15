@@ -39,7 +39,7 @@ public class Player : MonoBehaviour, IHealth
             // If the health is less than or equal to 0, we're dead so play the dead function!
             Die();
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetButtonDown("Exit"))
         {
             Debug.Break();
             Application.Quit();
