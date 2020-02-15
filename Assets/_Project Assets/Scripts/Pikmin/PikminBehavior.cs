@@ -89,6 +89,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             if (Physics.Raycast(transform.position, Vector3.down, 1f))
             {
                 _State = States.Idle;
+                _Rigidbody.velocity = Vector3.zero;
                 // CHECK BENEATH US, TODO
             }
         }

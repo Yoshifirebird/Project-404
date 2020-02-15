@@ -1,4 +1,5 @@
-﻿/*
+﻿using System;
+/*
  * PlayerPikminManager.cs
  * Created by: Ambrosia
  * Created on: 12/2/2020 (dd/mm/yy)
@@ -16,6 +17,8 @@ public class PlayerPikminManager : MonoBehaviour
     [Header("Throwing")]
     [SerializeField] float _PikminGrabRadius = 5;
     [SerializeField] float _VerticalMaxGrabRadius = 1.5f;
+    [SerializeField] float _Angle = 30.0f;
+    [SerializeField] Transform _WhistleTransform;
 
     List<GameObject> _PikminOnField = new List<GameObject>(); // // How many Pikmin there are currently alive
     List<GameObject> _Squad = new List<GameObject>();        // How many Pikmin there are currently in the Player's squad
@@ -98,8 +101,22 @@ public class PlayerPikminManager : MonoBehaviour
                 pikminComponent.ChangeState(PikminBehavior.States.Thrown);
 
                 var rigidbody = _PikminInHand.GetComponent<Rigidbody>();
-                rigidbody.AddForce(Vector3.up * 1000 + transform.forward * 500);
+                
+                Vector3 whistlePos = new Vector3(_WhistleTransform.position.x, 0.0f, _WhistleTransform.position.z);
+                Vector3 pikiPos = new Vector3(rigidbody.position.x, 0.0f, rigidbody.position.z);
+                float vd = _WhistleTransform.position.y - rigidbody.position.y;
 
+                float d = Vector3.Distance(pikiPos, whistlePos);                
+                float g = Physics.gravity.y;                
+                float angle = Mathf.Deg2Rad * _Angle;
+
+                float velX = Mathf.Sqrt(g*d*d/(2.0f*(vd-d*Mathf.Tan(angle))));
+                float velY = velX * Mathf.Tan(angle);
+                
+                rigidbody.transform.LookAt(whistlePos);
+                rigidbody.velocity = rigidbody.transform.TransformDirection(new Vector3(0.0f, velY, velX));
+                
+                
                 _PikminInHand = null;
             }
         }
