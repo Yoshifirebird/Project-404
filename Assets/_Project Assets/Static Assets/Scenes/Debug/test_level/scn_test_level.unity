@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.24711137, g: 0.5785867, b: 1.2505176, a: 1}
+  m_IndirectSpecularColor: {r: 0.24751139, g: 0.579729, b: 1.2517681, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6659,20 +6659,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Set
       objectReference: {fileID: 0}
-    - target: {fileID: 7170182416316450332, guid: c03d96d471a1b984fb1db3b2b747873a,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 1847
-      objectReference: {fileID: 0}
     - target: {fileID: 7170182416316450334, guid: c03d96d471a1b984fb1db3b2b747873a,
         type: 3}
       propertyPath: _TriggerRotationSpeed
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7170182416316450334, guid: c03d96d471a1b984fb1db3b2b747873a,
-        type: 3}
-      propertyPath: _CameraResetSpeed
-      value: 7
+      value: 80
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c03d96d471a1b984fb1db3b2b747873a, type: 3}
