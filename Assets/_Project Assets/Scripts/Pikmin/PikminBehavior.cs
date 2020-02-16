@@ -34,6 +34,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     Rigidbody _Rigidbody;
     Player _Player;
+    Collider _Collider;
     PlayerPikminManager _PlayerPikminManager;
 
     void IPooledObject.OnObjectSpawn()
@@ -43,6 +44,9 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             _Player = Player.player;
             _PlayerPikminManager = _Player.GetPikminManager();
         }
+
+        if (_Collider == null)
+            _Collider = GetComponent<Collider>();
 
         if (_Rigidbody == null)
             _Rigidbody = GetComponent<Rigidbody>();
@@ -90,7 +94,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         switch (_State)
         {
             case States.Formation:
-                // Movement using rigidbody requires FixedUpdate
                 HandleFormation();
                 break;
             default:
@@ -98,20 +101,21 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
         // If we're being thrown, or other
         if (_State == States.WaitingNull)
         {
             // See if there's anything beneath us
-            if (Physics.Raycast(transform.position, Vector3.down, 1f))
+            if (Physics.Raycast(transform.position, Vector3.down, 0.5f, 1 << 9, QueryTriggerInteraction.Ignore))
             {
                 ChangeState(States.Idle);
+                _Collider.isTrigger = false;
                 _Rigidbody.velocity = Vector3.zero;
             }
 
             // And check if we can attack
-            CheckForAttack(collision.gameObject);
+            CheckForAttack(other.gameObject);
         }
     }
 
@@ -188,7 +192,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     { 
         transform.parent = parent;
         _Rigidbody.isKinematic = parent != null;
-        GetComponent<Collider>().isTrigger = parent != null;
+        _Collider.isTrigger = parent != null;
     }
     #endregion
 

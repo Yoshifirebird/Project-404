@@ -39,7 +39,14 @@ public class CubePikminAttackTest : MonoBehaviour, IPikminAttack, IHealth
 
     #region Pikmin Attacking Implementation
 
-    public void Attack(GameObject attacking, int damage) => TakeHealth(damage);
+    public void Attack(GameObject attacking, int damage)
+    {
+        // On first hit, enable the health circle
+        if (_CurrentHealth == _MaxHealth)
+            _BillboardHealth.transform.parent.gameObject.SetActive(true);
+
+        TakeHealth(damage);
+    }
 
     public void OnAttach(GameObject attachedPikmin) => _AttachedPikmin.Add(attachedPikmin);
 

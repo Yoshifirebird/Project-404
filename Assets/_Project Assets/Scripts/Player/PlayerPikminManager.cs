@@ -93,12 +93,13 @@ public class PlayerPikminManager : MonoBehaviour
         {
             if (Input.GetButton("ThrowPikmin"))
             {
-                _PikminInHand.transform.position = transform.position + transform.right;
+                _PikminInHand.transform.position = transform.position + (transform.forward / 2);
             }
             if (Input.GetButtonUp("ThrowPikmin"))
             {
                 var pikminComponent = _PikminInHand.GetComponent<PikminBehavior>();
                 pikminComponent.RemoveFromSquad();
+                pikminComponent.GetComponent<Collider>().isTrigger = true;
                 pikminComponent.ChangeState(PikminBehavior.States.WaitingNull);
 
                 var rigidbody = _PikminInHand.GetComponent<Rigidbody>();

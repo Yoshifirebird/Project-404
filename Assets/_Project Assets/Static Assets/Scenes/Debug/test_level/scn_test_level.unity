@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.24751139, g: 0.579729, b: 1.2517681, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1413,7 +1413,7 @@ GameObject:
   - component: {fileID: 1971228091}
   - component: {fileID: 1971228096}
   m_Layer: 0
-  m_Name: Interactable Cube
+  m_Name: Mock Pellet Posy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1432,8 +1432,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _BillboardHealth: {fileID: 2976542}
-  _HealthCircleSpeed: 5
-  _MaxHealth: 10
+  _HealthCircleSpeed: 7.5
+  _MaxHealth: 5
 --- !u!65 &1971228092
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1502,8 +1502,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1971228090}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 45, y: 2, z: 20}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalPosition: {x: 45, y: 1.5, z: 20}
+  m_LocalScale: {x: 1, y: 3, z: 1}
   m_Children:
   - {fileID: 891477661}
   m_Father: {fileID: 0}
@@ -1523,7 +1523,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!1001 &2039986314
 PrefabInstance:
@@ -1722,6 +1722,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: pref_Health_Bar
       objectReference: {fileID: 0}
+    - target: {fileID: 6002121006240951326, guid: bafdd5fe809e3e9478e3178b17057356,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6002121006240951327, guid: bafdd5fe809e3e9478e3178b17057356,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1785,7 +1790,7 @@ PrefabInstance:
     - target: {fileID: 6002121006240951327, guid: bafdd5fe809e3e9478e3178b17057356,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.5
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 6002121006240951327, guid: bafdd5fe809e3e9478e3178b17057356,
         type: 3}
@@ -1827,6 +1832,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6002121006240951327, guid: bafdd5fe809e3e9478e3178b17057356,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.33333334
+      objectReference: {fileID: 0}
     - target: {fileID: 6002121006240951330, guid: bafdd5fe809e3e9478e3178b17057356,
         type: 3}
       propertyPath: m_Camera
@@ -1841,6 +1851,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 838713201, guid: c03d96d471a1b984fb1db3b2b747873a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 487326039878219166, guid: c03d96d471a1b984fb1db3b2b747873a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1900,6 +1914,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player Set
+      objectReference: {fileID: 0}
+    - target: {fileID: 7170182417408045575, guid: c03d96d471a1b984fb1db3b2b747873a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c03d96d471a1b984fb1db3b2b747873a, type: 3}

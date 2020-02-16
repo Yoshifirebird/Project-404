@@ -7,8 +7,7 @@
 
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerMovementController))]
-//[RequireComponent(typeof(PlayerUIController))]
+[RequireComponent(typeof(PlayerUIController), typeof(PlayerPikminManager), typeof(PlayerMovementController))]
 public class Player : MonoBehaviour, IHealth
 {
     // Singleton
@@ -34,9 +33,7 @@ public class Player : MonoBehaviour, IHealth
 
     void Update()
     {
-        // Handle health
         if (_CurrentHealth <= 0)
-            // If the health is less than or equal to 0, we're dead so play the dead function!
             Die();
 
         if (Input.GetButtonDown("Exit"))
