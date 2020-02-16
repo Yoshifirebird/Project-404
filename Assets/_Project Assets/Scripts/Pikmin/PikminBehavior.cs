@@ -101,21 +101,14 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision collision)
     {
-        // If we're being thrown, or other
         if (_State == States.WaitingNull)
         {
-            // See if there's anything beneath us
-            if (Physics.Raycast(transform.position, Vector3.down, 0.5f, 1 << 9, QueryTriggerInteraction.Ignore))
-            {
-                ChangeState(States.Idle);
-                _Collider.isTrigger = false;
-                _Rigidbody.velocity = Vector3.zero;
-            }
+            CheckForAttack(collision.gameObject);
 
-            // And check if we can attack
-            CheckForAttack(other.gameObject);
+            if (_State != States.Attacking)
+                ChangeState(States.Idle);
         }
     }
 
@@ -130,9 +123,11 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         check for object's "territorial radius" and move towards to perform appropriate interaction
         (attack, carry, drink nectar, etc.).
         */
-        float yVelocity = _Rigidbody.velocity.y;
         Vector3 velocity = _Rigidbody.velocity;
+        float yVelocity = velocity.y;
+
         velocity *= Time.deltaTime;
+        
         velocity.y = yVelocity;
         _Rigidbody.velocity = velocity;
     }
@@ -192,7 +187,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     { 
         transform.parent = parent;
         _Rigidbody.isKinematic = parent != null;
-        _Collider.isTrigger = parent != null;
     }
     #endregion
 

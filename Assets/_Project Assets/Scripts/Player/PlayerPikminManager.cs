@@ -99,7 +99,6 @@ public class PlayerPikminManager : MonoBehaviour
             {
                 var pikminComponent = _PikminInHand.GetComponent<PikminBehavior>();
                 pikminComponent.RemoveFromSquad();
-                pikminComponent.GetComponent<Collider>().isTrigger = true;
                 pikminComponent.ChangeState(PikminBehavior.States.WaitingNull);
 
                 var rigidbody = _PikminInHand.GetComponent<Rigidbody>();

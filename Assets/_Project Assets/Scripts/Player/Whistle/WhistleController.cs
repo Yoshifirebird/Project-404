@@ -88,6 +88,7 @@ public class WhistleController : MonoBehaviour
 
         pikminComponent.LatchOntoObject(null);
         pikminComponent.AddToSquad();
+        print("Calling Pikmin");
     }
 
     void HandleWhistle()
