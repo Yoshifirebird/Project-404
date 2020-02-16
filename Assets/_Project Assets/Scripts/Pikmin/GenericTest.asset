@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GenericTest
   m_EditorClassIdentifier: 
   _Colour: 0
-  _HeadType: 2
+  _HeadType: 0
   _MovementSpeed: 5
   _RotationSpeed: 15
   _TimeBetweenAttacks: 0.8
