@@ -132,7 +132,7 @@ public class PlayerPikminManager : MonoBehaviour
         }
     }
 
-    void HandleFormation() // Sets the position of the Formation center based on the amount of pikmin in the player's squad
+    void HandleFormation() // Prevents the center from traveling too far from the player
     {
         Vector3 targetPosition = _FormationCenter.position - transform.position;
         _FormationCenter.position = transform.position + Vector3.ClampMagnitude(targetPosition, _StartingOffset + _DistancePerPikmin * _Squad.Count);

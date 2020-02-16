@@ -49,19 +49,19 @@ public class WhistleController : MonoBehaviour
             position -= _Player.position;
             RaycastHit point;
 
-            // Whistle
+            // Determine position for the whistle
             position = Vector3.ClampMagnitude(position, _WhistleMaxDistance) + _Player.position;
             if(Physics.Raycast(position, Vector3.down, out point, Mathf.Infinity, _GroundLayer.value, QueryTriggerInteraction.Ignore))
             {
                 transform.position = point.point;
             }
 
-            //Reset position for the next object
+            // Reset position for the next object
             position = hit.point;
             position.y += _YAxisOffset;
             position -= _Player.position;
 
-            //Throw Distance
+            // Determine position for the throw position
             position = Vector3.ClampMagnitude(position, _ThrowMaxDistance) + _Player.position;
             if (Physics.Raycast(position, Vector3.down, out point, Mathf.Infinity, _GroundLayer.value, QueryTriggerInteraction.Ignore))
             {
