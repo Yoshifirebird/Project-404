@@ -81,7 +81,7 @@ public class CameraFollow : MonoBehaviour
         // Rotate the camera to look at the Player
         transform.rotation = Quaternion.Lerp(transform.rotation,
                                              Quaternion.LookRotation(_PlayerPosition.position - transform.position),
-                                             0.15f);
+                                             _LookAtRotationSpeed * Time.deltaTime);
 
         ApplyCurrentHolder();
         HandleControls();
@@ -102,7 +102,7 @@ public class CameraFollow : MonoBehaviour
                                  * Mathf.Abs(_OrbitRadius)
                                  + _PlayerPosition.transform.position;
         targetPosition.y = _GroundOffset;
-        transform.position = Vector3.Lerp(transform.position, targetPosition, 0.15f);
+        transform.position = Vector3.Lerp(transform.position, targetPosition, _FollowSpeed * Time.deltaTime);
     }
 
     /// <summary>
@@ -113,9 +113,9 @@ public class CameraFollow : MonoBehaviour
         // Check if we're holding either the Left or Right trigger and
         // rotate around the player using TriggerRotationSpeed if so
         if (Input.GetButton("RightTrigger"))
-            RotateView(_TriggerRotationSpeed);
+            RotateView(-_TriggerRotationSpeed * Time.deltaTime);
         else if (Input.GetButton("LeftTrigger"))
-            RotateView(-_TriggerRotationSpeed);
+            RotateView(_TriggerRotationSpeed * Time.deltaTime);
 
         if (Input.GetButtonDown("ZoomLevel"))
         {

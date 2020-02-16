@@ -20,9 +20,10 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
      * Formation - move towards formation position
      * Attacking - general term for attack, grab, etc.
      * Latched - holding onto another object
+     * Carrying - latched onto another object and helping move it 
      * Dead - do a few things like destroying itself
      */
-    public enum States { Idle, Formation, Attacking, Dead, WaitingNull }
+    public enum States { Idle, Formation, Attacking, Dead, Carrying, WaitingNull }
 
     [Header("Components")]
     public PikminSO _Data;
