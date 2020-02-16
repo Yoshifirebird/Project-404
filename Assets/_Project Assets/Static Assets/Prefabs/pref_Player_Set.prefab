@@ -804,7 +804,7 @@ MonoBehaviour:
   _GroundLayer:
     serializedVersion: 2
     m_Bits: 512
-  _WhistleMaxDistance: 30
+  _WhistleMaxDistance: Infinity
   _ThrowMaxDistance: 15
   _YAxisOffset: 0.1
   _WhistleScale: {x: 12, y: 15}
