@@ -578,8 +578,8 @@ MonoBehaviour:
   _FollowSpeed: 7.5
   _FOVChangeSpeed: 3
   _LookAtRotationSpeed: 5
-  _CameraResetSpeed: 7
-  _TriggerRotationSpeed: 4
+  _CameraResetSpeed: 5
+  _TriggerRotationSpeed: 50
 --- !u!82 &7170182416316450329
 AudioSource:
   m_ObjectHideFlags: 0
