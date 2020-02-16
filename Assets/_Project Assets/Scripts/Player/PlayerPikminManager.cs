@@ -91,11 +91,11 @@ public class PlayerPikminManager : MonoBehaviour
         // the PikminInHand is null or not
         if (_PikminInHand != null)
         {
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetButton("ThrowPikmin"))
             {
                 _PikminInHand.transform.position = transform.position + transform.right;
             }
-            if (Input.GetKeyUp(KeyCode.Space))
+            if (Input.GetButtonUp("ThrowPikmin"))
             {
                 var pikminComponent = _PikminInHand.GetComponent<PikminBehavior>();
                 pikminComponent.RemoveFromSquad();

@@ -93,13 +93,13 @@ public class WhistleController : MonoBehaviour
     void HandleWhistle()
     {
         //Determines whether the player is whistling
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetButtonDown("Whistle"))
         {
             _IsWhistling = true;
             SetVector3ToVector2(ref _TargetScale, _WhistleScale);
             _CurrentWhistleTime = 0;
         }
-        else if (Input.GetMouseButtonUp(1))
+        else if (Input.GetButtonUp("Whistle"))
         {
             _IsWhistling = false;
             _TargetScale = _StartingScale;
