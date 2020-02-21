@@ -7,7 +7,9 @@
 
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerUIController), typeof(PlayerPikminManager), typeof(PlayerMovementController))]
+[RequireComponent(typeof(PlayerUIController),
+                  typeof(PlayerPikminManager),
+                  typeof(PlayerMovementController))]
 public class Player : MonoBehaviour, IHealth
 {
     // Singleton
@@ -23,19 +25,26 @@ public class Player : MonoBehaviour, IHealth
 
     void Awake()
     {
-        _CurrentHealth = _MaxHealth; // Reset health back to Max Health
         _MovementController = GetComponent<PlayerMovementController>();
         _PikminManager = GetComponent<PlayerPikminManager>();
 
+        // Resets the health back to the max if changed in the editor
+        _CurrentHealth = _MaxHealth;
+
+        // Singleton Pattern!
         if (player == null)
             player = this;
+        else
+            Destroy(gameObject);
     }
 
     void Update()
     {
+        // Handle health-related functions
         if (_CurrentHealth <= 0)
             Die();
 
+        // Handle exiting the game/program
         if (Input.GetButtonDown("Exit"))
         {
             Debug.Break();

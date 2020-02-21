@@ -8,6 +8,7 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerUIController : MonoBehaviour
 {
@@ -17,10 +18,10 @@ public class PlayerUIController : MonoBehaviour
 	int _ReferenceHealth;	//Newgame+ LD: This is to track if the player has lost or gained HP
 	int _MaxHealth;
 
-	[SerializeField] Text _TotalPikminText;
-	[SerializeField] Text _InSquadText;
-	[SerializeField] Text _OnFieldText;
-	[SerializeField] Text _DayText;
+	[SerializeField] TextMeshProUGUI _TotalPikminText;
+	[SerializeField] TextMeshProUGUI _InSquadText;
+	[SerializeField] TextMeshProUGUI _OnFieldText;
+	[SerializeField] TextMeshProUGUI _DayText;
 
 	Player _Player;
 	PlayerPikminManager _PikminManager;

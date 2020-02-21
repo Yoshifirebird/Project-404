@@ -14,9 +14,9 @@ public class ObjectSpawner : MonoBehaviour
 
     [Header("Spawn Settings")]
     [SerializeField] bool _UseCurrentPosition = false;
-    [SerializeField] Vector3 _SpawnLocation;
-    [SerializeField] int _Amount;
-    [SerializeField] float _Stagger;
+    [SerializeField] Vector3 _SpawnLocation = Vector3.one;
+    [SerializeField] int _Amount = 1;
+    [SerializeField] float _Stagger = 1;
 
     ObjectPooler _ObjectPooler;
 
@@ -29,7 +29,7 @@ public class ObjectSpawner : MonoBehaviour
         float stagger = _Stagger;
         for (int i = 0; i < _Amount; i++)
         {
-            // Call the SpawnFromPool function and spawn objects in the tagged pool at the spawn location
+            // Spawn objects in the tagged pool at the spawn location
             _ObjectPooler.SpawnFromPool(_PoolTag, position + (Vector3.back * stagger), Quaternion.identity);
             // Add more space between the initial object and the new object
             stagger += _Stagger;

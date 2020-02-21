@@ -1,6 +1,6 @@
 ﻿/*
  * CameraFollow.cs
- * Created by: Neo
+ * Created by: Neo, Ambrosia
  * Created on: 6/2/2020 (dd/mm/yy)
  * Created for: following a target with incrementable offset and field of view
  */
@@ -14,6 +14,7 @@ public class CFCameraVars
     public Vector2 _Offset = Vector2.one;
 }
 
+[RequireComponent(typeof(AudioSource))]
 public class CameraFollow : MonoBehaviour
 {
     [Header("Components")]
@@ -124,12 +125,14 @@ public class CameraFollow : MonoBehaviour
         }
         if (Input.GetButtonDown("CameraAngle"))
         {
+            _TopView = !_TopView; // Invert the TopView 
             ApplyChangedZoomLevel(_TopView ? _DefaultHolders : _TopViewHolders);
-            _TopView = !_TopView; // Invert if we're using the TopView
         }
 
         if (Input.GetButton("CameraReset"))
         {
+            // TODO: get audio for the camera reset and play it here
+
             // Gets the difference between the two rotations, and then makes sure it doesn't overrotate
             float difference = transform.eulerAngles.y - _MovementController._RotationBeforeIdle.eulerAngles.y;
             if (difference > 180)

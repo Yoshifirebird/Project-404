@@ -16,7 +16,7 @@ public class PlayerMovementController : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] float _MovementSpeed = 3;
-    [SerializeField] Vector2 _MovementDeadzone;
+    [SerializeField] Vector2 _MovementDeadzone = Vector2.one / 0.1f;
     [SerializeField] float _RotationSpeed = 3;
     [SerializeField] float _Gravity = -Physics.gravity.y;
 

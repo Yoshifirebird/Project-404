@@ -2,19 +2,15 @@
  * IHealth.cs
  * Created by: Ambrosia
  * Created on: 8/2/2020 (dd/mm/yy)
- * Created for: requiring a general purpose interface to easily add to scripts
+ * Created for: requiring some objects to have health
  */
 
 public interface IHealth
 {
-    // Supposed to set the health
-    void SetHealth(int set);
-    // Supposed to take some health away
-    void TakeHealth(int take);
-    // Supposed to add some health
-    void GiveHealth(int give);
+    void SetHealth(int set);    // Sets health
+    void TakeHealth(int take);  // Removes health
+    void GiveHealth(int give);  // Adds health
 
-    // Supposed to return the amount of health an object / entity has
     int GetHealth();
     int GetMaxHealth();
 }

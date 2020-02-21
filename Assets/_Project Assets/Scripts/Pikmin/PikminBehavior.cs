@@ -40,6 +40,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void IPooledObject.OnObjectSpawn()
     {
+        // Assign required variables if needed
         if (_Player == null)
         {
             _Player = Player.player;
@@ -52,7 +53,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         if (_Rigidbody == null)
             _Rigidbody = GetComponent<Rigidbody>();
 
-        // Add to the Pikmin on the field and the total amount of Pikmin
+        // Add ourself into the stats
         _PlayerPikminManager.AddPikminOnField(gameObject);
         PlayerStats.IncrementTotal(_Data._Colour);
 
@@ -60,7 +61,9 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         _State = States.Idle;
         _PreviousState = States.Idle;
 
+        // Reset state-specific variables
         _AttackingObject = null;
+        _AttackTimer = 0;
     }
 
     void Update()
@@ -68,7 +71,11 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         // Check if we've been attacking and we still have a valid attacking object
         if (_PreviousState == States.Attacking && _AttackingObject != null)
         {
-            // null out the attacking object and reset the interaction timer
+            // Call the OnDetach function
+            var aInterface = _AttackingObject.GetComponent<IPikminAttack>();
+            aInterface.OnDetach(gameObject);
+
+            // Remove the attacking object and reset the timer
             _AttackingObject = null;
             _AttackTimer = 0;
         }
@@ -115,7 +122,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void HandleIdle()
     {
-        /* stubbed
+        /*
         Set general regions for Pikmin to be dismissed into (not unlike formation center); likely
         dynamic regions based on the surrounding terrain (don't dismiss non-blue into water, etc.).
         If not dynamic, shift around which Pikmin are dismissed into which region.
@@ -124,13 +131,13 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         check for object's "territorial radius" and move towards to perform appropriate interaction
         (attack, carry, drink nectar, etc.).
         */
-        Vector3 velocity = _Rigidbody.velocity;
+        /*Vector3 velocity = _Rigidbody.velocity;
         float yVelocity = velocity.y;
 
         velocity *= Time.deltaTime;
         
         velocity.y = yVelocity;
-        _Rigidbody.velocity = velocity;
+        _Rigidbody.velocity = velocity;*/
     }
 
     void HandleFormation() => MoveTowards(_PlayerPikminManager.GetFormationCenter().position, GetSpeed(_Data._HeadType));
