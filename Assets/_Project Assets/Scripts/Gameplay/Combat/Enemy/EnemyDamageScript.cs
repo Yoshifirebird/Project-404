@@ -1,6 +1,6 @@
 ﻿/*
  * EnemyDamageScript.cs
- * Created by: Neo
+ * Created by: Neo, Ambrosia
  * Created on: 15/2/2020 (dd/mm/yy)
  * Created for: Generic enemy health manager script
  */
@@ -10,12 +10,14 @@ using UnityEngine;
 
 public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
 {
+    [Header("Settings")]
     [SerializeField] int _MaxHealth = 10;
-    int _CurrentHealth = 0;
+    [SerializeField] float _HeightOffset = 3.5f;
+
     readonly List<GameObject> _AttachedPikmin = new List<GameObject>();
-    GameObject _HealthWheel;
-    HealthWheel _HWScript;
     ObjectPooler _ObjectPooler;
+    HealthWheel _HWScript;
+    int _CurrentHealth = 0;
 
     void Start()
     {
@@ -24,19 +26,14 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
         _CurrentHealth = _MaxHealth;
         // Find a health wheel that hasn't been claimed already
 
-        _ObjectPooler.SpawnFromPool("Health", transform.position + (Vector3.up * 1), Quaternion.identity);
+        _HWScript = _ObjectPooler.SpawnFromPool("Health", transform.position + (Vector3.up * _HeightOffset), Quaternion.identity).GetComponentInChildren<HealthWheel>();
+            
+        // Apply all of the required variables 
+        _HWScript._InUse = true;
+        _HWScript._MaxHealth = _MaxHealth;
+        _HWScript._CurrentHealth = _MaxHealth;
+        _HWScript.transform.SetParent(transform);
 
-        _HealthWheel = GameObject.Find("/pref_Health_Wheel(Clone)").gameObject;
-
-        if (!_HealthWheel.GetComponent<HealthWheel>()._InUse)
-        {
-            _HWScript = _HealthWheel.GetComponent<HealthWheel>();
-            _HWScript._InUse = true;
-            _HWScript._MaxHealth = _MaxHealth;
-            _HWScript._CurrentHealth = _MaxHealth;
-            // Set the health wheel's parent as this object, and grab it's script while you're at it
-            _HealthWheel.transform.SetParent(transform);
-        }
     }
 
     void Update ()
