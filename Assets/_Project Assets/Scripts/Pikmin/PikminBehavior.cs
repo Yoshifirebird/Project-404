@@ -171,7 +171,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             return;
 
         // We can attack, so grab the PikminAttack component and attack!
-        _AttackingObject.GetComponent<IPikminAttack>().Attack(gameObject, _Data._AttackDamage);
+        _AttackingObject.GetComponentInParent<IPikminAttack>().Attack(gameObject, _Data._AttackDamage);
         // Reset the timer as we've attacked
         _AttackTimer = 0;
     }
@@ -179,7 +179,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     void CheckForAttack(GameObject toCheck)
     {
         // Check if the object in question has the pikminattack component
-        var interactable = toCheck.GetComponent<IPikminAttack>();
+        var interactable = toCheck.GetComponentInParent<IPikminAttack>();
         if (interactable != null)
         {
             // It does, we can attack!
