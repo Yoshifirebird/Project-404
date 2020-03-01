@@ -73,7 +73,9 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         {
             // Call the OnDetach function
             var aInterface = _AttackingObject.GetComponent<IPikminAttack>();
-            aInterface.OnDetach(gameObject);
+
+            if (aInterface != null) // Not quite sure why we need to do this
+                aInterface.OnDetach(gameObject);
 
             // Remove the attacking object and reset the timer
             _AttackingObject = null;
@@ -85,6 +87,10 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             case States.Idle:
                 HandleIdle();
                 break;
+            case States.Formation:
+                // TODO: fix jittery movement
+                HandleFormation();
+                break;
             case States.Attacking:
                 HandleAttacking();
                 break;
@@ -92,18 +98,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
                 HandleDeath();
                 break;
             case States.WaitingNull:
-            default:
-                break;
-        }
-    }
-
-    void FixedUpdate()
-    {
-        switch (_State)
-        {
-            case States.Formation:
-                HandleFormation();
-                break;
             default:
                 break;
         }
@@ -131,13 +125,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         check for object's "territorial radius" and move towards to perform appropriate interaction
         (attack, carry, drink nectar, etc.).
         */
-        /*Vector3 velocity = _Rigidbody.velocity;
-        float yVelocity = velocity.y;
-
-        velocity *= Time.deltaTime;
-        
-        velocity.y = yVelocity;
-        _Rigidbody.velocity = velocity;*/
     }
 
     void HandleFormation() => MoveTowards(_PlayerPikminManager.GetFormationCenter().position, GetSpeed(_Data._HeadType));
@@ -171,7 +158,8 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             return;
 
         // We can attack, so grab the PikminAttack component and attack!
-        _AttackingObject.GetComponentInParent<IPikminAttack>().Attack(gameObject, _Data._AttackDamage);
+        var attackComponent = _AttackingObject.GetComponentInParent<IPikminAttack>();
+        attackComponent.Attack(gameObject, _Data._AttackDamage);
         // Reset the timer as we've attacked
         _AttackTimer = 0;
     }
@@ -180,7 +168,8 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     {
         // Check if the object in question has the pikminattack component
         var interactable = toCheck.GetComponentInParent<IPikminAttack>();
-        if (interactable != null)
+        var pikmin = toCheck.GetComponent<PikminBehavior>();
+        if (interactable != null && pikmin == null)
         {
             // It does, we can attack!
             // Set our state to attacking, assign the attack variables and latch!
@@ -203,7 +192,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     void MoveTowards(Vector3 towards, float speed)
     {
         // cache the direction of the player
-        Vector3 direction = (towards - transform.position);
+        Vector3 direction = towards - transform.position;
 
         // calculate the velocity needed
         Vector3 velocity = direction.normalized * speed;

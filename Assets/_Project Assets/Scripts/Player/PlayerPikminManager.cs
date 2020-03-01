@@ -101,6 +101,10 @@ public class PlayerPikminManager : MonoBehaviour
             }
             if (Input.GetButtonUp("ThrowPikmin"))
             {
+                /*
+                 * TODO: convert to Quadratic Bezier curve
+                 */
+
                 // Change the appropriate variables of the Pikmin to suit it for being thrown
                 var pikminComponent = _PikminInHand.GetComponent<PikminBehavior>();
                 pikminComponent.RemoveFromSquad();

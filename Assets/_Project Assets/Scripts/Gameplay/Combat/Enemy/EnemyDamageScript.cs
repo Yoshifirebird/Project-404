@@ -12,7 +12,7 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
 {
     [Header("Settings")]
     [SerializeField] int _MaxHealth = 10;
-    [SerializeField] float _HeightOffset = 3.5f;
+    [SerializeField] Vector3 _PositionOffset = Vector3.up;
 
     readonly List<GameObject> _AttachedPikmin = new List<GameObject>();
     ObjectPooler _ObjectPooler;
@@ -26,7 +26,7 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
         _CurrentHealth = _MaxHealth;
         // Find a health wheel that hasn't been claimed already
 
-        _HWScript = _ObjectPooler.SpawnFromPool("Health", transform.position + (Vector3.up * _HeightOffset), Quaternion.identity).GetComponentInChildren<HealthWheel>();
+        _HWScript = _ObjectPooler.SpawnFromPool("Health", transform.position + _PositionOffset, Quaternion.identity).GetComponentInChildren<HealthWheel>();
             
         // Apply all of the required variables 
         _HWScript._InUse = true;
@@ -52,6 +52,12 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
             // it was a test we can just destroy the gameObject
             Destroy(gameObject);
         }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position + _PositionOffset, 1);    
     }
 
     #region Pikmin Attacking Implementation
