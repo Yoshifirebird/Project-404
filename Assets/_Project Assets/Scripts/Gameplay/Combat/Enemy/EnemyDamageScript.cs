@@ -12,9 +12,12 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
 {
     [Header("Settings")]
     [SerializeField] int _MaxHealth = 10;
-    [SerializeField] Vector3 _PositionOffset = Vector3.up;
 
-    readonly List<GameObject> _AttachedPikmin = new List<GameObject>();
+    [Header("Health Wheel")]
+    [SerializeField] Vector3 _HWOffset = Vector3.up;
+    [SerializeField] float _HWScale = 1;
+
+    List<GameObject> _AttachedPikmin = new List<GameObject>();
     ObjectPooler _ObjectPooler;
     HealthWheel _HWScript;
     int _CurrentHealth = 0;
@@ -24,16 +27,15 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
         _ObjectPooler = ObjectPooler.Instance;
         // Set the current health to the max health
         _CurrentHealth = _MaxHealth;
-        // Find a health wheel that hasn't been claimed already
-
-        _HWScript = _ObjectPooler.SpawnFromPool("Health", transform.position + _PositionOffset, Quaternion.identity).GetComponentInChildren<HealthWheel>();
             
+        // Find a health wheel that hasn't been claimed already
+        _HWScript = _ObjectPooler.SpawnFromPool("Health", transform.position + _HWOffset, Quaternion.identity).GetComponentInChildren<HealthWheel>();
         // Apply all of the required variables 
         _HWScript._InUse = true;
         _HWScript._MaxHealth = _MaxHealth;
         _HWScript._CurrentHealth = _MaxHealth;
         _HWScript.transform.SetParent(transform);
-
+        _HWScript.transform.localScale = Vector3.one * _HWScale;
     }
 
     void Update ()
@@ -57,7 +59,7 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position + _PositionOffset, 1);    
+        Gizmos.DrawWireSphere(transform.position + _HWOffset, _HWScale);    
     }
 
     #region Pikmin Attacking Implementation

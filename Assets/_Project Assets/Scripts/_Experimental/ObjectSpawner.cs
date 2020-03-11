@@ -30,7 +30,7 @@ public class ObjectSpawner : MonoBehaviour
         for (int i = 0; i < _Amount; i++)
         {
             // Spawn objects in the tagged pool at the spawn location
-            _ObjectPooler.SpawnFromPool(_PoolTag, position + (Vector3.back * stagger), Quaternion.identity);
+            _ObjectPooler.SpawnFromPool(_PoolTag, position + (-transform.forward * stagger), Quaternion.identity);
             // Add more space between the initial object and the new object
             stagger += _Stagger;
         }

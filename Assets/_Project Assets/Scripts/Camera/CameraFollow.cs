@@ -27,6 +27,8 @@ public class CameraFollow : MonoBehaviour
 
     [Header("Movement / Camera Specific")]
     [SerializeField] float _FollowSpeed;
+    [SerializeField] float _HeightChangeSpeed;
+    [SerializeField] float _OrbitChangeSpeed;
     [SerializeField] float _FOVChangeSpeed;
 
     [Header("Rotation")]
@@ -35,6 +37,9 @@ public class CameraFollow : MonoBehaviour
     [Header("Controlled Rotation")]
     [SerializeField] float _CameraResetSpeed;
     [SerializeField] float _TriggerRotationSpeed;
+
+    [Header("Miscellaneous")]
+    [SerializeField] LayerMask _MapLayer;
 
     CFCameraVars _CurrentHolder;
     AudioSource _AudioSource;
@@ -50,6 +55,8 @@ public class CameraFollow : MonoBehaviour
         // Movement / Camera Specific
         _FollowSpeed = 5;
         _FOVChangeSpeed = 2;
+        _HeightChangeSpeed = 2;
+        _OrbitChangeSpeed = 2;
         // Rotation
         _LookAtRotationSpeed = 5;
         // Controlled Rotation
@@ -95,14 +102,27 @@ public class CameraFollow : MonoBehaviour
     {
         // Smoothly change the OrbitRadius, GroundOffset and the Camera's field of view
         _MainCamera.fieldOfView = Mathf.Lerp(_MainCamera.fieldOfView, _CurrentHolder._FOV, _FOVChangeSpeed * Time.deltaTime);
-        _OrbitRadius = Mathf.Lerp(_OrbitRadius, _CurrentHolder._Offset.x, _FOVChangeSpeed * Time.deltaTime);
-        _GroundOffset = Mathf.Lerp(_GroundOffset, _CurrentHolder._Offset.y + _PlayerPosition.transform.position.y, _FOVChangeSpeed * Time.deltaTime);
+
+        float groundOffset = _CurrentHolder._Offset.y + _PlayerPosition.position.y;
+        float orbitRadius = _CurrentHolder._Offset.x;
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, Mathf.Infinity, _MapLayer))
+        {
+            float offset = Mathf.Abs(_PlayerPosition.position.y - hit.point.y);
+            groundOffset += offset;
+            orbitRadius += offset;
+        }
+
+        _OrbitRadius = Mathf.Lerp(_OrbitRadius, orbitRadius, _OrbitChangeSpeed * Time.deltaTime);
+        _GroundOffset = Mathf.Lerp(_GroundOffset, groundOffset, _HeightChangeSpeed * Time.deltaTime);
 
         // Calculates the position the Camera wants to be in, using Ground Offset and Orbit Radius
-        Vector3 targetPosition = (transform.position - _PlayerPosition.transform.position).normalized
+        Vector3 targetPosition = (transform.position - _PlayerPosition.position).normalized
                                  * Mathf.Abs(_OrbitRadius)
-                                 + _PlayerPosition.transform.position;
+                                 + _PlayerPosition.position;
+
         targetPosition.y = _GroundOffset;
+
+
         transform.position = Vector3.Lerp(transform.position, targetPosition, _FollowSpeed * Time.deltaTime);
     }
 
