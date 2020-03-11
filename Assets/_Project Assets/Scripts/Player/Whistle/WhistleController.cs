@@ -82,13 +82,15 @@ public class WhistleController : MonoBehaviour
 
     void CheckPikmin(GameObject toCheck)
     {
+        if (toCheck.layer == LayerMask.NameToLayer("Map"))
+            return;
+
         var pikminComponent = toCheck.GetComponent<PikminBehavior>();
         if (pikminComponent == null)
             return;
 
         pikminComponent.LatchOntoObject(null);
         pikminComponent.AddToSquad();
-        print("Calling Pikmin");
     }
 
     void HandleWhistle()
