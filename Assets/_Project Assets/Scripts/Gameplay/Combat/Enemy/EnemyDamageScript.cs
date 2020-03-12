@@ -16,13 +16,18 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
     [Header("Health Wheel")]
     [SerializeField] Vector3 _HWOffset = Vector3.up;
     [SerializeField] float _HWScale = 1;
-    [SerializeField] float _FadeInSpeed = 5;
-    float _HealthImageOpacity = 0;
+
+    Animator _Animator;
 
     List<GameObject> _AttachedPikmin = new List<GameObject>();
     ObjectPooler _ObjectPooler;
     HealthWheel _HWScript;
     int _CurrentHealth = 0;
+
+    void Awake()
+    {
+        _Animator = GetComponent<Animator>();
+    }
 
     void Start()
     {
@@ -71,10 +76,19 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
         // take damage ._.
         TakeHealth(damage);
         _HWScript._CurrentHealth = _CurrentHealth;
+
+        if (_Animator.GetBool("hit") == false)
+            _Animator.SetBool("hit", true);
     }
 
     public void OnAttach(GameObject attachedPikmin) => _AttachedPikmin.Add(attachedPikmin);
-    public void OnDetach(GameObject detachedPikmin) => _AttachedPikmin.Remove(detachedPikmin);
+    public void OnDetach(GameObject detachedPikmin)
+    {
+        _AttachedPikmin.Remove(detachedPikmin);
+
+        if (_AttachedPikmin.Count == 0)
+            _Animator.SetBool("hit", false);        
+    }
 
     #endregion
 
