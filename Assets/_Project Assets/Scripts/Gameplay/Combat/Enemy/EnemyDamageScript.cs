@@ -16,6 +16,8 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
     [Header("Health Wheel")]
     [SerializeField] Vector3 _HWOffset = Vector3.up;
     [SerializeField] float _HWScale = 1;
+    [SerializeField] float _FadeInSpeed = 5;
+    float _HealthImageOpacity = 0;
 
     List<GameObject> _AttachedPikmin = new List<GameObject>();
     ObjectPooler _ObjectPooler;
@@ -27,7 +29,7 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
         _ObjectPooler = ObjectPooler.Instance;
         // Set the current health to the max health
         _CurrentHealth = _MaxHealth;
-            
+
         // Find a health wheel that hasn't been claimed already
         _HWScript = _ObjectPooler.SpawnFromPool("Health", transform.position + _HWOffset, Quaternion.identity).GetComponentInChildren<HealthWheel>();
         // Apply all of the required variables 

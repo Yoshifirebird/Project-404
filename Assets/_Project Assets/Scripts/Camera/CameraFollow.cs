@@ -146,7 +146,7 @@ public class CameraFollow : MonoBehaviour
         if (Input.GetButtonDown("CameraAngle"))
         {
             _TopView = !_TopView; // Invert the TopView 
-            ApplyChangedZoomLevel(_TopView ? _DefaultHolders : _TopViewHolders);
+            ApplyChangedZoomLevel(_TopView ? _TopViewHolders : _DefaultHolders);
         }
 
         if (Input.GetButton("CameraReset"))

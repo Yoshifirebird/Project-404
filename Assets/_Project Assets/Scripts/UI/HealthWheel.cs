@@ -10,13 +10,12 @@ using UnityEngine.UI;
 
 public class HealthWheel : MonoBehaviour, IPooledObject
 {
-    public bool _Visible;
     [SerializeField] float _HealthSpeed = 7.5f;
 
     [HideInInspector] public bool _InUse = false;
     [HideInInspector] public float _MaxHealth;
     [HideInInspector] public float _CurrentHealth;
-    Image _BillboardHealth;
+    [HideInInspector] public Image _BillboardHealth;
 
     // Start is called before the first frame update
     void Start()
@@ -32,11 +31,6 @@ public class HealthWheel : MonoBehaviour, IPooledObject
     // Update is called once per frame
     void Update()
     {
-        if (_CurrentHealth < _MaxHealth)
-        {
-            _Visible = true;
-        }
-
         // Smoothly transition between values to avoid hard changing
         _BillboardHealth.fillAmount = Mathf.Lerp(_BillboardHealth.fillAmount,
                                                  _CurrentHealth / (float)_MaxHealth,

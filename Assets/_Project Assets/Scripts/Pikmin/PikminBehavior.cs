@@ -88,7 +88,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
                 HandleIdle();
                 break;
             case States.Formation:
-                // TODO: fix jittery movement
                 HandleFormation();
                 break;
             case States.Attacking:
@@ -192,10 +191,10 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     void MoveTowards(Vector3 towards, float speed)
     {
         // cache the direction of the player
-        Vector3 direction = towards - transform.position;
+        Vector3 direction = (towards - transform.position).normalized;
 
         // calculate the velocity needed
-        Vector3 velocity = direction.normalized * speed;
+        Vector3 velocity = direction * speed;
         velocity.y = _Rigidbody.velocity.y;
         _Rigidbody.velocity = velocity;
 
