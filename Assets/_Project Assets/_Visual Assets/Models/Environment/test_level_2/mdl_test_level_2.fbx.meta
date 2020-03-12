@@ -12,7 +12,17 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Back_01.001
+    second: {fileID: 2100000, guid: b93ba7b5fe20f1b49bd08f1ff75eaf5d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Back_02
+    second: {fileID: 2100000, guid: 52f14b9aa903fa44aa94a347bfdf94da, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Back_02.001
     second: {fileID: 2100000, guid: 52f14b9aa903fa44aa94a347bfdf94da, type: 2}
   - first:
       type: UnityEngine:Material
@@ -22,7 +32,17 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Back_03.001
+    second: {fileID: 2100000, guid: 2c477eadd48beba4daed5ac5862e8447, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Back_04
+    second: {fileID: 2100000, guid: c66772bb55bd0ea4fb732e12181a4a02, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Back_04.001
     second: {fileID: 2100000, guid: c66772bb55bd0ea4fb732e12181a4a02, type: 2}
   - first:
       type: UnityEngine:Material
@@ -32,7 +52,17 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Dirt_01.001
+    second: {fileID: 2100000, guid: b757034cb5aff82439ae819c6ae6065c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Grass_01
+    second: {fileID: 2100000, guid: 35871a1d85114a84f8be96817c995d84, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Grass_01.001
     second: {fileID: 2100000, guid: 35871a1d85114a84f8be96817c995d84, type: 2}
   - first:
       type: UnityEngine:Material
@@ -42,12 +72,27 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Grass_02.001
+    second: {fileID: 2100000, guid: 1d18abd26c7e2af43a6aedac5fddd19d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Metal_resource
     second: {fileID: 2100000, guid: 0dbd9fefacc224141a9757f5b1019ebd, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Metal_resource.001
+    second: {fileID: 2100000, guid: 0dbd9fefacc224141a9757f5b1019ebd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Mud_01
+    second: {fileID: 2100000, guid: 196a4d6eb544dc541a02a8abbaef0e21, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mud_01.001
     second: {fileID: 2100000, guid: 196a4d6eb544dc541a02a8abbaef0e21, type: 2}
   - first:
       type: UnityEngine:Material
@@ -87,7 +132,27 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Stone_01.001
+    second: {fileID: 2100000, guid: a0854d05e7bdade4f87f847d8f2d2f22, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Stone_02
+    second: {fileID: 2100000, guid: 6f512d5789d97404c8346a39ca0e25aa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stone_02.000
+    second: {fileID: 2100000, guid: 6f512d5789d97404c8346a39ca0e25aa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stone_02.001
+    second: {fileID: 2100000, guid: 6f512d5789d97404c8346a39ca0e25aa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stone_02.002
     second: {fileID: 2100000, guid: 6f512d5789d97404c8346a39ca0e25aa, type: 2}
   - first:
       type: UnityEngine:Material
@@ -97,7 +162,17 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Stone_03.001
+    second: {fileID: 2100000, guid: 183c2cacc5d838942a9b0be7c34397f1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Stone_04
+    second: {fileID: 2100000, guid: b2d70c40b2444cc47844a5a7dd491646, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stone_04.001
     second: {fileID: 2100000, guid: b2d70c40b2444cc47844a5a7dd491646, type: 2}
   - first:
       type: UnityEngine:Material
@@ -107,12 +182,27 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Void.001
+    second: {fileID: 2100000, guid: a47e8c8cd1eab334b9f21e93c3700b46, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Wall_01
     second: {fileID: 2100000, guid: a1d60bfd8a940b84bb520f855e166e9b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Wall_01.001
+    second: {fileID: 2100000, guid: e1719f9d70430594ca052306cc724b1b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Wall_02
+    second: {fileID: 2100000, guid: e1719f9d70430594ca052306cc724b1b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wall_02.001
     second: {fileID: 2100000, guid: e1719f9d70430594ca052306cc724b1b, type: 2}
   - first:
       type: UnityEngine:Material
@@ -122,7 +212,17 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Wall_03.001
+    second: {fileID: 2100000, guid: e1719f9d70430594ca052306cc724b1b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Wall_04
+    second: {fileID: 2100000, guid: 5ac89f954fc0ccc4da627f619949f88a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wall_04.001
     second: {fileID: 2100000, guid: 5ac89f954fc0ccc4da627f619949f88a, type: 2}
   - first:
       type: UnityEngine:Material
@@ -132,7 +232,17 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Wood_01.001
+    second: {fileID: 2100000, guid: 41d1254ee0f82cc409de4b10e8f8a973, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Wood_02
+    second: {fileID: 2100000, guid: 41d1254ee0f82cc409de4b10e8f8a973, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wood_02.001
     second: {fileID: 2100000, guid: 41d1254ee0f82cc409de4b10e8f8a973, type: 2}
   - first:
       type: UnityEngine:Material
@@ -142,13 +252,23 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Wood_03.001
+    second: {fileID: 2100000, guid: 41d1254ee0f82cc409de4b10e8f8a973, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Wood_04
+    second: {fileID: 2100000, guid: 41d1254ee0f82cc409de4b10e8f8a973, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wood_04.001
     second: {fileID: 2100000, guid: 41d1254ee0f82cc409de4b10e8f8a973, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -220,7 +340,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.02
+    globalScale: 2
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
