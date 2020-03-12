@@ -150,7 +150,7 @@ MonoBehaviour:
     m_Value: 0
   multiplier:
     m_OverrideState: 1
-    m_Value: 2.5
+    m_Value: 0.75
     min: 0
   upperHemisphereLuxValue:
     m_OverrideState: 0
@@ -174,13 +174,13 @@ MonoBehaviour:
     m_Value: 0
   top:
     m_OverrideState: 1
-    m_Value: {r: 0.007843138, g: 0.3745098, b: 0, a: 1}
+    m_Value: {r: 0.32941177, g: 2, b: 0, a: 1}
     hdr: 1
     showAlpha: 0
     showEyeDropper: 1
   middle:
     m_OverrideState: 1
-    m_Value: {r: 0.23279364, g: 0.54318506, b: 0.7800629, a: 1}
+    m_Value: {r: 0.7490196, g: 0.7490196, b: 0.7490196, a: 1}
     hdr: 1
     showAlpha: 0
     showEyeDropper: 1
