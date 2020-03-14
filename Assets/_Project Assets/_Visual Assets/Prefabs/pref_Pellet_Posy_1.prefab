@@ -268,6 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c24626ca32a797a40a278ac524e262dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _DeadObject: {fileID: 4172643792057292528}
   _MaxHealth: 10
   _HWOffset: {x: 0, y: 6, z: 0}
   _HWScale: 1.5

@@ -2426,6 +2426,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: pref_Pellet_Posy_1
       objectReference: {fileID: 0}
+    - target: {fileID: 5389076463626424317, guid: 294fc44b5aeb24b4c90a343bf25572a7,
+        type: 3}
+      propertyPath: _DeadObject
+      value: 
+      objectReference: {fileID: 4853071827087637658, guid: ae524c549db4f3d448d6e364307f6b63,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 294fc44b5aeb24b4c90a343bf25572a7, type: 3}
 --- !u!1 &1416695146
@@ -2699,6 +2705,12 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5389076463626424317, guid: 294fc44b5aeb24b4c90a343bf25572a7,
+        type: 3}
+      propertyPath: _DeadObject
+      value: 
+      objectReference: {fileID: 4853071827087637658, guid: ae524c549db4f3d448d6e364307f6b63,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 294fc44b5aeb24b4c90a343bf25572a7, type: 3}
 --- !u!1 &1736862237
@@ -3148,29 +3160,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5389076463626424317, guid: 294fc44b5aeb24b4c90a343bf25572a7,
         type: 3}
-      propertyPath: _HWOffset.y
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5389076463626424317, guid: 294fc44b5aeb24b4c90a343bf25572a7,
+      propertyPath: _DeadObject
+      value: 
+      objectReference: {fileID: 4853071827087637658, guid: ae524c549db4f3d448d6e364307f6b63,
         type: 3}
-      propertyPath: _HWScale
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5389076463626424317, guid: 294fc44b5aeb24b4c90a343bf25572a7,
-        type: 3}
-      propertyPath: _HWOffset.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5389076463626424317, guid: 294fc44b5aeb24b4c90a343bf25572a7,
-        type: 3}
-      propertyPath: _HWOffset.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5389076463626424317, guid: 294fc44b5aeb24b4c90a343bf25572a7,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 294fc44b5aeb24b4c90a343bf25572a7, type: 3}
 --- !u!1 &2090343385

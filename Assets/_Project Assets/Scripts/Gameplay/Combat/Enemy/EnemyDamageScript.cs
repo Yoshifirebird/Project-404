@@ -10,6 +10,9 @@ using UnityEngine;
 
 public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
 {
+    [Header("Components")]
+    [SerializeField] GameObject _DeadObject;
+
     [Header("Settings")]
     [SerializeField] int _MaxHealth = 10;
 
@@ -56,6 +59,8 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
                 // follow us wherever we go
                 attached.transform.parent = null;
             }
+
+            Instantiate(_DeadObject, transform.position, Quaternion.identity);
 
             // Should be an animation here, but because
             // it was a test we can just destroy the gameObject
