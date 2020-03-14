@@ -31,11 +31,14 @@ public class WhistleController : MonoBehaviour
     Vector3 _StartingScale;
     bool _IsWhistling;
 
+    AudioSource _AudioSource;
+
     void Awake()
     {
         _StartingScale = transform.localScale;
         _TargetScale = _StartingScale;
         _Camera = Camera.main;
+        _AudioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -79,12 +82,14 @@ public class WhistleController : MonoBehaviour
         //Determines whether the player is whistling
         if (Input.GetButtonDown("Whistle"))
         {
+            _AudioSource.Play();
             _IsWhistling = true;
             SetVector3ToVector2(ref _TargetScale, _WhistleScale);
             _CurrentWhistleTime = 0;
         }
         else if (Input.GetButtonUp("Whistle"))
         {
+            _AudioSource.Stop();
             _IsWhistling = false;
             _TargetScale = _StartingScale;
             transform.localScale = _TargetScale;
@@ -101,6 +106,7 @@ public class WhistleController : MonoBehaviour
 
         if (_CurrentWhistleTime >= _WhistleMaxTime)
         {
+            _AudioSource.Stop();
             _IsWhistling = false;
             _TargetScale = _StartingScale;
             transform.localScale = _TargetScale;

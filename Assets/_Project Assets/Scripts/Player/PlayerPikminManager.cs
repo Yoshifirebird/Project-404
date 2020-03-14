@@ -35,6 +35,12 @@ public class PlayerPikminManager : MonoBehaviour
         HandleFormation();
     }
 
+    void OnDrawGizmosSelected()
+    {
+        // Draw the formation center position
+        Gizmos.DrawWireSphere(_FormationCenter.position, 1);
+    }
+
     /// <summary>
     /// Handles throwing the Pikmin including arc calculation
     /// </summary>
@@ -121,7 +127,7 @@ public class PlayerPikminManager : MonoBehaviour
     /// </summary>
     void HandleFormation()
     {
-        Vector3 targetPosition = _FormationCenter.position - transform.position;
+        Vector3 targetPosition = (_FormationCenter.position - transform.position).normalized;
         _FormationCenter.position = transform.position + Vector3.ClampMagnitude(targetPosition, _StartingOffset + _DistancePerPikmin * _Squad.Count);
     }
 

@@ -603,7 +603,7 @@ MonoBehaviour:
     _Offset: {x: 8.75, y: 8}
   - _FOV: 90
     _Offset: {x: 10, y: 9}
-  _ChangeZoomAudio: {fileID: 8300000, guid: f6196303e1515ae41bf22a25947f9bf4, type: 3}
+  _ChangeZoomAudio: {fileID: 8300000, guid: 492ddac1abd6cf9498fe0e4cfeb8218d, type: 3}
   _FollowSpeed: 7.5
   _HeightChangeSpeed: 4
   _OrbitChangeSpeed: 4
