@@ -67,38 +67,19 @@ public class PlayerPikminManager : MonoBehaviour
             }
             if (Input.GetButtonUp("ThrowPikmin"))
             {
-                /*
-                 * TODO: convert to Quadratic Bezier curve
-                 */
-
                 // Change the appropriate variables of the Pikmin to suit it for being thrown
                 var pikminComponent = _PikminInHand.GetComponent<PikminBehavior>();
                 pikminComponent.RemoveFromSquad();
-                pikminComponent.ChangeState(PikminBehavior.States.WaitingNull);
+                pikminComponent.ChangeState(PikminBehavior.States.Thrown);
 
-                // Cache the Rigidbody component
-                var rigidbody = _PikminInHand.GetComponent<Rigidbody>();
+                //Set up the points for the bezier curve
+                pikminComponent._ThrowPoints[0] = _PikminInHand.transform.position;
+                pikminComponent._ThrowPoints[1] = new Vector3(Mathf.Lerp(_WhistleTransform.position.x, _PikminInHand.transform.position.x, 0.4f),
+                    _WhistleTransform.position.y + 5,
+                    Mathf.Lerp(_WhistleTransform.position.z, _PikminInHand.transform.position.z, 0.4f));
+                pikminComponent._ThrowPoints[2] = new Vector3(_WhistleTransform.position.x, Mathf.Clamp(_WhistleTransform.position.y, _PikminInHand.transform.position.y, _PikminInHand.transform.position.y + 10), _WhistleTransform.position.z);
 
-                // Use X and Z coordinates to calculate distance between Pikmin and whistle                
-                Vector3 whistlePos = new Vector3(_WhistleTransform.position.x, 0, _WhistleTransform.position.z);
-                Vector3 pikiPos = new Vector3(_PikminInHand.transform.position.x, 0, _PikminInHand.transform.position.z);
-
-                // Calculate vertical and horizontal distance between Pikmin and whistle
-                float vd = _WhistleTransform.position.y - _PikminInHand.transform.position.y;
-                float d = Vector3.Distance(pikiPos, whistlePos);
-
-                // Plug the variables into the equation...
-                float g = _ThrowingGravity;
-                float angle = Mathf.Deg2Rad * _LaunchAngle;
-
-                // Calculate horizontal and vertical velocity
-                float velX = Mathf.Sqrt(g * d * d / (2.0f * (vd - (d * Mathf.Tan(angle)))));
-                float velY = velX * Mathf.Tan(angle);
-
-                // Face whistle and convert local velocity to global, and apply it
-                transform.LookAt(new Vector3(whistlePos.x, transform.position.y, whistlePos.z));
-                _PikminInHand.transform.LookAt(new Vector3(whistlePos.x, _PikminInHand.transform.position.y, whistlePos.z));
-                rigidbody.velocity = _PikminInHand.transform.TransformDirection(new Vector3(0.0f, velY, velX));
+                transform.LookAt(new Vector3(_WhistleTransform.position.x, transform.position.y, _WhistleTransform.position.z));
 
                 // TODO: Adjust targeting to be more accurate to whistle position/avoid having Pikmin
                 // be thrown directly in front of Olimar rather than onto the whistle.
@@ -106,6 +87,7 @@ public class PlayerPikminManager : MonoBehaviour
 
                 // As the Pikmin has been thrown, remove it from the hand variable
                 _PikminInHand = null;
+
             }
         }
 
