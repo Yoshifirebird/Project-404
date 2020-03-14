@@ -81,9 +81,6 @@ public class PlayerMovementController : MonoBehaviour
 
     bool IsGrounded()
     {
-        if (_Controller.isGrounded)
-            return true;
-
         // Calculate the bottom position of the character controller
         // then check if there is any collider beneath us
         if (Physics.Raycast(transform.position - _BaseHeight, Vector3.down, out RaycastHit hit, 1f))
