@@ -85,6 +85,10 @@ public class PlayerMovementController : MonoBehaviour
         // then check if there is any collider beneath us
         if (Physics.Raycast(transform.position - _BaseHeight, Vector3.down, out RaycastHit hit, 1f))
         {
+            // Handle special case of water
+            if (hit.transform.CompareTag("Water"))
+                return false;
+                
             // Check if the raycast hit a floor,
             // and then check the distance between the floor and the player
             if (hit.normal == Vector3.up)

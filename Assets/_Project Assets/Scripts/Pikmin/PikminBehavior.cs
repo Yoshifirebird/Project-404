@@ -64,6 +64,11 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         // Reset state-specific variables
         _AttackingObject = null;
         _AttackTimer = 0;
+
+        if (_Data._UsingTempModel)
+        {
+            // TODO: Figure out how to change colour of material
+        }
     }
 
     void Update()
@@ -72,7 +77,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         if (_PreviousState == States.Attacking && _AttackingObject != null)
         {
             // Call the OnDetach function
-            var aInterface = _AttackingObject.GetComponent<IPikminAttack>();
+            IPikminAttack aInterface = _AttackingObject.GetComponent<IPikminAttack>();
 
             if (aInterface != null) // Not quite sure why we need to do this
                 aInterface.OnDetach(gameObject);
@@ -131,12 +136,16 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     void HandleDeath()
     {
         // We may not have been properly removed from the squad, so do it ourself
-        if (_PreviousState == States.Formation)
+        if (_PreviousState == States.Formation || _State == States.Formation)
+        {
             RemoveFromSquad();
+        }
 
+        _PlayerPikminManager.RemovePikminOnField(gameObject);
         PlayerStats.DecrementTotal(_Data._Colour);
         // TODO: handle death animation + timer later
-        ObjectPooler.Instance.StoreInPool("Pikmin");
+        //ObjectPooler.Instance.StoreInPool("Pikmin");
+        Destroy(gameObject);
     }
 
     #region Attacking
@@ -157,7 +166,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             return;
 
         // We can attack, so grab the PikminAttack component and attack!
-        var attackComponent = _AttackingObject.GetComponentInParent<IPikminAttack>();
+        IPikminAttack attackComponent = _AttackingObject.GetComponentInParent<IPikminAttack>();
         attackComponent.Attack(gameObject, _Data._AttackDamage);
         // Reset the timer as we've attacked
         _AttackTimer = 0;
@@ -166,8 +175,8 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     void CheckForAttack(GameObject toCheck)
     {
         // Check if the object in question has the pikminattack component
-        var interactable = toCheck.GetComponentInParent<IPikminAttack>();
-        var pikmin = toCheck.GetComponent<PikminBehavior>();
+        IPikminAttack interactable = toCheck.GetComponentInParent<IPikminAttack>();
+        PikminBehavior pikmin = toCheck.GetComponent<PikminBehavior>();
         if (interactable != null && pikmin == null)
         {
             // It does, we can attack!
@@ -180,11 +189,20 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     }
 
     public void LatchOntoObject(Transform parent)
-    { 
+    {
         transform.parent = parent;
         _Rigidbody.isKinematic = parent != null;
     }
     #endregion
+
+    public void EnterWater()
+    {
+        if (_Data._Colour != Colour.Blue)
+        {
+            // TODO: add struggling to get out of water
+            ChangeState(States.Dead);
+        }
+    }
 
     #region General Purpose Useful Functions
 
@@ -228,17 +246,14 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             }
 
             ChangeState(States.Formation);
-            _Player.GetPikminManager().AddToSquad(gameObject);
+            _PlayerPikminManager.AddToSquad(gameObject);
         }
     }
 
     public void RemoveFromSquad()
     {
-        if (_State == States.Formation)
-        {
-            ChangeState(States.Idle);
-            _Player.GetPikminManager().RemoveFromSquad(gameObject);
-        }
+        ChangeState(States.Idle);
+        _PlayerPikminManager.RemoveFromSquad(gameObject);
     }
     #endregion
 

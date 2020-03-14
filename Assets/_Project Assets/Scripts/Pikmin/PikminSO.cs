@@ -14,6 +14,7 @@ public class PikminSO : ScriptableObject
 {
     public Colour _Colour;
     public Headtype _HeadType;
+    public bool _UsingTempModel = true;
 
     public float _MovementSpeed;
     public float _RotationSpeed;

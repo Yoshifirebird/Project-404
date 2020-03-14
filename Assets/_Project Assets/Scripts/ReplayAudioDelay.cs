@@ -1,8 +1,8 @@
 ﻿/*
  * ReplayAudioDelay.cs
  * Created by: Ambrosia
- * Created on: #CREATIONDATE# (dd/mm/yy)
- * Created for: #PURPOSE#
+ * Created on: 14/3/2020 (dd/mm/yy)
+ * Created for: needing to replay audio after a set amount of time
  */
 
 using UnityEngine;
