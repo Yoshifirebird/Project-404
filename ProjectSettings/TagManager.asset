@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Game GUI
   - Game GUI Carrier
+  - Water
   layers:
   - Default
   - TransparentFX
