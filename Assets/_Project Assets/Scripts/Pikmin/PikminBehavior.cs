@@ -22,9 +22,8 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
      * Latched - holding onto another object
      * Carrying - latched onto another object and helping move it 
      * Dead - do a few things like destroying itself
-     * Thrown - follow the bezier curve assigned to it
      */
-    public enum States { Idle, Formation, Attacking, Dead, Carrying, WaitingNull, Thrown }
+    public enum States { Idle, Formation, Attacking, Dead, Carrying, WaitingNull }
 
     [Header("Components")]
     public PikminSO _Data;
@@ -33,9 +32,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     float _AttackTimer = 0;
     GameObject _AttackingObject;
-
-    float _ThrowTime = 0;
-    public Vector3[] _ThrowPoints = new Vector3[3];
 
     Rigidbody _Rigidbody;
     Player _Player;
@@ -105,9 +101,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             case States.Dead:
                 HandleDeath();
                 break;
-            case States.Thrown:
-                HandleThrowing();
-                break;
             case States.WaitingNull:
             default:
                 break;
@@ -116,13 +109,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void OnCollisionEnter(Collision collision)
     {
-        if(_State == States.Thrown)
-        {
-            _Rigidbody.useGravity = true;
-            _ThrowTime = 0;
-            ChangeState(States.WaitingNull);
-        }
-
         if (_State == States.WaitingNull)
         {
             CheckForAttack(collision.gameObject);
@@ -162,22 +148,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         Destroy(gameObject);
     }
 
-    void HandleThrowing()
-    {
-        _Rigidbody.useGravity = false;
-        _ThrowTime += Time.deltaTime;
-        Vector3 targetPosition = Vector3.Lerp(Vector3.Lerp(_ThrowPoints[0], _ThrowPoints[1], _ThrowTime), Vector3.Lerp(_ThrowPoints[1], _ThrowPoints[2], _ThrowTime), _ThrowTime);
-        //Apply a force that puts the pikmin of the bezier curve
-        Vector3 direction = Vector3.ClampMagnitude(targetPosition - transform.position, 1);
-        _Rigidbody.velocity = direction * 7;
-        //End throwing
-        if(_ThrowTime >= 1)
-        {
-            _ThrowTime = 0;
-            _Rigidbody.useGravity = true;
-            ChangeState(States.WaitingNull);
-        }
-    }
     #region Attacking
     void HandleAttacking()
     {
