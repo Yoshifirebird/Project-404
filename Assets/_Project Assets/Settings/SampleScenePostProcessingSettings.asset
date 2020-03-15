@@ -212,11 +212,11 @@ MonoBehaviour:
     min: 0
   farFocusStart:
     m_OverrideState: 1
-    m_Value: 30
+    m_Value: 100
     min: 0
   farFocusEnd:
     m_OverrideState: 1
-    m_Value: 100
+    m_Value: 500
     min: 0
   m_NearSampleCount:
     m_OverrideState: 0
