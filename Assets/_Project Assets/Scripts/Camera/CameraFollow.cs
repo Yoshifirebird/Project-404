@@ -32,7 +32,8 @@ public class CameraFollow : MonoBehaviour
 
     [Header("Movement Correction")]
     [SerializeField] float _HeightChangeSpeed;
-    [SerializeField] float _MaxHeightForChange;
+    [SerializeField] float _DistForHeightChange;  
+    [SerializeField] float _EasingHeightOffset; // The offset of the sphere used,
     [SerializeField] float _HeightSphereRadius; // The radius of the sphere used to check if there's a platform higher than what we're currently on
 
     [Header("Rotation")]
@@ -63,7 +64,8 @@ public class CameraFollow : MonoBehaviour
 
         // Movement Correction
         _HeightChangeSpeed = 2;
-        _MaxHeightForChange = Mathf.Infinity;
+        _DistForHeightChange = Mathf.Infinity;
+        _EasingHeightOffset = 2.5f;
         _HeightSphereRadius = 2;
 
         // Rotation
@@ -117,11 +119,16 @@ public class CameraFollow : MonoBehaviour
         float groundOffset = _CurrentHolder._Offset.y + _PlayerPosition.position.y;
         // Store the orbit radius in case we need to alter it when moving onto a higher plane
         float orbitRadius = _CurrentHolder._Offset.x;
-        if (Physics.SphereCast(transform.position, _HeightSphereRadius, Vector3.down, out RaycastHit hit, _MaxHeightForChange, _MapLayer))
+        if (Physics.SphereCast(transform.position + (Vector3.up * _EasingHeightOffset),
+                               _HeightSphereRadius,
+                               Vector3.down,
+                               out RaycastHit hit,
+                               _DistForHeightChange,
+                               _MapLayer))
         {
             float offset = Mathf.Abs(_PlayerPosition.position.y - hit.point.y);
             groundOffset += offset;
-            orbitRadius += (offset / 2);
+            orbitRadius += offset / 1.5f;
         }
 
         _OrbitRadius = Mathf.Lerp(_OrbitRadius, orbitRadius, _OrbitChangeSpeed * Time.deltaTime);

@@ -23,18 +23,22 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] float _LookAtWhistleTime = 2.5f;
 
     [HideInInspector] public Quaternion _RotationBeforeIdle;
+    [HideInInspector] public Vector3 _gVelocity { get => _Velocity; }
+    Vector3 _PreviousPosition;
+    Vector3 _Velocity;
     float _IdleTimer = 0;
 
     Vector3 _BaseHeight;
 
-    private void Awake()
+    void Awake()
     {
         _Controller = GetComponent<CharacterController>();
         _BaseHeight = Vector3.up * (_Controller.height / 2);
         _MainCamera = Camera.main;
+        _PreviousPosition = transform.position;
     }
 
-    private void Update()
+    void Update()
     {
         // If we're not grounded and not on a slope
         if (!IsGrounded())
@@ -77,6 +81,13 @@ public class PlayerMovementController : MonoBehaviour
         // Rotate and move the player
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(mDirection), _RotationSpeed * Time.deltaTime);
         _Controller.Move(mDirection.normalized * _MovementSpeed * Time.deltaTime);
+    }
+
+    void FixedUpdate()
+    {
+        // Calculate the velocity of the Player using the previous frame as a base point for the calculation
+        _Velocity = (transform.position - _PreviousPosition) / Time.fixedDeltaTime;
+        _PreviousPosition = transform.position;
     }
 
     bool IsGrounded()

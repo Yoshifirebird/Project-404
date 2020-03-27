@@ -25,14 +25,20 @@ public class ObjectSpawner : MonoBehaviour
         // Grab the ObjectPooler instance
         _ObjectPooler = ObjectPooler.Instance;
 
-        Vector3 position = _UseCurrentPosition ? transform.position : _SpawnLocation;
         float stagger = _Stagger;
         for (int i = 0; i < _Amount; i++)
         {
             // Spawn objects in the tagged pool at the spawn location
-            _ObjectPooler.SpawnFromPool(_PoolTag, position + (-transform.forward * stagger), Quaternion.identity);
+            _ObjectPooler.SpawnFromPool(_PoolTag, _SpawnLocation + (-transform.forward * stagger), Quaternion.identity);
             // Add more space between the initial object and the new object
             stagger += _Stagger;
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // Change the SpawnLocation in the Inspector
+        if (_UseCurrentPosition)
+            _SpawnLocation = transform.position;
     }
 }
