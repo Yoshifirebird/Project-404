@@ -8,7 +8,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class CFCameraVars
+public class CameraHolder
 {
     public float _FOV = 75f;
     public Vector2 _Offset = Vector2.one;
@@ -18,8 +18,8 @@ public class CFCameraVars
 public class CameraFollow : MonoBehaviour
 {
     [Header("Components")]
-    [SerializeField] CFCameraVars[] _DefaultHolders;
-    [SerializeField] CFCameraVars[] _TopViewHolders;
+    [SerializeField] CameraHolder[] _DefaultHolders;
+    [SerializeField] CameraHolder[] _TopViewHolders;
     Camera _MainCamera;
 
     [Header("Audio")]
@@ -27,21 +27,25 @@ public class CameraFollow : MonoBehaviour
 
     [Header("Movement / Camera Specific")]
     [SerializeField] float _FollowSpeed;
-    [SerializeField] float _HeightChangeSpeed;
     [SerializeField] float _OrbitChangeSpeed;
     [SerializeField] float _FOVChangeSpeed;
+
+    [Header("Movement Correction")]
+    [SerializeField] float _HeightChangeSpeed;
+    [SerializeField] float _MaxHeightForChange;
+    [SerializeField] float _HeightSphereRadius; // The radius of the sphere used to check if there's a platform higher than what we're currently on
 
     [Header("Rotation")]
     [SerializeField] float _LookAtRotationSpeed;
 
     [Header("Controlled Rotation")]
-    [SerializeField] float _CameraResetSpeed;
     [SerializeField] float _TriggerRotationSpeed;
+    [SerializeField] float _CameraResetSpeed;
 
     [Header("Miscellaneous")]
     [SerializeField] LayerMask _MapLayer;
 
-    CFCameraVars _CurrentHolder;
+    CameraHolder _CurrentHolder;
     AudioSource _AudioSource;
     Transform _PlayerPosition;
     PlayerMovementController _MovementController;
@@ -55,10 +59,16 @@ public class CameraFollow : MonoBehaviour
         // Movement / Camera Specific
         _FollowSpeed = 5;
         _FOVChangeSpeed = 2;
-        _HeightChangeSpeed = 2;
         _OrbitChangeSpeed = 2;
+
+        // Movement Correction
+        _HeightChangeSpeed = 2;
+        _MaxHeightForChange = Mathf.Infinity;
+        _HeightSphereRadius = 2;
+
         // Rotation
         _LookAtRotationSpeed = 5;
+
         // Controlled Rotation
         _CameraResetSpeed = 5;
         _TriggerRotationSpeed = 2;
@@ -103,13 +113,15 @@ public class CameraFollow : MonoBehaviour
         // Smoothly change the OrbitRadius, GroundOffset and the Camera's field of view
         _MainCamera.fieldOfView = Mathf.Lerp(_MainCamera.fieldOfView, _CurrentHolder._FOV, _FOVChangeSpeed * Time.deltaTime);
 
+        // Calculate the offset from the ground using the players current position and our additional Y offset
         float groundOffset = _CurrentHolder._Offset.y + _PlayerPosition.position.y;
+        // Store the orbit radius in case we need to alter it when moving onto a higher plane
         float orbitRadius = _CurrentHolder._Offset.x;
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, Mathf.Infinity, _MapLayer))
+        if (Physics.SphereCast(transform.position, _HeightSphereRadius, Vector3.down, out RaycastHit hit, _MaxHeightForChange, _MapLayer))
         {
             float offset = Mathf.Abs(_PlayerPosition.position.y - hit.point.y);
             groundOffset += offset;
-            orbitRadius += offset;
+            orbitRadius += (offset / 2);
         }
 
         _OrbitRadius = Mathf.Lerp(_OrbitRadius, orbitRadius, _OrbitChangeSpeed * Time.deltaTime);
@@ -174,7 +186,7 @@ public class CameraFollow : MonoBehaviour
     /// Changes zoom level based on the holder index, and plays audio
     /// </summary>
     /// <param name="currentHolder"></param>
-    void ApplyChangedZoomLevel(CFCameraVars[] currentHolder)
+    void ApplyChangedZoomLevel(CameraHolder[] currentHolder)
     {
         _AudioSource.PlayOneShot(_ChangeZoomAudio);
 

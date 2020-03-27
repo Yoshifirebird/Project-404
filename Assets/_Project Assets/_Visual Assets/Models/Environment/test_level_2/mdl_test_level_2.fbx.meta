@@ -148,12 +148,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Stone_02.001
-    second: {fileID: 2100000, guid: 6f512d5789d97404c8346a39ca0e25aa, type: 2}
+    second: {fileID: 2100000, guid: 183c2cacc5d838942a9b0be7c34397f1, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Stone_02.002
-    second: {fileID: 2100000, guid: 6f512d5789d97404c8346a39ca0e25aa, type: 2}
+    second: {fileID: 2100000, guid: b2d70c40b2444cc47844a5a7dd491646, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -163,7 +163,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Stone_03.001
-    second: {fileID: 2100000, guid: 183c2cacc5d838942a9b0be7c34397f1, type: 2}
+    second: {fileID: 2100000, guid: a0854d05e7bdade4f87f847d8f2d2f22, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -173,7 +173,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Stone_04.001
-    second: {fileID: 2100000, guid: b2d70c40b2444cc47844a5a7dd491646, type: 2}
+    second: {fileID: 2100000, guid: 6f512d5789d97404c8346a39ca0e25aa, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -193,7 +193,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Wall_01.001
-    second: {fileID: 2100000, guid: e1719f9d70430594ca052306cc724b1b, type: 2}
+    second: {fileID: 2100000, guid: a1d60bfd8a940b84bb520f855e166e9b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -213,7 +213,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Wall_03.001
-    second: {fileID: 2100000, guid: e1719f9d70430594ca052306cc724b1b, type: 2}
+    second: {fileID: 2100000, guid: a1d60bfd8a940b84bb520f855e166e9b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
