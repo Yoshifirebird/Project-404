@@ -8,7 +8,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class CFCameraVars
+public class CameraHolder
 {
     public float _FOV = 75f;
     public Vector2 _Offset = Vector2.one;
@@ -18,8 +18,8 @@ public class CFCameraVars
 public class CameraFollow : MonoBehaviour
 {
     [Header("Components")]
-    [SerializeField] CFCameraVars[] _DefaultHolders;
-    [SerializeField] CFCameraVars[] _TopViewHolders;
+    [SerializeField] CameraHolder[] _DefaultHolders;
+    [SerializeField] CameraHolder[] _TopViewHolders;
     Camera _MainCamera;
 
     [Header("Audio")]
@@ -27,16 +27,26 @@ public class CameraFollow : MonoBehaviour
 
     [Header("Movement / Camera Specific")]
     [SerializeField] float _FollowSpeed;
+    [SerializeField] float _OrbitChangeSpeed;
     [SerializeField] float _FOVChangeSpeed;
+
+    [Header("Movement Correction")]
+    [SerializeField] float _HeightChangeSpeed;
+    [SerializeField] float _DistForHeightChange;  
+    [SerializeField] float _EasingHeightOffset; // The offset of the sphere used,
+    [SerializeField] float _HeightSphereRadius; // The radius of the sphere used to check if there's a platform higher than what we're currently on
 
     [Header("Rotation")]
     [SerializeField] float _LookAtRotationSpeed;
 
     [Header("Controlled Rotation")]
-    [SerializeField] float _CameraResetSpeed;
     [SerializeField] float _TriggerRotationSpeed;
+    [SerializeField] float _CameraResetSpeed;
 
-    CFCameraVars _CurrentHolder;
+    [Header("Miscellaneous")]
+    [SerializeField] LayerMask _MapLayer;
+
+    CameraHolder _CurrentHolder;
     AudioSource _AudioSource;
     Transform _PlayerPosition;
     PlayerMovementController _MovementController;
@@ -50,8 +60,17 @@ public class CameraFollow : MonoBehaviour
         // Movement / Camera Specific
         _FollowSpeed = 5;
         _FOVChangeSpeed = 2;
+        _OrbitChangeSpeed = 2;
+
+        // Movement Correction
+        _HeightChangeSpeed = 2;
+        _DistForHeightChange = Mathf.Infinity;
+        _EasingHeightOffset = 2.5f;
+        _HeightSphereRadius = 2;
+
         // Rotation
         _LookAtRotationSpeed = 5;
+
         // Controlled Rotation
         _CameraResetSpeed = 5;
         _TriggerRotationSpeed = 2;
@@ -95,14 +114,34 @@ public class CameraFollow : MonoBehaviour
     {
         // Smoothly change the OrbitRadius, GroundOffset and the Camera's field of view
         _MainCamera.fieldOfView = Mathf.Lerp(_MainCamera.fieldOfView, _CurrentHolder._FOV, _FOVChangeSpeed * Time.deltaTime);
-        _OrbitRadius = Mathf.Lerp(_OrbitRadius, _CurrentHolder._Offset.x, _FOVChangeSpeed * Time.deltaTime);
-        _GroundOffset = Mathf.Lerp(_GroundOffset, _CurrentHolder._Offset.y + _PlayerPosition.transform.position.y, _FOVChangeSpeed * Time.deltaTime);
+
+        // Calculate the offset from the ground using the players current position and our additional Y offset
+        float groundOffset = _CurrentHolder._Offset.y + _PlayerPosition.position.y;
+        // Store the orbit radius in case we need to alter it when moving onto a higher plane
+        float orbitRadius = _CurrentHolder._Offset.x;
+        if (Physics.SphereCast(transform.position + (Vector3.up * _EasingHeightOffset),
+                               _HeightSphereRadius,
+                               Vector3.down,
+                               out RaycastHit hit,
+                               _DistForHeightChange,
+                               _MapLayer))
+        {
+            float offset = Mathf.Abs(_PlayerPosition.position.y - hit.point.y);
+            groundOffset += offset;
+            orbitRadius += offset / 1.5f;
+        }
+
+        _OrbitRadius = Mathf.Lerp(_OrbitRadius, orbitRadius, _OrbitChangeSpeed * Time.deltaTime);
+        _GroundOffset = Mathf.Lerp(_GroundOffset, groundOffset, _HeightChangeSpeed * Time.deltaTime);
 
         // Calculates the position the Camera wants to be in, using Ground Offset and Orbit Radius
-        Vector3 targetPosition = (transform.position - _PlayerPosition.transform.position).normalized
+        Vector3 targetPosition = (transform.position - _PlayerPosition.position).normalized
                                  * Mathf.Abs(_OrbitRadius)
-                                 + _PlayerPosition.transform.position;
+                                 + _PlayerPosition.position;
+
         targetPosition.y = _GroundOffset;
+
+
         transform.position = Vector3.Lerp(transform.position, targetPosition, _FollowSpeed * Time.deltaTime);
     }
 
@@ -126,7 +165,7 @@ public class CameraFollow : MonoBehaviour
         if (Input.GetButtonDown("CameraAngle"))
         {
             _TopView = !_TopView; // Invert the TopView 
-            ApplyChangedZoomLevel(_TopView ? _DefaultHolders : _TopViewHolders);
+            ApplyChangedZoomLevel(_TopView ? _TopViewHolders : _DefaultHolders);
         }
 
         if (Input.GetButton("CameraReset"))
@@ -154,7 +193,7 @@ public class CameraFollow : MonoBehaviour
     /// Changes zoom level based on the holder index, and plays audio
     /// </summary>
     /// <param name="currentHolder"></param>
-    void ApplyChangedZoomLevel(CFCameraVars[] currentHolder)
+    void ApplyChangedZoomLevel(CameraHolder[] currentHolder)
     {
         _AudioSource.PlayOneShot(_ChangeZoomAudio);
 

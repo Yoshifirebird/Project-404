@@ -51,8 +51,7 @@ public class PlayerUIController : MonoBehaviour
 		_ReferenceHealth = _Player.GetHealth();
 
 		float step = (float)_ReferenceHealth / (float)_MaxHealth;
-		// Sets the fill amount to be a fraction (0 - dead, _MaxHealth - alive)
-		_HealthCircle.fillAmount = Mathf.MoveTowards(_HealthCircle.fillAmount,step, Time.deltaTime);
+		_HealthCircle.fillAmount = Mathf.MoveTowards(_HealthCircle.fillAmount, step, Time.deltaTime);
 		_HealthCircle.color = _HealthColor.Evaluate(step);
 	}
 

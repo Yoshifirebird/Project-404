@@ -31,11 +31,14 @@ public class WhistleController : MonoBehaviour
     Vector3 _StartingScale;
     bool _IsWhistling;
 
+    AudioSource _AudioSource;
+
     void Awake()
     {
         _StartingScale = transform.localScale;
         _TargetScale = _StartingScale;
         _Camera = Camera.main;
+        _AudioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -44,29 +47,10 @@ public class WhistleController : MonoBehaviour
         // hits other than objects that are on the _GroundLayer layer
         if (Physics.Raycast(_Camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, Mathf.Infinity, _GroundLayer.value, QueryTriggerInteraction.Ignore))
         {
-            Vector3 position = hit.point;
-            position.y += _YAxisOffset;
-            position -= _Player.position;
-            RaycastHit point;
+            Vector3 originalPosition = new Vector3(hit.point.x - _Player.position.x, (hit.point.y + _YAxisOffset) - _Player.position.y, hit.point.z -_Player.position.z);
 
-            // Determine position for the whistle
-            position = Vector3.ClampMagnitude(position, _WhistleMaxDistance) + _Player.position;
-            if(Physics.Raycast(position, Vector3.down, out point, Mathf.Infinity, _GroundLayer.value, QueryTriggerInteraction.Ignore))
-            {
-                transform.position = point.point;
-            }
-
-            // Reset position for the next object
-            position = hit.point;
-            position.y += _YAxisOffset;
-            position -= _Player.position;
-
-            // Determine position for the throw position
-            position = Vector3.ClampMagnitude(position, _ThrowMaxDistance) + _Player.position;
-            if (Physics.Raycast(position, Vector3.down, out point, Mathf.Infinity, _GroundLayer.value, QueryTriggerInteraction.Ignore))
-            {
-                _Throw.transform.position = point.point;
-            }
+            transform.position = Vector3.ClampMagnitude(originalPosition, _WhistleMaxDistance) + _Player.position;
+            _Throw.transform.position = Vector3.ClampMagnitude(originalPosition, _ThrowMaxDistance) + _Player.position;
         }
 
         HandleWhistle();
@@ -82,13 +66,15 @@ public class WhistleController : MonoBehaviour
 
     void CheckPikmin(GameObject toCheck)
     {
+        if (toCheck.layer == LayerMask.NameToLayer("Map"))
+            return;
+
         var pikminComponent = toCheck.GetComponent<PikminBehavior>();
         if (pikminComponent == null)
             return;
 
         pikminComponent.LatchOntoObject(null);
         pikminComponent.AddToSquad();
-        print("Calling Pikmin");
     }
 
     void HandleWhistle()
@@ -96,12 +82,14 @@ public class WhistleController : MonoBehaviour
         //Determines whether the player is whistling
         if (Input.GetButtonDown("Whistle"))
         {
+            _AudioSource.Play();
             _IsWhistling = true;
             SetVector3ToVector2(ref _TargetScale, _WhistleScale);
             _CurrentWhistleTime = 0;
         }
         else if (Input.GetButtonUp("Whistle"))
         {
+            _AudioSource.Stop();
             _IsWhistling = false;
             _TargetScale = _StartingScale;
             transform.localScale = _TargetScale;
@@ -118,6 +106,7 @@ public class WhistleController : MonoBehaviour
 
         if (_CurrentWhistleTime >= _WhistleMaxTime)
         {
+            _AudioSource.Stop();
             _IsWhistling = false;
             _TargetScale = _StartingScale;
             transform.localScale = _TargetScale;

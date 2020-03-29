@@ -35,6 +35,12 @@ public class PlayerPikminManager : MonoBehaviour
         HandleFormation();
     }
 
+    void OnDrawGizmosSelected()
+    {
+        // Draw the formation center position
+        Gizmos.DrawWireSphere(_FormationCenter.position, 1);
+    }
+
     /// <summary>
     /// Handles throwing the Pikmin including arc calculation
     /// </summary>
@@ -45,50 +51,10 @@ public class PlayerPikminManager : MonoBehaviour
 
         if (Input.GetButtonDown("ThrowPikmin") && GetPikminOnFieldCount() > 0)
         {
-            GameObject closestPikmin = null;
-            float closestPikminDistance = _PikminGrabRadius;
-
-            // Grab all colliders within a given radius from our current position
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, _PikminGrabRadius);
-            foreach (var collider in hitColliders)
-            {
-                // Check if the collider is actually a pikmin
-                var pikminComponent = collider.GetComponent<PikminBehavior>();
-                if (pikminComponent != null)
-                {
-                    // Check if they're in the squad
-                    if (pikminComponent.GetState() != PikminBehavior.States.Formation)
-                        continue;
-
-                    // Vertical check, make sure Pikmin don't get thrown if too far up
-                    // or downwards from the position of the Player
-                    float verticalDistance = Mathf.Abs(transform.position.y - collider.transform.position.y);
-                    if (verticalDistance > _VerticalMaxGrabRadius)
-                        continue;
-
-                    // Assign it on our first run
-                    if (closestPikmin == null)
-                    {
-                        closestPikmin = collider.gameObject;
-                        continue;
-                    }
-
-                    // Checks the distance between the previously checked Pikmin
-                    // and the Pikmin we're doing now
-                    float distanceToPlayer = Vector3.Distance(collider.transform.position, transform.position);
-                    if (distanceToPlayer < closestPikminDistance)
-                    {
-                        closestPikmin = collider.gameObject;
-                        closestPikminDistance = distanceToPlayer;
-                    }
-                }
-            }
-
+            GameObject closestPikmin = GetClosestPikmin();
             // Check if we've even gotten a Pikmin
-            if (closestPikmin != null)
-            {
-                _PikminInHand = closestPikmin;
-            }
+            if (closestPikmin != null)            
+                _PikminInHand = closestPikmin;            
         }
 
         // The rest of the throw depends if we even got a Pikmin
@@ -101,6 +67,10 @@ public class PlayerPikminManager : MonoBehaviour
             }
             if (Input.GetButtonUp("ThrowPikmin"))
             {
+                /*
+                 * TODO: convert to Quadratic Bezier curve
+                 */
+
                 // Change the appropriate variables of the Pikmin to suit it for being thrown
                 var pikminComponent = _PikminInHand.GetComponent<PikminBehavior>();
                 pikminComponent.RemoveFromSquad();
@@ -138,6 +108,17 @@ public class PlayerPikminManager : MonoBehaviour
                 _PikminInHand = null;
             }
         }
+
+        // (test) Killing the Pikmin
+        if (Input.GetKeyDown(KeyCode.B) && GetPikminOnFieldCount() > 0)
+        {
+            GameObject closestPikmin = GetClosestPikmin();
+            if (closestPikmin != null)
+            {
+                var pikminComponent = closestPikmin.GetComponent<PikminBehavior>();
+                pikminComponent.ChangeState(PikminBehavior.States.Dead);
+            }
+        }
     }
 
     /// <summary>
@@ -146,10 +127,58 @@ public class PlayerPikminManager : MonoBehaviour
     /// </summary>
     void HandleFormation()
     {
-        Vector3 targetPosition = _FormationCenter.position - transform.position;
+        Vector3 targetPosition = (_FormationCenter.position - transform.position).normalized;
         _FormationCenter.position = transform.position + Vector3.ClampMagnitude(targetPosition, _StartingOffset + _DistancePerPikmin * _Squad.Count);
     }
 
+
+    /// <summary>
+    /// Searches for the closest Pikmin in proximity to the Player and returns it
+    /// </summary>
+    /// <returns>The closest Pikmin gameobject in the Player's squad</returns>
+    GameObject GetClosestPikmin()
+    {
+        GameObject closestPikmin = null;
+        float closestPikminDistance = _PikminGrabRadius;
+
+        // Grab all colliders within a given radius from our current position
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, _PikminGrabRadius);
+        foreach (var collider in hitColliders)
+        {
+            // Check if the collider is actually a pikmin
+            var pikminComponent = collider.GetComponent<PikminBehavior>();
+            if (pikminComponent != null)
+            {
+                // Check if they're in the squad
+                if (pikminComponent.GetState() != PikminBehavior.States.Formation)
+                    continue;
+
+                // Vertical check, make sure Pikmin don't get thrown if too far up
+                // or downwards from the position of the Player
+                float verticalDistance = Mathf.Abs(transform.position.y - collider.transform.position.y);
+                if (verticalDistance > _VerticalMaxGrabRadius)
+                    continue;
+
+                // Assign it on our first run
+                if (closestPikmin == null)
+                {
+                    closestPikmin = collider.gameObject;
+                    continue;
+                }
+
+                // Checks the distance between the previously checked Pikmin
+                // and the Pikmin we're doing now
+                float distanceToPlayer = Vector3.Distance(collider.transform.position, transform.position);
+                if (distanceToPlayer < closestPikminDistance)
+                {
+                    closestPikmin = collider.gameObject;
+                    closestPikminDistance = distanceToPlayer;
+                }
+            }
+        }
+
+        return closestPikmin;
+    }
 
     #region Global Setters
     public void AddPikminOnField(GameObject toAdd) => _PikminOnField.Add(toAdd);

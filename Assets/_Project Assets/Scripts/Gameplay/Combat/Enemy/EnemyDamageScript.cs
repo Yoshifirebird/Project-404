@@ -1,6 +1,6 @@
 ﻿/*
  * EnemyDamageScript.cs
- * Created by: Neo
+ * Created by: Neo, Ambrosia
  * Created on: 15/2/2020 (dd/mm/yy)
  * Created for: Generic enemy health manager script
  */
@@ -10,33 +10,42 @@ using UnityEngine;
 
 public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
 {
+    [Header("Components")]
+    [SerializeField] GameObject _DeadObject;
+
+    [Header("Settings")]
     [SerializeField] int _MaxHealth = 10;
-    int _CurrentHealth = 0;
-    readonly List<GameObject> _AttachedPikmin = new List<GameObject>();
-    GameObject _HealthWheel;
-    HealthWheel _HWScript;
+
+    [Header("Health Wheel")]
+    [SerializeField] Vector3 _HWOffset = Vector3.up;
+    [SerializeField] float _HWScale = 1;
+
+    Animator _Animator;
+
+    List<GameObject> _AttachedPikmin = new List<GameObject>();
     ObjectPooler _ObjectPooler;
+    HealthWheel _HWScript;
+    int _CurrentHealth = 0;
+
+    void Awake()
+    {
+        _Animator = GetComponent<Animator>();
+    }
 
     void Start()
     {
         _ObjectPooler = ObjectPooler.Instance;
         // Set the current health to the max health
         _CurrentHealth = _MaxHealth;
+
         // Find a health wheel that hasn't been claimed already
-
-        _ObjectPooler.SpawnFromPool("Health", transform.position + (Vector3.up * 1), Quaternion.identity);
-
-        _HealthWheel = GameObject.Find("/pref_Health_Wheel(Clone)").gameObject;
-
-        if (!_HealthWheel.GetComponent<HealthWheel>()._InUse)
-        {
-            _HWScript = _HealthWheel.GetComponent<HealthWheel>();
-            _HWScript._InUse = true;
-            _HWScript._MaxHealth = _MaxHealth;
-            _HWScript._CurrentHealth = _MaxHealth;
-            // Set the health wheel's parent as this object, and grab it's script while you're at it
-            _HealthWheel.transform.SetParent(transform);
-        }
+        _HWScript = _ObjectPooler.SpawnFromPool("Health", transform.position + _HWOffset, Quaternion.identity).GetComponentInChildren<HealthWheel>();
+        // Apply all of the required variables 
+        _HWScript._InUse = true;
+        _HWScript._MaxHealth = _MaxHealth;
+        _HWScript._CurrentHealth = _MaxHealth;
+        _HWScript.transform.SetParent(transform);
+        _HWScript.transform.localScale = Vector3.one * _HWScale;
     }
 
     void Update ()
@@ -51,10 +60,18 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
                 attached.transform.parent = null;
             }
 
+            Instantiate(_DeadObject, transform.position, Quaternion.identity);
+
             // Should be an animation here, but because
             // it was a test we can just destroy the gameObject
             Destroy(gameObject);
         }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position + _HWOffset, _HWScale);    
     }
 
     #region Pikmin Attacking Implementation
@@ -64,10 +81,19 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
         // take damage ._.
         TakeHealth(damage);
         _HWScript._CurrentHealth = _CurrentHealth;
+
+        if (_Animator.GetBool("hit") == false)
+            _Animator.SetBool("hit", true);
     }
 
     public void OnAttach(GameObject attachedPikmin) => _AttachedPikmin.Add(attachedPikmin);
-    public void OnDetach(GameObject detachedPikmin) => _AttachedPikmin.Remove(detachedPikmin);
+    public void OnDetach(GameObject detachedPikmin)
+    {
+        _AttachedPikmin.Remove(detachedPikmin);
+
+        if (_AttachedPikmin.Count == 0)
+            _Animator.SetBool("hit", false);        
+    }
 
     #endregion
 
