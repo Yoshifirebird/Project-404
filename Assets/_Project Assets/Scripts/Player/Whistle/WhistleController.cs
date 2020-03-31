@@ -163,6 +163,7 @@ public class WhistleController : MonoBehaviour
     /// </summary>
     void AssignParticlePositions()
     {
+        RaycastHit hitInfo;
         for (int i = 0; i < _ParticleDensity + 1; i++)
         {
             Transform cacheTransform = transform;
@@ -174,7 +175,7 @@ public class WhistleController : MonoBehaviour
             particlePos.y += _ParticleRaycastAddedHeight;
 
             // Check if there is a surface beneath the particle
-            if (Physics.Raycast(particlePos, Vector3.down, out RaycastHit hitInfo, _MaxDistance, _MapMask, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(particlePos, Vector3.down, out hitInfo, _MaxDistance, _MapMask, QueryTriggerInteraction.Ignore))
             {
                 particlePos.y = hitInfo.point.y + _ParticleOffset;
             }
