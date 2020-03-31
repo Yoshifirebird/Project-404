@@ -12,9 +12,7 @@ using UnityEngine.Rendering.HighDefinition;
 public class WhistleController : MonoBehaviour
 {
     /* We use the localScale to keep track of how scaled the Whistle
-     * actually is, as opposed to just changing the decals localScale
-     * 
-     */
+       actually is, as opposed to just changing the decals localScale */
 
     [Header("Components")]
     [SerializeField] ParticleSystem _WhistleParticle;
@@ -104,6 +102,7 @@ public class WhistleController : MonoBehaviour
             float t = _TimeBlowing / _MaxBlowTime;
             transform.localScale = Vector3.Lerp(transform.localScale, _2Dto3D(Vector2.one * _ExpandedRadius, 1), t);
 
+            // Handle collisions with Pikmin
             Collider[] collisions = Physics.OverlapCapsule(transform.position + Vector3.down * 20, transform.position + Vector3.up * 20, transform.localScale.x);
             for (int i = 0; i < collisions.Length; i++)
             {
