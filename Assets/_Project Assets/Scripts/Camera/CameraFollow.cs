@@ -122,9 +122,6 @@ public class CameraFollow : MonoBehaviour
     /// </summary>
     void ApplyCurrentHolder()
     {
-        // Smoothly change the OrbitRadius, GroundOffset and the Camera's field of view
-        _MainCamera.fieldOfView = Mathf.Lerp(_MainCamera.fieldOfView, _CurrentHolder._FOV, _FOVChangeSpeed * Time.deltaTime);
-
         // Calculate the offset from the ground using the players current position and our additional Y offset
         float groundOffset = _CurrentHolder._Offset.y + _PlayerPosition.position.y;
         // Store the orbit radius in case we need to alter it when moving onto a higher plane
@@ -141,6 +138,8 @@ public class CameraFollow : MonoBehaviour
             orbitRadius += offset / 1.5f;
         }
 
+        // Smoothly change the OrbitRadius, GroundOffset and the Camera's field of view
+        _MainCamera.fieldOfView = Mathf.Lerp(_MainCamera.fieldOfView, _CurrentHolder._FOV, _FOVChangeSpeed * Time.deltaTime);
         _OrbitRadius = Mathf.Lerp(_OrbitRadius, orbitRadius, _OrbitChangeSpeed * Time.deltaTime);
         _GroundOffset = Mathf.Lerp(_GroundOffset, groundOffset, _HeightChangeSpeed * Time.deltaTime);
 

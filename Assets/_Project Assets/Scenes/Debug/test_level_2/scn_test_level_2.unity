@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.26197857, g: 0.3649991, b: 0.5840754, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -219,7 +219,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &211701857
 Transform:
   m_ObjectHideFlags: 0
@@ -11558,12 +11558,27 @@ PrefabInstance:
     - target: {fileID: 6109314276947825321, guid: a4e570be87d7aca479ee34c405cc44de,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7354393338080762114, guid: a4e570be87d7aca479ee34c405cc44de,
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7354393339214141958, guid: a4e570be87d7aca479ee34c405cc44de,
+        type: 3}
+      propertyPath: m_SlopeLimit
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7354393339214141959, guid: a4e570be87d7aca479ee34c405cc44de,
+        type: 3}
+      propertyPath: _SlideLimit
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7354393339214141959, guid: a4e570be87d7aca479ee34c405cc44de,
+        type: 3}
+      propertyPath: _SlideSpeed
+      value: 7.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4e570be87d7aca479ee34c405cc44de, type: 3}

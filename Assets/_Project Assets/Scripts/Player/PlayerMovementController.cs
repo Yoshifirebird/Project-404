@@ -17,6 +17,8 @@ public class PlayerMovementController : MonoBehaviour
     [Header("Settings")]
     [SerializeField] float _MovementSpeed = 3;
     [SerializeField] Vector2 _MovementDeadzone = Vector2.one / 0.1f;
+    [SerializeField] float _SlideLimit = 25;
+    [SerializeField] float _SlideSpeed = 5;
     [SerializeField] float _RotationSpeed = 3;
     [SerializeField] float _Gravity = -Physics.gravity.y;
 
@@ -27,6 +29,9 @@ public class PlayerMovementController : MonoBehaviour
     Vector3 _PreviousPosition;
     Vector3 _Velocity;
     float _IdleTimer = 0;
+    RaycastHit _SlideHit;
+    Vector3 _CharacterContactPoint;
+    float _SlideRayDist;
 
     Vector3 _BaseHeight;
 
@@ -34,17 +39,14 @@ public class PlayerMovementController : MonoBehaviour
     {
         _Controller = GetComponent<CharacterController>();
         _BaseHeight = Vector3.up * (_Controller.height / 2);
+        _SlideRayDist = (_Controller.height * .5f) + _Controller.radius;
+        _SlideLimit = _Controller.slopeLimit - .1f;
         _MainCamera = Camera.main;
         _PreviousPosition = transform.position;
     }
 
     void Update()
     {
-        // If we're not grounded and not on a slope
-        if (!IsGrounded())
-            // Apply gravity
-            _Controller.Move(Vector3.down * _Gravity * Time.deltaTime);
-
         // Add time to the idle timer
         _IdleTimer += Time.deltaTime;
 
@@ -58,6 +60,13 @@ public class PlayerMovementController : MonoBehaviour
         else
         {
             _RotationBeforeIdle = transform.rotation;
+        }
+
+        // If we're not grounded and not on a slope
+        if (!IsGrounded())
+        {
+            // Apply gravity
+            _Controller.Move(Vector3.down * _Gravity * Time.deltaTime);
         }
 
         // Get input from the 'Horizontal' and 'Vertical' axis, and normalize it
@@ -88,6 +97,44 @@ public class PlayerMovementController : MonoBehaviour
         // Calculate the velocity of the Player using the previous frame as a base point for the calculation
         _Velocity = (transform.position - _PreviousPosition) / Time.fixedDeltaTime;
         _PreviousPosition = transform.position;
+
+        bool sliding = false;
+        // See if surface immediately below should be slid down. We use this normally rather than a ControllerColliderHit point,
+        // because that interferes with step climbing amongst other annoyances
+        if (Physics.Raycast(transform.position, -Vector3.up, out _SlideHit, _SlideRayDist))
+        {
+            if (Vector3.Angle(_SlideHit.normal, Vector3.up) > _SlideLimit)
+            {
+                sliding = true;
+            }
+        }
+        // However, just raycasting straight down from the center can fail when on steep slopes
+        // So if the above raycast didn't catch anything, raycast down from the stored ControllerColliderHit point instead
+        else
+        {
+            Physics.Raycast(_CharacterContactPoint + Vector3.up, -Vector3.up, out _SlideHit);
+            if (Vector3.Angle(_SlideHit.normal, Vector3.up) > _SlideLimit)
+            {
+                sliding = true;
+            }
+        }
+
+        if (sliding)
+        {
+            Vector3 normal = _SlideHit.normal;
+            Vector3 direction = new Vector3(normal.x, -normal.y, normal.z);
+            Vector3.OrthoNormalize(ref normal, ref direction);
+            normal.Normalize();
+            direction *= _SlideSpeed;
+            direction.y -= Physics.gravity.y * Time.deltaTime;
+            _Controller.Move(direction * Time.deltaTime);
+            return;
+        }
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        _CharacterContactPoint = hit.point;
     }
 
     bool IsGrounded()
