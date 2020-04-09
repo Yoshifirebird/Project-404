@@ -226,17 +226,18 @@ public class CameraFollow : MonoBehaviour
 
         _Resetting = true;
 
+        // Kept outside of the loop so as to not give nausea
+        float difference = transform.rotation.eulerAngles.y - _MovementController._RotationBeforeIdle.eulerAngles.y;
+        float dif = 0;
         while (t > 0)
         {
             t -= Time.deltaTime;
+            dif = Mathf.Lerp(difference, dif, t / length);
 
-            float difference = transform.eulerAngles.y - _MovementController._RotationBeforeIdle.eulerAngles.y;
-            if (difference > 180)
-                difference -= 360;
-            else if (difference < -180)
-                difference += 360;
+            float newY = -dif * _CameraResetSpeed * Mathf.Deg2Rad;
+            print(newY);
             // Invert the difference, convert it to radians and apply the camera reset speed
-            RotateView(-difference * _CameraResetSpeed * Mathf.Deg2Rad);
+            RotateView(newY / t);
             yield return null;
         }
 
