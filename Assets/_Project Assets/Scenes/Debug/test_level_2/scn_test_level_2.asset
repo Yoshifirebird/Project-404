@@ -136,7 +136,7 @@ MonoBehaviour:
     m_Value: 1
   anisotropy:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
     min: -1
     max: 1
   globalLightProbeDimmer:
@@ -222,7 +222,7 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
   multiplier:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 2
     min: 0
   upperHemisphereLuxValue:
@@ -247,19 +247,19 @@ MonoBehaviour:
     m_Value: 0
   top:
     m_OverrideState: 1
-    m_Value: {r: 0.76052475, g: 0.20507877, b: 0.11443538, a: 1}
+    m_Value: {r: 0.93011117, g: 0.8307701, b: 0.8069525, a: 1}
     hdr: 1
     showAlpha: 0
     showEyeDropper: 1
   middle:
     m_OverrideState: 1
-    m_Value: {r: 0.23455065, g: 0.61049575, b: 0.590619, a: 1}
+    m_Value: {r: 0.039546248, g: 0.11953845, b: 0.26225072, a: 1}
     hdr: 1
     showAlpha: 0
     showEyeDropper: 1
   bottom:
     m_OverrideState: 1
-    m_Value: {r: 0.8069525, g: 0.39157256, b: 0.2015563, a: 1}
+    m_Value: {r: 0.035601325, g: 0.38642952, b: 1, a: 1}
     hdr: 1
     showAlpha: 0
     showEyeDropper: 1
