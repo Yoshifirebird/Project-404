@@ -5,6 +5,7 @@
  * Created for: following a target with incrementable offset and field of view
  */
 
+using System.Collections;
 using UnityEngine;
 
 [System.Serializable]
@@ -40,7 +41,9 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] float _LookAtRotationSpeed;
 
     [Header("Controlled Rotation")]
+    [SerializeField] float _RotateAroundSpeed;
     [SerializeField] float _TriggerRotationSpeed;
+    [SerializeField] float _CameraResetLength;
     [SerializeField] float _CameraResetSpeed;
 
     [Header("Miscellaneous")]
@@ -52,8 +55,10 @@ public class CameraFollow : MonoBehaviour
     PlayerMovementController _MovementController;
     float _OrbitRadius;
     float _GroundOffset;
+    float _CurrentRotation;
     int _HolderIndex;
     bool _TopView = false;
+    bool _Resetting = false;
 
     CameraFollow()
     {
@@ -72,8 +77,13 @@ public class CameraFollow : MonoBehaviour
         _LookAtRotationSpeed = 5;
 
         // Controlled Rotation
+        _RotateAroundSpeed = 4;
         _CameraResetSpeed = 5;
+        _CameraResetLength = 2;
         _TriggerRotationSpeed = 2;
+
+        // Non-exposed
+        _CurrentRotation = 0;
     }
 
     void Awake()
@@ -153,9 +163,19 @@ public class CameraFollow : MonoBehaviour
         // Check if we're holding either the Left or Right trigger and
         // rotate around the player using TriggerRotationSpeed if so
         if (Input.GetButton("RightTrigger"))
+        {
             RotateView(-_TriggerRotationSpeed * Time.deltaTime);
+        }
         else if (Input.GetButton("LeftTrigger"))
+        { 
             RotateView(_TriggerRotationSpeed * Time.deltaTime);
+        }
+
+        // As we've let go of the triggers, reset the desired new rotation
+        if (Input.GetButtonUp("RightTrigger") || Input.GetButtonUp("LeftTrigger"))
+        {
+            _CurrentRotation = 0;
+        }
 
         if (Input.GetButtonDown("ZoomLevel"))
         {
@@ -168,18 +188,9 @@ public class CameraFollow : MonoBehaviour
             ApplyChangedZoomLevel(_TopView ? _TopViewHolders : _DefaultHolders);
         }
 
-        if (Input.GetButton("CameraReset"))
+        if (Input.GetButtonDown("CameraReset"))
         {
-            // TODO: get audio for the camera reset and play it here
-
-            // Gets the difference between the two rotations, and then makes sure it doesn't overrotate
-            float difference = transform.eulerAngles.y - _MovementController._RotationBeforeIdle.eulerAngles.y;
-            if (difference > 180)
-                difference -= 360;
-            else if (difference < -180)
-                difference += 360;
-            // Invert the difference, convert it to radians and apply the camera reset speed
-            RotateView(-difference * _CameraResetSpeed * Mathf.Deg2Rad);
+            StartCoroutine(ResetCamOverTime(_CameraResetLength));
         }
     }
 
@@ -187,7 +198,11 @@ public class CameraFollow : MonoBehaviour
     /// Rotates the camera using a given angle around the Player
     /// </summary>
     /// <param name="angle"></param>
-    void RotateView(float angle) => transform.RotateAround(_PlayerPosition.position, Vector3.up, angle);
+    void RotateView(float angle)
+    {
+        _CurrentRotation = Mathf.Lerp(_CurrentRotation, angle, _RotateAroundSpeed * Time.deltaTime);
+        transform.RotateAround(_PlayerPosition.position, Vector3.up, _CurrentRotation);
+    }
 
     /// <summary>
     /// Changes zoom level based on the holder index, and plays audio
@@ -201,5 +216,33 @@ public class CameraFollow : MonoBehaviour
             _HolderIndex = 0;
 
         _CurrentHolder = currentHolder[_HolderIndex];
+    }
+
+    IEnumerator ResetCamOverTime(float length)
+    {
+        float t = length;
+
+        if (_Resetting)
+            yield return null;
+
+        _Resetting = true;
+
+        while (t > 0)
+        {
+            t -= Time.deltaTime;
+
+            float difference = transform.eulerAngles.y - _MovementController._RotationBeforeIdle.eulerAngles.y;
+            if (difference > 180)
+                difference -= 360;
+            else if (difference < -180)
+                difference += 360;
+            // Invert the difference, convert it to radians and apply the camera reset speed
+            RotateView(-difference * _CameraResetSpeed * Mathf.Deg2Rad);
+            yield return null;
+        }
+
+        _Resetting = false;
+
+        yield return null;
     }
 }

@@ -167,25 +167,27 @@ public class WhistleController : MonoBehaviour
         for (int i = 0; i < _ParticleDensity + 1; i++)
         {
             Transform cacheTransform = transform;
-            Vector3 particlePos = cacheTransform.position + _2Dto3D(MathUtil.CalcPosInCirc(_ParticleDensity, i, _TimeBlowing * _ParticleRotationSpeed)) * cacheTransform.localScale.x;
-            // Cache the Y for later
-            float originalY = particlePos.y;
+            Vector3 localPos = _2Dto3D(MathUtil.CalcPosInCirc(_ParticleDensity, i, _TimeBlowing * _ParticleRotationSpeed)) * cacheTransform.localScale.x;
+            // Offset the local position to be global
+            localPos += cacheTransform.position;
+            //Cache the Y for later
+            float originalY = localPos.y;
 
             // Put the Y of the particle waay above everything else, so it can raycast downwards onto surfaces that may be above it 
-            particlePos.y += _ParticleRaycastAddedHeight;
+            localPos.y += _ParticleRaycastAddedHeight;
 
             // Check if there is a surface beneath the particle
-            if (Physics.Raycast(particlePos, Vector3.down, out hitInfo, _MaxDistance, _MapMask, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(localPos, Vector3.down, out hitInfo, _MaxDistance, _MapMask, QueryTriggerInteraction.Ignore))
             {
-                particlePos.y = hitInfo.point.y + _ParticleOffset;
+                localPos.y = hitInfo.point.y + _ParticleOffset;
             }
             else
             {
                 // We couldn't find anything, so reset back to the original Y
-                particlePos.y = originalY;
+                localPos.y = originalY;
             }
 
-            _Particles[i].transform.position = particlePos;
+            _Particles[i].transform.position = localPos;
         }
     }
 

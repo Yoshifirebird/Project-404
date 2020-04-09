@@ -5,24 +5,11 @@
  * Created for: making the Pikmin have Artificial Intelligence
  */
 
-/* Barebones basic Pikmin behaviour
- * Idle: look around, stay still, if an object it can interact with touches it, start Attacking with it
- * Formation: stay behind player, follow player if walks too far away, look at player
- * Attacking: attack object, check if still attacking (if not then go to idle)
- */
-
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PikminBehavior : MonoBehaviour, IPooledObject
 {
-    /* Idle - do nothing as of (15/2/2020)
-     * Formation - move towards formation position
-     * Attacking - general term for attack, grab, etc.
-     * Latched - holding onto another object
-     * Carrying - latched onto another object and helping move it 
-     * Dead - do a few things like destroying itself
-     */
     public enum States { Idle, Formation, Attacking, Dead, Carrying, WaitingNull }
 
     [Header("Components")]
@@ -93,7 +80,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
                 HandleIdle();
                 break;
             case States.Formation:
-                HandleFormation();
+                //HandleFormation();
                 break;
             case States.Attacking:
                 HandleAttacking();
@@ -105,6 +92,11 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             default:
                 break;
         }
+    }
+
+    void FixedUpdate()
+    {
+        HandleFormation();
     }
 
     void OnCollisionEnter(Collision collision)
@@ -209,9 +201,9 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     void MoveTowards(Vector3 towards, float speed)
     {
         // cache the direction of the player
-        Vector3 direction = (towards - transform.position).normalized;
+        Vector3 direction = (towards - _Rigidbody.position).normalized;
 
-        // calculate the velocity needed
+        // calculate velocity of the Pikmin
         Vector3 velocity = direction * speed;
         velocity.y = _Rigidbody.velocity.y;
         _Rigidbody.velocity = velocity;

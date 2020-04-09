@@ -15,7 +15,7 @@ MonoBehaviour:
   _Colour: 0
   _HeadType: 0
   _UsingTempModel: 1
-  _MovementSpeed: 5
+  _MovementSpeed: 126.02
   _RotationSpeed: 15
   _TimeBetweenAttacks: 0.8
   _AttackDamage: 1

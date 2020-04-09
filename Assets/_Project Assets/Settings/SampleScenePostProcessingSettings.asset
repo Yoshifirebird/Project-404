@@ -112,7 +112,7 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.5
+    m_Value: 0.52
     min: 0
     max: 1
   smoothness:
@@ -151,7 +151,6 @@ MonoBehaviour:
   components:
   - {fileID: 6640133647794636954}
   - {fileID: 396278178000043239}
-  - {fileID: 5957015473751380661}
   - {fileID: -8115543915110190255}
   - {fileID: 2789579295874941070}
 --- !u!114 &396278178000043239
@@ -212,11 +211,11 @@ MonoBehaviour:
     min: 0
   farFocusStart:
     m_OverrideState: 1
-    m_Value: 30
+    m_Value: 100
     min: 0
   farFocusEnd:
     m_OverrideState: 1
-    m_Value: 100
+    m_Value: 300
     min: 0
   m_NearSampleCount:
     m_OverrideState: 0
@@ -244,59 +243,6 @@ MonoBehaviour:
   m_Resolution:
     m_OverrideState: 0
     m_Value: 2
---- !u!114 &5957015473751380661
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24f077503be6ae942a1e1245dbd53ea9, type: 3}
-  m_Name: Bloom
-  m_EditorClassIdentifier: 
-  active: 1
-  m_AdvancedMode: 0
-  quality:
-    m_OverrideState: 1
-    m_Value: 0
-  threshold:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-  intensity:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 1
-  scatter:
-    m_OverrideState: 0
-    m_Value: 0.7
-    min: 0
-    max: 1
-  tint:
-    m_OverrideState: 0
-    m_Value: {r: 0, g: 1, b: 0.15032363, a: 1}
-    hdr: 0
-    showAlpha: 0
-    showEyeDropper: 1
-  dirtTexture:
-    m_OverrideState: 1
-    m_Value: {fileID: 2800000, guid: 6f7ce09c05397a84e998cc36531b5c59, type: 3}
-  dirtIntensity:
-    m_OverrideState: 1
-    m_Value: 5
-    min: 0
-  anamorphic:
-    m_OverrideState: 0
-    m_Value: 1
-  m_Resolution:
-    m_OverrideState: 0
-    m_Value: 2
-  m_HighQualityFiltering:
-    m_OverrideState: 0
-    m_Value: 1
 --- !u!114 &6640133647794636954
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -313,7 +259,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   mode:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 1
   meteringMode:
     m_OverrideState: 0
     m_Value: 2
@@ -347,8 +293,8 @@ MonoBehaviour:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 1
-        value: 1
+        time: 0.041656494
+        value: 0.9937515
         inSlope: 0
         outSlope: 0
         tangentMode: 0
