@@ -17,17 +17,18 @@ public class WhistleController : MonoBehaviour
     [Header("Components")]
     [SerializeField] ParticleSystem _WhistleParticle;
     [SerializeField] AudioClip _BlowSound;
+    [SerializeField] Transform _Reticle;
 
     [Header("Particles")]
     [SerializeField] uint _ParticleDensity = 15;
     [SerializeField] float _ParticleRotationSpeed = 1;
     [SerializeField] float _ParticleRaycastAddedHeight = 100;
-    [SerializeField] float _ParticleOffset = 0.5f;
 
     [Header("Settings")]
     [SerializeField] float _StartingRadius = 1;
     [SerializeField] float _ExpandedRadius = 10;
     [SerializeField] float _MaxBlowTime = 3;
+    [SerializeField] float _Offset = 0.5f;
 
     [Header("Raycast Settings")]
     [SerializeField] float _MaxDistance = Mathf.Infinity;
@@ -52,6 +53,7 @@ public class WhistleController : MonoBehaviour
             _Particles[i] = Instantiate(_WhistleParticle);
         }
         AssignParticlePositions();
+        SetParticlesActive(false);
 
         // Reset the local scale
         transform.localScale = Vector3.one * _StartingRadius;
@@ -67,18 +69,23 @@ public class WhistleController : MonoBehaviour
         Ray ray = _MainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, _MaxDistance, _MapMask, QueryTriggerInteraction.Ignore))
         {
-            transform.position = hit.point;
+            Vector3 target = hit.point + Vector3.up * _Offset;
+            transform.position = _Reticle.position = target;
         }
+
 
         // Detecting Player input
         if (Input.GetButtonDown("Whistle"))
         {
             transform.localScale = Vector3.one * _StartingRadius;
+
+            // Start the particles
+            SetParticlesActive(true);
+
             _Blowing = true;
             // Load the clip into the AudioSource and play
             _Source.clip = _BlowSound;
             _Source.Play();
-            // Start the particles
             for (int i = 0; i < _Particles.Length; i++)
             {
                 _Particles[i].Play();
@@ -155,7 +162,16 @@ public class WhistleController : MonoBehaviour
         transform.localScale = Vector3.one * _StartingRadius;
         _TimeBlowing = 0;
         _Blowing = false;
+        SetParticlesActive(false);
         _Source.Stop();
+    }
+
+    void SetParticlesActive(bool isActive)
+    {
+        for (int i = 0; i < _Particles.Length; i++)
+        {
+            _Particles[i].gameObject.SetActive(isActive);
+        }
     }
 
     /// <summary>
@@ -179,7 +195,7 @@ public class WhistleController : MonoBehaviour
             // Check if there is a surface beneath the particle
             if (Physics.Raycast(localPos, Vector3.down, out hitInfo, _MaxDistance, _MapMask, QueryTriggerInteraction.Ignore))
             {
-                localPos.y = hitInfo.point.y + _ParticleOffset;
+                localPos.y = hitInfo.point.y + _Offset;
             }
             else
             {
