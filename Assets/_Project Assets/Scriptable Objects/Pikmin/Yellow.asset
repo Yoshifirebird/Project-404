@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9d007b198750614889af8a205d5ab02, type: 3}
   m_Name: Yellow
   m_EditorClassIdentifier: 
-  _Colour: 0
+  _Colour: 2
   _HeadType: 0
   _MovementSpeed: 125
   _RotationSpeed: 15
