@@ -10,7 +10,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PikminBehavior : MonoBehaviour, IPooledObject
 {
-    public enum States { Idle, Formation, Attacking, Dead, Carrying, Held, WaitingNull }
+    public enum States { Idle, Formation, Attacking, Dead, Carrying, Held, Thrown}
     States _State;
     States _PreviousState;
 
@@ -103,7 +103,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             case States.Dead:
                 HandleDeath();
                 break;
-            case States.WaitingNull:
+            case States.Thrown:
             default:
                 break;
         }
@@ -112,28 +112,35 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void OnCollisionEnter(Collision collision)
     {
-        if (_State == States.WaitingNull && !collision.gameObject.CompareTag("Player"))
+        if (_State == States.Thrown)
         {
-            CheckForAttack(collision.gameObject);
+            if(!collision.gameObject.CompareTag("Player") && !collision.gameObject.CompareTag("Pikmin"))
+            {
+                Debug.Log(collision.gameObject);
+                CheckForAttack(collision.gameObject);
 
-            if (_State != States.Attacking)
-                ChangeState(States.Idle);
+                if (_State != States.Attacking)
+                    ChangeState(States.Idle);
+            }
         }
     }
 
     void HandleAnimation()
     {
+        if(_State == States.Thrown)
+            _Animator.SetBool("Thrown", true);
+        else
+            _Animator.SetBool("Thrown", false);
+
+
         if (_State == States.Idle || _State == States.Formation)
         {
             Vector2 horizonalVelocity = new Vector2(_Rigidbody.velocity.x, _Rigidbody.velocity.z);
+
             if (horizonalVelocity.magnitude >= 3)
-            {
                 _Animator.SetBool("Walking", true);
-            }
             else
-            {
                 _Animator.SetBool("Walking", false);
-            }
         }
     }
 
@@ -247,7 +254,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         _Animator.SetBool("Holding", false);
 
         RemoveFromSquad();
-        ChangeState(States.WaitingNull);
+        ChangeState(States.Thrown);
     }
 
     #region General Purpose Useful Functions
@@ -267,7 +274,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     #region Squad
     public void AddToSquad()
     {
-        if (_State != States.Formation && _State != States.WaitingNull)
+        if (_State != States.Formation && _State != States.Thrown)
         {
             if (_AttackingObject != null)
             {

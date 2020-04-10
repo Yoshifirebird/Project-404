@@ -7,6 +7,7 @@ TagManager:
   - Game GUI
   - Game GUI Carrier
   - Water
+  - Pikmin
   layers:
   - Default
   - TransparentFX
