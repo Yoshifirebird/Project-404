@@ -10,7 +10,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PikminBehavior : MonoBehaviour, IPooledObject
 {
-    public enum States { Idle, Formation, Attacking, Dead, Carrying, WaitingNull }
+    public enum States { Idle, Formation, Attacking, Dead, Carrying, Held, WaitingNull }
 
     [Header("Components")]
     public PikminSO _Data;
@@ -77,7 +77,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             // Call the OnDetach function
             IPikminAttack aInterface = _AttackingObject.GetComponent<IPikminAttack>();
 
-            if (aInterface != null) // Not quite sure why we need to do this
+            if (aInterface != null)
                 aInterface.OnDetach(gameObject);
 
             // Remove the attacking object and reset the timer
@@ -91,7 +91,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
                 HandleIdle();
                 break;
             case States.Formation:
-                //HandleFormation();
+                HandleFormation();
                 break;
             case States.Attacking:
                 HandleAttacking();
@@ -103,12 +103,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             default:
                 break;
         }
-    }
-
-    void FixedUpdate()
-    {
-        if (_State == States.Formation)
-            HandleFormation();
     }
 
     void OnCollisionEnter(Collision collision)
@@ -135,7 +129,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         */
     }
 
-    void HandleFormation() => MoveTowards(_PlayerPikminManager.GetFormationCenter().position, GetSpeed(_Data._HeadType));
+    void HandleFormation() => MoveTowards(_PlayerPikminManager.GetFormationCenter().position);
 
     void HandleDeath()
     {
@@ -208,35 +202,38 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         }
     }
 
-    #region General Purpose Useful Functions
-
-    void MoveTowards(Vector3 towards, float speed)
+    // Gets called when the Player grabs the Pikmin
+    public void ThrowHoldStart()
     {
-        // cache the direction of the player
-        Vector3 direction = (towards - _Rigidbody.position).normalized;
+        _Rigidbody.isKinematic = true;
+        _Rigidbody.useGravity = false;
+        _Collider.enabled = false;
 
-        // calculate velocity of the Pikmin
-        Vector3 velocity = direction * speed;
-        velocity.y = _Rigidbody.velocity.y;
-        _Rigidbody.velocity = velocity;
-
-        direction.y = 0;
-        // look at the direction of the player and smoothly interpolate to it
-        Quaternion rotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, _Data._RotationSpeed * Time.deltaTime);
+        ChangeState(States.Held);
     }
 
-    float GetSpeed(Headtype headtype)
+    // Gets called when the Player releases the Pikmin
+    public void ThrowHoldEnd()
     {
-        switch (headtype)
-        {
-            case Headtype.Bud:
-                return 7;
-            case Headtype.Flower:
-                return 9;
-            default:
-                return 5;
-        };
+        _Rigidbody.isKinematic = false;
+        _Rigidbody.useGravity = true;
+        _Collider.enabled = true;
+
+        RemoveFromSquad();
+        ChangeState(States.WaitingNull);
+    }
+
+    #region General Purpose Useful Functions
+
+    void MoveTowards(Vector3 towards)
+    {
+        Vector3 direction = (towards - _Rigidbody.position).normalized;
+        _Rigidbody.velocity = direction * _Data._MovementSpeed;
+
+        // reset the Y axis so the body doesn't rotate up or down
+        direction.y = 0;
+        // look at the direction of the object we're moving towards and smoothly interpolate to it
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), _Data._RotationSpeed * Time.deltaTime);
     }
 
     #region Squad

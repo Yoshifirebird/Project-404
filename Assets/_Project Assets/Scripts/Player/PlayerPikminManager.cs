@@ -53,8 +53,11 @@ public class PlayerPikminManager : MonoBehaviour
         {
             GameObject closestPikmin = GetClosestPikmin();
             // Check if we've even gotten a Pikmin
-            if (closestPikmin != null)            
-                _PikminInHand = closestPikmin;            
+            if (closestPikmin != null)
+            {
+                _PikminInHand = closestPikmin;
+                _PikminInHand.GetComponent<PikminBehavior>().ThrowHoldStart();
+            }
         }
 
         // The rest of the throw depends if we even got a Pikmin
@@ -70,11 +73,7 @@ public class PlayerPikminManager : MonoBehaviour
                 /*
                  * TODO: convert to Quadratic Bezier curve
                  */
-
-                // Change the appropriate variables of the Pikmin to suit it for being thrown
-                var pikminComponent = _PikminInHand.GetComponent<PikminBehavior>();
-                pikminComponent.RemoveFromSquad();
-                pikminComponent.ChangeState(PikminBehavior.States.WaitingNull);
+                _PikminInHand.GetComponent<PikminBehavior>().ThrowHoldEnd();
 
                 // Cache the Rigidbody component
                 var rigidbody = _PikminInHand.GetComponent<Rigidbody>();
