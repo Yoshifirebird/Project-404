@@ -12,5 +12,5 @@ public interface IPikminAttack
     void OnAttach(GameObject attachedPikmin);
     void OnDetach(GameObject detachedPikmin);
 
-    void Attack(GameObject attackingPikmin, int attackDamage);
+    void Attack(GameObject attackingPikmin, float attackDamage);
 }

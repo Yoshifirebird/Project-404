@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9d007b198750614889af8a205d5ab02, type: 3}
-  m_Name: Red
+  m_Name: Blue
   m_EditorClassIdentifier: 
   _Colour: 0
   _HeadType: 0
   _MovementSpeed: 125
   _RotationSpeed: 15
-  _TimeBetweenAttacks: 0.8
-  _AttackDamage: 2
+  _TimeBetweenAttacks: 1
+  _AttackDamage: 1

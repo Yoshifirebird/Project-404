@@ -13,8 +13,8 @@ public class CubePikminAttackTest : MonoBehaviour, IPikminAttack, IHealth
 {
     [SerializeField] Image _BillboardHealth;
     [SerializeField] float _HealthCircleSpeed = 7.5f;
-    [SerializeField] int _MaxHealth = 10;
-    int _CurrentHealth = 0;
+    [SerializeField] float _MaxHealth = 10;
+    float _CurrentHealth = 0;
     readonly List<GameObject> _AttachedPikmin = new List<GameObject>();
 
     void Awake()
@@ -48,7 +48,7 @@ public class CubePikminAttackTest : MonoBehaviour, IPikminAttack, IHealth
 
     #region Pikmin Attacking Implementation
 
-    public void Attack(GameObject attacking, int damage)
+    public void Attack(GameObject attacking, float damage)
     {
         // On first hit, enable the health circle
         if (_CurrentHealth == _MaxHealth)
@@ -64,11 +64,11 @@ public class CubePikminAttackTest : MonoBehaviour, IPikminAttack, IHealth
 
     #region Health Implementation
     // 'Getter' functions
-    public int GetHealth() => _CurrentHealth;
-    public int GetMaxHealth() => _MaxHealth;
+    public float GetHealth() => _CurrentHealth;
+    public float GetMaxHealth() => _MaxHealth;
     // 'Setter' functions
-    public void GiveHealth(int give) => _CurrentHealth += give;
-    public void TakeHealth(int take) => _CurrentHealth -= take;
-    public void SetHealth(int set) => _CurrentHealth = set;
+    public void GiveHealth(float give) => _CurrentHealth += give;
+    public void TakeHealth(float take) => _CurrentHealth -= take;
+    public void SetHealth(float set) => _CurrentHealth = set;
     #endregion
 }

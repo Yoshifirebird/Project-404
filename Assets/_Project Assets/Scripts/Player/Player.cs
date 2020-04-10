@@ -20,8 +20,8 @@ public class Player : MonoBehaviour, IHealth
     PlayerPikminManager _PikminManager;
 
     [Header("Settings")]
-    [SerializeField] int _MaxHealth = 100;
-    [SerializeField] int _CurrentHealth = 100;
+    [SerializeField] float _MaxHealth = 100;
+    [SerializeField] float _CurrentHealth = 100;
 
     void Awake()
     {
@@ -61,12 +61,12 @@ public class Player : MonoBehaviour, IHealth
     #region Health Implementation
 
     // 'Getter' functions
-    public int GetHealth() => _CurrentHealth;
-    public int GetMaxHealth() => _MaxHealth;
+    public float GetHealth() => _CurrentHealth;
+    public float GetMaxHealth() => _MaxHealth;
     // 'Setter' functions
-    public void GiveHealth(int give) => _CurrentHealth += give;
-    public void TakeHealth(int take) => _CurrentHealth -= take;
-    public void SetHealth(int set) => _CurrentHealth = set;
+    public void GiveHealth(float give) => _CurrentHealth += give;
+    public void TakeHealth(float take) => _CurrentHealth -= take;
+    public void SetHealth(float set) => _CurrentHealth = set;
 
     #endregion
 

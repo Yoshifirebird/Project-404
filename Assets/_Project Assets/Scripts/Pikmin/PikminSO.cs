@@ -9,17 +9,16 @@ using UnityEngine;
 public enum Colour { Red, Blue, Yellow }
 public enum Headtype { Leaf, Bud, Flower }
 
-[CreateAssetMenu(fileName = "GenericPikminObject", menuName = "New Pikmin Type")]
+[CreateAssetMenu(fileName = "GenericPikminObject", menuName = "Pikmin/New Pikmin Type")]
 public class PikminSO : ScriptableObject
 {
     public Colour _Colour;
     public Headtype _HeadType;
-    public bool _UsingTempModel = true;
 
     public float _MovementSpeed;
     public float _RotationSpeed;
 
     public float _TimeBetweenAttacks;
 
-    public int _AttackDamage;
+    public float _AttackDamage;
 }

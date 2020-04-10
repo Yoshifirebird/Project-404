@@ -7,10 +7,10 @@
 
 public interface IHealth
 {
-    void SetHealth(int set);    // Sets health
-    void TakeHealth(int take);  // Removes health
-    void GiveHealth(int give);  // Adds health
+    void SetHealth(float set);    // Sets health
+    void TakeHealth(float take);  // Removes health
+    void GiveHealth(float give);  // Adds health
 
-    int GetHealth();
-    int GetMaxHealth();
+    float GetHealth();
+    float GetMaxHealth();
 }

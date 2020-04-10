@@ -15,8 +15,8 @@ public class PlayerUIController : MonoBehaviour
 	[Header("Components")]
 	[SerializeField] Image _HealthCircle;
 	[SerializeField] Gradient _HealthColor;
-	int _ReferenceHealth;	//Newgame+ LD: This is to track if the player has lost or gained HP
-	int _MaxHealth;
+	float _ReferenceHealth; //Newgame+ LD: This is to track if the player has lost or gained HP
+	float _MaxHealth;
 
 	[SerializeField] TextMeshProUGUI _TotalPikminText;
 	[SerializeField] TextMeshProUGUI _InSquadText;

@@ -233,11 +233,12 @@ public class CameraFollow : MonoBehaviour
         {
             t -= Time.deltaTime;
             dif = Mathf.Lerp(difference, dif, t / length);
+            difference -= dif;
 
             float newY = -dif * _CameraResetSpeed * Mathf.Deg2Rad;
             print(newY);
             // Invert the difference, convert it to radians and apply the camera reset speed
-            RotateView(newY / t);
+            RotateView(newY);
             yield return null;
         }
 

@@ -20,13 +20,19 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     float _AttackTimer = 0;
     GameObject _AttackingObject;
 
+    bool _Spawned = false;
+
     Rigidbody _Rigidbody;
     Player _Player;
     Collider _Collider;
     PlayerPikminManager _PlayerPikminManager;
 
-    void IPooledObject.OnObjectSpawn()
+    void Spawn()
     {
+        if (_Spawned)
+            return;
+        _Spawned = true;
+
         // Assign required variables if needed
         if (_Player == null)
         {
@@ -51,11 +57,16 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         // Reset state-specific variables
         _AttackingObject = null;
         _AttackTimer = 0;
+    }
 
-        if (_Data._UsingTempModel)
-        {
-            // TODO: Figure out how to change colour of material
-        }
+    void Start()
+    {
+        Spawn();
+    }
+
+    void IPooledObject.OnObjectSpawn()
+    {
+        Spawn();
     }
 
     void Update()
@@ -96,7 +107,8 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void FixedUpdate()
     {
-        HandleFormation();
+        if (_State == States.Formation)
+            HandleFormation();
     }
 
     void OnCollisionEnter(Collision collision)

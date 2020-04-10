@@ -14,7 +14,7 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
     [SerializeField] GameObject _DeadObject;
 
     [Header("Settings")]
-    [SerializeField] int _MaxHealth = 10;
+    [SerializeField] float _MaxHealth = 10;
 
     [Header("Health Wheel")]
     [SerializeField] Vector3 _HWOffset = Vector3.up;
@@ -25,7 +25,7 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
     List<GameObject> _AttachedPikmin = new List<GameObject>();
     ObjectPooler _ObjectPooler;
     HealthWheel _HWScript;
-    int _CurrentHealth = 0;
+    float _CurrentHealth = 0;
 
     void Awake()
     {
@@ -76,7 +76,7 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
 
     #region Pikmin Attacking Implementation
 
-    public void Attack(GameObject attacking, int damage)
+    public void Attack(GameObject attacking, float damage)
     {
         // take damage ._.
         TakeHealth(damage);
@@ -100,12 +100,12 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
     #region Health Implementation
 
     // 'Getter' functions
-    public int GetHealth() => _CurrentHealth;
-    public int GetMaxHealth() => _MaxHealth;
+    public float GetHealth() => _CurrentHealth;
+    public float GetMaxHealth() => _MaxHealth;
     // 'Setter' functions
-    public void GiveHealth(int give) => _CurrentHealth += give;
-    public void TakeHealth(int take) => _CurrentHealth -= take;
-    public void SetHealth(int set) => _CurrentHealth = set;
+    public void GiveHealth(float give) => _CurrentHealth += give;
+    public void TakeHealth(float take) => _CurrentHealth -= take;
+    public void SetHealth(float set) => _CurrentHealth = set;
 
     #endregion
 }
