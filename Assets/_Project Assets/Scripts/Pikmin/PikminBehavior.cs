@@ -11,21 +11,22 @@ using UnityEngine;
 public class PikminBehavior : MonoBehaviour, IPooledObject
 {
     public enum States { Idle, Formation, Attacking, Dead, Carrying, Held, WaitingNull }
+    States _State;
+    States _PreviousState;
 
     [Header("Components")]
     public PikminSO _Data;
-    States _State;
-    States _PreviousState;
+
+    Player _Player;
+    PlayerPikminManager _PlayerPikminManager;
+    Rigidbody _Rigidbody;
+    Collider _Collider;
+    Animator _Animator;
 
     float _AttackTimer = 0;
     GameObject _AttackingObject;
 
     bool _Spawned = false;
-
-    Rigidbody _Rigidbody;
-    Player _Player;
-    Collider _Collider;
-    PlayerPikminManager _PlayerPikminManager;
 
     void Spawn()
     {
@@ -45,6 +46,9 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
         if (_Rigidbody == null)
             _Rigidbody = GetComponent<Rigidbody>();
+
+        if (_Animator == null)
+            _Animator = GetComponent<Animator>();
 
         // Add ourself into the stats
         _PlayerPikminManager.AddPikminOnField(gameObject);
@@ -102,6 +106,15 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             case States.WaitingNull:
             default:
                 break;
+        }
+
+        if (_Rigidbody.velocity.magnitude > 0.1f && _Animator.GetBool("Walking") == false)
+        {
+            _Animator.SetBool("Walking", true);
+        }
+        else
+        {
+            _Animator.SetBool("Walking", false);
         }
     }
 
