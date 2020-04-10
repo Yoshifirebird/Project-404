@@ -107,15 +107,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             default:
                 break;
         }
-
-        if (_Rigidbody.velocity.magnitude > 0.1f && _Animator.GetBool("Walking") == false)
-        {
-            _Animator.SetBool("Walking", true);
-        }
-        else
-        {
-            _Animator.SetBool("Walking", false);
-        }
+        HandleAnimation();
     }
 
     void OnCollisionEnter(Collision collision)
@@ -126,6 +118,20 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
             if (_State != States.Attacking)
                 ChangeState(States.Idle);
+        }
+    }
+
+    void HandleAnimation()
+    {
+
+        Vector2 horizonalVelocity = new Vector2(_Rigidbody.velocity.x, _Rigidbody.velocity.z);
+        if (horizonalVelocity.magnitude >= 3 && _Animator.GetBool("Walking") == false)
+        {
+            _Animator.SetBool("Walking", true);
+        }
+        else
+        {
+            _Animator.SetBool("Walking", false);
         }
     }
 
