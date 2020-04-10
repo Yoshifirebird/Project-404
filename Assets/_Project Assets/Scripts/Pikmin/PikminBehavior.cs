@@ -112,7 +112,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void OnCollisionEnter(Collision collision)
     {
-        if (_State == States.WaitingNull)
+        if (_State == States.WaitingNull && !collision.gameObject.CompareTag("Player"))
         {
             CheckForAttack(collision.gameObject);
 
@@ -123,15 +123,17 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void HandleAnimation()
     {
-
-        Vector2 horizonalVelocity = new Vector2(_Rigidbody.velocity.x, _Rigidbody.velocity.z);
-        if (horizonalVelocity.magnitude >= 3 && _Animator.GetBool("Walking") == false)
+        if (_State == States.Idle || _State == States.Formation)
         {
-            _Animator.SetBool("Walking", true);
-        }
-        else
-        {
-            _Animator.SetBool("Walking", false);
+            Vector2 horizonalVelocity = new Vector2(_Rigidbody.velocity.x, _Rigidbody.velocity.z);
+            if (horizonalVelocity.magnitude >= 3)
+            {
+                _Animator.SetBool("Walking", true);
+            }
+            else
+            {
+                _Animator.SetBool("Walking", false);
+            }
         }
     }
 
@@ -228,6 +230,11 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         _Rigidbody.useGravity = false;
         _Collider.enabled = false;
 
+        if (_Animator.GetBool("Walking") == true)
+            _Animator.SetBool("Walking", false);
+
+        _Animator.SetBool("Holding", true);
+
         ChangeState(States.Held);
     }
 
@@ -236,7 +243,8 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     {
         _Rigidbody.isKinematic = false;
         _Rigidbody.useGravity = true;
-        _Collider.enabled = true;
+        _Collider.enabled = true;        
+        _Animator.SetBool("Holding", false);
 
         RemoveFromSquad();
         ChangeState(States.WaitingNull);
