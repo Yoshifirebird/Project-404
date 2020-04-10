@@ -710,7 +710,7 @@ MonoBehaviour:
   _MaxDistance: Infinity
   _MapMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 3879
   _WhistleCircleSegments: 50
 --- !u!82 &401268063754482086
 AudioSource:
