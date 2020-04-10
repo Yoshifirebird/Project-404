@@ -23,12 +23,13 @@ public class WhistleController : MonoBehaviour
     [SerializeField] uint _ParticleDensity = 15;
     [SerializeField] float _ParticleRotationSpeed = 1;
     [SerializeField] float _ParticleRaycastAddedHeight = 100;
+    [SerializeField] float _HeightOffset = 0.5f;
 
     [Header("Settings")]
     [SerializeField] float _StartingRadius = 1;
     [SerializeField] float _ExpandedRadius = 10;
     [SerializeField] float _MaxBlowTime = 3;
-    [SerializeField] float _Offset = 0.5f;
+    [SerializeField] float _OffsetFromSurface = 0.5f;
 
     [Header("Raycast Settings")]
     [SerializeField] float _MaxDistance = Mathf.Infinity;
@@ -69,7 +70,7 @@ public class WhistleController : MonoBehaviour
         Ray ray = _MainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, _MaxDistance, _MapMask, QueryTriggerInteraction.Ignore))
         {
-            Vector3 target = hit.point;
+            Vector3 target = hit.point + hit.normal * _OffsetFromSurface;
             transform.position = _Reticle.position = target;
         }
 
@@ -176,9 +177,9 @@ public class WhistleController : MonoBehaviour
     void AssignParticlePositions()
     {
         RaycastHit hitInfo;
+        Transform cacheTransform = transform;
         for (int i = 0; i < _ParticleDensity + 1; i++)
         {
-            Transform cacheTransform = transform;
             Vector3 localPos = _2Dto3D(MathUtil.CalcPosInCirc(_ParticleDensity, i, _TimeBlowing * _ParticleRotationSpeed)) * cacheTransform.localScale.x;
             // Offset the local position to be global
             localPos += cacheTransform.position;
@@ -191,7 +192,7 @@ public class WhistleController : MonoBehaviour
             // Check if there is a surface beneath the particle
             if (Physics.Raycast(localPos, Vector3.down, out hitInfo, _MaxDistance, _MapMask, QueryTriggerInteraction.Ignore))
             {
-                localPos.y = hitInfo.point.y + _Offset;
+                localPos.y = hitInfo.point.y + _HeightOffset;
             }
             else
             {
