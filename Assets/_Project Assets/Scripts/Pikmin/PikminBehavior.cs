@@ -228,6 +228,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     void MoveTowards(Vector3 towards)
     {
         Vector3 direction = (towards - _Rigidbody.position).normalized;
+        direction.y = _Rigidbody.velocity.y;
         _Rigidbody.velocity = direction * _Data._MovementSpeed;
 
         // reset the Y axis so the body doesn't rotate up or down
