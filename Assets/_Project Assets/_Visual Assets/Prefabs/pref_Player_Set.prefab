@@ -696,9 +696,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc91044be0ff634c8016134c006c89f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _WhistleParticle: {fileID: 4933330165781303677, guid: d2edcde34a9f72e45ac144ae504089e9,
+  _WhistleParticle: {fileID: 4933330165781303679, guid: d2edcde34a9f72e45ac144ae504089e9,
     type: 3}
   _BlowSound: {fileID: 8300000, guid: 416d585ccbeadbb44956266aab344f58, type: 3}
+  _Reticle: {fileID: 1706413848}
   _ParticleDensity: 50
   _ParticleRotationSpeed: 1
   _ParticleRaycastAddedHeight: 100
@@ -706,8 +707,6 @@ MonoBehaviour:
   _ExpandedRadius: 5
   _MaxBlowTime: 3
   _Offset: 0.5
-  _Reticle: {fileID: 1706413848}
-  _ReticleScale: {x: 0.5, y: 0.5, z: 0.5}
   _MaxDistance: Infinity
   _MapMask:
     serializedVersion: 2
