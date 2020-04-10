@@ -15,7 +15,7 @@ public class WhistleController : MonoBehaviour
        actually is, as opposed to just changing the decals localScale */
 
     [Header("Components")]
-    [SerializeField] ParticleSystem _WhistleParticle;
+    [SerializeField] GameObject _WhistleParticle;
     [SerializeField] AudioClip _BlowSound;
     [SerializeField] Transform _Reticle;
 
@@ -38,7 +38,7 @@ public class WhistleController : MonoBehaviour
     [SerializeField] uint _WhistleCircleSegments = 20;
 
     AudioSource _Source;
-    ParticleSystem[] _Particles;
+    GameObject[] _Particles;
     Camera _MainCamera;
 
     bool _Blowing = false;
@@ -47,7 +47,7 @@ public class WhistleController : MonoBehaviour
     void Awake()
     {
         // Generate particles for blowing later on
-        _Particles = new ParticleSystem[_ParticleDensity + 1];
+        _Particles = new GameObject[_ParticleDensity + 1];
         for (int i = 0; i < _Particles.Length; i++)
         {
             _Particles[i] = Instantiate(_WhistleParticle);
@@ -69,7 +69,7 @@ public class WhistleController : MonoBehaviour
         Ray ray = _MainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, _MaxDistance, _MapMask, QueryTriggerInteraction.Ignore))
         {
-            Vector3 target = hit.point + Vector3.up * _Offset;
+            Vector3 target = hit.point;
             transform.position = _Reticle.position = target;
         }
 
@@ -86,10 +86,6 @@ public class WhistleController : MonoBehaviour
             // Load the clip into the AudioSource and play
             _Source.clip = _BlowSound;
             _Source.Play();
-            for (int i = 0; i < _Particles.Length; i++)
-            {
-                _Particles[i].Play();
-            }
         }
         if (Input.GetButtonUp("Whistle"))
         {
