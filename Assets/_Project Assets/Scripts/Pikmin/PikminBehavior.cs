@@ -17,6 +17,14 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     [Header("Components")]
     public PikminSO _Data;
 
+    [SerializeField] GameObject _Leaf;
+    [SerializeField] GameObject _Bud;
+    [SerializeField] GameObject _Flower;
+    [SerializeField] Transform _LeafSpawn;
+
+    GameObject[] _HeadTypeModels;
+    Headtype _HeadType;
+
     Player _Player;
     PlayerPikminManager _PlayerPikminManager;
     Rigidbody _Rigidbody;
@@ -61,6 +69,13 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         // Reset state-specific variables
         _AttackingObject = null;
         _AttackTimer = 0;
+
+        _HeadTypeModels = new GameObject[(int)Headtype.SIZE];
+        _HeadTypeModels[0] = Instantiate(_Leaf, _LeafSpawn);
+        _HeadTypeModels[1] = Instantiate(_Bud, _LeafSpawn);
+        _HeadTypeModels[2] = Instantiate(_Flower, _LeafSpawn);
+
+        SetHead(_Data._HeadType);
     }
 
     void Start()
@@ -116,7 +131,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         {
             if(!collision.gameObject.CompareTag("Player") && !collision.gameObject.CompareTag("Pikmin"))
             {
-                Debug.Log(collision.gameObject);
                 CheckForAttack(collision.gameObject);
 
                 if (_State != States.Attacking)
@@ -127,20 +141,12 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void HandleAnimation()
     {
-        if(_State == States.Thrown)
-            _Animator.SetBool("Thrown", true);
-        else
-            _Animator.SetBool("Thrown", false);
-
+        _Animator.SetBool("Thrown", _State == States.Thrown);
 
         if (_State == States.Idle || _State == States.Formation)
         {
             Vector2 horizonalVelocity = new Vector2(_Rigidbody.velocity.x, _Rigidbody.velocity.z);
-
-            if (horizonalVelocity.magnitude >= 3)
-                _Animator.SetBool("Walking", true);
-            else
-                _Animator.SetBool("Walking", false);
+            _Animator.SetBool("Walking", horizonalVelocity.magnitude >= 3);
         }
     }
 
@@ -157,7 +163,10 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         */
     }
 
-    void HandleFormation() => MoveTowards(_PlayerPikminManager.GetFormationCenter().position);
+    void HandleFormation()
+    {
+        MoveTowards(_PlayerPikminManager.GetFormationCenter().position);
+    }
 
     void HandleDeath()
     {
@@ -220,6 +229,21 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         _Rigidbody.isKinematic = parent != null;
     }
     #endregion
+
+    void ActivateHead()
+    {
+        int type = (int)_HeadType;
+        for (int i = 0; i < (int)Headtype.SIZE; i++)
+        {
+            _HeadTypeModels[i].SetActive(i == type);
+        }
+    }
+
+    public void SetHead(Headtype newHead)
+    {
+        _HeadType = newHead;
+        ActivateHead();
+    }
 
     public void EnterWater()
     {

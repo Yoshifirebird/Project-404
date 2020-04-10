@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Red
   m_EditorClassIdentifier: 
   _Colour: 0
-  _HeadType: 0
+  _HeadType: 1
   _MovementSpeed: 5
   _RotationSpeed: 15
   _TimeBetweenAttacks: 0.8

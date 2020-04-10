@@ -6,8 +6,8 @@
 
 using UnityEngine;
 
-public enum Colour { Red, Blue, Yellow }
-public enum Headtype { Leaf, Bud, Flower }
+public enum Colour { Red, Blue, Yellow, SIZE }
+public enum Headtype { Leaf, Bud, Flower, SIZE }
 
 [CreateAssetMenu(fileName = "GenericPikminObject", menuName = "Pikmin/New Pikmin Type")]
 public class PikminSO : ScriptableObject
