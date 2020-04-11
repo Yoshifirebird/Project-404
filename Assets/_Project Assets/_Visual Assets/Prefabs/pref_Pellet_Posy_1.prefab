@@ -270,7 +270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _DeadObject: {fileID: 4853071827087637658, guid: ae524c549db4f3d448d6e364307f6b63,
     type: 3}
-  _MaxHealth: 10
+  _MaxHealth: 100
   _HWOffset: {x: 0, y: 6, z: 0}
   _HWScale: 1.5
 --- !u!1 &4907349531938508711

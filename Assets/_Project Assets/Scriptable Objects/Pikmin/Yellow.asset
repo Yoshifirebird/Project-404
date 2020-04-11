@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Yellow
   m_EditorClassIdentifier: 
   _Colour: 2
-  _HeadType: 0
+  _Leaf: {fileID: 8440573494992231151, guid: 820ffa9989a69394ab36de143cbb0e2a, type: 3}
+  _Bud: {fileID: 6009009235213959189, guid: 57cf96bd92a4f864a9857a1f5ba2ac72, type: 3}
+  _Flower: {fileID: 595203086311389770, guid: c219d3fe4361acc4abd94f4cb22e6b70, type: 3}
   _MovementSpeed: 5
   _RotationSpeed: 15
   _TimeBetweenAttacks: 1
-  _AttackDamage: 1
+  _AttackDamage: 10
