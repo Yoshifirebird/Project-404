@@ -13,12 +13,14 @@ public enum Headtype { Leaf, Bud, Flower, SIZE }
 public class PikminSO : ScriptableObject
 {
     public Colour _Colour;
-    public Headtype _HeadType;
+
+    public GameObject _Leaf;
+    public GameObject _Bud;
+    public GameObject _Flower;
 
     public float _MovementSpeed;
     public float _RotationSpeed;
 
     public float _TimeBetweenAttacks;
-
     public float _AttackDamage;
 }

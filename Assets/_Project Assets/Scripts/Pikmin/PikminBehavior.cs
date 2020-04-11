@@ -17,13 +17,11 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     [Header("Components")]
     public PikminSO _Data;
 
-    [SerializeField] GameObject _Leaf;
-    [SerializeField] GameObject _Bud;
-    [SerializeField] GameObject _Flower;
     [SerializeField] Transform _LeafSpawn;
 
     GameObject[] _HeadTypeModels;
-    Headtype _HeadType;
+    [SerializeField] Headtype _StartingHeadType;
+    Headtype _CurrentHeadType;
 
     Player _Player;
     PlayerPikminManager _PlayerPikminManager;
@@ -74,11 +72,11 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         _AttackTimer = 0;
 
         _HeadTypeModels = new GameObject[(int)Headtype.SIZE];
-        _HeadTypeModels[0] = Instantiate(_Leaf, _LeafSpawn);
-        _HeadTypeModels[1] = Instantiate(_Bud, _LeafSpawn);
-        _HeadTypeModels[2] = Instantiate(_Flower, _LeafSpawn);
+        _HeadTypeModels[0] = Instantiate(_Data._Leaf, _LeafSpawn);
+        _HeadTypeModels[1] = Instantiate(_Data._Bud, _LeafSpawn);
+        _HeadTypeModels[2] = Instantiate(_Data._Flower, _LeafSpawn);
 
-        SetHead(_Data._HeadType);
+        SetHead(_StartingHeadType);
     }
 
     void Start()
@@ -251,7 +249,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void ActivateHead()
     {
-        int type = (int)_HeadType;
+        int type = (int)_CurrentHeadType;
         for (int i = 0; i < (int)Headtype.SIZE; i++)
         {
             _HeadTypeModels[i].SetActive(i == type);
@@ -260,7 +258,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     public void SetHead(Headtype newHead)
     {
-        _HeadType = newHead;
+        _CurrentHeadType = newHead;
         ActivateHead();
     }
 
