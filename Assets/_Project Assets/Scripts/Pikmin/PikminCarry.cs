@@ -47,7 +47,6 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
 
 		if (_IsBeingCarried && Vector3.Distance(transform.position, _EndPoint.position) <= 0.5f)
 		{
-			print("Reached Destination!");
 			_Agent.enabled = false;
 
             // Make every pikmin stop carrying

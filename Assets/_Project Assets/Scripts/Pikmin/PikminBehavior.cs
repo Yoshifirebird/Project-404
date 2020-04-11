@@ -293,7 +293,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void ActivateHead()
     {
-        int type = GetHeadPosition();
+        int type = GetHeadTypeInt();
         for (int i = 0; i < (int)Headtype.SIZE; i++)
         {
             _HeadTypeModels[i].SetActive(i == type);
@@ -401,7 +401,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     #region Getters
     public States GetState() => _State;
 
-    public int GetHeadPosition() => (int)_CurrentHeadType;
+    public int GetHeadTypeInt() => (int)_CurrentHeadType;
     #endregion
     #endregion
 }
