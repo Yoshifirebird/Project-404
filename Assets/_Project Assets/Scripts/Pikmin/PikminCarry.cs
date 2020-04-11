@@ -48,9 +48,10 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
 			print("Reached Destination!");
 			_Agent.enabled = false;
 
-			for (int i = 0; i < _CarryingPikmin.Count; i++)
+            // Remove every pikmin
+			while (_CarryingPikmin.Count > 0)
 			{
-				PikminBehavior pikminObj = _CarryingPikmin[i];
+				PikminBehavior pikminObj = _CarryingPikmin[0];
 				pikminObj.ChangeState(PikminBehavior.States.Idle);
 			}
 

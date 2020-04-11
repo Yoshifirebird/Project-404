@@ -1,6 +1,6 @@
 ﻿/*
  * PikminSO.cs
- * Created by: Ambrosia
+ * Created by: Ambrosia, Kman
  * Created on: 10/2/2020 (dd/mm/yy)
  */
 
@@ -14,15 +14,21 @@ public class PikminSO : ScriptableObject
 {
     public Colour _Colour;
 
+    [Header("Head Types")]
     public GameObject _Leaf;
     public GameObject _Bud;
     public GameObject _Flower;
 
+    [Header("Movement")]
     public float _MovementSpeed;
+    public float _RotationSpeed;
     public float _HeadSpeedMultiplier;
 
-    public float _RotationSpeed;
-
+    [Header("Attacking")]
     public float _TimeBetweenAttacks;
     public float _AttackDamage;
+
+    [Header("Carrying")]
+    public float _SearchRange;
+
 }

@@ -1,6 +1,6 @@
 ﻿/*
  * PikminBehavior.cs
- * Created by: Neo, Ambrosia
+ * Created by: Neo, Ambrosia, Kman
  * Created on: 9/2/2020 (dd/mm/yy)
  * Created for: making the Pikmin have Artificial Intelligence
  */
@@ -16,23 +16,23 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     [Header("Components")]
     public PikminSO _Data;
-
-    [SerializeField] Transform _LeafSpawn;
-
-    GameObject[] _HeadTypeModels;
-    [SerializeField] Headtype _StartingHeadType;
-    Headtype _CurrentHeadType;
-
     Player _Player;
     PlayerPikminManager _PlayerPikminManager;
     Rigidbody _Rigidbody;
     Collider _Collider;
     Animator _Animator;
 
+    [Header("Head Types")]
+    GameObject[] _HeadTypeModels;
+    [SerializeField] Transform _LeafSpawn;
+    [SerializeField] Headtype _StartingHeadType;
+    Headtype _CurrentHeadType;
+
     float _AttackTimer = 0;
     GameObject _AttackingObject;
 
     GameObject _CarryingObject;
+    GameObject _TargetObject;
 
     bool _Spawned = false;
 
@@ -126,6 +126,10 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             default:
                 break;
         }
+    }
+
+    void LateUpdate()
+    {
         HandleAnimation();
     }
 
@@ -164,6 +168,27 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         check for object's "territorial radius" and move towards to perform appropriate interaction
         (attack, carry, drink nectar, etc.).
         */
+
+        Collider[] targets = Physics.OverlapSphere(transform.position, _Data._SearchRange);
+        for (int i = 0; i < targets.Length - 1; i++)
+        {
+            if (_TargetObject != null)
+                break;
+
+            // Altered check for carry code
+            IPikminCarry carry = targets[i].GetComponent<IPikminCarry>();
+            if (carry == null)
+                return;
+
+            _TargetObject = targets[i].gameObject;
+        }
+
+        MoveTowards(_TargetObject.transform.position);
+        if(Vector3.Distance(transform.position, _TargetObject.transform.position) <= 1.5)
+        {
+            CheckForCarry(_TargetObject);
+            _TargetObject = null;
+        }
     }
 
     void HandleFormation()
@@ -176,7 +201,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         // We may not have been properly removed from the squad, so do it ourself
         if (_PreviousState == States.MovingToward || _State == States.MovingToward)
         {
-            ChangeState(States.Idle);
             RemoveFromSquad();
         }
 
@@ -330,6 +354,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     public void RemoveFromSquad()
     {
+        ChangeState(States.Idle);
         _PlayerPikminManager.RemoveFromSquad(gameObject);
     }
     #endregion
