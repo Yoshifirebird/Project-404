@@ -54,8 +54,6 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
 				pikminObj.ChangeState(PikminBehavior.States.Idle);
 			}
 
-
-
 			// Disable the carry component
 			gameObject.SetActive(false);
 		}
