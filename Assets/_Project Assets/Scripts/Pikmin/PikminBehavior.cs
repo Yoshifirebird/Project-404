@@ -346,7 +346,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void MoveTowards(Vector3 towards)
     {
-        Vector3 direction = (towards - _Rigidbody.position).normalized * _Data._MovementSpeed * Mathf.Pow(_Data._HeadSpeedMultiplier, GetHeadPosition() + 1);
+        Vector3 direction = (towards - _Rigidbody.position).normalized * _Data._MovementSpeed * Mathf.Pow(_Data._HeadSpeedMultiplier, GetHeadTypeInt() + 1);
         direction.y = _Rigidbody.velocity.y;
         _Rigidbody.velocity = direction;
 
