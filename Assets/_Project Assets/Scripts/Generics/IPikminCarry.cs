@@ -9,4 +9,5 @@ public interface IPikminCarry
 {
     void OnCarryStart(PikminBehavior p);
     void OnCarryLeave(PikminBehavior p);
+    bool PikminSpotAvailable();
 }
