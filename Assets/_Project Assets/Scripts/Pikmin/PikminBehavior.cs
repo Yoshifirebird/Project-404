@@ -177,12 +177,11 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         {
             //Check every object and see if we can do anything with it
             Collider[] targets = Physics.OverlapSphere(transform.position, _Data._SearchRange);
-
             for (int i = 0; i < targets.Length - 1; i++)
             {
                 // Once we found a target, no need to continue checking
                 if (_TargetObject != null)
-                    break;
+                    return;
 
                 _CarryingData = targets[i].GetComponent<PikminCarry>();
 
@@ -196,7 +195,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
         if(_CarryingData != null)
         {
-            if (_CarryingData._CanAddMore)
+            if (!_CarryingData._CanAddMore)
             {
                 MoveTowards(_TargetObject.transform.position);
 
