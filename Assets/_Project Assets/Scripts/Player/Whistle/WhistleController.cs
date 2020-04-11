@@ -95,6 +95,9 @@ public class WhistleController : MonoBehaviour
         // Handling Blowing
         if (_Blowing)
         {
+            // Handle Particle movement
+            AssignParticlePositions();
+
             // Used to keep track of how long we've been blowing for
             _TimeBlowing += Time.deltaTime;
             if (_TimeBlowing >= _MaxBlowTime)
@@ -117,9 +120,6 @@ public class WhistleController : MonoBehaviour
                 }
             }
         }
-
-        // Handle Particle movement
-        AssignParticlePositions();
     }
 
     /// <summary>
