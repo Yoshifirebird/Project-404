@@ -126,7 +126,7 @@ public class PlayerPikminManager : MonoBehaviour
     /// </summary>
     void HandleFormation()
     {
-        Vector3 targetPosition = (_FormationCenter.position - transform.position).normalized;
+        Vector3 targetPosition = _FormationCenter.position - transform.position;
         _FormationCenter.position = transform.position + Vector3.ClampMagnitude(targetPosition, _StartingOffset + _DistancePerPikmin * _Squad.Count);
     }
 
