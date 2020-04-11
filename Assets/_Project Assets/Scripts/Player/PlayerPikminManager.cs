@@ -149,7 +149,7 @@ public class PlayerPikminManager : MonoBehaviour
             if (pikminComponent != null)
             {
                 // Check if they're in the squad
-                if (pikminComponent.GetState() != PikminBehavior.States.Formation)
+                if (pikminComponent.GetState() != PikminBehavior.States.MovingToward)
                     continue;
 
                 // Vertical check, make sure Pikmin don't get thrown if too far up

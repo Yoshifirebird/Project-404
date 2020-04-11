@@ -104,7 +104,7 @@ public class WhistleController : MonoBehaviour
 
             // Grow the scale of the whistle to the radius we want it to become
             float t = _TimeBlowing / _MaxBlowTime;
-            transform.localScale = Vector3.Lerp(transform.localScale, _2Dto3D(Vector2.one * _ExpandedRadius, 1), t);
+            transform.localScale = Vector3.Lerp(transform.localScale, MathUtil._2Dto3D(Vector2.one * _ExpandedRadius, 1), t);
 
             // Handle collisions with Pikmin
             Collider[] collisions = Physics.OverlapCapsule(transform.position + Vector3.down * 20, transform.position + Vector3.up * 20, transform.localScale.x);
@@ -141,14 +141,14 @@ public class WhistleController : MonoBehaviour
         // Draw default whistle radius
         for (int i = 0; i < _WhistleCircleSegments + 1; i++)
         {
-            Vector3 pos = transform.position + _2Dto3D(MathUtil.CalcPosInCirc(_WhistleCircleSegments, i)) * _StartingRadius;
+            Vector3 pos = transform.position + MathUtil._2Dto3D(MathUtil.CalcPosInCirc(_WhistleCircleSegments, i)) * _StartingRadius;
             Gizmos.color = Color.yellow;
             Gizmos.DrawSphere(pos, 0.05f * _StartingRadius);
         }
         // Draw expanded whistle radius
         for (int i = 0; i < _WhistleCircleSegments + 1; i++)
         {
-            Vector3 pos = transform.position + _2Dto3D(MathUtil.CalcPosInCirc(_WhistleCircleSegments, i)) * _ExpandedRadius;
+            Vector3 pos = transform.position + MathUtil._2Dto3D(MathUtil.CalcPosInCirc(_WhistleCircleSegments, i)) * _ExpandedRadius;
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(pos, 0.05f * _ExpandedRadius);
         }
@@ -180,7 +180,7 @@ public class WhistleController : MonoBehaviour
         Transform cacheTransform = transform;
         for (int i = 0; i < _ParticleDensity + 1; i++)
         {
-            Vector3 localPos = _2Dto3D(MathUtil.CalcPosInCirc(_ParticleDensity, i, _TimeBlowing * _ParticleRotationSpeed)) * cacheTransform.localScale.x;
+            Vector3 localPos = MathUtil._2Dto3D(MathUtil.CalcPosInCirc(_ParticleDensity, i, _TimeBlowing * _ParticleRotationSpeed)) * cacheTransform.localScale.x;
             // Offset the local position to be global
             localPos += cacheTransform.position;
             //Cache the Y for later
@@ -203,11 +203,4 @@ public class WhistleController : MonoBehaviour
             _Particles[i].transform.position = localPos;
         }
     }
-
-    /// <summary>
-    /// Converts between 2D and 3D on the X and Z axis
-    /// </summary>
-    /// <param name="conv">The vector to convert</param>
-    /// <returns>Vector3 with X and Z set to the X and Y of the Vector2</returns>
-    Vector3 _2Dto3D(Vector2 conv, float y = 0) => new Vector3(conv.x, y, conv.y);
 }

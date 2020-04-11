@@ -28,4 +28,11 @@ public static class MathUtil
         float theta = (M_2PI / segments) * index;
         return new Vector2(Mathf.Cos(theta + offset), Mathf.Sin(theta + offset));
     }
+
+    /// <summary>
+    /// Converts between 2D and 3D on the X and Z axis
+    /// </summary>
+    /// <param name="conv">The vector to convert</param>
+    /// <returns>Vector3 with X and Z set to the X and Y of the Vector2</returns>
+    public static Vector3 _2Dto3D(Vector2 conv, float y = 0) => new Vector3(conv.x, y, conv.y);
 }

@@ -10,7 +10,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PikminBehavior : MonoBehaviour, IPooledObject
 {
-    public enum States { Idle, Formation, Attacking, Dead, Carrying, Held, Thrown}
+    public enum States { Idle, MovingToward, Attacking, Dead, Carrying, Held, Thrown}
     States _State;
     States _PreviousState;
 
@@ -33,6 +33,8 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     float _AttackTimer = 0;
     GameObject _AttackingObject;
+
+    GameObject _CarryingObject;
 
     bool _Spawned = false;
 
@@ -68,6 +70,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
         // Reset state-specific variables
         _AttackingObject = null;
+        _CarryingObject = null;
         _AttackTimer = 0;
 
         _HeadTypeModels = new GameObject[(int)Headtype.SIZE];
@@ -109,7 +112,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             case States.Idle:
                 HandleIdle();
                 break;
-            case States.Formation:
+            case States.MovingToward:
                 HandleFormation();
                 break;
             case States.Attacking:
@@ -118,6 +121,9 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             case States.Dead:
                 HandleDeath();
                 break;
+
+            case States.Carrying:
+            case States.Held:
             case States.Thrown:
             default:
                 break;
@@ -131,10 +137,9 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         {
             if(!collision.gameObject.CompareTag("Player") && !collision.gameObject.CompareTag("Pikmin"))
             {
+                ChangeState(States.Idle);
                 CheckForAttack(collision.gameObject);
-
-                if (_State != States.Attacking)
-                    ChangeState(States.Idle);
+                CheckForCarry(collision.gameObject);
             }
         }
     }
@@ -143,7 +148,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     {
         _Animator.SetBool("Thrown", _State == States.Thrown);
 
-        if (_State == States.Idle || _State == States.Formation)
+        if (_State == States.Idle || _State == States.MovingToward)
         {
             Vector2 horizonalVelocity = new Vector2(_Rigidbody.velocity.x, _Rigidbody.velocity.z);
             _Animator.SetBool("Walking", horizonalVelocity.magnitude >= 3);
@@ -171,7 +176,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     void HandleDeath()
     {
         // We may not have been properly removed from the squad, so do it ourself
-        if (_PreviousState == States.Formation || _State == States.Formation)
+        if (_PreviousState == States.MovingToward || _State == States.MovingToward)
         {
             RemoveFromSquad();
         }
@@ -182,6 +187,20 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         //ObjectPooler.Instance.StoreInPool("Pikmin");
         Destroy(gameObject);
     }
+
+    #region Carrying
+
+    void CheckForCarry(GameObject toCheck)
+    {
+        IPikminCarry carry = toCheck.GetComponent<IPikminCarry>();
+        if (carry == null)
+            return;
+
+        _CarryingObject = toCheck;
+        carry.OnCarryStart(this);
+    }
+
+    #endregion
 
     #region Attacking
     void HandleAttacking()
@@ -298,14 +317,14 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     #region Squad
     public void AddToSquad()
     {
-        if (_State != States.Formation && _State != States.Thrown)
+        if (_State != States.MovingToward && _State != States.Thrown)
         {
             if (_AttackingObject != null)
             {
                 LatchOntoObject(null);
             }
 
-            ChangeState(States.Formation);
+            ChangeState(States.MovingToward);
             _PlayerPikminManager.AddToSquad(gameObject);
         }
     }
@@ -327,6 +346,13 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
         if (transform.parent != null)
             transform.parent = null;
+
+        if (_PreviousState == States.Carrying)
+        {
+            _CarryingObject.GetComponent<IPikminCarry>().OnCarryLeave(this);
+            _CarryingObject = null;
+            LatchOntoObject(null);
+        }
     }
     #endregion
 
