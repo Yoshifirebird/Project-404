@@ -58,7 +58,6 @@ public class CameraFollow : MonoBehaviour
     float _CurrentRotation;
     int _HolderIndex;
     bool _TopView = false;
-    bool _Resetting = false;
 
     CameraFollow()
     {
@@ -219,30 +218,7 @@ public class CameraFollow : MonoBehaviour
 
     IEnumerator ResetCamOverTime(float length)
     {
-        float t = length;
-
-        if (_Resetting)
-            yield return null;
-
-        _Resetting = true;
-
-        // Kept outside of the loop so as to not give nausea
-        float difference = transform.rotation.eulerAngles.y - _MovementController._RotationBeforeIdle.eulerAngles.y;
-        float dif = 0;
-        while (t > 0)
-        {
-            t -= Time.deltaTime;
-            dif = Mathf.Lerp(difference, dif, t / length);
-            difference -= dif;
-
-            float newY = -dif * _CameraResetSpeed * Mathf.Deg2Rad;
-
-            // Invert the difference, convert it to radians and apply the camera reset speed
-            RotateView(newY);
-            yield return null;
-        }
-
-        _Resetting = false;
+        //TODO
 
         yield return null;
     }
