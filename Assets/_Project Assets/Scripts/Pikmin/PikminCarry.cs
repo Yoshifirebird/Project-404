@@ -20,9 +20,10 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
 	[SerializeField] int _MaxAmountRequired;
 	[SerializeField] float _Speed;
 	[SerializeField] float _AddedSpeed;
-	[SerializeField] float _Radius;
+	public float _Radius;
 
     bool _IsBeingCarried;
+    [HideInInspector] public bool _CanAddMore;
 
 	List<PikminBehavior> _CarryingPikmin = new List<PikminBehavior>();
 
@@ -76,6 +77,11 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
 			_Agent.enabled = false;
             _IsBeingCarried = false;
         }
+        if(_CarryingPikmin.Count < _MaxAmountRequired)
+        {
+            _CanAddMore = true;
+        }
+
 	}
 
 	public void OnCarryStart(PikminBehavior p)
@@ -100,5 +106,10 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
             _Agent.speed += _AddedSpeed;
             _IsBeingCarried = true;
 		}
-	}
+
+        if (_CarryingPikmin.Count == _MaxAmountRequired)
+        {
+            _CanAddMore = false;
+        }
+    }
 }

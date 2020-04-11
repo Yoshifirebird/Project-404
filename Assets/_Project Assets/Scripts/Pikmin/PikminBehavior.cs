@@ -32,6 +32,8 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     GameObject _AttackingObject;
 
     GameObject _CarryingObject;
+    PikminCarry _CarryingData;
+
     GameObject _TargetObject;
 
     bool _Spawned = false;
@@ -69,6 +71,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         // Reset state-specific variables
         _AttackingObject = null;
         _CarryingObject = null;
+        _TargetObject = null;
         _AttackTimer = 0;
 
         _HeadTypeModels = new GameObject[(int)Headtype.SIZE];
@@ -171,25 +174,36 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
         //Check every object and see if we can do anything with it
         Collider[] targets = Physics.OverlapSphere(transform.position, _Data._SearchRange);
+
         for (int i = 0; i < targets.Length - 1; i++)
         {
             // Once we found a target, no need to continue checking
             if (_TargetObject != null)
                 break;
 
-            // Altered check for carry code
-            IPikminCarry carry = targets[i].GetComponent<IPikminCarry>();
-            if (carry == null)
+            _CarryingData = targets[i].GetComponent<PikminCarry>();
+            if (_CarryingData == null)
                 return;
 
             _TargetObject = targets[i].gameObject;
         }
 
-        MoveTowards(_TargetObject.transform.position);
-        if(Vector3.Distance(transform.position, _TargetObject.transform.position) <= 1.5)
+
+        if(_CarryingData != null)
         {
-            CheckForCarry(_TargetObject);
-            _TargetObject = null;
+            if (_CarryingData._CanAddMore)
+            {
+                MoveTowards(_TargetObject.transform.position);
+
+                if (Vector3.Distance(transform.position, _TargetObject.transform.position) <= _CarryingData._Radius + 0.5f)
+                {
+                    CheckForCarry(_TargetObject);
+
+                    // Data isn't needed anymore so delete it
+                    _TargetObject = null;
+                    _CarryingData = null;
+                }
+            }
         }
     }
 
