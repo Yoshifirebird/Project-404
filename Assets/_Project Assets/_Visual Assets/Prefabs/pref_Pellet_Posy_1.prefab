@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 5389076463626424317}
   m_Layer: 0
   m_Name: pref_Pellet_Posy_1
-  m_TagString: Untagged
+  m_TagString: Attackable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -38,6 +38,8 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     bool _Spawned = false;
 
+    int _Timer = 0;
+
     void Spawn()
     {
         if (_Spawned)
@@ -169,7 +171,8 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             Collider[] surroundings = Physics.OverlapSphere(transform.position, _Data._SearchRange);
             foreach (Collider obj in surroundings)
             {
-                _CarryingData = obj.GetComponent<PikminCarry>();
+                if(obj.CompareTag("Carriable"))
+                    _CarryingData = obj.GetComponent<PikminCarry>();
 
                 // Check if the collided object has even got the PikminCarry component
                 if (_CarryingData != null)
