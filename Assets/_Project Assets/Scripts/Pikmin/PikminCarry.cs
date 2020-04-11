@@ -22,8 +22,8 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
 	[SerializeField] float _AddedSpeed;
 	public float _Radius;
 
-    bool _IsBeingCarried;
-    [HideInInspector] public bool _CanAddMore;
+    bool _IsBeingCarried = false;
+    [HideInInspector] public bool _CanAddMore = false;
 
 	List<PikminBehavior> _CarryingPikmin = new List<PikminBehavior>();
 

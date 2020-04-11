@@ -172,22 +172,27 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         (attack, carry, drink nectar, etc.).
         */
 
-        //Check every object and see if we can do anything with it
-        Collider[] targets = Physics.OverlapSphere(transform.position, _Data._SearchRange);
-
-        for (int i = 0; i < targets.Length - 1; i++)
+        // Look for a target object if there isn't one
+        if(_TargetObject == null)
         {
-            // Once we found a target, no need to continue checking
-            if (_TargetObject != null)
-                break;
+            //Check every object and see if we can do anything with it
+            Collider[] targets = Physics.OverlapSphere(transform.position, _Data._SearchRange);
 
-            _CarryingData = targets[i].GetComponent<PikminCarry>();
-            if (_CarryingData == null)
-                return;
+            for (int i = 0; i < targets.Length - 1; i++)
+            {
+                // Once we found a target, no need to continue checking
+                if (_TargetObject != null)
+                    break;
 
-            _TargetObject = targets[i].gameObject;
+                _CarryingData = targets[i].GetComponent<PikminCarry>();
+
+                // If the object can't be interacted by anything skip it 
+                if (_CarryingData == null)
+                    break;
+
+                _TargetObject = targets[i].gameObject;
+            }
         }
-
 
         if(_CarryingData != null)
         {
