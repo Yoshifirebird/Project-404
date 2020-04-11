@@ -169,9 +169,11 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         (attack, carry, drink nectar, etc.).
         */
 
+        //Check every object and see if we can do anything with it
         Collider[] targets = Physics.OverlapSphere(transform.position, _Data._SearchRange);
         for (int i = 0; i < targets.Length - 1; i++)
         {
+            // Once we found a target, no need to continue checking
             if (_TargetObject != null)
                 break;
 
