@@ -10,7 +10,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PikminBehavior : MonoBehaviour, IPooledObject
 {
-    public enum States { Idle, MovingToward, Attacking, Dead, Carrying, Held, Thrown}
+    public enum States { Idle, MovingToward, Attacking, Dead, Carrying, Held, Thrown }
     States _State;
     States _PreviousState;
 
@@ -23,9 +23,9 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     Animator _Animator;
 
     [Header("Head Types")]
-    GameObject[] _HeadTypeModels;
     [SerializeField] Transform _LeafSpawn;
     [SerializeField] Headtype _StartingHeadType;
+    GameObject[] _HeadTypeModels;
     Headtype _CurrentHeadType;
 
     float _AttackTimer = 0;
@@ -140,7 +140,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     {
         if (_State == States.Thrown)
         {
-            if(!collision.gameObject.CompareTag("Player") && !collision.gameObject.CompareTag("Pikmin"))
+            if (!collision.gameObject.CompareTag("Player") && !collision.gameObject.CompareTag("Pikmin"))
             {
                 ChangeState(States.Idle);
                 CheckForAttack(collision.gameObject);
@@ -162,51 +162,50 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void HandleIdle()
     {
-        /*
-        Set general regions for Pikmin to be dismissed into (not unlike formation center); likely
-        dynamic regions based on the surrounding terrain (don't dismiss non-blue into water, etc.).
-        If not dynamic, shift around which Pikmin are dismissed into which region.
-
-        Simply move towards region. If interactable objects present (pellets, enemies, etc.),
-        check for object's "territorial radius" and move towards to perform appropriate interaction
-        (attack, carry, drink nectar, etc.).
-        */
-
         // Look for a target object if there isn't one
-        if(_TargetObject == null)
+        if (_TargetObject == null)
         {
             //Check every object and see if we can do anything with it
-            Collider[] targets = Physics.OverlapSphere(transform.position, _Data._SearchRange);
-            for (int i = 0; i < targets.Length - 1; i++)
+            Collider[] surroundings = Physics.OverlapSphere(transform.position, _Data._SearchRange);
+            foreach (Collider obj in surroundings)
             {
-                // Once we found a target, no need to continue checking
-                if (_TargetObject != null)
-                    return;
+                _CarryingData = obj.GetComponent<PikminCarry>();
 
-                _CarryingData = targets[i].GetComponent<PikminCarry>();
-
-                // If the object can't be interacted by anything skip it 
-                if (_CarryingData == null)
-                    break;
-
-                _TargetObject = targets[i].gameObject;
+                // Check if the collided object has even got the PikminCarry component
+                if (_CarryingData != null)
+                {
+                    // If there is a spot for the Pikmin to carry
+                    if (_CarryingData.PikminSpotAvailable())
+                    {
+                        // Set our target to that object
+                        _TargetObject = obj.gameObject;
+                        break;
+                    }
+                    else
+                    {
+                        // Because there wasn't a spot for us, reset the carrying data and move on
+                        _CarryingData = null;
+                    }
+                }
             }
         }
 
-        if(_CarryingData != null)
+        // As we've found the object we're going to carry
+        if (_CarryingData != null)
         {
-            if (!_CarryingData._CanAddMore)
+            // Move towards the object
+            MoveTowards(_TargetObject.transform.position);
+
+            // And check if we're close enough to start carrying
+            if (Vector3.Distance(transform.position, _TargetObject.transform.position) <= _CarryingData._Radius + 0.5f)
             {
-                MoveTowards(_TargetObject.transform.position);
+                // Assign our Carrying variables
+                _CarryingObject = _TargetObject;
+                _CarryingData.OnCarryStart(this);
 
-                if (Vector3.Distance(transform.position, _TargetObject.transform.position) <= _CarryingData._Radius + 0.5f)
-                {
-                    CheckForCarry(_TargetObject);
-
-                    // Data isn't needed anymore so delete it
-                    _TargetObject = null;
-                    _CarryingData = null;
-                }
+                // And null the variables for the next time we're idle
+                _TargetObject = null;
+                _CarryingData = null;
             }
         }
     }
@@ -336,7 +335,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     {
         _Rigidbody.isKinematic = false;
         _Rigidbody.useGravity = true;
-        _Collider.enabled = true;        
+        _Collider.enabled = true;
         _Animator.SetBool("Holding", false);
 
         RemoveFromSquad();
@@ -347,7 +346,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void MoveTowards(Vector3 towards)
     {
-        Vector3 direction = (towards - _Rigidbody.position).normalized * _Data._MovementSpeed * Mathf.Pow(_Data._HeadSpeedMultiplier,GetHeadPosition() + 1);
+        Vector3 direction = (towards - _Rigidbody.position).normalized * _Data._MovementSpeed * Mathf.Pow(_Data._HeadSpeedMultiplier, GetHeadPosition() + 1);
         direction.y = _Rigidbody.velocity.y;
         _Rigidbody.velocity = direction;
 

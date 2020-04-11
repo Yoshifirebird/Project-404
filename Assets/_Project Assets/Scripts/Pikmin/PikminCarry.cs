@@ -23,7 +23,6 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
 	public float _Radius;
 
     bool _IsBeingCarried = false;
-    [HideInInspector] public bool _CanAddMore = false;
 
 	List<PikminBehavior> _CarryingPikmin = new List<PikminBehavior>();
 
@@ -54,11 +53,9 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
             // Make every pikmin stop carrying
 			while (_CarryingPikmin.Count > 0)
 			{
-				PikminBehavior pikminObj = _CarryingPikmin[0];
-				pikminObj.ChangeState(PikminBehavior.States.Idle);
+				OnCarryLeave(_CarryingPikmin[0]);
 			}
 
-			// Disable the carry component
 			gameObject.SetActive(false);
 		}
 	}
@@ -77,17 +74,13 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
 			_Agent.enabled = false;
             _IsBeingCarried = false;
         }
-        if(_CarryingPikmin.Count < _MaxAmountRequired)
-        {
-            _CanAddMore = true;
-        }
-
 	}
 
 	public void OnCarryStart(PikminBehavior p)
 	{
 		if (_CarryingPikmin.Count >= _MaxAmountRequired)
 		{
+			OnCarryLeave(p);
 			p.ChangeState(PikminBehavior.States.Idle);
 			return;
 		}
@@ -106,10 +99,10 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
             _Agent.speed += _AddedSpeed;
             _IsBeingCarried = true;
 		}
-
-        if (_CarryingPikmin.Count == _MaxAmountRequired)
-        {
-            _CanAddMore = false;
-        }
     }
+
+	public bool PikminSpotAvailable()
+	{
+		return _CarryingPikmin.Count < _MaxAmountRequired;
+	}
 }
