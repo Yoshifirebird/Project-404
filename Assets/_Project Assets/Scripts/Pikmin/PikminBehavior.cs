@@ -176,6 +176,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         // We may not have been properly removed from the squad, so do it ourself
         if (_PreviousState == States.MovingToward || _State == States.MovingToward)
         {
+            ChangeState(States.Idle);
             RemoveFromSquad();
         }
 
@@ -249,7 +250,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void ActivateHead()
     {
-        int type = (int)_CurrentHeadType;
+        int type = GetHeadPosition();
         for (int i = 0; i < (int)Headtype.SIZE; i++)
         {
             _HeadTypeModels[i].SetActive(i == type);
@@ -302,7 +303,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void MoveTowards(Vector3 towards)
     {
-        Vector3 direction = (towards - _Rigidbody.position).normalized * _Data._MovementSpeed;
+        Vector3 direction = (towards - _Rigidbody.position).normalized * _Data._MovementSpeed * Mathf.Pow(_Data._HeadSpeedMultiplier,GetHeadPosition() + 1);
         direction.y = _Rigidbody.velocity.y;
         _Rigidbody.velocity = direction;
 
@@ -329,7 +330,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     public void RemoveFromSquad()
     {
-        ChangeState(States.Idle);
         _PlayerPikminManager.RemoveFromSquad(gameObject);
     }
     #endregion
@@ -356,6 +356,8 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     #region Getters
     public States GetState() => _State;
+
+    public int GetHeadPosition() => (int)_CurrentHeadType;
     #endregion
     #endregion
 }

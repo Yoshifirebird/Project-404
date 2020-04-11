@@ -19,6 +19,8 @@ public class PikminSO : ScriptableObject
     public GameObject _Flower;
 
     public float _MovementSpeed;
+    public float _HeadSpeedMultiplier;
+
     public float _RotationSpeed;
 
     public float _TimeBetweenAttacks;
