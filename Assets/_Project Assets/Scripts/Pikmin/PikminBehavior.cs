@@ -206,6 +206,12 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
         if (_AttackingObject != null)
         {
+            if (_AttackingData == null)
+            {
+                _AttackingObject = null;
+                return;
+            }
+
             // Move towards the object
             MoveTowards(_AttackingObject.transform.position);
 
