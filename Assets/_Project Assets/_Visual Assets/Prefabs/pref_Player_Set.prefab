@@ -545,9 +545,9 @@ MonoBehaviour:
   _OrbitChangeSpeed: 4
   _FOVChangeSpeed: 3
   _HeightChangeSpeed: 3
-  _DistForHeightChange: Infinity
-  _EasingHeightOffset: 2.5
-  _HeightSphereRadius: 3
+  _DistForHeightChange: 30
+  _EasingHeightOffset: 10
+  _HeightSphereRadius: 5
   _LookAtRotationSpeed: 5
   _RotateAroundSpeed: 10
   _TriggerRotationSpeed: 80
