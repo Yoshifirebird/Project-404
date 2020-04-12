@@ -178,6 +178,13 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
                     continue;
                 }
 
+                _AttackingData = obj.GetComponentInParent<IPikminAttack>();
+                if (_AttackingData != null)
+                {
+                    _TargetObject = _AttackingObject = obj.gameObject;
+                    break;
+                }
+
                 _CarryingData = obj.GetComponent<PikminCarry>();
                 if (_CarryingData != null)
                 {
@@ -194,18 +201,25 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
                         _CarryingData = null;
                     }
                 }
-
-                _AttackingData = obj.GetComponentInParent<IPikminAttack>();
-                if (_AttackingData != null)
-                {
-                    _TargetObject = _AttackingObject = obj.gameObject;
-                    break;
-                }
             }
         }
 
-        // As we've found the object we're going to carry
-        if (_CarryingData != null)
+        if (_AttackingObject != null)
+        {
+            // Move towards the object
+            MoveTowards(_AttackingObject.transform.position);
+
+            // And check if we're close enough to start attacking
+            if (Vector3.Distance(transform.position, _AttackingObject.transform.position) <= 1)
+            {
+                LatchOntoObject(_AttackingObject.transform);
+                _AttackingData.OnAttackStart(gameObject);
+                ChangeState(States.Attacking);
+
+                _TargetObject = null;
+            }
+        }
+        else if (_CarryingData != null)
         {
             // Move towards the object
             MoveTowards(_TargetObject.transform.position);
@@ -220,18 +234,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
                 // And null the variables for the next time we're idle
                 _TargetObject = null;
                 _CarryingData = null;
-            }
-        }
-        else if (_AttackingObject != null)
-        {
-            MoveTowards(_AttackingObject.transform.position);
-
-            if (Vector3.Distance(transform.position, _AttackingObject.transform.position) <= 1)
-            {
-                LatchOntoObject(_AttackingObject.transform);
-                _AttackingData.OnAttackStart(gameObject);
-                ChangeState(States.Attacking);
-                _TargetObject = null;
             }
         }
     }
