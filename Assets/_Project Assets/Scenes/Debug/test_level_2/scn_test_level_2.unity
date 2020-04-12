@@ -107,10 +107,10 @@ NavMeshSettings:
     serializedVersion: 2
     agentTypeID: 0
     agentRadius: 1
-    agentHeight: 1
-    agentSlope: 36.7
+    agentHeight: 0.5
+    agentSlope: 36.8
     agentClimb: 0.4
-    ledgeDropHeight: 5
+    ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
@@ -734,7 +734,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &360950209 stripped
 Transform:
@@ -1212,22 +1212,22 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1478725530}
     m_Modifications:
     - target: {fileID: 1131367448399226083, guid: 294fc44b5aeb24b4c90a343bf25572a7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 43.459557
+      value: 44.826736
       objectReference: {fileID: 0}
     - target: {fileID: 1131367448399226083, guid: 294fc44b5aeb24b4c90a343bf25572a7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.9753294
+      value: 14.455357
       objectReference: {fileID: 0}
     - target: {fileID: 1131367448399226083, guid: 294fc44b5aeb24b4c90a343bf25572a7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 58.125168
+      value: 52.714985
       objectReference: {fileID: 0}
     - target: {fileID: 1131367448399226083, guid: 294fc44b5aeb24b4c90a343bf25572a7,
         type: 3}
@@ -1252,7 +1252,7 @@ PrefabInstance:
     - target: {fileID: 1131367448399226083, guid: 294fc44b5aeb24b4c90a343bf25572a7,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 1131367448399226083, guid: 294fc44b5aeb24b4c90a343bf25572a7,
         type: 3}
@@ -1282,7 +1282,7 @@ PrefabInstance:
     - target: {fileID: 4907349531938508711, guid: 294fc44b5aeb24b4c90a343bf25572a7,
         type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Interactable
       objectReference: {fileID: 0}
     - target: {fileID: 5389076463795158685, guid: 294fc44b5aeb24b4c90a343bf25572a7,
         type: 3}
@@ -1292,7 +1292,7 @@ PrefabInstance:
     - target: {fileID: 5389076464300184607, guid: 294fc44b5aeb24b4c90a343bf25572a7,
         type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Interactable
       objectReference: {fileID: 0}
     - target: {fileID: 5897473332474148972, guid: 294fc44b5aeb24b4c90a343bf25572a7,
         type: 3}
@@ -1749,7 +1749,7 @@ Transform:
   - {fileID: 467156981}
   - {fileID: 585042581}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &624063051 stripped
 Transform:
@@ -1816,7 +1816,7 @@ Transform:
   - {fileID: 1879414787}
   - {fileID: 211701857}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &789503707 stripped
 Transform:
@@ -2507,6 +2507,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d636024a11f2752488a4c6cc4cda3800, type: 3}
+--- !u!4 &1093390839 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1131367448399226083, guid: 294fc44b5aeb24b4c90a343bf25572a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 512506368}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1167090590
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13135,8 +13141,9 @@ Transform:
   - {fileID: 360950209}
   - {fileID: 2101042596}
   - {fileID: 1540619453}
+  - {fileID: 1093390839}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1525805269
 PrefabInstance:
@@ -14357,7 +14364,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &401268065119188706
 PrefabInstance:

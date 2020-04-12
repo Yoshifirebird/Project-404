@@ -9,8 +9,8 @@ using UnityEngine;
 
 public interface IPikminAttack
 {
-    void OnAttach(GameObject attachedPikmin);
-    void OnDetach(GameObject detachedPikmin);
+    void OnAttackStart(GameObject attachedPikmin);
+    void OnAttackEnd(GameObject detachedPikmin);
 
     void Attack(GameObject attackingPikmin, float attackDamage);
 }

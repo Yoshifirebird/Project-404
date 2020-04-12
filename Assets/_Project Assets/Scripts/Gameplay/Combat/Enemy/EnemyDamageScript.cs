@@ -50,6 +50,11 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
 
     void Update ()
     {
+        if (_AttachedPikmin.Count == 0 && _Animator.GetBool("hit"))
+        {
+            _Animator.SetBool("hit", true);
+        }
+
         // Check if we're dead, if so then detach the pikmin and destroy ourself
         if (_CurrentHealth <= 0)
         {
@@ -83,16 +88,15 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
         _HWScript._CurrentHealth = _CurrentHealth;
 
         if (_Animator.GetBool("hit") == false)
+        {
             _Animator.SetBool("hit", true);
+        }
     }
 
-    public void OnAttach(GameObject attachedPikmin) => _AttachedPikmin.Add(attachedPikmin);
-    public void OnDetach(GameObject detachedPikmin)
+    public void OnAttackStart(GameObject attachedPikmin) => _AttachedPikmin.Add(attachedPikmin);
+    public void OnAttackEnd(GameObject detachedPikmin)
     {
-        _AttachedPikmin.Remove(detachedPikmin);
-
-        if (_AttachedPikmin.Count == 0)
-            _Animator.SetBool("hit", false);        
+        _AttachedPikmin.Remove(detachedPikmin);     
     }
 
     #endregion

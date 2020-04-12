@@ -104,7 +104,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             IPikminAttack aInterface = _AttackingObject.GetComponent<IPikminAttack>();
 
             if (aInterface != null)
-                aInterface.OnDetach(gameObject);
+                aInterface.OnAttackEnd(gameObject);
 
             // Remove the attacking object and reset the timer
             _AttackingObject = null;
@@ -195,7 +195,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
                     }
                 }
 
-                _AttackingData = _AttackingObject.GetComponentInParent<IPikminAttack>();
+                _AttackingData = obj.GetComponentInParent<IPikminAttack>();
                 if (_AttackingData != null)
                 {
                     _TargetObject = _AttackingObject = obj.gameObject;
@@ -224,13 +224,13 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         }
         else if (_AttackingObject != null)
         {
-            MoveTowards(_TargetObject.transform.position);
+            MoveTowards(_AttackingObject.transform.position);
 
-            if (Vector3.Distance(transform.position, _TargetObject.transform.position) <= 1)
+            if (Vector3.Distance(transform.position, _AttackingObject.transform.position) <= 1)
             {
                 LatchOntoObject(_AttackingObject.transform);
-                _AttackingData.OnAttach(gameObject);
-
+                _AttackingData.OnAttackStart(gameObject);
+                ChangeState(States.Attacking);
                 _TargetObject = null;
             }
         }
@@ -299,10 +299,10 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         {
             // It does, we can attack!
             // Set our state to attacking, assign the attack variables and latch!
-            ChangeState(States.Attacking);
             _AttackingObject = toCheck;
+            ChangeState(States.Attacking);
             LatchOntoObject(toCheck.transform);
-            _AttackingData.OnAttach(gameObject);
+            _AttackingData.OnAttackStart(gameObject);
         }
     }
 
@@ -414,6 +414,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         }
         else if (_PreviousState == States.Attacking)
         {
+            _AttackingData.OnAttackEnd(gameObject);
             _AttackingData = null;
             _AttackingObject = null;
             LatchOntoObject(null);
