@@ -32,10 +32,10 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
 		_Agent.updateRotation = false;
 		_Agent.speed = _Speed;
 		_Agent.enabled = false;
-
+	
 		_EndPoint = GameObject.FindGameObjectWithTag("Carry Point").transform;
     }
-	
+
 	void Update()
 	{
         for (int i = 0; i < _CarryingPikmin.Count; i++)
@@ -45,7 +45,7 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
 			pikminObj.transform.rotation = Quaternion.LookRotation(transform.position - pikminObj.transform.position);
 		}
 
-		if (_IsBeingCarried && Vector3.Distance(transform.position, _EndPoint.position) <= 0.5f)
+		if (_IsBeingCarried && Vector3.Distance(transform.position, _EndPoint.position) <= 1)
 		{
 			_Agent.enabled = false;
 

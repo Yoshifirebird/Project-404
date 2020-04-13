@@ -12,6 +12,22 @@ public static class PlayerStats
     public static PikminStats _Red = new PikminStats(0, 0, 0);
     public static PikminStats _Yellow = new PikminStats(0, 0, 0);
     public static PikminStats _Blue = new PikminStats(0, 0, 0);
+
+    public static PikminStats GetStats(Colour col)
+    {
+        switch (col)
+        {
+            case Colour.Red:
+                return _Red;
+            case Colour.Blue:
+                return _Blue;
+            case Colour.Yellow:
+                return _Yellow;
+            default:
+                return default;
+        }
+    }
+
     public static int _TotalPikmin { get => _Red.GetTotal() + _Yellow.GetTotal() + _Yellow.GetTotal(); }
 
     public static void IncrementTotal(Colour pikminColour, Headtype headtype)
@@ -55,6 +71,7 @@ public static class PlayerStats
         int _Leaf;
         int _Bud;
         int _Flower;
+
         public PikminStats(int leaf, int bud, int flower)
         {
             _Leaf = leaf;
@@ -98,7 +115,6 @@ public static class PlayerStats
                     break;
             }
         }
-
     }
 
 }

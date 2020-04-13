@@ -8,13 +8,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Requires animator, and inside of the animator requires there to be a "hit" bool
+[RequireComponent(typeof(Animator))]
 public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
 {
-    [Header("Components")]
-    [SerializeField] GameObject _DeadObject;
-
     [Header("Settings")]
     [SerializeField] float _MaxHealth = 10;
+    [SerializeField] bool _HandleDeath = false;
+    [SerializeField] GameObject _DeadObject;
 
     [Header("Health Wheel")]
     [SerializeField] Vector3 _HWOffset = Vector3.up;
@@ -22,7 +23,10 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
 
     Animator _Animator;
 
-    List<GameObject> _AttachedPikmin = new List<GameObject>();
+    [HideInInspector]
+    public List<GameObject> _AttachedPikmin = new List<GameObject>();
+    [HideInInspector]
+    public bool _Dead;
     ObjectPooler _ObjectPooler;
     HealthWheel _HWScript;
     float _CurrentHealth = 0;
@@ -48,7 +52,7 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
         _HWScript.transform.localScale = Vector3.one * _HWScale;
     }
 
-    void Update ()
+    void Update()
     {
         if (_AttachedPikmin.Count == 0 && _Animator.GetBool("hit"))
         {
@@ -65,18 +69,20 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
                 attached.transform.parent = null;
             }
 
-            Instantiate(_DeadObject, transform.position, Quaternion.identity);
+            _Dead = true;
 
-            // Should be an animation here, but because
-            // it was a test we can just destroy the gameObject
-            Destroy(gameObject);
+            if (_HandleDeath)
+            {
+                Instantiate(_DeadObject, transform.position, Quaternion.identity);
+                Destroy(gameObject);
+            }
         }
     }
 
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position + _HWOffset, _HWScale);    
+        Gizmos.DrawWireSphere(transform.position + _HWOffset, _HWScale);
     }
 
     #region Pikmin Attacking Implementation
@@ -96,7 +102,7 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
     public void OnAttackStart(GameObject attachedPikmin) => _AttachedPikmin.Add(attachedPikmin);
     public void OnAttackEnd(GameObject detachedPikmin)
     {
-        _AttachedPikmin.Remove(detachedPikmin);     
+        _AttachedPikmin.Remove(detachedPikmin);
     }
 
     #endregion
