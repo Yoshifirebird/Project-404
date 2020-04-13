@@ -10,7 +10,18 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PikminBehavior : MonoBehaviour, IPooledObject
 {
-    public enum States { Idle, MovingToward, Attacking, Dead, Carrying, Held, Thrown }
+    public enum States
+    {
+        Idle,
+        MovingToward,
+        Attacking,
+        Dead,
+        Carrying,
+        Held,
+        ShakenOff,
+        Thrown
+    }
+
     States _State;
     States _PreviousState;
 
@@ -38,8 +49,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     GameObject _TargetObject;
 
     bool _Spawned = false;
-
-    int _Timer = 0;
 
     void Spawn()
     {
@@ -150,6 +159,10 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
                 CheckForCarry(collision.gameObject);
             }
         }
+        else if (_State == States.ShakenOff)
+        {
+            ChangeState(States.Attacking);
+        }
     }
 
     void HandleAnimation()
@@ -181,6 +194,12 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
                 _AttackingData = obj.GetComponentInParent<IPikminAttack>();
                 if (_AttackingData != null)
                 {
+                    // Works out the height difference between the two objects, and then skips the object
+                    // based on that difference
+                    float heightDif = Mathf.Abs(obj.transform.position.y - transform.position.y);
+                    if (heightDif >= 0.5f)
+                        continue;
+
                     _TargetObject = _AttackingObject = obj.gameObject;
                     break;
                 }
@@ -372,6 +391,12 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         ChangeState(States.Thrown);
     }
 
+    // Gets called when an object Shakes the Pikmin off of it
+    public void ShakeOff(Vector3 shakingObjectPos, float shakeForce)
+    {
+        _Rigidbody.AddExplosionForce(shakeForce, shakingObjectPos, Vector3.Distance(shakingObjectPos, transform.position));
+    }
+
     #region General Purpose Useful Functions
 
     void MoveTowards(Vector3 towards)
@@ -414,13 +439,13 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         if (transform.parent != null)
             transform.parent = null;
 
-        if (_PreviousState == States.Carrying)
+        if (_PreviousState == States.Carrying && _CarryingObject != null)
         {
             _CarryingObject.GetComponent<IPikminCarry>().OnCarryLeave(this);
             _CarryingObject = null;
             LatchOntoObject(null);
         }
-        else if (_PreviousState == States.Attacking)
+        else if (_PreviousState == States.Attacking && _AttackingData != null)
         {
             _AttackingData.OnAttackEnd(gameObject);
             _AttackingData = null;
