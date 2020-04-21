@@ -52,7 +52,6 @@ public class CameraFollow : MonoBehaviour
     CameraHolder _CurrentHolder;
     AudioSource _AudioSource;
     Transform _PlayerPosition;
-    PlayerMovementController _MovementController;
     float _OrbitRadius;
     float _GroundOffset;
     float _CurrentRotation;
@@ -89,7 +88,6 @@ public class CameraFollow : MonoBehaviour
     {
         _MainCamera = Camera.main;
         _PlayerPosition = Player.player.transform;
-        _MovementController = Player.player.GetMovementController();
         _AudioSource = GetComponent<AudioSource>();
 
         if (_DefaultHolders.Length != _TopViewHolders.Length)

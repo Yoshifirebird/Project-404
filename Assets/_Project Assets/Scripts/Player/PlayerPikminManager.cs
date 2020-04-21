@@ -145,9 +145,10 @@ public class PlayerPikminManager : MonoBehaviour
         foreach (var collider in hitColliders)
         {
             // Check if the collider is actually a pikmin
-            var pikminComponent = collider.GetComponent<PikminBehavior>();
-            if (pikminComponent != null)
+            if (collider.CompareTag("Pikmin"))
             {
+                var pikminComponent = collider.GetComponent<PikminBehavior>();
+
                 // Check if they're in the squad
                 if (pikminComponent.GetState() != PikminBehavior.States.MovingToward)
                     continue;

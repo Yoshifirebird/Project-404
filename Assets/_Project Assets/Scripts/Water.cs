@@ -19,17 +19,16 @@ public class Water : MonoBehaviour
         }
 
         // Handle Pikmin entering the water
-        var pikminComponent = other.GetComponent<PikminBehavior>();
-        if (pikminComponent != null)
+        if (other.CompareTag("Pikmin"))
         {
-            pikminComponent.EnterWater();
+            other.GetComponent<PikminBehavior>().EnterWater();
             return;
         }
 
-        // Handle Player entering the water
-        var pComponent = other.GetComponent<PlayerMovementController>();
-        if (pComponent == null)
+        if (other.CompareTag("Player"))
+        {
+            // TODO - handle Playe entering water
             return;
-        //print(pComponent._gVelocity);
+        }
     }
 }

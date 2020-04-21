@@ -319,10 +319,13 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void CheckForAttack(GameObject toCheck)
     {
+        if (toCheck.CompareTag("Interactable") == false) {
+            return;
+        }
+
         // Check if the object in question has the pikminattack component
         _AttackingData = toCheck.GetComponentInParent<IPikminAttack>();
-        PikminBehavior pikmin = toCheck.GetComponent<PikminBehavior>();
-        if (_AttackingData != null && pikmin == null)
+        if (_AttackingData != null)
         {
             // It does, we can attack!
             // Set our state to attacking, assign the attack variables and latch!

@@ -31,6 +31,11 @@ public class WhistleController : MonoBehaviour
     [SerializeField] float _MaxBlowTime = 3;
     [SerializeField] float _OffsetFromSurface = 0.5f;
 
+    [Header("Controller Settings")]
+    [SerializeField] float _MaxDistFromPlayer = 5;
+    [SerializeField] float _MoveSpeed = 5;
+    Vector2 _OffsetFromPlayer = Vector2.zero;
+
     [Header("Raycast Settings")]
     [SerializeField] float _MaxDistance = Mathf.Infinity;
     [SerializeField] LayerMask _MapMask;
@@ -41,6 +46,8 @@ public class WhistleController : MonoBehaviour
     AudioSource _Source;
     GameObject[] _Particles;
     Camera _MainCamera;
+
+    Transform _PlayerTransform;
 
     bool _Blowing = false;
     float _TimeBlowing = 0;
@@ -64,26 +71,67 @@ public class WhistleController : MonoBehaviour
         _MainCamera = Camera.main;
     }
 
-    void Update()
+    void Start()
     {
-        // Moving the whistle
-        Ray ray = _MainCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, _MaxDistance, _MapMask, QueryTriggerInteraction.Ignore))
-        {
-            Vector3 target = hit.point + hit.normal * _OffsetFromSurface;
-            transform.position = _Reticle.position = target;
-        }
+        _PlayerTransform = Player.player.transform;
+    }
 
+    void Update()
+    { 
+        // Check if there are any controllers connected
+        if (Input.GetJoystickNames().Length > 0)
+        {
+            Vector3 directionVector = new Vector3(Input.GetAxis("Horizontal") * _MoveSpeed, 0, Input.GetAxis("Vertical") * _MoveSpeed);
+            //Rotate the input vector into camera space so up is camera's up and right is camera's right
+            directionVector = _MainCamera.transform.rotation * directionVector;
+
+            _OffsetFromPlayer.x += directionVector.x;
+            _OffsetFromPlayer.y += directionVector.z;
+
+            float totalDistanceSquared = (_OffsetFromPlayer.x * _OffsetFromPlayer.x)
+                                       + (_OffsetFromPlayer.y * _OffsetFromPlayer.y);
+
+            if (totalDistanceSquared > _MaxDistFromPlayer * _MaxDistFromPlayer)
+            {
+                float totalDistance = _MaxDistFromPlayer / Mathf.Sqrt(totalDistanceSquared);
+                _OffsetFromPlayer.x *= totalDistance;
+                _OffsetFromPlayer.y *= totalDistance;
+            }
+
+            Vector3 currentPosition = new Vector3(_PlayerTransform.position.x + _OffsetFromPlayer.x,
+                                             transform.position.y,
+                                             _PlayerTransform.position.z + _OffsetFromPlayer.y);
+
+            // Assign our position to the reticles position to the new position!
+            transform.position = _Reticle.position = currentPosition;
+
+            currentPosition.y += _ParticleRaycastAddedHeight;
+            if (Physics.Raycast(currentPosition, Vector3.down, out RaycastHit hit, _MaxDistance, _MapMask, QueryTriggerInteraction.Ignore))
+            {
+                Vector3 target = hit.point + hit.normal * _OffsetFromSurface;
+                transform.position = _Reticle.position = target;
+            }
+        }
+        else
+        {
+            // Reliant on the mouse, so cannot be used with controllers
+            Ray ray = _MainCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, _MaxDistance, _MapMask, QueryTriggerInteraction.Ignore))
+            {
+                Vector3 target = hit.point + hit.normal * _OffsetFromSurface;
+                transform.position = _Reticle.position = target;
+            }
+        }
 
         // Detecting Player input
         if (Input.GetButtonDown("Whistle"))
         {
             transform.localScale = Vector3.one * _StartingRadius;
+            _Blowing = true;
 
             // Start the particles
             SetParticlesActive(true);
 
-            _Blowing = true;
             // Load the clip into the AudioSource and play
             _Source.clip = _BlowSound;
             _Source.Play();
@@ -113,10 +161,8 @@ public class WhistleController : MonoBehaviour
             Collider[] collisions = Physics.OverlapCapsule(transform.position + Vector3.down * 20, transform.position + Vector3.up * 20, transform.localScale.x);
             for (int i = 0; i < collisions.Length; i++)
             {
-                PikminBehavior pikComponent = collisions[i].GetComponent<PikminBehavior>();
-                if (pikComponent != null)
-                {
-                    pikComponent.AddToSquad();
+                if (collisions[i].CompareTag("Pikmin")) {
+                    collisions[i].GetComponent<PikminBehavior>().AddToSquad();
                 }
             }
         }

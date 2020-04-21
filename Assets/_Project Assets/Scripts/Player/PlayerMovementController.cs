@@ -55,7 +55,11 @@ public class PlayerMovementController : MonoBehaviour
         {
             Vector3 finalLookPosition = _WhistleTransform.position - transform.position;
             finalLookPosition.y = 0;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(finalLookPosition), _RotationSpeed * Time.deltaTime);
+
+            if (finalLookPosition != Vector3.zero)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(finalLookPosition), _RotationSpeed * Time.deltaTime);
+            }
         }
         else
         {
