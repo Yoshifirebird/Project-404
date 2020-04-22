@@ -12,7 +12,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class PikminCarry : MonoBehaviour, IPikminCarry
 {
-	Transform _EndPoint;
+	List<Transform> _EndPoints;
+    Transform _TargetPoint;
 	NavMeshAgent _Agent;
 
 	[Header("Settings")]
@@ -33,7 +34,8 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
 		_Agent.speed = _Speed;
 		_Agent.enabled = false;
 	
-		_EndPoint = GameObject.FindGameObjectWithTag("Carry Point").transform;
+		foreach(GameObject point in GameObject.FindGameObjectsWithTag("Carry Point"))
+            _EndPoints.Add(point.transform);
     }
 
 	void Update()
@@ -45,17 +47,9 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
 			pikminObj.transform.rotation = Quaternion.LookRotation(transform.position - pikminObj.transform.position);
 		}
 
-		if (_IsBeingCarried && Vector3.Distance(transform.position, _EndPoint.position) <= 1)
+		if (_IsBeingCarried && Vector3.Distance(transform.position, _TargetPoint.position) <= 1)
 		{
-			_Agent.enabled = false;
-
-            // Make every pikmin stop carrying
-			while (_CarryingPikmin.Count > 0)
-			{
-				OnCarryLeave(_CarryingPikmin[0]);
-			}
-
-			gameObject.SetActive(false);
+            Deliver();
 		}
 	}
 
@@ -63,6 +57,19 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
 	{
 		Gizmos.DrawWireSphere(transform.position, _Radius);
 	}
+
+    private void Deliver()
+    {
+        _Agent.enabled = false;
+
+        // Make every pikmin stop carrying
+        while (_CarryingPikmin.Count > 0)
+        {
+            OnCarryLeave(_CarryingPikmin[0]);
+        }
+
+        gameObject.SetActive(false);
+    }
 
 	public void OnCarryLeave(PikminBehavior p)
 	{
@@ -91,14 +98,39 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
 
 		if (_CarryingPikmin.Count >= _BaseAmountRequired)
 		{
+            _TargetPoint = FindNearestEndPoint();
+
+            if(_TargetPoint == null)
+            {
+                print("No end Point Exists");
+                return;
+            }
+
 			if (_Agent.enabled == false)
 				_Agent.enabled = true;
 
-            _Agent.SetDestination(_EndPoint.position);
+            _Agent.SetDestination(_TargetPoint.position);
             _Agent.speed += _AddedSpeed;
             _IsBeingCarried = true;
 		}
     }
+
+    public Transform FindNearestEndPoint()
+    {
+        Transform target = null;
+        float distance = Mathf.Infinity;
+        foreach(Transform point in _EndPoints)
+        {
+            float tDistance = Vector3.Distance(point.position, transform.position);
+            if (tDistance < distance)
+            {
+                target = point;
+                distance = tDistance;
+            }
+        }
+        return target;
+    }
+
 
 	public bool PikminSpotAvailable()
 	{
