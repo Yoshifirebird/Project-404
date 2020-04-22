@@ -12,7 +12,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class PikminCarry : MonoBehaviour, IPikminCarry
 {
-	List<Transform> _EndPoints;
+	List<GameObject> _EndPoints;
     Transform _TargetPoint;
 	NavMeshAgent _Agent;
 
@@ -33,21 +33,19 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
 		_Agent.updateRotation = false;
 		_Agent.speed = _Speed;
 		_Agent.enabled = false;
-	
-		foreach(GameObject point in GameObject.FindGameObjectsWithTag("Carry Point"))
-            _EndPoints.Add(point.transform);
+        _EndPoints = new List<GameObject>(GameObject.FindGameObjectsWithTag("Carry Point"));
     }
 
 	void Update()
 	{
         for (int i = 0; i < _CarryingPikmin.Count; i++)
-		{
-			PikminBehavior pikminObj = _CarryingPikmin[i];
-			pikminObj.transform.position = transform.position + (MathUtil._2Dto3D(MathUtil.CalcPosInCirc((uint)_CarryingPikmin.Count, i)) * _Radius);
-			pikminObj.transform.rotation = Quaternion.LookRotation(transform.position - pikminObj.transform.position);
-		}
+        {
+            PikminBehavior pikminObj = _CarryingPikmin[i];
+            pikminObj.transform.position = transform.position + (MathUtil._2Dto3D(MathUtil.CalcPosInCirc((uint)_CarryingPikmin.Count, i)) * _Radius);
+            pikminObj.transform.rotation = Quaternion.LookRotation(transform.position - pikminObj.transform.position);
+        }
 
-		if (_IsBeingCarried && Vector3.Distance(transform.position, _TargetPoint.position) <= 1)
+        if (_IsBeingCarried && Vector3.Distance(transform.position, _TargetPoint.position) <= 1)
 		{
             Deliver();
 		}
@@ -74,8 +72,9 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
 	public void OnCarryLeave(PikminBehavior p)
 	{
 		_CarryingPikmin.Remove(p);
+        CalculatePikminPosition();
 
-		if (_CarryingPikmin.Count < _BaseAmountRequired)
+        if (_CarryingPikmin.Count < _BaseAmountRequired)
 		{
 			_Agent.enabled = false;
             _IsBeingCarried = false;
@@ -96,13 +95,15 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
 		p.LatchOntoObject(transform);
 		p.ChangeState(PikminBehavior.States.Carrying);
 
-		if (_CarryingPikmin.Count >= _BaseAmountRequired)
+        CalculatePikminPosition();
+
+        if (_CarryingPikmin.Count >= _BaseAmountRequired)
 		{
             _TargetPoint = FindNearestEndPoint();
 
             if(_TargetPoint == null)
             {
-                print("No end Point Exists");
+                print("No End Point Exists!!!");
                 return;
             }
 
@@ -119,16 +120,21 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
     {
         Transform target = null;
         float distance = Mathf.Infinity;
-        foreach(Transform point in _EndPoints)
+        foreach(GameObject point in _EndPoints)
         {
-            float tDistance = Vector3.Distance(point.position, transform.position);
+            float tDistance = Vector3.Distance(point.transform.position, transform.position);
             if (tDistance < distance)
             {
-                target = point;
+                target = point.transform;
                 distance = tDistance;
             }
         }
         return target;
+    }
+
+    public void CalculatePikminPosition()
+    {
+        
     }
 
 
