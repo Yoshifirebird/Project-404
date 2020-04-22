@@ -708,10 +708,12 @@ MonoBehaviour:
   _ExpandedRadius: 5
   _MaxBlowTime: 3
   _OffsetFromSurface: 0
+  _MaxDistFromPlayer: 6
+  _MoveSpeed: 2.5
   _MaxDistance: Infinity
   _MapMask:
     serializedVersion: 2
-    m_Bits: 3879
+    m_Bits: 2855
   _WhistleCircleSegments: 50
 --- !u!82 &401268063754482086
 AudioSource:
