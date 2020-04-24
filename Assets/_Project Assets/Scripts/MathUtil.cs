@@ -35,4 +35,11 @@ public static class MathUtil
     /// <param name="conv">The vector to convert</param>
     /// <returns>Vector3 with X and Z set to the X and Y of the Vector2</returns>
     public static Vector3 _2Dto3D(Vector2 conv, float y = 0) => new Vector3(conv.x, y, conv.y);
+
+    // TODO: write function that's quicker than Vector3.Distance (It's very inefficient)
+    public static float DistanceTo(Vector3 first, Vector3 second)
+    {   
+
+        return 0;
+    }
 }

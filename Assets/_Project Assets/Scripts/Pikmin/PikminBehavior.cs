@@ -152,11 +152,24 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     {
         if (_State == States.Thrown)
         {
-            if (!collision.gameObject.CompareTag("Player") && !collision.gameObject.CompareTag("Pikmin"))
+            Transform colTransform = collision.transform;
+
+            // Explicitly check because we don't want to land on another Pikmin or the Player
+            if (colTransform.CompareTag("Pikmin") == false && colTransform.CompareTag("Player") == false)
             {
                 ChangeState(States.Idle);
+            }
+
+            if (colTransform.CompareTag("Interactable"))
+            {
                 CheckForAttack(collision.gameObject);
                 CheckForCarry(collision.gameObject);
+
+                // If it was neither Attack or Carry, then just set it to idle
+                if (_State == States.Thrown)
+                {
+                    ChangeState(States.Idle);
+                }
             }
         }
         else if (_State == States.ShakenOff)
@@ -256,9 +269,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
                 _CarryingObject = _TargetObject;
                 _CarryingData.OnCarryStart(this);
 
-                // And null the variables for the next time we're idle
                 _TargetObject = null;
-                _CarryingData = null;
             }
         }
     }
@@ -287,12 +298,12 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void CheckForCarry(GameObject toCheck)
     {
-        IPikminCarry carry = toCheck.GetComponent<IPikminCarry>();
-        if (carry == null)
+        _CarryingData = toCheck.GetComponent<IPikminCarry>();
+        if (_CarryingData == null)
             return;
 
         _CarryingObject = toCheck;
-        carry.OnCarryStart(this);
+        _CarryingData.OnCarryStart(this);
     }
 
     #endregion
@@ -437,17 +448,21 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     #region Setters
     public void SetData(PikminSO setTo) => _Data = setTo;
 
-    public void ChangeState(States setTo)
+    public void ChangeState(States setTo, bool unparent = true)
     {
         _PreviousState = _State;
         _State = setTo;
 
-        if (transform.parent != null)
+        // Check if we have to unparent the Pikmin, in some scenarios we don't want to do that
+        if (unparent && transform.parent != null)
             transform.parent = null;
 
+        // Handle State-specific transitions
         if (_PreviousState == States.Carrying && _CarryingObject != null)
         {
-            _CarryingObject.GetComponent<IPikminCarry>().OnCarryLeave(this);
+            _CarryingData.OnCarryLeave(this);
+            _CarryingData = null;
+
             _CarryingObject = null;
             LatchOntoObject(null);
         }
@@ -455,6 +470,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         {
             _AttackingData.OnAttackEnd(gameObject);
             _AttackingData = null;
+
             _AttackingObject = null;
             LatchOntoObject(null);
         }
