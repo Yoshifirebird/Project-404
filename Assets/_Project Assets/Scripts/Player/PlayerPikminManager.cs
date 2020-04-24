@@ -33,6 +33,16 @@ public class PlayerPikminManager : MonoBehaviour
     {
         HandleThrowing();
         HandleFormation();
+
+        // Disbanding
+        if (Input.GetButtonDown("X Button"))
+        {
+            // Remove each Pikmin from the squad
+            foreach (var pikmin in _Squad)
+            {
+                pikmin.GetComponent<PikminBehavior>().RemoveFromSquad();
+            }
+        }
     }
 
     void OnDrawGizmosSelected()
