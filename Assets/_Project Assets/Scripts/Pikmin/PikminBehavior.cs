@@ -176,6 +176,14 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         {
             ChangeState(States.Attacking);
         }
+
+        if (_State != States.Carrying && collision.transform.CompareTag("Interactable"))
+        {
+            if (GetComponent<IPikminCarry>() != null)
+            {
+                // TODO: Push pikmin away from carriable object
+            }
+        }
     }
 
     void HandleAnimation()
@@ -248,7 +256,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             MoveTowards(_AttackingObject.transform.position);
 
             // And check if we're close enough to start attacking
-            if (Vector3.Distance(transform.position, _AttackingObject.transform.position) <= 1)
+            if (MathUtil.DistanceTo(transform.position, _AttackingObject.transform.position) <= 1)
             {
                 LatchOntoObject(_AttackingObject.transform);
                 _AttackingData.OnAttackStart(gameObject);
@@ -271,7 +279,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             MoveTowards(_TargetObject.transform.position);
 
             // And check if we're close enough to start carrying
-            if (Vector3.Distance(transform.position, _TargetObject.transform.position) <= 1.5f)
+            if (MathUtil.DistanceTo(transform.position, _TargetObject.transform.position) <= 1.5f)
             {
                 // Assign our Carrying variables
                 _CarryingObject = _TargetObject;

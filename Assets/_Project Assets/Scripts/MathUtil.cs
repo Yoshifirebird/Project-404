@@ -36,10 +36,12 @@ public static class MathUtil
     /// <returns>Vector3 with X and Z set to the X and Y of the Vector2</returns>
     public static Vector3 _2Dto3D(Vector2 conv, float y = 0) => new Vector3(conv.x, y, conv.y);
 
-    // TODO: write function that's quicker than Vector3.Distance (It's very inefficient)
-    public static float DistanceTo(Vector3 first, Vector3 second)
-    {   
-
-        return 0;
+    // TODO: write function that's quicker than  (It's very inefficient)
+    public static float DistanceTo(Vector3 first, Vector3 second, bool useY = true)
+    {
+        float xD = first.x - second.x;
+        float yD = useY ? first.y - second.y : 0;
+        float zD = first.z - second.z;
+        return xD * xD + yD * yD + zD * zD;
     }
 }
