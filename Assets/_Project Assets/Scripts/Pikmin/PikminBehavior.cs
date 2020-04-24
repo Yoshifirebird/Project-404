@@ -466,7 +466,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             transform.parent = null;
 
         // Handle State-specific transitions
-        if (_PreviousState == States.Carrying && _CarryingObject != null)
+        if (_PreviousState == States.Carrying && _CarryingData != null)
         {
             _CarryingData.OnCarryLeave(this);
             _CarryingData = null;

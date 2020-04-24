@@ -14,6 +14,7 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
 {
     Transform _EndPoint;
     NavMeshAgent _Agent;
+    Rigidbody _Rigidbody;
 
     [Header("Settings")]
     [SerializeField] int _BaseAmountRequired;
@@ -32,6 +33,10 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
         _Agent.updateRotation = false;
         _Agent.speed = _Speed;
         _Agent.enabled = false;
+
+        _Rigidbody = GetComponent<Rigidbody>();
+        _Rigidbody.isKinematic = false;
+
         _EndPoint = GameObject.FindGameObjectWithTag("Carry Point").transform;
     }
 
@@ -47,7 +52,7 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
                 _CarryingPikmin[0].ChangeState(PikminBehavior.States.Idle);
             }
 
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 
@@ -64,6 +69,7 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
         if (_CarryingPikmin.Count < _BaseAmountRequired && _IsBeingCarried)
         {
             _Agent.enabled = false;
+            _Rigidbody.isKinematic = false;
             _IsBeingCarried = false;
         }
     }
@@ -87,7 +93,10 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
         if (_CarryingPikmin.Count >= _BaseAmountRequired)
         {
             if (_Agent.enabled == false)
+            {
                 _Agent.enabled = true;
+                _Rigidbody.isKinematic = true;
+            }
 
             _Agent.SetDestination(_EndPoint.position);
             _Agent.speed += _AddedSpeed;

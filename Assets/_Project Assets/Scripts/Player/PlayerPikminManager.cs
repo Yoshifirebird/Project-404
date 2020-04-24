@@ -112,7 +112,6 @@ public class PlayerPikminManager : MonoBehaviour
                 // TODO: Adjust targeting to be more accurate to whistle position/avoid having Pikmin
                 // be thrown directly in front of Olimar rather than onto the whistle.
 
-
                 // As the Pikmin has been thrown, remove it from the hand variable
                 _PikminInHand = null;
             }
