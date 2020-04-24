@@ -191,7 +191,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
                     continue;
                 }
 
-                _CarryingData = obj.GetComponent<PikminCarry>();
+                _CarryingData = obj.GetComponent<IPikminCarry>();
                 if (_CarryingData != null)
                 {
                     // If there is a spot for the Pikmin to carry

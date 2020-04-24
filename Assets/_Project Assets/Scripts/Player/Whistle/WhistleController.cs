@@ -124,7 +124,7 @@ public class WhistleController : MonoBehaviour
         }
 
         // Detecting Player input
-        if (Input.GetButtonDown("Whistle"))
+        if (Input.GetButtonDown("B Button"))
         {
             transform.localScale = Vector3.one * _StartingRadius;
             _Blowing = true;
@@ -136,7 +136,7 @@ public class WhistleController : MonoBehaviour
             _Source.clip = _BlowSound;
             _Source.Play();
         }
-        if (Input.GetButtonUp("Whistle"))
+        if (Input.GetButtonUp("B Button"))
         {
             EndBlow();
         }

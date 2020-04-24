@@ -49,7 +49,7 @@ public class PlayerPikminManager : MonoBehaviour
         // Check if we've got more than 0 Pikmin in
         // our squad and we press the Throw key (currently Space)
 
-        if (Input.GetButtonDown("ThrowPikmin") && GetPikminOnFieldCount() > 0 && _PikminInHand == null)
+        if (Input.GetButtonDown("A Button") && GetPikminOnFieldCount() > 0 && _PikminInHand == null)
         {
             GameObject closestPikmin = GetClosestPikmin();
             // Check if we've even gotten a Pikmin
@@ -63,12 +63,12 @@ public class PlayerPikminManager : MonoBehaviour
         // The rest of the throw depends if we even got a Pikmin
         if (_PikminInHand != null)
         {
-            if (Input.GetButton("ThrowPikmin"))
+            if (Input.GetButton("A Button"))
             {
                 // Move the Pikmin's model to in front of the player
                 _PikminInHand.transform.position = transform.position + (transform.forward / 2);
             }
-            if (Input.GetButtonUp("ThrowPikmin"))
+            if (Input.GetButtonUp("A Button"))
             {
                 /*
                  * TODO: convert to Quadratic Bezier curve

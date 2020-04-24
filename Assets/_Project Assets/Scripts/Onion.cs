@@ -22,13 +22,10 @@ public class Onion : MonoBehaviour
 	[SerializeField] OnionType _Type;
 	[SerializeField] Colour _Colour;
 
-	PlayerStats.PikminStats _Stats;
 	bool _CanUse = false;
 
 	void Update()
 	{
-		_Stats = PlayerStats.GetStats(_Colour);
-
 		/*if (_CanUse && Input.GetButtonDown())
 		{
 

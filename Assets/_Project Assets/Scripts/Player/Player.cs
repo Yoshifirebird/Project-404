@@ -45,7 +45,7 @@ public class Player : MonoBehaviour, IHealth
             Die();
 
         // Handle exiting the game/program
-        if (Input.GetButtonDown("Exit"))
+        if (Input.GetButtonDown("Start Button"))
         {
             Debug.Break();
             Application.Quit();

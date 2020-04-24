@@ -158,33 +158,33 @@ public class CameraFollow : MonoBehaviour
     {
         // Check if we're holding either the Left or Right trigger and
         // rotate around the player using TriggerRotationSpeed if so
-        if (Input.GetButton("RightTrigger"))
+        if (Input.GetButton("Right Trigger"))
         {
             RotateView(-_TriggerRotationSpeed * Time.deltaTime);
         }
-        else if (Input.GetButton("LeftTrigger"))
+        else if (Input.GetButton("Left Trigger"))
         { 
             RotateView(_TriggerRotationSpeed * Time.deltaTime);
         }
 
         // As we've let go of the triggers, reset the desired new rotation
-        if (Input.GetButtonUp("RightTrigger") || Input.GetButtonUp("LeftTrigger"))
+        if (Input.GetButtonUp("Right Trigger") || Input.GetButtonUp("Left Trigger"))
         {
             _CurrentRotation = 0;
         }
 
-        if (Input.GetButtonDown("ZoomLevel"))
+        if (Input.GetButtonDown("Right Bumper"))
         {
             _HolderIndex++;
             ApplyChangedZoomLevel(_TopView ? _TopViewHolders : _DefaultHolders);
         }
-        if (Input.GetButtonDown("CameraAngle"))
+        if (Input.GetButtonDown("Left Stick Click"))
         {
             _TopView = !_TopView; // Invert the TopView 
             ApplyChangedZoomLevel(_TopView ? _TopViewHolders : _DefaultHolders);
         }
 
-        if (Input.GetButtonDown("CameraReset"))
+        if (Input.GetButtonDown("Left Bumper"))
         {
             StartCoroutine(ResetCamOverTime(_CameraResetLength));
         }
