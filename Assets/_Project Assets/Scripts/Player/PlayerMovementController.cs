@@ -150,7 +150,7 @@ public class PlayerMovementController : MonoBehaviour
             // Handle special case of water
             if (hit.transform.CompareTag("Water"))
                 return false;
-                
+
             // Check if the raycast hit a floor,
             // and then check the distance between the floor and the player
             if (hit.normal == Vector3.up)

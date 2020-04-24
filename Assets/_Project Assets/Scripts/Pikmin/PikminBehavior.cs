@@ -191,19 +191,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
                     continue;
                 }
 
-                _AttackingData = obj.GetComponentInParent<IPikminAttack>();
-                if (_AttackingData != null)
-                {
-                    // Works out the height difference between the two objects, and then skips the object
-                    // based on that difference
-                    float heightDif = Mathf.Abs(obj.transform.position.y - transform.position.y);
-                    if (heightDif >= 0.5f)
-                        continue;
-
-                    _TargetObject = _AttackingObject = obj.gameObject;
-                    break;
-                }
-
                 _CarryingData = obj.GetComponent<PikminCarry>();
                 if (_CarryingData != null)
                 {
@@ -219,6 +206,19 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
                         // Because there wasn't a spot for us, reset the carrying data and move on
                         _CarryingData = null;
                     }
+                }
+
+                _AttackingData = obj.GetComponentInParent<IPikminAttack>();
+                if (_AttackingData != null)
+                {
+                    // Works out the height difference between the two objects, and then skips the object
+                    // based on that difference
+                    float heightDif = Mathf.Abs(obj.transform.position.y - transform.position.y);
+                    if (heightDif >= 0.5f)
+                        continue;
+
+                    _TargetObject = _AttackingObject = obj.gameObject;
+                    break;
                 }
             }
         }
@@ -319,7 +319,8 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void CheckForAttack(GameObject toCheck)
     {
-        if (toCheck.CompareTag("Interactable") == false) {
+        if (toCheck.CompareTag("Interactable") == false)
+        {
             return;
         }
 
@@ -345,7 +346,9 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
 
     void ActivateHead()
     {
+        // Get the headtype we want to enable
         int type = GetHeadTypeInt();
+        // Iterate over all of the heads, and activate the one that matches the type we want
         for (int i = 0; i < (int)Headtype.SIZE; i++)
         {
             _HeadTypeModels[i].SetActive(i == type);
