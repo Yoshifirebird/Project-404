@@ -28,8 +28,12 @@ public class WhistleController : MonoBehaviour
     [Header("Settings")]
     [SerializeField] float _StartingRadius = 1;
     [SerializeField] float _ExpandedRadius = 10;
+    [SerializeField] float _PikminCallHeight;
+
     [SerializeField] float _MaxBlowTime = 3;
     [SerializeField] float _OffsetFromSurface = 0.5f;
+
+    [SerializeField] LayerMask _PikminMask;
 
     [Header("Controller Settings")]
     [SerializeField] float _MaxDistFromPlayer = 5;
@@ -68,6 +72,8 @@ public class WhistleController : MonoBehaviour
 
         // Get local components
         _Source = GetComponent<AudioSource>();
+        _Source.clip = _BlowSound;
+
         _MainCamera = Camera.main;
     }
 
@@ -132,15 +138,14 @@ public class WhistleController : MonoBehaviour
             // Start the particles
             SetParticlesActive(true);
 
-            // Load the clip into the AudioSource and play
-            _Source.clip = _BlowSound;
+            // Play the blow sound
             _Source.Play();
         }
         if (Input.GetButtonUp("B Button"))
         {
             EndBlow();
         }
-        // Handling Blowing
+
         if (_Blowing)
         {
             // Handle Particle movement
@@ -154,16 +159,17 @@ public class WhistleController : MonoBehaviour
             }
 
             // Grow the scale of the whistle to the radius we want it to become
-            float t = _TimeBlowing / _MaxBlowTime;
-            transform.localScale = Vector3.Lerp(transform.localScale, MathUtil._2Dto3D(Vector2.one * _ExpandedRadius, 1), t);
+            float timeFrac = _TimeBlowing / _MaxBlowTime;
+            transform.localScale = Vector3.Lerp(transform.localScale, MathUtil._2Dto3D(Vector2.one * _ExpandedRadius, 1), timeFrac);
 
             // Handle collisions with Pikmin
-            Collider[] collisions = Physics.OverlapCapsule(transform.position + Vector3.down * 20, transform.position + Vector3.up * 20, transform.localScale.x);
-            for (int i = 0; i < collisions.Length; i++)
+            Collider[] collisions = Physics.OverlapCapsule(transform.position + (Vector3.down * _PikminCallHeight),
+                                                           transform.position + (Vector3.up * _PikminCallHeight),
+                                                           transform.localScale.x, 
+                                                           _PikminMask);
+            foreach (Collider pikmin in collisions)
             {
-                if (collisions[i].CompareTag("Pikmin")) {
-                    collisions[i].GetComponent<PikminBehavior>().AddToSquad();
-                }
+                pikmin.GetComponent<PikminBehavior>().AddToSquad();
             }
         }
     }
@@ -213,7 +219,7 @@ public class WhistleController : MonoBehaviour
     {
         for (int i = 0; i < _Particles.Length; i++)
         {
-            _Particles[i].gameObject.SetActive(isActive);
+            _Particles[i].SetActive(isActive);
         }
     }
 
