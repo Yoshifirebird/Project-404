@@ -83,9 +83,10 @@ public class WhistleController : MonoBehaviour
     }
 
     void Update()
-    { 
-        // Check if there are any controllers connected
-        if (Input.GetJoystickNames().Length > 0)
+    {
+        // Check if there is a controller attached
+        string[] names = Input.GetJoystickNames();
+        if (names.Length > 0 && names[0].Length > 0)
         {
             Vector3 directionVector = new Vector3(Input.GetAxis("Horizontal") * _MoveSpeed, 0, Input.GetAxis("Vertical") * _MoveSpeed);
             //Rotate the input vector into camera space so up is camera's up and right is camera's right
