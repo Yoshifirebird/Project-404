@@ -9,19 +9,25 @@ using UnityEngine;
 
 public class Onion : MonoBehaviour
 {
+	public enum OnionType
+	{
+		Classic, // When first finding an onion, it will be this
+		Master	 // Main onion that has the combination of other onions
+	}
+
 	//[Header("Components")]
 
 
 	[Header("Settings")]
-	[SerializeField]
-	Colour _OnionColour;
+	[SerializeField] OnionType _Type;
+	[SerializeField] Colour _Colour;
 
 	PlayerStats.PikminStats _Stats;
 	bool _CanUse = false;
 
 	void Update()
 	{
-		_Stats = PlayerStats.GetStats(_OnionColour);
+		_Stats = PlayerStats.GetStats(_Colour);
 
 		/*if (_CanUse && Input.GetButtonDown())
 		{
@@ -33,7 +39,7 @@ public class Onion : MonoBehaviour
 	{
 		if (other.CompareTag("Player"))
 		{
-
+			_CanUse = true;
 		}
 	}
 }
