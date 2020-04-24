@@ -38,9 +38,9 @@ public class PlayerPikminManager : MonoBehaviour
         if (Input.GetButtonDown("X Button"))
         {
             // Remove each Pikmin from the squad
-            foreach (var pikmin in _Squad)
+            while (_Squad.Count > 0)
             {
-                pikmin.GetComponent<PikminBehavior>().RemoveFromSquad();
+                _Squad[0].GetComponent<PikminBehavior>().RemoveFromSquad();
             }
         }
     }

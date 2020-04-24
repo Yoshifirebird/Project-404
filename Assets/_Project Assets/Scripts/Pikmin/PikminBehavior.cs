@@ -259,6 +259,14 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         }
         else if (_CarryingData != null)
         {
+            // Check if there isn't a spot available for us
+            if (_CarryingData.PikminSpotAvailable() == false)
+            {
+                _TargetObject = null;
+                _CarryingData = null;
+                return;
+            }
+
             // Move towards the object
             MoveTowards(_TargetObject.transform.position);
 
@@ -464,7 +472,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             _CarryingData = null;
 
             _CarryingObject = null;
-            LatchOntoObject(null);
         }
         else if (_PreviousState == States.Attacking && _AttackingData != null)
         {

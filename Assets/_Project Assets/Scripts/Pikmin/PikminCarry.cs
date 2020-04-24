@@ -45,7 +45,6 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
             while (_CarryingPikmin.Count > 0)
             {
                 _CarryingPikmin[0].ChangeState(PikminBehavior.States.Idle);
-                OnCarryLeave(_CarryingPikmin[0]);
             }
 
             gameObject.SetActive(false);
@@ -60,6 +59,7 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
     public void OnCarryLeave(PikminBehavior p)
     {
         _CarryingPikmin.Remove(p);
+        p.LatchOntoObject(null);
 
         if (_CarryingPikmin.Count < _BaseAmountRequired && _IsBeingCarried)
         {
