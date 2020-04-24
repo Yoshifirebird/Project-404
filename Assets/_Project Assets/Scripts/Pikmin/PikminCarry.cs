@@ -12,121 +12,95 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class PikminCarry : MonoBehaviour, IPikminCarry
 {
-	List<GameObject> _EndPoints;
-    Transform _TargetPoint;
-	NavMeshAgent _Agent;
+    Transform _EndPoint;
+    NavMeshAgent _Agent;
 
-	[Header("Settings")]
-	[SerializeField] int _BaseAmountRequired;
-	[SerializeField] int _MaxAmountRequired;
-	[SerializeField] float _Speed;
-	[SerializeField] float _AddedSpeed;
-	public float _Radius;
+    [Header("Settings")]
+    [SerializeField] int _BaseAmountRequired;
+    [SerializeField] int _MaxAmountRequired;
+    [SerializeField] float _Speed;
+    [SerializeField] float _AddedSpeed;
+    public float _Radius;
 
     bool _IsBeingCarried = false;
 
-	List<PikminBehavior> _CarryingPikmin = new List<PikminBehavior>();
+    List<PikminBehavior> _CarryingPikmin = new List<PikminBehavior>();
 
-	void Awake()
-	{
-		_Agent = GetComponent<NavMeshAgent>();
-		_Agent.updateRotation = false;
-		_Agent.speed = _Speed;
-		_Agent.enabled = false;
-        _EndPoints = new List<GameObject>(GameObject.FindGameObjectsWithTag("Carry Point"));
-    }
-
-	void Update()
-	{
-
-        if (_IsBeingCarried && Vector3.Distance(transform.position, _TargetPoint.position) <= 1)
-		{
-            Deliver();
-		}
-	}
-
-	void OnDrawGizmosSelected()
-	{
-		Gizmos.DrawWireSphere(transform.position, _Radius);
-	}
-
-    private void Deliver()
+    void Awake()
     {
+        _Agent = GetComponent<NavMeshAgent>();
+        _Agent.updateRotation = false;
+        _Agent.speed = _Speed;
         _Agent.enabled = false;
-
-        // Make every pikmin stop carrying
-        while (_CarryingPikmin.Count > 0)
-        {
-            OnCarryLeave(_CarryingPikmin[0]);
-        }
-
-        gameObject.SetActive(false);
+        _EndPoint = GameObject.FindGameObjectWithTag("Carry Point").transform;
     }
 
-	public void OnCarryLeave(PikminBehavior p)
-	{
-		_CarryingPikmin.Remove(p);
-        CalculatePikminPosition();
+    void Update()
+    {
+        if (_IsBeingCarried && Vector3.Distance(transform.position, _EndPoint.position) <= 1)
+        {
+            _Agent.enabled = false;
 
-        if (_CarryingPikmin.Count < _BaseAmountRequired)
-		{
-			_Agent.enabled = false;
+            // Make every pikmin stop carrying
+            while (_CarryingPikmin.Count > 0)
+            {
+                _CarryingPikmin[0].ChangeState(PikminBehavior.States.Idle);
+                OnCarryLeave(_CarryingPikmin[0]);
+            }
+
+            gameObject.SetActive(false);
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(transform.position, _Radius);
+    }
+
+    public void OnCarryLeave(PikminBehavior p)
+    {
+        _CarryingPikmin.Remove(p);
+
+        if (_CarryingPikmin.Count < _BaseAmountRequired && _IsBeingCarried)
+        {
+            _Agent.enabled = false;
             _IsBeingCarried = false;
         }
-	}
+    }
 
-	public void OnCarryStart(PikminBehavior p)
-	{
-		if (_CarryingPikmin.Count >= _MaxAmountRequired)
-		{
-			OnCarryLeave(p);
-			p.ChangeState(PikminBehavior.States.Idle);
-			return;
-		}
+    public void OnCarryStart(PikminBehavior p)
+    {
+        if (_CarryingPikmin.Count >= _MaxAmountRequired)
+        {
+            OnCarryLeave(p);
+            p.ChangeState(PikminBehavior.States.Idle);
+            return;
+        }
 
-		_CarryingPikmin.Add(p);
+        _CarryingPikmin.Add(p);
 
         p.ChangeState(PikminBehavior.States.Carrying);
         p.LatchOntoObject(transform);
 
-        CalculatePikminPosition();
+        CalculatePikminPositions();
 
         if (_CarryingPikmin.Count >= _BaseAmountRequired)
-		{
-            _TargetPoint = FindNearestEndPoint();
+        {
+            if (_Agent.enabled == false)
+                _Agent.enabled = true;
 
-            if(_TargetPoint == null)
-            {
-                print("No End Point Exists!!!");
-                return;
-            }
-
-			if (_Agent.enabled == false)
-				_Agent.enabled = true;
-
-            _Agent.SetDestination(_TargetPoint.position);
+            _Agent.SetDestination(_EndPoint.position);
             _Agent.speed += _AddedSpeed;
             _IsBeingCarried = true;
-		}
-    }
-
-    public Transform FindNearestEndPoint()
-    {
-        Transform target = null;
-        float distance = Mathf.Infinity;
-        foreach(GameObject point in _EndPoints)
-        {
-            float tDistance = Vector3.Distance(point.transform.position, transform.position);
-            if (tDistance < distance)
-            {
-                target = point.transform;
-                distance = tDistance;
-            }
         }
-        return target;
     }
 
-    public void CalculatePikminPosition()
+    public bool PikminSpotAvailable()
+    {
+        return _CarryingPikmin.Count < _MaxAmountRequired;
+    }
+
+    void CalculatePikminPositions()
     {
         for (int i = 0; i < _CarryingPikmin.Count; i++)
         {
@@ -135,10 +109,4 @@ public class PikminCarry : MonoBehaviour, IPikminCarry
             pikminObj.transform.rotation = Quaternion.LookRotation(transform.position - pikminObj.transform.position);
         }
     }
-
-
-	public bool PikminSpotAvailable()
-	{
-		return _CarryingPikmin.Count < _MaxAmountRequired;
-	}
 }
