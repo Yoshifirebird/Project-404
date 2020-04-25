@@ -268,7 +268,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         else if (_CarryingData != null)
         {
             // Check if there isn't a spot available for us
-            if (_CarryingData.PikminSpotAvailable() == false)
+            if (_CarryingData.PikminSpotAvailable() == false || _TargetObject == null)
             {
                 _TargetObject = null;
                 _CarryingData = null;
