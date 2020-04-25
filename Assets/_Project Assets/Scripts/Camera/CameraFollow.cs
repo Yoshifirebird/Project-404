@@ -33,7 +33,7 @@ public class CameraFollow : MonoBehaviour
 
     [Header("Movement Correction")]
     [SerializeField] float _HeightChangeSpeed;
-    [SerializeField] float _DistForHeightChange;  
+    [SerializeField] float _DistForHeightChange;
     [SerializeField] float _EasingHeightOffset; // The offset of the sphere used,
     [SerializeField] float _HeightSphereRadius; // The radius of the sphere used to check if there's a platform higher than what we're currently on
 
@@ -163,7 +163,7 @@ public class CameraFollow : MonoBehaviour
             RotateView(-_TriggerRotationSpeed * Time.deltaTime);
         }
         else if (Input.GetButton("Left Trigger"))
-        { 
+        {
             RotateView(_TriggerRotationSpeed * Time.deltaTime);
         }
 

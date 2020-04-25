@@ -46,8 +46,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     GameObject _CarryingObject;
     IPikminCarry _CarryingData;
 
-    GameObject _TargetObject;
-
     bool _Spawned = false;
 
     void Spawn()
@@ -83,7 +81,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         // Reset state-specific variables
         _AttackingObject = null;
         _CarryingObject = null;
-        _TargetObject = null;
         _AttackTimer = 0;
 
         _HeadTypeModels = new GameObject[(int)Headtype.SIZE];
@@ -113,7 +110,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             IPikminAttack aInterface = _AttackingObject.GetComponent<IPikminAttack>();
 
             if (aInterface != null)
-                aInterface.OnAttackEnd(gameObject);
+                aInterface.OnAttackEnd(this);
 
             // Remove the attacking object and reset the timer
             _AttackingObject = null;
@@ -200,7 +197,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     void HandleIdle()
     {
         // Look for a target object if there isn't one
-        if (_TargetObject == null)
+        if (_CarryingObject == null || _AttackingObject == null)
         {
             //Check every object and see if we can do anything with it
             Collider[] surroundings = Physics.OverlapSphere(transform.position, _Data._SearchRange);
@@ -218,8 +215,14 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
                     // If there is a spot for the Pikmin to carry
                     if (_CarryingData.PikminSpotAvailable())
                     {
+                        // Works out the height difference between the two objects, and then skips the object
+                        // based on that difference
+                        float heightDif = Mathf.Abs(obj.transform.position.y - transform.position.y);
+                        if (heightDif >= 0.5f)
+                            continue;
+
                         // Set our target to that object
-                        _TargetObject = obj.gameObject;
+                        _CarryingObject = obj.gameObject;
                         break;
                     }
                     else
@@ -227,6 +230,8 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
                         // Because there wasn't a spot for us, reset the carrying data and move on
                         _CarryingData = null;
                     }
+                    // We can skip the Pikmin attack check because you can't carry an attackable
+                    continue;
                 }
 
                 _AttackingData = obj.GetComponentInParent<IPikminAttack>();
@@ -238,7 +243,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
                     if (heightDif >= 0.5f)
                         continue;
 
-                    _TargetObject = _AttackingObject = obj.gameObject;
+                    _AttackingObject = obj.gameObject;
                     break;
                 }
             }
@@ -258,34 +263,26 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             // And check if we're close enough to start attacking
             if (MathUtil.DistanceTo(transform.position, _AttackingObject.transform.position) <= 1)
             {
-                LatchOntoObject(_AttackingObject.transform);
-                _AttackingData.OnAttackStart(gameObject);
-                ChangeState(States.Attacking);
-
-                _TargetObject = null;
+                _AttackingData.OnAttackStart(this);
             }
         }
-        else if (_CarryingData != null)
+        else if (_CarryingObject != null)
         {
-            // Check if there isn't a spot available for us
-            if (_CarryingData.PikminSpotAvailable() == false || _TargetObject == null)
+            // Check if there isn't a spot available for us, or the carrying data doesn't exist
+            if (_CarryingData == null || _CarryingData.PikminSpotAvailable() == false)
             {
-                _TargetObject = null;
+                _CarryingObject = null;
                 _CarryingData = null;
                 return;
             }
 
             // Move towards the object
-            MoveTowards(_TargetObject.transform.position);
+            MoveTowards(_CarryingObject.transform.position);
 
             // And check if we're close enough to start carrying
-            if (MathUtil.DistanceTo(transform.position, _TargetObject.transform.position) <= 1.5f)
+            if (MathUtil.DistanceTo(transform.position, _CarryingObject.transform.position) <= 1.5f)
             {
-                // Assign our Carrying variables
-                _CarryingObject = _TargetObject;
                 _CarryingData.OnCarryStart(this);
-
-                _TargetObject = null;
             }
         }
     }
@@ -340,7 +337,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             return;
 
         // Attack
-        _AttackingData.Attack(gameObject, _Data._AttackDamage);
+        _AttackingData.Attack(this, _Data._AttackDamage);
         _AttackTimer = 0;
     }
 
@@ -351,16 +348,13 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
             return;
         }
 
-        // Check if the object in question has the pikminattack component
+        // Check if the object in question has the PikminAttack interface implemented
         _AttackingData = toCheck.GetComponentInParent<IPikminAttack>();
         if (_AttackingData != null)
         {
-            // It does, we can attack!
-            // Set our state to attacking, assign the attack variables and latch!
+            // It does, so we can call the OnAttackStart function
             _AttackingObject = toCheck;
-            ChangeState(States.Attacking);
-            LatchOntoObject(toCheck.transform);
-            _AttackingData.OnAttackStart(gameObject);
+            _AttackingData.OnAttackStart(this);
         }
     }
 
@@ -483,11 +477,10 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
         }
         else if (_PreviousState == States.Attacking && _AttackingData != null)
         {
-            _AttackingData.OnAttackEnd(gameObject);
+            _AttackingData.OnAttackEnd(this);
             _AttackingData = null;
 
             _AttackingObject = null;
-            LatchOntoObject(null);
         }
     }
     #endregion

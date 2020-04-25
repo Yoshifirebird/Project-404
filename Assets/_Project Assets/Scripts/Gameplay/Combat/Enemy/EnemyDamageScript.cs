@@ -87,7 +87,7 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
 
     #region Pikmin Attacking Implementation
 
-    public void Attack(GameObject attacking, float damage)
+    public void Attack(PikminBehavior attacking, float damage)
     {
         // take damage ._.
         TakeHealth(damage);
@@ -99,10 +99,18 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
         }
     }
 
-    public void OnAttackStart(GameObject attachedPikmin) => _AttachedPikmin.Add(attachedPikmin);
-    public void OnAttackEnd(GameObject detachedPikmin)
+    public void OnAttackStart(PikminBehavior attachedPikmin)
     {
-        _AttachedPikmin.Remove(detachedPikmin);
+        _AttachedPikmin.Add(attachedPikmin.gameObject);
+
+        attachedPikmin.ChangeState(PikminBehavior.States.Attacking);
+        attachedPikmin.LatchOntoObject(transform);
+    }
+
+    public void OnAttackEnd(PikminBehavior detachedPikmin)
+    {
+        _AttachedPikmin.Remove(detachedPikmin.gameObject);
+        detachedPikmin.LatchOntoObject(null);
     }
 
     #endregion
