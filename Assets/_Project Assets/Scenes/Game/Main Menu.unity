@@ -296,7 +296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _BlackImage: {fileID: 2043967964}
-  _FadeTimer: 5
+  _FadeTimer: 2.5
 --- !u!1 &321701967
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,7 +325,7 @@ Transform:
   m_GameObject: {fileID: 321701967}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2.8, z: 32.66}
-  m_LocalScale: {x: 92.16, y: 10, z: 1}
+  m_LocalScale: {x: 92.16, y: 10.187559, z: 1}
   m_Children: []
   m_Father: {fileID: 473410334}
   m_RootOrder: 2
@@ -951,7 +951,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 742002490}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.5, z: 13.8015}
+  m_LocalPosition: {x: 0, y: -2.26, z: 14.48}
   m_LocalScale: {x: 15, y: 1, z: 3.8869}
   m_Children: []
   m_Father: {fileID: 473410334}
@@ -2093,7 +2093,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -2194,10 +2194,10 @@ MonoBehaviour:
     m_Bits: 1
   volumeAnchorOverride: {fileID: 0}
   antialiasing: 0
-  SMAAQuality: 2
+  SMAAQuality: 1
   dithering: 0
-  stopNaNs: 0
-  taaSharpenStrength: 0.6
+  stopNaNs: 1
+  taaSharpenStrength: 0
   physicalParameters:
     m_Iso: 200
     m_ShutterSpeed: 0.005

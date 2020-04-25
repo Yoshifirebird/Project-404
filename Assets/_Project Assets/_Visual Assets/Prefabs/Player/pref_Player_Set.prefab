@@ -706,14 +706,18 @@ MonoBehaviour:
   _HeightOffset: 0.5
   _StartingRadius: 0.1
   _ExpandedRadius: 5
+  _PikminCallHeight: 20
   _MaxBlowTime: 3
-  _OffsetFromSurface: 0
+  _OffsetFromSurface: 0.1
+  _PikminMask:
+    serializedVersion: 2
+    m_Bits: 1024
   _MaxDistFromPlayer: 6
   _MoveSpeed: 2.5
-  _MaxDistance: Infinity
+  _MaxDistance: 150
   _MapMask:
     serializedVersion: 2
-    m_Bits: 2855
+    m_Bits: 512
   _WhistleCircleSegments: 50
 --- !u!82 &401268063754482086
 AudioSource:
