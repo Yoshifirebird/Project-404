@@ -128,7 +128,7 @@ Material:
     - _AlphaSrcBlend: 1
     - _Anisotropy: 0
     - _BlendMode: 0
-    - _CoatMask: 0.353
+    - _CoatMask: 0.5
     - _CullMode: 2
     - _CullModeForward: 2
     - _Cutoff: 0.81
@@ -179,7 +179,7 @@ Material:
     - _InvTilingScale: 1
     - _Ior: 1.5
     - _IridescenceMask: 1
-    - _IridescenceThickness: 0.916
+    - _IridescenceThickness: 0.777
     - _LinkDetailsWithBase: 1
     - _MaterialID: 3
     - _Metallic: 0
@@ -193,7 +193,7 @@ Material:
     - _ReceivesSSR: 1
     - _RefractionModel: 0
     - _SSRefractionProjectionModel: 0
-    - _Smoothness: 0.143
+    - _Smoothness: 0.441
     - _SmoothnessRemapMax: 1
     - _SmoothnessRemapMin: 0
     - _SpecularAAScreenSpaceVariance: 0.1
