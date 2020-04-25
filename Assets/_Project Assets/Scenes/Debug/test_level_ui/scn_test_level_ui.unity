@@ -6986,5 +6986,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fuel Meter
       objectReference: {fileID: 0}
+    - target: {fileID: 482736168473154119, guid: 9103123a67ec94e8580043601d447248,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9103123a67ec94e8580043601d447248, type: 3}
