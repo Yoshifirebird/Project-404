@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Billboard.cs
  * Created by: Ambrosia
  * Created on: 15/2/2020 (dd/mm/yy)
@@ -7,10 +7,9 @@
 
 using UnityEngine;
 
-public class Billboard : MonoBehaviour
-{
+public class Billboard : MonoBehaviour {
     Camera _MainCamera;
 
-    void Awake() => _MainCamera = Camera.main;
-    void Update() => transform.LookAt(transform.position + _MainCamera.transform.forward);
+    void Awake () => _MainCamera = Camera.main;
+    void Update () => transform.LookAt (transform.position + _MainCamera.transform.forward);
 }

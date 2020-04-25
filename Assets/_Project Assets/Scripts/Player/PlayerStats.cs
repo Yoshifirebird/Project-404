@@ -1,22 +1,19 @@
-﻿/*
+/*
  * PlayerStats.cs
  * Created by: Ambrosia
  * Created on: 12/2/2020 (dd/mm/yy)
  * Created for: storing global data about the Players statistics
  */
 
-public static class PlayerStats
-{
+public static class PlayerStats {
     public static int _Day = 0;
 
-    public static PikminStats _Red = new PikminStats(0, 0, 0);
-    public static PikminStats _Yellow = new PikminStats(0, 0, 0);
-    public static PikminStats _Blue = new PikminStats(0, 0, 0);
+    public static PikminStats _Red = new PikminStats (0, 0, 0);
+    public static PikminStats _Yellow = new PikminStats (0, 0, 0);
+    public static PikminStats _Blue = new PikminStats (0, 0, 0);
 
-    public static PikminStats GetStats(Colour col)
-    {
-        switch (col)
-        {
+    public static PikminStats GetStats (Colour col) {
+        switch (col) {
             case Colour.Red:
                 return _Red;
             case Colour.Blue:
@@ -28,63 +25,55 @@ public static class PlayerStats
         }
     }
 
-    public static int _TotalPikmin { get => _Red.GetTotal() + _Yellow.GetTotal() + _Yellow.GetTotal(); }
+    public static int _TotalPikmin { get => _Red.GetTotal () + _Yellow.GetTotal () + _Yellow.GetTotal (); }
 
-    public static void IncrementTotal(Colour pikminColour, Headtype headtype)
-    {
-        switch (pikminColour)
-        {
+    public static void IncrementTotal (Colour pikminColour, Headtype headtype) {
+        switch (pikminColour) {
             case Colour.Red:
-                _Red.Increment(headtype);
+                _Red.Increment (headtype);
                 break;
             case Colour.Yellow:
-                _Yellow.Increment(headtype);
+                _Yellow.Increment (headtype);
                 break;
             case Colour.Blue:
-                _Blue.Increment(headtype);
+                _Blue.Increment (headtype);
                 break;
             default:
                 break;
         }
     }
 
-    public static void DecrementTotal(Colour pikminColour, Headtype headtype)
-    {
-        switch (pikminColour)
-        {
+    public static void DecrementTotal (Colour pikminColour, Headtype headtype) {
+        switch (pikminColour) {
             case Colour.Red:
-                _Red.Decrement(headtype);
+                _Red.Decrement (headtype);
                 break;
             case Colour.Yellow:
-                _Yellow.Decrement(headtype);
+                _Yellow.Decrement (headtype);
                 break;
             case Colour.Blue:
-                _Blue.Decrement(headtype);
+                _Blue.Decrement (headtype);
                 break;
             default:
                 break;
         }
     }
 
-    public struct PikminStats
-    {
+    public struct PikminStats {
         int _Leaf;
         int _Bud;
         int _Flower;
 
-        public PikminStats(int leaf, int bud, int flower)
-        {
+        public PikminStats (int leaf, int bud, int flower) {
             _Leaf = leaf;
             _Bud = bud;
             _Flower = flower;
         }
 
-        public int GetTotal() => _Leaf + _Bud + _Flower;
+        public int GetTotal () => _Leaf + _Bud + _Flower;
 
-        public void Increment(Headtype head)
-        {
-            switch (head)
-            {
+        public void Increment (Headtype head) {
+            switch (head) {
                 case Headtype.Leaf:
                     _Leaf++;
                     break;
@@ -98,10 +87,8 @@ public static class PlayerStats
                     break;
             }
         }
-        public void Decrement(Headtype head)
-        {
-            switch (head)
-            {
+        public void Decrement (Headtype head) {
+            switch (head) {
                 case Headtype.Leaf:
                     _Leaf--;
                     break;

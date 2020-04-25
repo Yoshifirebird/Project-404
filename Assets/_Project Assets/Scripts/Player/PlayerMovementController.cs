@@ -1,4 +1,4 @@
-﻿/*
+/*
  * PlayerMovementController.cs
  * Created by: Ambrosia
  * Created on: 7/2/2020 (dd/mm/yy)
@@ -7,14 +7,13 @@
 
 using UnityEngine;
 
-public class PlayerMovementController : MonoBehaviour
-{
-    [Header("Components")]
+public class PlayerMovementController : MonoBehaviour {
+    [Header ("Components")]
     [SerializeField] Transform _WhistleTransform;
     CharacterController _Controller;
     Camera _MainCamera;
 
-    [Header("Settings")]
+    [Header ("Settings")]
     [SerializeField] float _MovementSpeed = 3;
     [SerializeField] Vector2 _MovementDeadzone = Vector2.one / 0.1f;
     [SerializeField] float _SlideLimit = 25;
@@ -35,9 +34,8 @@ public class PlayerMovementController : MonoBehaviour
 
     Vector3 _BaseHeight;
 
-    void Awake()
-    {
-        _Controller = GetComponent<CharacterController>();
+    void Awake () {
+        _Controller = GetComponent<CharacterController> ();
         _BaseHeight = Vector3.up * (_Controller.height / 2);
         _SlideRayDist = (_Controller.height * .5f) + _Controller.radius;
         _SlideLimit = _Controller.slopeLimit - .1f;
@@ -45,42 +43,36 @@ public class PlayerMovementController : MonoBehaviour
         _PreviousPosition = transform.position;
     }
 
-    void Update()
-    {
+    void Update () {
         // Add time to the idle timer
         _IdleTimer += Time.deltaTime;
 
         // Check if we've been idle long enough to look at the whistle
-        if (_IdleTimer > _LookAtWhistleTime)
-        {
+        if (_IdleTimer > _LookAtWhistleTime) {
             Vector3 finalLookPosition = _WhistleTransform.position - transform.position;
             finalLookPosition.y = 0;
 
-            if (finalLookPosition != Vector3.zero)
-            {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(finalLookPosition), _RotationSpeed * Time.deltaTime);
+            if (finalLookPosition != Vector3.zero) {
+                transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (finalLookPosition), _RotationSpeed * Time.deltaTime);
             }
-        }
-        else
-        {
+        } else {
             _RotationBeforeIdle = transform.rotation;
         }
 
         // If we're not grounded and not on a slope
-        if (!IsGrounded())
-        {
+        if (!IsGrounded ()) {
             // Apply gravity
-            _Controller.Move(Vector3.down * _Gravity * Time.deltaTime);
+            _Controller.Move (Vector3.down * _Gravity * Time.deltaTime);
         }
 
         // Get input from the 'Horizontal' and 'Vertical' axis, and normalize it
         // so as to not the player move quicker when going diagonally
-        var mDirection = new Vector3(Input.GetAxis("Horizontal"),
-                                     0,
-                                     Input.GetAxis("Vertical")).normalized;
+        var mDirection = new Vector3 (Input.GetAxis ("Horizontal"),
+            0,
+            Input.GetAxis ("Vertical")).normalized;
 
         // If the player has even touched the H and V axis
-        if (Mathf.Abs(mDirection.x) <= _MovementDeadzone.x && Mathf.Abs(mDirection.z) <= _MovementDeadzone.y)
+        if (Mathf.Abs (mDirection.x) <= _MovementDeadzone.x && Mathf.Abs (mDirection.z) <= _MovementDeadzone.y)
             return;
 
         // We've moved, so the idle timer gets reset
@@ -88,16 +80,15 @@ public class PlayerMovementController : MonoBehaviour
 
         // Make the movement vector relative to the camera's position/rotation
         // and remove any Y momentum gained from doing the TransformDirection
-        mDirection = _MainCamera.transform.TransformDirection(mDirection);
+        mDirection = _MainCamera.transform.TransformDirection (mDirection);
         mDirection.y = 0;
 
         // Rotate and move the player
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(mDirection), _RotationSpeed * Time.deltaTime);
-        _Controller.Move(mDirection.normalized * _MovementSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (mDirection), _RotationSpeed * Time.deltaTime);
+        _Controller.Move (mDirection.normalized * _MovementSpeed * Time.deltaTime);
     }
 
-    void FixedUpdate()
-    {
+    void FixedUpdate () {
         // Calculate the velocity of the Player using the previous frame as a base point for the calculation
         _Velocity = (transform.position - _PreviousPosition) / Time.fixedDeltaTime;
         _PreviousPosition = transform.position;
@@ -105,50 +96,42 @@ public class PlayerMovementController : MonoBehaviour
         bool sliding = false;
         // See if surface immediately below should be slid down. We use this normally rather than a ControllerColliderHit point,
         // because that interferes with step climbing amongst other annoyances
-        if (Physics.Raycast(transform.position, -Vector3.up, out _SlideHit, _SlideRayDist))
-        {
-            if (Vector3.Angle(_SlideHit.normal, Vector3.up) > _SlideLimit)
-            {
+        if (Physics.Raycast (transform.position, -Vector3.up, out _SlideHit, _SlideRayDist)) {
+            if (Vector3.Angle (_SlideHit.normal, Vector3.up) > _SlideLimit) {
                 sliding = true;
             }
         }
         // However, just raycasting straight down from the center can fail when on steep slopes
         // So if the above raycast didn't catch anything, raycast down from the stored ControllerColliderHit point instead
-        else
-        {
-            Physics.Raycast(_CharacterContactPoint + Vector3.up, -Vector3.up, out _SlideHit);
-            if (Vector3.Angle(_SlideHit.normal, Vector3.up) > _SlideLimit)
-            {
+        else {
+            Physics.Raycast (_CharacterContactPoint + Vector3.up, -Vector3.up, out _SlideHit);
+            if (Vector3.Angle (_SlideHit.normal, Vector3.up) > _SlideLimit) {
                 sliding = true;
             }
         }
 
-        if (sliding)
-        {
+        if (sliding) {
             Vector3 normal = _SlideHit.normal;
-            Vector3 direction = new Vector3(normal.x, -normal.y, normal.z);
-            Vector3.OrthoNormalize(ref normal, ref direction);
-            normal.Normalize();
+            Vector3 direction = new Vector3 (normal.x, -normal.y, normal.z);
+            Vector3.OrthoNormalize (ref normal, ref direction);
+            normal.Normalize ();
             direction *= _SlideSpeed;
             direction.y -= Physics.gravity.y * Time.deltaTime;
-            _Controller.Move(direction * Time.deltaTime);
+            _Controller.Move (direction * Time.deltaTime);
             return;
         }
     }
 
-    void OnControllerColliderHit(ControllerColliderHit hit)
-    {
+    void OnControllerColliderHit (ControllerColliderHit hit) {
         _CharacterContactPoint = hit.point;
     }
 
-    bool IsGrounded()
-    {
+    bool IsGrounded () {
         // Calculate the bottom position of the character controller
         // then check if there is any collider beneath us
-        if (Physics.Raycast(transform.position - _BaseHeight, Vector3.down, out RaycastHit hit, 1f))
-        {
+        if (Physics.Raycast (transform.position - _BaseHeight, Vector3.down, out RaycastHit hit, 1f)) {
             // Handle special case of water
-            if (hit.transform.CompareTag("Water"))
+            if (hit.transform.CompareTag ("Water"))
                 return false;
 
             // Check if the raycast hit a floor,
@@ -158,7 +141,7 @@ public class PlayerMovementController : MonoBehaviour
 
             // Move down but only the distance away, this cancels out the bouncing
             // effect that you can achieve by removing this function
-            _Controller.Move(Vector3.down * hit.distance);
+            _Controller.Move (Vector3.down * hit.distance);
             return true;
         }
 

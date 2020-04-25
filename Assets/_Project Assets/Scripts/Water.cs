@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Water.cs
  * Created by: Ambrosia
  * Created on: 14/3/2020 (dd/mm/yy)
@@ -7,26 +7,21 @@
 
 using UnityEngine;
 
-public class Water : MonoBehaviour
-{
-    void OnTriggerEnter(Collider other)
-    {
+public class Water : MonoBehaviour {
+    void OnTriggerEnter (Collider other) {
         // Handle (TODO) Water splash / audio for object entering water
-        var rbComponent = other.GetComponent<Rigidbody>();
-        if (rbComponent != null)
-        {
+        var rbComponent = other.GetComponent<Rigidbody> ();
+        if (rbComponent != null) {
             //Debug.Log("Object came into water at velocity of " + rbComponent.velocity.ToString());
         }
 
         // Handle Pikmin entering the water
-        if (other.CompareTag("Pikmin"))
-        {
-            other.GetComponent<PikminBehavior>().EnterWater();
+        if (other.CompareTag ("Pikmin")) {
+            other.GetComponent<PikminBehavior> ().EnterWater ();
             return;
         }
 
-        if (other.CompareTag("Player"))
-        {
+        if (other.CompareTag ("Player")) {
             // TODO - handle Playe entering water
             return;
         }

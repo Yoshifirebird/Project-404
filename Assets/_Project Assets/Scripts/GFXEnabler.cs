@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GFXEnabler.cs
  * Created by: Ambrosia
  * Created on: 10/2/2020 (dd/mm/yy)
@@ -8,17 +8,14 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class GFXEnabler : MonoBehaviour
-{
-	[Header("Components")]
-	[SerializeField] KeyCode _OptionMenuKey = KeyCode.Return;
-	[SerializeField] Volume _PostProcessVolume;
-	
-	private void Update()
-	{
-		if (Input.GetKeyDown(_OptionMenuKey))
-		{
-			_PostProcessVolume.enabled = !_PostProcessVolume.enabled;
-		}
-	}
+public class GFXEnabler : MonoBehaviour {
+    [Header ("Components")]
+    [SerializeField] KeyCode _OptionMenuKey = KeyCode.Return;
+    [SerializeField] Volume _PostProcessVolume;
+
+    private void Update () {
+        if (Input.GetKeyDown (_OptionMenuKey)) {
+            _PostProcessVolume.enabled = !_PostProcessVolume.enabled;
+        }
+    }
 }
