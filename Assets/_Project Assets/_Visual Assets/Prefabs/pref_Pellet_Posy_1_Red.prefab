@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 5389076463626424319}
   - component: {fileID: 5389076463626424317}
   m_Layer: 0
-  m_Name: pref_Pellet_Posy_1
+  m_Name: pref_Pellet_Posy_1_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -268,6 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c24626ca32a797a40a278ac524e262dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _Showcase: 0
   _MaxHealth: 100
   _HandleDeath: 1
   _DeadObject: {fileID: 4853071827087637658, guid: ae524c549db4f3d448d6e364307f6b63,
