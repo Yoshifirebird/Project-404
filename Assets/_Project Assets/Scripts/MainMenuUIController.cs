@@ -51,7 +51,6 @@ public class MainMenuUIController : MonoBehaviour
     public void PressPlay()
     {
         _Fading = true;
-        _CurrentColor = Color.black;
         _BlackImage.enabled = true;
     }
 
