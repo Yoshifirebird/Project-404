@@ -82,5 +82,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blue_pellet_1
       objectReference: {fileID: 0}
+    - target: {fileID: 5389076463626424317, guid: 294fc44b5aeb24b4c90a343bf25572a7,
+        type: 3}
+      propertyPath: _DeadObject
+      value: 
+      objectReference: {fileID: 4504508561415287242, guid: 076431931a1a7f94f8543bf6e4f303c6,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 294fc44b5aeb24b4c90a343bf25572a7, type: 3}
