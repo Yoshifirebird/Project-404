@@ -38,6 +38,8 @@ public class PikminBehavior : MonoBehaviour, IPooledObject
     [SerializeField] Headtype _StartingHeadType;
     GameObject[] _HeadTypeModels;
     Headtype _CurrentHeadType;
+    
+    // State specific variables
 
     float _AttackTimer = 0;
     GameObject _AttackingObject;

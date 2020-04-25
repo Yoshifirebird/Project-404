@@ -12,6 +12,9 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
 {
+    [Header("ENABLE WHEN NOT USED FOR GAMEPLAY")]
+    [SerializeField] bool _Showcase = false;
+
     [Header("Settings")]
     [SerializeField] float _MaxHealth = 10;
     [SerializeField] bool _HandleDeath = false;
@@ -25,8 +28,7 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
 
     [HideInInspector]
     public List<GameObject> _AttachedPikmin = new List<GameObject>();
-    [HideInInspector]
-    public bool _Dead;
+    [HideInInspector] public bool _Dead;
     ObjectPooler _ObjectPooler;
     HealthWheel _HWScript;
     float _CurrentHealth = 0;
@@ -34,22 +36,25 @@ public class EnemyDamageScript : MonoBehaviour, IPikminAttack, IHealth
     void Awake()
     {
         _Animator = GetComponent<Animator>();
+        _CurrentHealth = _MaxHealth;
     }
 
     void Start()
     {
-        _ObjectPooler = ObjectPooler.Instance;
-        // Set the current health to the max health
-        _CurrentHealth = _MaxHealth;
+        if (_Showcase == false)
+        {
+            _ObjectPooler = ObjectPooler.Instance;
+            // Set the current health to the max health
 
-        // Find a health wheel that hasn't been claimed already
-        _HWScript = _ObjectPooler.SpawnFromPool("Health", transform.position + _HWOffset, Quaternion.identity).GetComponentInChildren<HealthWheel>();
-        // Apply all of the required variables 
-        _HWScript._InUse = true;
-        _HWScript._MaxHealth = _MaxHealth;
-        _HWScript._CurrentHealth = _MaxHealth;
-        _HWScript.transform.SetParent(transform);
-        _HWScript.transform.localScale = Vector3.one * _HWScale;
+            // Find a health wheel that hasn't been claimed already
+            _HWScript = _ObjectPooler.SpawnFromPool("Health", transform.position + _HWOffset, Quaternion.identity).GetComponentInChildren<HealthWheel>();
+            // Apply all of the required variables 
+            _HWScript._InUse = true;
+            _HWScript._MaxHealth = _MaxHealth;
+            _HWScript._CurrentHealth = _MaxHealth;
+            _HWScript.transform.SetParent(transform);
+            _HWScript.transform.localScale = Vector3.one * _HWScale;
+        }
     }
 
     void Update()
