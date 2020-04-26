@@ -75,7 +75,7 @@ public class WhistleController : MonoBehaviour {
     }
 
     void Start () {
-        _PlayerTransform = Player.player.transform;
+        _PlayerTransform = Globals._Player.transform;
     }
 
     void Update () {

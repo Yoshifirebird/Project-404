@@ -23,9 +23,6 @@ public class PlayerPikminManager : MonoBehaviour {
     [SerializeField] float _StartingOffset;
     [SerializeField] float _DistancePerPikmin; // How much is added to the offset for each pikmin
 
-    List<GameObject> _PikminOnField = new List<GameObject> (); // How many Pikmin there are currently alive
-    List<GameObject> _Squad = new List<GameObject> (); // How many Pikmin there are currently in the Player's squad
-
     GameObject _PikminInHand;
 
     void Update () {
@@ -35,8 +32,8 @@ public class PlayerPikminManager : MonoBehaviour {
         // Disbanding
         if (Input.GetButtonDown ("X Button")) {
             // Remove each Pikmin from the squad
-            while (_Squad.Count > 0) {
-                _Squad[0].GetComponent<PikminBehavior> ().RemoveFromSquad ();
+            while (PlayerStats._InSquad.Count > 0) {
+                PlayerStats._InSquad[0].RemoveFromSquad ();
             }
         }
     }
@@ -53,7 +50,7 @@ public class PlayerPikminManager : MonoBehaviour {
         // Check if we've got more than 0 Pikmin in
         // our squad and we press the Throw key (currently Space)
 
-        if (Input.GetButtonDown ("A Button") && GetPikminOnFieldCount () > 0 && _PikminInHand == null) {
+        if (Input.GetButtonDown ("A Button") && PlayerStats._OnField.Count > 0 && _PikminInHand == null) {
             GameObject closestPikmin = GetClosestPikmin ();
             // Check if we've even gotten a Pikmin
             if (closestPikmin != null) {
@@ -107,7 +104,7 @@ public class PlayerPikminManager : MonoBehaviour {
         }
 
         // (test) Killing the Pikmin
-        if (Input.GetKeyDown (KeyCode.B) && GetPikminOnFieldCount () > 0) {
+        if (Input.GetKeyDown (KeyCode.B) && PlayerStats._OnField.Count > 0) {
             GameObject closestPikmin = GetClosestPikmin ();
             if (closestPikmin != null) {
                 var pikminComponent = closestPikmin.GetComponent<PikminBehavior> ();
@@ -122,7 +119,7 @@ public class PlayerPikminManager : MonoBehaviour {
     /// </summary>
     void HandleFormation () {
         Vector3 targetPosition = _FormationCenter.position - transform.position;
-        _FormationCenter.position = transform.position + Vector3.ClampMagnitude (targetPosition, _StartingOffset + _DistancePerPikmin * _Squad.Count);
+        _FormationCenter.position = transform.position + Vector3.ClampMagnitude (targetPosition, _StartingOffset + _DistancePerPikmin * PlayerStats._OnField.Count);
     }
 
     /// <summary>
@@ -141,7 +138,7 @@ public class PlayerPikminManager : MonoBehaviour {
                 var pikminComponent = collider.GetComponent<PikminBehavior> ();
 
                 // Check if they're in the squad
-                if (pikminComponent.GetState () != PikminBehavior.States.MovingToward)
+                if (!pikminComponent._InSquad)
                     continue;
 
                 // Vertical check, make sure Pikmin don't get thrown if too far up
@@ -169,17 +166,5 @@ public class PlayerPikminManager : MonoBehaviour {
         return closestPikmin;
     }
 
-    #region Global Setters
-    public void AddPikminOnField (GameObject toAdd) => _PikminOnField.Add (toAdd);
-    public void AddToSquad (GameObject toAdd) => _Squad.Add (toAdd);
-    public void RemovePikminOnField (GameObject toRem) => _PikminOnField.Remove (toRem);
-    public void RemoveFromSquad (GameObject toRem) => _Squad.Remove (toRem);
-    #endregion
-
-    #region Global Getters
-    public List<GameObject> GetPikminOnField () => _PikminOnField;
-    public int GetPikminOnFieldCount () => _PikminOnField.Count;
-    public int GetSquadCount () => _Squad.Count;
     public Transform GetFormationCenter () => _FormationCenter;
-    #endregion
 }

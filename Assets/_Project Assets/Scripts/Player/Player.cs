@@ -11,9 +11,6 @@ using UnityEngine;
     typeof (PlayerPikminManager),
     typeof (PlayerMovementController))]
 public class Player : MonoBehaviour, IHealth {
-    // Singleton
-    public static Player player;
-
     //[Header("Components")]
     PlayerMovementController _MovementController;
     PlayerPikminManager _PikminManager;
@@ -22,27 +19,34 @@ public class Player : MonoBehaviour, IHealth {
     [SerializeField] float _MaxHealth = 100;
     [SerializeField] float _CurrentHealth = 100;
 
+    void OnEnable () {
+        // Singleton Pattern!
+        if (Globals._Player == null)
+            Globals._Player = this;
+        else
+            Destroy (gameObject);
+    }
+
     void Awake () {
         _MovementController = GetComponent<PlayerMovementController> ();
         _PikminManager = GetComponent<PlayerPikminManager> ();
 
         // Resets the health back to the max if changed in the editor
         _CurrentHealth = _MaxHealth;
-
-        // Singleton Pattern!
-        if (player == null)
-            player = this;
-        else
-            Destroy (gameObject);
     }
 
     void Update () {
+        if (Input.GetKeyDown (KeyCode.Alpha8)) {
+            PlayerStats.PrintAll ();
+        }
+
         // Handle health-related functions
         if (_CurrentHealth <= 0)
             Die ();
 
         // Handle exiting the game/program
         if (Input.GetButtonDown ("Start Button")) {
+            print ($"{Globals._OnionManager.IsOnionUnlocked(Colour.Red)}");
             Debug.Break ();
             Application.Quit ();
         }

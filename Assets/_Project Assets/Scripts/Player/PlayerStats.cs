@@ -5,59 +5,73 @@
  * Created for: storing global data about the Players statistics
  */
 
+using System.Collections.Generic;
+using UnityEngine;
+
 public static class PlayerStats {
     public static int _Day = 0;
 
-    public static PikminStats _Red = new PikminStats (0, 0, 0);
-    public static PikminStats _Yellow = new PikminStats (0, 0, 0);
-    public static PikminStats _Blue = new PikminStats (0, 0, 0);
+    public static PikminStats _RedInSquad = new PikminStats (0, 0, 0);
+    public static PikminStats _YellowInSquad = new PikminStats (0, 0, 0);
+    public static PikminStats _BlueInSquad = new PikminStats (0, 0, 0);
+    public static List<PikminBehavior> _InSquad = new List<PikminBehavior> (); // Contains squad
 
-    public static PikminStats GetStats (Colour col) {
+    public static PikminStats _RedOnField = new PikminStats (0, 0, 0);
+    public static PikminStats _YellowOnField = new PikminStats (0, 0, 0);
+    public static PikminStats _BlueOnField = new PikminStats (0, 0, 0);
+    public static List<PikminBehavior> _OnField = new List<PikminBehavior> (); // Contains squad & not in squad
+
+    public static PikminStats _RedTotal = new PikminStats (0, 0, 0);
+    public static PikminStats _YellowTotal = new PikminStats (0, 0, 0);
+    public static PikminStats _BlueTotal = new PikminStats (0, 0, 0); // Contains squad & not in squad & in onions
+
+    public static int _TotalPikmin { get => _RedTotal.GetTotal () + _YellowTotal.GetTotal () + _BlueTotal.GetTotal (); }
+
+    public static void PrintAll () {
+        Debug.Log ("In Squad:");
+        _RedInSquad.Print ();
+        _YellowInSquad.Print ();
+        _BlueInSquad.Print ();
+
+        Debug.Log ("On Field:");
+        _RedOnField.Print ();
+        _YellowOnField.Print ();
+        _BlueOnField.Print ();
+
+        Debug.Log ("Total:");
+        _RedTotal.Print ();
+        _YellowTotal.Print ();
+        _BlueTotal.Print ();
+    }
+
+    #region Getting Stats
+
+    public static int GetInOnion (Colour col) {
         switch (col) {
             case Colour.Red:
-                return _Red;
+                return _RedTotal - _RedOnField;
             case Colour.Blue:
-                return _Blue;
+                return _BlueTotal - _BlueOnField;
             case Colour.Yellow:
-                return _Yellow;
+                return _YellowTotal - _YellowOnField;
             default:
                 return default;
         }
     }
 
-    public static int _TotalPikmin { get => _Red.GetTotal () + _Yellow.GetTotal () + _Yellow.GetTotal (); }
+    public static void GetTotalStats (Colour col) {
 
-    public static void IncrementTotal (Colour pikminColour, Headtype headtype) {
-        switch (pikminColour) {
-            case Colour.Red:
-                _Red.Increment (headtype);
-                break;
-            case Colour.Yellow:
-                _Yellow.Increment (headtype);
-                break;
-            case Colour.Blue:
-                _Blue.Increment (headtype);
-                break;
-            default:
-                break;
-        }
     }
 
-    public static void DecrementTotal (Colour pikminColour, Headtype headtype) {
-        switch (pikminColour) {
-            case Colour.Red:
-                _Red.Decrement (headtype);
-                break;
-            case Colour.Yellow:
-                _Yellow.Decrement (headtype);
-                break;
-            case Colour.Blue:
-                _Blue.Decrement (headtype);
-                break;
-            default:
-                break;
-        }
+    public static void GetFieldStats (Colour col) {
+
     }
+
+    public static void GetSquadStats (Colour col) {
+
+    }
+
+    #endregion
 
     public struct PikminStats {
         int _Leaf;
@@ -87,6 +101,7 @@ public static class PlayerStats {
                     break;
             }
         }
+
         public void Decrement (Headtype head) {
             switch (head) {
                 case Headtype.Leaf:
@@ -101,6 +116,14 @@ public static class PlayerStats {
                 default:
                     break;
             }
+        }
+
+        public void Print () {
+            Debug.Log ($"Leaf {_Leaf} Bud {_Bud} Flower {_Flower}");
+        }
+
+        public static int operator - (PikminStats first, PikminStats compareTo) {
+            return first.GetTotal () - compareTo.GetTotal ();
         }
     }
 

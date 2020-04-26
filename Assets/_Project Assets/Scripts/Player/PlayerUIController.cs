@@ -26,7 +26,7 @@ public class PlayerUIController : MonoBehaviour {
     PlayerPikminManager _PikminManager;
 
     void Start () {
-        _Player = Player.player;
+        _Player = Globals._Player;
         _PikminManager = _Player.GetPikminManager ();
         _MaxHealth = _Player.GetMaxHealth ();
         _ReferenceHealth = _Player.GetHealth ();
@@ -38,11 +38,10 @@ public class PlayerUIController : MonoBehaviour {
     }
 
     void SetHealthCircle () {
-        if (Input.GetKeyDown (KeyCode.Backspace)) {
-            _Player.TakeHealth (10);
+        if (_Player.GetHealth () < _ReferenceHealth) {
+            print ("Ouch! I lost some HP!");
         }
-
-        if (_Player.GetHealth () < _ReferenceHealth) print ("Ouch! I lost some HP!");
+        // Update health as it may have been decreased since the last frame
         _ReferenceHealth = _Player.GetHealth ();
 
         float step = (float) _ReferenceHealth / (float) _MaxHealth;
@@ -53,7 +52,7 @@ public class PlayerUIController : MonoBehaviour {
     void SetPikminStats () {
         _TotalPikminText.text = PlayerStats._TotalPikmin.ToString ();
         _DayText.text = PlayerStats._Day.ToString ();
-        _InSquadText.text = _PikminManager.GetSquadCount ().ToString ();
-        _OnFieldText.text = _PikminManager.GetPikminOnFieldCount ().ToString ();
+        _InSquadText.text = PlayerStats._InSquad.Count.ToString ();
+        _OnFieldText.text = PlayerStats._OnField.Count.ToString ();
     }
 }

@@ -40,6 +40,7 @@ public class Onion : MonoBehaviour {
         // Handle in-menu input processing
         if (_InMenu) {
             // TODO: UI Animations for changing the text value
+            print ($"There are currently {PlayerStats.GetInOnion(_Colour)} Pikmin in the onion");
         }
     }
 

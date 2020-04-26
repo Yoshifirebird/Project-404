@@ -83,7 +83,7 @@ public class CameraFollow : MonoBehaviour {
 
     void Awake () {
         _MainCamera = Camera.main;
-        _PlayerPosition = Player.player.transform;
+        _PlayerPosition = Globals._Player.transform;
         _AudioSource = GetComponent<AudioSource> ();
 
         if (_DefaultHolders.Length != _TopViewHolders.Length) {

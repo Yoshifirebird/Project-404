@@ -26,6 +26,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
 
     [Header ("Components")]
     public PikminSO _Data;
+    [HideInInspector] public bool _InSquad;
     Player _Player;
     PlayerPikminManager _PlayerPikminManager;
     Rigidbody _Rigidbody;
@@ -56,7 +57,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
 
         // Assign required variables if needed
         if (_Player == null) {
-            _Player = Player.player;
+            _Player = Globals._Player;
             _PlayerPikminManager = _Player.GetPikminManager ();
         }
 
@@ -70,8 +71,13 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
             _Animator = GetComponent<Animator> ();
 
         // Add ourself into the stats
-        _PlayerPikminManager.AddPikminOnField (gameObject);
-        PlayerStats.IncrementTotal (_Data._Colour, _CurrentHeadType);
+        /*PlayerStats.GetFieldStats(_Data._Colour, out PlayerStats.PikminStats stats);
+        stats.Increment (_CurrentHeadType);
+
+        PlayerStats.GetTotalStats(_Data._Colour, out stats);
+        stats.Increment (_CurrentHeadType);*/
+
+        PlayerStats._OnField.Add (this);
 
         // Reset state machines
         _State = States.Idle;
@@ -263,8 +269,13 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
             RemoveFromSquad ();
         }
 
-        _PlayerPikminManager.RemovePikminOnField (gameObject);
-        PlayerStats.DecrementTotal (_Data._Colour, _CurrentHeadType);
+        PlayerStats._OnField.Remove (this);
+        /*PlayerStats.GetFieldStats(_Data._Colour, out PlayerStats.PikminStats stats);
+        stats.Increment (_CurrentHeadType);
+        
+        PlayerStats.GetTotalStats (_Data._Colour, out stats);
+        stats.Decrement(_CurrentHeadType);*/
+
         // TODO: handle death animation + timer later
         //ObjectPooler.Instance.StoreInPool("Pikmin");
         Destroy (gameObject);
@@ -331,7 +342,15 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
     }
 
     public void SetHead (Headtype newHead) {
+        /* At the end of the day, in the onion, moves this to the global stats
+        PlayerStats.GetFieldStats(_Data._Colour, out PlayerStats.PikminStats stats);
+        stats.Decrement (_CurrentHeadType);*/
+
         _CurrentHeadType = newHead;
+
+        /*PlayerStats.GetFieldStats(_Data._Colour, out stats);
+        stats.Increment (_CurrentHeadType);*/
+
         ActivateHead ();
     }
 
@@ -387,15 +406,19 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
 
     #region Squad
     public void AddToSquad () {
-        if (_State != States.MovingToward && _State != States.Thrown) {
+        if (!_InSquad && _State != States.Thrown) {
             ChangeState (States.MovingToward);
-            _PlayerPikminManager.AddToSquad (gameObject);
+            PlayerStats._InSquad.Add (this);
+            _InSquad = true;
         }
     }
 
     public void RemoveFromSquad () {
-        ChangeState (States.Idle);
-        _PlayerPikminManager.RemoveFromSquad (gameObject);
+        if (_InSquad) {
+            ChangeState (States.Idle);
+            PlayerStats._InSquad.Remove (this);
+            _InSquad = false;
+        }
     }
     #endregion
 

@@ -10,24 +10,21 @@ using UnityEngine;
 public class OnionManager : MonoBehaviour {
     //[Header("Components")]
 
-    //[Header("Settings")]
-
+    [Header ("Settings")]
+    // Goes Red, Yellow, Blue
+    [SerializeField] bool[] _UnlockedOnion = new bool[(int) Colour.SIZE];
     // This'll contain each onion type in an array the size of the Pikmin colours
-    // 0 for locked, 1 for unlocked
-    bool[] _UnlockedOnion;
-
-    public static OnionManager _Manager;
+    // 0 for locked, 1 for unlocked ^^^ 
 
     void Awake () {
-        if (_Manager == null)
-            _Manager = this;
+        if (Globals._OnionManager == null)
+            Globals._OnionManager = this;
         else
             Destroy (gameObject);
 
-        _UnlockedOnion = new bool[(int) Colour.SIZE];
         for (int i = 0; i < (int) Colour.SIZE; i++) {
             // Sets all of the booleans to false if they aren't the first (red onion)
-            _UnlockedOnion[i] = i == 0;
+            _UnlockedOnion[i] = i == (int) Colour.Red;
         }
     }
 
