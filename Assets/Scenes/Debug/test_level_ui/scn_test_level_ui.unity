@@ -2105,6 +2105,8 @@ GameObject:
   - component: {fileID: 796131358}
   - component: {fileID: 796131361}
   - component: {fileID: 796131360}
+  - component: {fileID: 796131359}
+  - component: {fileID: 796131362}
   m_Layer: 5
   m_Name: Quit Button
   m_TagString: Untagged
@@ -2132,6 +2134,82 @@ RectTransform:
   m_AnchoredPosition: {x: 32, y: 32}
   m_SizeDelta: {x: 128, y: 128}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &796131359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 796131357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f07b1cb866c664c97b774ec4d02d9190, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_audioSource: {fileID: 0}
+  externalSource: {fileID: 0}
+  m_animator: {fileID: 0}
+  master: {fileID: 1565831316}
+  interactable: 1
+  canHighlight: 1
+  highlighted: 0
+  isClicked: 0
+  OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHighlight:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 796131362}
+        m_MethodName: CrossFade
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Anim_cmn_pulse
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1565831316}
+        m_MethodName: exitMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1565831318}
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: e60bf329833df40e1995df189e4724e1,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnClickRelease:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClickBlocked:
+    m_PersistentCalls:
+      m_Calls: []
+  upButton: {fileID: 0}
+  downButton: {fileID: 0}
+  leftButton: {fileID: 0}
+  rightButton: {fileID: 0}
 --- !u!114 &796131360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2168,6 +2246,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 796131357}
   m_CullTransparentMesh: 0
+--- !u!111 &796131362
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 796131357}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: bb382392fe4634fb1ad1c327126a7521, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: bb382392fe4634fb1ad1c327126a7521, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &851965416
 GameObject:
   m_ObjectHideFlags: 0
@@ -3001,6 +3095,8 @@ GameObject:
   - component: {fileID: 1105328191}
   - component: {fileID: 1105328194}
   - component: {fileID: 1105328193}
+  - component: {fileID: 1105328192}
+  - component: {fileID: 1105328195}
   m_Layer: 5
   m_Name: Confirm Button
   m_TagString: Untagged
@@ -3028,6 +3124,82 @@ RectTransform:
   m_AnchoredPosition: {x: -32, y: 32}
   m_SizeDelta: {x: 128, y: 128}
   m_Pivot: {x: 1, y: 0}
+--- !u!114 &1105328192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105328190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f07b1cb866c664c97b774ec4d02d9190, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_audioSource: {fileID: 0}
+  externalSource: {fileID: 0}
+  m_animator: {fileID: 0}
+  master: {fileID: 1565831316}
+  interactable: 1
+  canHighlight: 1
+  highlighted: 0
+  isClicked: 0
+  OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHighlight:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1105328195}
+        m_MethodName: CrossFade
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Anim_cmn_pulse
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1565831316}
+        m_MethodName: exitMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1565831318}
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: d278fc86e08d248c0a0fca7402e14b85,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnClickRelease:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClickBlocked:
+    m_PersistentCalls:
+      m_Calls: []
+  upButton: {fileID: 0}
+  downButton: {fileID: 0}
+  leftButton: {fileID: 0}
+  rightButton: {fileID: 0}
 --- !u!114 &1105328193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3064,6 +3236,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1105328190}
   m_CullTransparentMesh: 0
+--- !u!111 &1105328195
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105328190}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: bb382392fe4634fb1ad1c327126a7521, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: bb382392fe4634fb1ad1c327126a7521, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &1105415561
 GameObject:
   m_ObjectHideFlags: 0
@@ -4025,6 +4213,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1359746192}
+  - component: {fileID: 1359746193}
   m_Layer: 5
   m_Name: Pivot
   m_TagString: Untagged
@@ -4056,6 +4245,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &1359746193
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359746191}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 01e3753f0169e441da96873cffb83a3f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1372362417
 GameObject:
   m_ObjectHideFlags: 0
@@ -4141,6 +4349,7 @@ GameObject:
   - component: {fileID: 1407321314}
   - component: {fileID: 1407321316}
   - component: {fileID: 1407321315}
+  - component: {fileID: 1407321317}
   m_Layer: 5
   m_Name: Pikmin Category
   m_TagString: Untagged
@@ -4205,6 +4414,48 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1407321313}
   m_CullTransparentMesh: 0
+--- !u!114 &1407321317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407321313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f07b1cb866c664c97b774ec4d02d9190, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_audioSource: {fileID: 0}
+  externalSource: {fileID: 0}
+  m_animator: {fileID: 0}
+  master: {fileID: 1565831316}
+  interactable: 1
+  canHighlight: 1
+  highlighted: 0
+  isClicked: 0
+  OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHighlight:
+    m_PersistentCalls:
+      m_Calls: []
+  OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClickRelease:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClickBlocked:
+    m_PersistentCalls:
+      m_Calls: []
+  upButton: {fileID: 0}
+  downButton: {fileID: 0}
+  leftButton: {fileID: 0}
+  rightButton: {fileID: 0}
 --- !u!1 &1428900562
 GameObject:
   m_ObjectHideFlags: 0
@@ -4747,6 +4998,7 @@ GameObject:
   - component: {fileID: 1565831314}
   - component: {fileID: 1565831316}
   - component: {fileID: 1565831317}
+  - component: {fileID: 1565831318}
   m_Layer: 5
   m_Name: Onion Menu
   m_TagString: Untagged
@@ -4826,7 +5078,7 @@ MonoBehaviour:
   externalSource: {fileID: 0}
   m_animator: {fileID: 0}
   enterAutomatically: 1
-  highlighted: {fileID: 0}
+  highlighted: {fileID: 1105328192}
   onAdjust:
     m_PersistentCalls:
       m_Calls: []
@@ -4838,7 +5090,29 @@ MonoBehaviour:
       m_Calls: []
   onExitMenu:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1359746193}
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Exit
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1565831316}
+        m_MethodName: delete
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0.5
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   selector: {fileID: 0}
   selectorRate: 1
   canInput: 1
@@ -4868,6 +5142,102 @@ MonoBehaviour:
     debugOnion: 0
   fieldText: {fileID: 679161817}
   debugField: 0
+--- !u!82 &1565831318
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1565831312}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1593787565
 GameObject:
   m_ObjectHideFlags: 0
@@ -5099,6 +5469,21 @@ PrefabInstance:
     - target: {fileID: 4265351440923812, guid: 7d9aa4e54c84c462c8aad83cfead9de9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114730016405520644, guid: 7d9aa4e54c84c462c8aad83cfead9de9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114730016405520644, guid: 7d9aa4e54c84c462c8aad83cfead9de9,
+        type: 3}
+      propertyPath: m_SubmitButton
+      value: A Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 114730016405520644, guid: 7d9aa4e54c84c462c8aad83cfead9de9,
+        type: 3}
+      propertyPath: m_CancelButton
+      value: B Button
       objectReference: {fileID: 0}
     - target: {fileID: 2982402421302597841, guid: 7d9aa4e54c84c462c8aad83cfead9de9,
         type: 3}
