@@ -12,13 +12,15 @@ using UnityEngine;
 public class PikminBehavior : MonoBehaviour, IPooledObject {
     public enum States {
         Idle,
-        MovingToward,
+        Formation,
         Attacking,
-        Dead,
+        AttackAndFollow,
         Carrying,
         Held,
         ShakenOff,
-        Thrown
+        Thrown,
+        
+        Dead,
     }
 
     States _State;
@@ -47,6 +49,8 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
 
     GameObject _CarryingObject;
     IPikminCarry _CarryingData;
+
+    Collider _ObjectCollider;
 
     bool _Spawned = false;
 
@@ -122,11 +126,15 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
             case States.Idle:
                 HandleIdle ();
                 break;
-            case States.MovingToward:
+            case States.Formation:
                 HandleFormation ();
                 break;
             case States.Attacking:
                 HandleAttacking ();
+                break;
+            case States.AttackAndFollow:
+                MoveTowards(_ObjectCollider.ClosestPoint(transform.position));
+                HandleAttacking();
                 break;
             case States.Dead:
                 HandleDeath ();
@@ -179,7 +187,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
     void HandleAnimation () {
         _Animator.SetBool ("Thrown", _State == States.Thrown);
 
-        if (_State == States.Idle || _State == States.MovingToward) {
+        if (_State == States.Idle || _State == States.Formation) {
             Vector2 horizonalVelocity = new Vector2 (_Rigidbody.velocity.x, _Rigidbody.velocity.z);
             _Animator.SetBool ("Walking", horizonalVelocity.magnitude >= 3);
         }
@@ -203,10 +211,10 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
                         // Works out the height difference between the two objects, and then skips the object
                         // based on that difference
                         float heightDif = Mathf.Abs (obj.transform.position.y - transform.position.y);
-                        if (heightDif >= 0.5f)
+                        if (heightDif >= _Data._HeightDifferenceMax)
                             continue;
 
-                        // Set our target to that object
+                        _ObjectCollider = obj;
                         _CarryingObject = obj.gameObject;
                         break;
                     } else {
@@ -222,9 +230,10 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
                     // Works out the height difference between the two objects, and then skips the object
                     // based on that difference
                     float heightDif = Mathf.Abs (obj.transform.position.y - transform.position.y);
-                    if (heightDif >= 0.5f)
+                    if (heightDif >= _Data._HeightDifferenceMax)
                         continue;
 
+                    _ObjectCollider = obj;
                     _AttackingObject = obj.gameObject;
                     break;
                 }
@@ -232,31 +241,35 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
         }
 
         if (_AttackingObject != null) {
-            if (_AttackingData == null) {
+            if (_AttackingData == null || _ObjectCollider == null) {
                 _AttackingObject = null;
+                _AttackingData = null;
+                _ObjectCollider = null;
                 return;
             }
 
             // Move towards the object
-            MoveTowards (_AttackingObject.transform.position);
+            MoveTowards (_ObjectCollider.ClosestPoint(transform.position));
 
             // And check if we're close enough to start attacking
-            if (MathUtil.DistanceTo (transform.position, _AttackingObject.transform.position) <= 1) {
+            if (MathUtil.DistanceTo (transform.position, _AttackingObject.transform.position) <= _Data._AttackDistance) {
                 _AttackingData.OnAttackStart (this);
             }
-        } else if (_CarryingObject != null) {
+        } 
+        else if (_CarryingObject != null) {
             // Check if there isn't a spot available for us, or the carrying data doesn't exist
-            if (_CarryingData == null || _CarryingData.PikminSpotAvailable () == false) {
+            if (_ObjectCollider == null || _CarryingData == null || _CarryingData.PikminSpotAvailable () == false) {
                 _CarryingObject = null;
                 _CarryingData = null;
+                _ObjectCollider = null;
                 return;
             }
 
             // Move towards the object
-            MoveTowards (_CarryingObject.transform.position);
+            MoveTowards (_ObjectCollider.ClosestPoint(transform.position));
 
             // And check if we're close enough to start carrying
-            if (MathUtil.DistanceTo (transform.position, _CarryingObject.transform.position) <= 1.5f) {
+            if (MathUtil.DistanceTo (transform.position, _CarryingObject.transform.position) <= _Data._CarryDistance) {
                 _CarryingData.OnCarryStart (this);
             }
         }
@@ -268,7 +281,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
 
     void HandleDeath () {
         // We may not have been properly removed from the squad, so do it ourself
-        if (_PreviousState == States.MovingToward || _State == States.MovingToward) {
+        if (_InSquad) {
             RemoveFromSquad ();
         }
 
@@ -410,8 +423,9 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
     #region Squad
     public void AddToSquad () {
         if (!_InSquad && _State != States.Thrown) {
-            ChangeState (States.MovingToward);
             PlayerStats._InSquad.Add (this);
+
+            ChangeState (States.Formation);
             _InSquad = true;
         }
     }
@@ -447,7 +461,12 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
             _AttackingData = null;
 
             _AttackingObject = null;
+
         }
+        else if (_PreviousState == States.AttackAndFollow)
+            {
+                _ObjectCollider = null;
+            }
     }
     #endregion
 

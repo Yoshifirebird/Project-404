@@ -1,28 +1,28 @@
 using UnityEngine;
 
 public static class MathUtil {
-    public const float M_2PI = Mathf.PI * 2;
+    public const float M_TAU = Mathf.PI * 2;
 
     /// <summary>
-    /// Calculates the relative position of an object at an index in a circle
+    /// Calculates the position of an index on a Unit circle
     /// </summary>
-    /// <param name="segments">How many segments there are (quality)</param>
-    /// <param name="index">The index of the object to calculate the position of</param>
-    /// <returns>The relative position (-1 to 1, -1 to 1)</returns>
-    public static Vector2 CalcPosInCirc (uint segments, int index) {
-        float theta = (M_2PI / segments) * index;
+    /// <param name="segments">How many corners there are</param>
+    /// <param name="index">The index of the corner to calculate the position of</param>
+    /// <returns>-1 to 1, -1 to 1</returns>
+    public static Vector2 PositionInUnit (uint segments, int index) {
+        float theta = (M_TAU / segments) * index;
         return new Vector2 (Mathf.Cos (theta), Mathf.Sin (theta));
     }
 
     /// <summary>
-    /// Calculates the relative position of an object at an index in a circle with an added offset
+    /// Calculates the position of an index on a Unit circle with added offset
     /// </summary>
-    /// <param name="segments">How many segments there are (quality)</param>
-    /// <param name="index">The index of the object to calculate the position of</param>
-    /// <param name="offset">How much to offset the calculation by</param>
-    /// <returns>The relative position (-1 to 1, -1 to 1)</returns>
-    public static Vector2 CalcPosInCirc (uint segments, int index, float offset) {
-        float theta = (M_2PI / segments) * index;
+    /// <param name="segments">How many corners there are</param>
+    /// <param name="index">The index of the corner to calculate the position of</param>
+    /// <param name="offset">How much to offset the position by</param>
+    /// <returns>-1 to 1, -1 to 1</returns>
+    public static Vector2 PositionInUnit(uint segments, int index, float offset) {
+        float theta = (M_TAU / segments) * index;
         return new Vector2 (Mathf.Cos (theta + offset), Mathf.Sin (theta + offset));
     }
 
@@ -33,6 +33,13 @@ public static class MathUtil {
     /// <returns>Vector3 with X and Z set to the X and Y of the Vector2</returns>
     public static Vector3 _2Dto3D (Vector2 conv, float y = 0) => new Vector3 (conv.x, y, conv.y);
 
+    /// <summary>
+    /// Calculates the distance between two positions, without the SQRT, making it more efficient than Vector3.Distance
+    /// </summary>
+    /// <param name="first">The first position</param>
+    /// <param name="second">The second position</param>
+    /// <param name="useY">Whether or not to use the Y axis in the calculation</param>
+    /// <returns>The squared distance between 'first' and 'second'</returns>
     public static float DistanceTo (Vector3 first, Vector3 second, bool useY = true) {
         float xD = first.x - second.x;
         float yD = useY ? first.y - second.y : 0;

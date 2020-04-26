@@ -11,7 +11,7 @@ public enum Headtype { Leaf, Bud, Flower, SIZE }
 
 [CreateAssetMenu (fileName = "GenericPikminObject", menuName = "Pikmin/New Pikmin Type")]
 public class PikminSO : ScriptableObject {
-    public Colour _Colour;
+    public Colour _Colour = Colour.Red;
 
     [Header ("Head Types")]
     public GameObject _Leaf;
@@ -19,15 +19,20 @@ public class PikminSO : ScriptableObject {
     public GameObject _Flower;
 
     [Header ("Movement")]
-    public float _MovementSpeed;
-    public float _RotationSpeed;
-    public float _HeadSpeedMultiplier;
+    public float _MovementSpeed = 5;
+    public float _RotationSpeed = 15;
+    public float _HeadSpeedMultiplier = 1.15f;
 
-    [Header ("Attacking")]
-    public float _TimeBetweenAttacks;
-    public float _AttackDamage;
+    [Header("Awareness")]
+    public float _HeightDifferenceMax = 1;
+    public float _SearchRange = 5;
 
-    [Header ("Carrying")]
-    public float _SearchRange;
+    [Header("Attacking")]
+    public float _AttackDamage = 2.5f;
+    public float _AttackDistance = 1;
+    public float _TimeBetweenAttacks = 0.5f;
+
+    [Header("Carrying")]
+    public float _CarryDistance = 1;
 
 }

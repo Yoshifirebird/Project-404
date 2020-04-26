@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 712543800464426617}
   - component: {fileID: 841263855753065918}
   - component: {fileID: 4340144566070940370}
-  m_Layer: 0
-  m_Name: pref_Temp_BridgeMidpoint
+  m_Layer: 9
+  m_Name: pref_BridgePiece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8154961685657590675
 Transform:

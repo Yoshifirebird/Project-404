@@ -99,7 +99,7 @@ public class PikminCarry : MonoBehaviour, IPikminCarry {
     void CalculatePikminPositions () {
         for (int i = 0; i < _CarryingPikmin.Count; i++) {
             PikminBehavior pikminObj = _CarryingPikmin[i];
-            pikminObj.transform.position = transform.position + (MathUtil._2Dto3D (MathUtil.CalcPosInCirc ((uint) _CarryingPikmin.Count, i)) * _Radius);
+            pikminObj.transform.position = transform.position + (MathUtil._2Dto3D (MathUtil.PositionInUnit((uint) _CarryingPikmin.Count, i)) * _Radius);
             pikminObj.transform.rotation = Quaternion.LookRotation (transform.position - pikminObj.transform.position);
         }
     }

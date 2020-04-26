@@ -103,6 +103,7 @@ PlayerSettings:
   xboxOneMonoLoggingLevel: 0
   xboxOneLoggingLevel: 1
   xboxOneDisableEsram: 0
+  xboxOneEnableTypeOptimization: 0
   xboxOnePresentImmediateThreshold: 0
   switchQueueCommandMemory: 0
   switchQueueControlMemory: 16384
@@ -119,7 +120,13 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleVersion: 0.1
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: 595203086311389770, guid: c219d3fe4361acc4abd94f4cb22e6b70, type: 3}
+  - {fileID: 6009009235213959189, guid: 57cf96bd92a4f864a9857a1f5ba2ac72, type: 3}
+  - {fileID: 8440573494992231151, guid: 820ffa9989a69394ab36de143cbb0e2a, type: 3}
+  - {fileID: -927199367670048503, guid: f55d2c91eb753b549800183c5aaddc54, type: 3}
+  - {fileID: -927199367670048503, guid: ad082e8597efb0a41b64af843d61abb4, type: 3}
+  - {fileID: -927199367670048503, guid: ad7b1c5a5598b99459aabe5e56b5ae69, type: 3}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -276,7 +283,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: af6fededb07b2ce439e79f6ffe8b3032, type: 3}
+      m_Icon: {fileID: 2800000, guid: a4306ce2c76ae4efca4f53fb7fbd994e, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
@@ -323,7 +330,7 @@ PlayerSettings:
     m_Automatic: 0
   - m_BuildTarget: MacStandaloneSupport
     m_APIs: 10000000
-    m_Automatic: 0
+    m_Automatic: 1
   - m_BuildTarget: WindowsStandaloneSupport
     m_APIs: 02000000
     m_Automatic: 1
@@ -539,6 +546,7 @@ PlayerSettings:
   ps4UseResolutionFallback: 0
   ps4ReprojectionSupport: 0
   ps4UseAudio3dBackend: 0
+  ps4UseLowGarlicFragmentationMode: 1
   ps4SocialScreenEnabled: 0
   ps4ScriptOptimizationLevel: 0
   ps4Audio3dVirtualSpeakerCount: 14
@@ -596,7 +604,7 @@ PlayerSettings:
     29: UNITY_POST_PROCESSING_STACK_V2
   platformArchitecture: {}
   scriptingBackend:
-    Standalone: 1
+    Standalone: 0
   il2cppCompilerConfiguration: {}
   managedStrippingLevel: {}
   incrementalIl2cppBuild: {}
@@ -661,6 +669,7 @@ PlayerSettings:
   XboxOnePersistentLocalStorageSize: 0
   XboxOneXTitleMemory: 8
   XboxOneOverrideIdentityName: 
+  XboxOneOverrideIdentityPublisher: 
   vrEditorSettings:
     daydream:
       daydreamIconForeground: {fileID: 0}

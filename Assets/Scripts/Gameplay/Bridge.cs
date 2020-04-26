@@ -135,13 +135,13 @@ public class Bridge : MonoBehaviour, IPikminAttack, IHealth {
     public void OnAttackStart (PikminBehavior attachedPikmin) {
         _AttackingPikmin.Add (attachedPikmin);
 
-        attachedPikmin.ChangeState (PikminBehavior.States.Attacking);
-        attachedPikmin.LatchOntoObject (transform);
+        attachedPikmin.ChangeState (PikminBehavior.States.AttackAndFollow);
+        //attachedPikmin.LatchOntoObject (transform);
     }
 
     public void OnAttackEnd (PikminBehavior detachedPikmin) {
         _AttackingPikmin.Remove (detachedPikmin);
-        detachedPikmin.LatchOntoObject (null);
+        //detachedPikmin.LatchOntoObject (null);
     }
     #endregion
 

@@ -19,6 +19,9 @@ MonoBehaviour:
   _MovementSpeed: 5
   _RotationSpeed: 15
   _HeadSpeedMultiplier: 1.15
-  _TimeBetweenAttacks: 1
-  _AttackDamage: 15
+  _HeightDifferenceMax: 2
   _SearchRange: 5
+  _AttackDamage: 10
+  _AttackDistance: 4.3
+  _TimeBetweenAttacks: 0.5
+  _CarryDistance: 2
