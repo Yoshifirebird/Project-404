@@ -460,7 +460,6 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
             _AttackingData = null;
 
             _AttackingObject = null;
-
         } else if (_PreviousState == States.AttackAndFollow) {
             _ObjectCollider = null;
         }
