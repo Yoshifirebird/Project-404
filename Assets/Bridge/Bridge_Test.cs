@@ -21,7 +21,7 @@ public class Bridge_Test : MonoBehaviour {
     // The size of the steps we're going to take when iterating
     [SerializeField] float _StepSize = 1;
     // The angle (in degrees) that the starting and ending ramp will be instantiated at
-    [SerializeField] float _AngleOfRamp = 25;
+    [SerializeField][Range (1, 89)] float _AngleOfRamp = 25;
 
     // An added height that the midpoint will be instantiated at
     float _RampHeightOffset = 0;
@@ -29,25 +29,67 @@ public class Bridge_Test : MonoBehaviour {
     float _DistanceBetween = 0;
     // How many times we'll have to iterate before reaching the destination
     int _StepsToFinish = 0;
-    // Stores all of the bridge pieces ([0] will be start ramp, [end index] will be end ramp)
+    // Stores all of the bridge pieces ([0] will be start ramp, [1] will be end ramp)
     List<GameObject> _BridgePieces = new List<GameObject> ();
 
-    private void Awake () {
+    void Awake () {
         _DistanceBetween = Mathf.Sqrt (MathUtil.DistanceTo (_StartPoint.position, _EndPoint.position, false));
-        _StepsToFinish = Mathf.CeilToInt (_DistanceBetween / _StepSize);
+        // Calculate the amount of steps needed to stop building (- 2 because we build a start ramp and and end ramp)
+        _StepsToFinish = Mathf.CeilToInt (_DistanceBetween / _StepSize) - 1;
 
         // Height offset for the angle of the ramp to not affect how the cube is planted in the ground (bottom corners aren't visible because they're in the floor)
         _RampHeightOffset = (Mathf.Sin (_AngleOfRamp * Mathf.Deg2Rad) / 2) - (_Piece.transform.localScale.y / 2);
 
         print ($"DistanceBetween {_DistanceBetween}, StepsToFinish {_StepsToFinish} RampHeightOffset {_RampHeightOffset} AngleOfRamp {_AngleOfRamp}");
 
-        // Stores the rotaiton to make an object look at the end point
-        Quaternion lookAt = Quaternion.LookRotation ((_EndPoint.position - _StartPoint.position).normalized);
-        // Spawn the starting ramp
+        // look at the end from the start, and the start from the end
+        Quaternion lookingAtEnd = Quaternion.LookRotation ((_EndPoint.position - _StartPoint.position).normalized);
+        Quaternion lookingAtStart = Quaternion.LookRotation ((_StartPoint.position - _EndPoint.position).normalized);
+
+        // Spawn both ramps, make them look at each end of the bride and add them to the _BridgePieces list
+
         GameObject startingRamp = Instantiate (_Piece, _StartPoint.position + Vector3.up * _RampHeightOffset, Quaternion.identity);
-        // Rotate the starting ramp to actually become a ramp, and look at the end point
-        startingRamp.transform.rotation = Quaternion.Euler (lookAt.eulerAngles.x - _AngleOfRamp, lookAt.eulerAngles.y, lookAt.eulerAngles.z);
-        // Add the starting ramp to the list of bridge pieces
-        _BridgePieces.Add (startingRamp);
+        startingRamp.transform.rotation = Quaternion.Euler (lookingAtEnd.eulerAngles.x - _AngleOfRamp, lookingAtEnd.eulerAngles.y, lookingAtEnd.eulerAngles.z);
+        _BridgePieces.Add (startingRamp); // _BridgePieces[0] will be the starting ramp
+
+        GameObject endingRamp = Instantiate (_Piece, _EndPoint.position + Vector3.up * _RampHeightOffset, Quaternion.identity);
+        endingRamp.transform.rotation = Quaternion.Euler (lookingAtStart.eulerAngles.x - _AngleOfRamp, lookingAtStart.eulerAngles.y, lookingAtStart.eulerAngles.z);
+        _BridgePieces.Add (endingRamp); // _BridgePieces[1] will be the end ramp
+
+        // Iterate through the steps, moving towards the end point using stepsize
+        Vector3 point = _StartPoint.position;
+        for (int i = 0; i < _StepsToFinish; i++) {
+            point = Vector3.MoveTowards (point, _EndPoint.position, _StepSize);
+            GameObject bridgePiece = Instantiate (_Piece, point + Vector3.up * (Mathf.Sin (_AngleOfRamp * Mathf.Deg2Rad) - (_Piece.transform.localScale.y / 2)), Quaternion.identity);
+            _BridgePieces.Add (bridgePiece);
+        }
+    }
+
+    void OnDrawGizmosSelected () {
+        // Draw the outline of the bridge
+        if (_Piece == null || _StartPoint == null || _EndPoint == null)
+            return;
+
+        // Grab the Mesh as an optimisation
+        Mesh pieceMesh = _Piece.GetComponent<MeshFilter> ().sharedMesh;
+
+        float distBetween = Mathf.Sqrt (MathUtil.DistanceTo (_StartPoint.position, _EndPoint.position, false));
+        // Calculate the amount of steps needed to stop building (- 2 because we build a start ramp and and end ramp)
+        float stepsToFinish = Mathf.CeilToInt (distBetween / _StepSize) - 1;
+
+        // Calculate the height offset for the ramps
+        float rampHeightOffset = (Mathf.Sin (_AngleOfRamp * Mathf.Deg2Rad) / 2) - (_Piece.transform.localScale.y / 2);
+        // Draw starting ramp
+        Quaternion lookAtEnd = Quaternion.LookRotation ((_EndPoint.position - _StartPoint.position).normalized);
+        Gizmos.DrawMesh (pieceMesh, _StartPoint.position + Vector3.up * rampHeightOffset, Quaternion.Euler (lookAtEnd.eulerAngles.x - _AngleOfRamp, lookAtEnd.eulerAngles.y, lookAtEnd.eulerAngles.z), _Piece.transform.localScale);
+        // Draw ending ramp
+        Quaternion lookAtStart = Quaternion.LookRotation ((_StartPoint.position - _EndPoint.position).normalized);
+        Gizmos.DrawMesh (pieceMesh, _EndPoint.position + Vector3.up * rampHeightOffset, Quaternion.Euler (lookAtStart.eulerAngles.x - _AngleOfRamp, lookAtStart.eulerAngles.y, lookAtStart.eulerAngles.z), _Piece.transform.localScale);
+
+        Vector3 point = _StartPoint.position;
+        for (int i = 0; i < stepsToFinish; i++) {
+            point = Vector3.MoveTowards (point, _EndPoint.position, _StepSize);
+            Gizmos.DrawMesh (pieceMesh, point + Vector3.up * (Mathf.Sin (_AngleOfRamp * Mathf.Deg2Rad) - (_Piece.transform.localScale.y / 2)), Quaternion.identity, _Piece.transform.localScale);
+        }
     }
 }

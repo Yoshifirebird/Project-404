@@ -378,7 +378,7 @@ MonoBehaviour:
   _EndPoint: {fileID: 1494654702}
   _Piece: {fileID: 5906909689426506912, guid: 9aead9c78c44c60409a07597990244d6, type: 3}
   _StepSize: 1
-  _AngleOfRamp: 25
+  _AngleOfRamp: 30.7
 --- !u!4 &1114318355
 Transform:
   m_ObjectHideFlags: 0
