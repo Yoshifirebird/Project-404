@@ -1,14 +1,14 @@
 /*
- * Bridge_Test.cs
+ * Bridge.cs
  * Created by: Ambrosia
- * Created on: 26/4/2020 (dd/mm/yy)
- * Created for: Needing to test bridge generation
+ * Created on: 25/4/2020 (dd/mm/yy)
+ * Created for: needing an object to cross an area that takes a certain amount of time to complete
  */
 
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bridge_Test : MonoBehaviour {
+public class Bridge : MonoBehaviour, IPikminAttack, IHealth {
     [Header ("Components")]
     [SerializeField] Transform _StartPoint = null;
     [SerializeField] Transform _EndPoint = null;
@@ -16,12 +16,17 @@ public class Bridge_Test : MonoBehaviour {
     [Header ("Bridge Parts")]
     // Will be used to create the inital ramp, midpoints and ending ramp
     [SerializeField] GameObject _Piece = null;
+    // Will be used for the Pikmin to attack
+    [SerializeField] GameObject _AttackablePiece = null;
 
     [Header ("Settings")]
     // The size of the steps we're going to take when iterating
     [SerializeField] float _StepSize = 1;
     // The angle (in degrees) that the starting and ending ramp will be instantiated at
     [SerializeField][Range (1, 89)] float _AngleOfRamp = 25;
+
+    [SerializeField] float _HealthUntilStep = 10;
+    float _CurrentHealth = 0;
 
     // An added height that the midpoint will be instantiated at
     float _RampHeightOffset = 0;
@@ -31,6 +36,11 @@ public class Bridge_Test : MonoBehaviour {
     int _StepsToFinish = 0;
     // Stores all of the bridge pieces ([0] will be start ramp, [1] will be end ramp)
     List<GameObject> _BridgePieces = new List<GameObject> ();
+    // Stores the current position of the step and the step index
+    Vector3 _CurrentStepPos = Vector3.zero;
+    int _StepIndex = 0;
+
+    List<PikminBehavior> _AttackingPikmin = new List<PikminBehavior> ();
 
     void Awake () {
         _DistanceBetween = Mathf.Sqrt (MathUtil.DistanceTo (_StartPoint.position, _EndPoint.position));
@@ -52,16 +62,35 @@ public class Bridge_Test : MonoBehaviour {
 
         GameObject endingRamp = Instantiate (_Piece, _EndPoint.position + Vector3.up * _RampHeightOffset, Quaternion.identity);
         endingRamp.transform.rotation = Quaternion.Euler (lookingAtStart.eulerAngles.x - _AngleOfRamp, lookingAtStart.eulerAngles.y, lookingAtStart.eulerAngles.z);
+        endingRamp.SetActive (false);
         _BridgePieces.Add (endingRamp); // _BridgePieces[1] will be the end ramp
 
-        // Iterate through the steps, moving towards the end point using stepsize
-        Vector3 point = _StartPoint.position;
-        for (int i = 0; i < _StepsToFinish; i++) {
-            point = Vector3.MoveTowards (point, _EndPoint.position, _StepSize);
-            Quaternion lookRotation = Quaternion.LookRotation ((point - _EndPoint.position).normalized);
-            GameObject bridgePiece = Instantiate (_Piece, point + Vector3.up * (Mathf.Sin (_AngleOfRamp * Mathf.Deg2Rad) - (_Piece.transform.localScale.y / 2)), lookRotation);
-            _BridgePieces.Add (bridgePiece);
+        _CurrentStepPos = _StartPoint.position;
+    }
+
+    void Update () {
+        if (_CurrentHealth <= 0) {
+            _CurrentHealth = _HealthUntilStep;
+            Step ();
         }
+    }
+
+    void Step () {
+        if (_StepIndex >= _StepsToFinish) {
+            _AttackablePiece.SetActive (false);
+            _BridgePieces[1].SetActive (true);
+            return;
+        }
+
+        _CurrentStepPos = Vector3.MoveTowards (_CurrentStepPos, _EndPoint.position, _StepSize);
+        Quaternion lookRotation = Quaternion.LookRotation ((_CurrentStepPos - _EndPoint.position).normalized);
+        Vector3 nextPosition = _CurrentStepPos + Vector3.up * (Mathf.Sin (_AngleOfRamp * Mathf.Deg2Rad) - (_Piece.transform.localScale.y / 2));
+        GameObject bridgePiece = Instantiate (_Piece, nextPosition, lookRotation);
+        _AttackablePiece.transform.position = nextPosition + Vector3.up / 2;
+        _AttackablePiece.transform.rotation = lookRotation;
+        _BridgePieces.Add (bridgePiece);
+
+        _StepIndex++;
     }
 
     void OnDrawGizmosSelected () {
@@ -96,4 +125,35 @@ public class Bridge_Test : MonoBehaviour {
             Gizmos.DrawMesh (pieceMesh, point + Vector3.up * (Mathf.Sin (_AngleOfRamp * Mathf.Deg2Rad) - (_Piece.transform.localScale.y / 2)), lookRotation, _Piece.transform.localScale);
         }
     }
+
+    #region Pikmin Attacking Implementation
+    public void Attack (PikminBehavior attacking, float damage) {
+        // take damage ._.
+        TakeHealth (damage);
+    }
+
+    public void OnAttackStart (PikminBehavior attachedPikmin) {
+        _AttackingPikmin.Add (attachedPikmin);
+
+        attachedPikmin.ChangeState (PikminBehavior.States.Attacking);
+        attachedPikmin.LatchOntoObject (transform);
+    }
+
+    public void OnAttackEnd (PikminBehavior detachedPikmin) {
+        _AttackingPikmin.Remove (detachedPikmin);
+        detachedPikmin.LatchOntoObject (null);
+    }
+    #endregion
+
+    #region Health Implementation
+
+    // 'Getter' functions
+    public float GetHealth () => _CurrentHealth;
+    public float GetMaxHealth () => _HealthUntilStep;
+    // 'Setter' functions
+    public void GiveHealth (float give) => _CurrentHealth += give;
+    public void TakeHealth (float take) => _CurrentHealth -= take;
+    public void SetHealth (float set) => _CurrentHealth = set;
+
+    #endregion
 }

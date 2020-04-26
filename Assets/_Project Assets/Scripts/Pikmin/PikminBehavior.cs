@@ -164,6 +164,9 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
             }
         } else if (_State == States.ShakenOff) {
             ChangeState (States.Attacking);
+        } else if (_InSquad == false && collision.transform.CompareTag ("Player")) {
+            // Player has collided with us and we're not in squad!
+            AddToSquad ();
         }
 
         if (_State != States.Carrying && collision.transform.CompareTag ("Interactable")) {
