@@ -36,7 +36,7 @@ public class UIButtonBase : CommonBase, IPointerEnterHandler, IPointerExitHandle
 
 		//print ("Initiate Rehighlight");
 		if (master) {
-			master.highlighted.setHighlight (false);
+			master.highlighted.exitEvent();
 
 			//print ("Rehighlighted");
 			master.highlighted = this;
