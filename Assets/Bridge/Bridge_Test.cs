@@ -37,7 +37,7 @@ public class Bridge_Test : MonoBehaviour {
 		_StepsToFinish = Mathf.CeilToInt (_DistanceBetween / _StepSize);
 
 		// Height offset required for the ramp to be dynamically changing with the angle of the ramp
-		_RampHeightOffset = (Mathf.Sin (_AngleOfRamp * Mathf.Deg2Rad) / 2);
+		_RampHeightOffset = (Mathf.Sin (_AngleOfRamp * Mathf.Deg2Rad) / 2) - (_Piece.transform.localScale.y / 2);
 
 		print ($"DistanceBetween {_DistanceBetween}, StepsToFinish {_StepsToFinish} RampHeightOffset {_RampHeightOffset} AngleOfRamp {_AngleOfRamp}");
 
