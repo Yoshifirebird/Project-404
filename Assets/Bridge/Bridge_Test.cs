@@ -33,14 +33,12 @@ public class Bridge_Test : MonoBehaviour {
     List<GameObject> _BridgePieces = new List<GameObject> ();
 
     void Awake () {
-        _DistanceBetween = Mathf.Sqrt (MathUtil.DistanceTo (_StartPoint.position, _EndPoint.position, false));
+        _DistanceBetween = Mathf.Sqrt (MathUtil.DistanceTo (_StartPoint.position, _EndPoint.position));
         // Calculate the amount of steps needed to stop building (- 2 because we build a start ramp and and end ramp)
         _StepsToFinish = Mathf.CeilToInt (_DistanceBetween / _StepSize) - 1;
 
         // Height offset for the angle of the ramp to not affect how the cube is planted in the ground (bottom corners aren't visible because they're in the floor)
         _RampHeightOffset = (Mathf.Sin (_AngleOfRamp * Mathf.Deg2Rad) / 2) - (_Piece.transform.localScale.y / 2);
-
-        print ($"DistanceBetween {_DistanceBetween}, StepsToFinish {_StepsToFinish} RampHeightOffset {_RampHeightOffset} AngleOfRamp {_AngleOfRamp}");
 
         // look at the end from the start, and the start from the end
         Quaternion lookingAtEnd = Quaternion.LookRotation ((_EndPoint.position - _StartPoint.position).normalized);
@@ -60,7 +58,8 @@ public class Bridge_Test : MonoBehaviour {
         Vector3 point = _StartPoint.position;
         for (int i = 0; i < _StepsToFinish; i++) {
             point = Vector3.MoveTowards (point, _EndPoint.position, _StepSize);
-            GameObject bridgePiece = Instantiate (_Piece, point + Vector3.up * (Mathf.Sin (_AngleOfRamp * Mathf.Deg2Rad) - (_Piece.transform.localScale.y / 2)), Quaternion.identity);
+            Quaternion lookRotation = Quaternion.LookRotation ((point - _EndPoint.position).normalized);
+            GameObject bridgePiece = Instantiate (_Piece, point + Vector3.up * (Mathf.Sin (_AngleOfRamp * Mathf.Deg2Rad) - (_Piece.transform.localScale.y / 2)), lookRotation);
             _BridgePieces.Add (bridgePiece);
         }
     }
@@ -73,12 +72,16 @@ public class Bridge_Test : MonoBehaviour {
         // Grab the Mesh as an optimisation
         Mesh pieceMesh = _Piece.GetComponent<MeshFilter> ().sharedMesh;
 
-        float distBetween = Mathf.Sqrt (MathUtil.DistanceTo (_StartPoint.position, _EndPoint.position, false));
+        float distBetween = Mathf.Sqrt (MathUtil.DistanceTo (_StartPoint.position, _EndPoint.position));
         // Calculate the amount of steps needed to stop building (- 2 because we build a start ramp and and end ramp)
-        float stepsToFinish = Mathf.CeilToInt (distBetween / _StepSize) - 1;
+        int stepsToFinish = Mathf.CeilToInt (distBetween / _StepSize) - 1;
 
         // Calculate the height offset for the ramps
         float rampHeightOffset = (Mathf.Sin (_AngleOfRamp * Mathf.Deg2Rad) / 2) - (_Piece.transform.localScale.y / 2);
+
+        Gizmos.DrawWireSphere (_StartPoint.position + Vector3.up * rampHeightOffset, 1);
+        Gizmos.DrawWireSphere (_EndPoint.position + Vector3.up * rampHeightOffset, 1);
+
         // Draw starting ramp
         Quaternion lookAtEnd = Quaternion.LookRotation ((_EndPoint.position - _StartPoint.position).normalized);
         Gizmos.DrawMesh (pieceMesh, _StartPoint.position + Vector3.up * rampHeightOffset, Quaternion.Euler (lookAtEnd.eulerAngles.x - _AngleOfRamp, lookAtEnd.eulerAngles.y, lookAtEnd.eulerAngles.z), _Piece.transform.localScale);
@@ -89,7 +92,8 @@ public class Bridge_Test : MonoBehaviour {
         Vector3 point = _StartPoint.position;
         for (int i = 0; i < stepsToFinish; i++) {
             point = Vector3.MoveTowards (point, _EndPoint.position, _StepSize);
-            Gizmos.DrawMesh (pieceMesh, point + Vector3.up * (Mathf.Sin (_AngleOfRamp * Mathf.Deg2Rad) - (_Piece.transform.localScale.y / 2)), Quaternion.identity, _Piece.transform.localScale);
+            Quaternion lookRotation = Quaternion.LookRotation ((point - _EndPoint.position).normalized);
+            Gizmos.DrawMesh (pieceMesh, point + Vector3.up * (Mathf.Sin (_AngleOfRamp * Mathf.Deg2Rad) - (_Piece.transform.localScale.y / 2)), lookRotation, _Piece.transform.localScale);
         }
     }
 }
