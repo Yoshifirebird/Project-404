@@ -8,6 +8,8 @@ TagManager:
   - Pikmin
   - Carry Point
   - Interactable
+  - Game GUI
+  - Game GUI Carrier
   layers:
   - Default
   - TransparentFX
@@ -21,7 +23,7 @@ TagManager:
   - Map
   - Pikmin
   - Effects
-  - 
+  - WhistleInteract
   - 
   - 
   - 
