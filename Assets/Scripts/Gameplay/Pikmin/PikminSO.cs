@@ -23,16 +23,16 @@ public class PikminSO : ScriptableObject {
     public float _RotationSpeed = 15;
     public float _HeadSpeedMultiplier = 1.15f;
 
-    [Header("Awareness")]
+    [Header ("Awareness")]
     public float _HeightDifferenceMax = 1;
     public float _SearchRange = 5;
 
-    [Header("Attacking")]
+    [Header ("Attacking")]
     public float _AttackDamage = 2.5f;
     public float _AttackDistance = 1;
     public float _TimeBetweenAttacks = 0.5f;
 
-    [Header("Carrying")]
+    [Header ("Carrying")]
     public float _CarryDistance = 1;
 
 }

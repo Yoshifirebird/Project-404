@@ -19,7 +19,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
         Held,
         ShakenOff,
         Thrown,
-        
+
         Dead,
     }
 
@@ -133,8 +133,8 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
                 HandleAttacking ();
                 break;
             case States.AttackAndFollow:
-                MoveTowards(_ObjectCollider.ClosestPoint(transform.position));
-                HandleAttacking();
+                MoveTowards (_ObjectCollider.ClosestPoint (transform.position));
+                HandleAttacking ();
                 break;
             case States.Dead:
                 HandleDeath ();
@@ -249,14 +249,13 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
             }
 
             // Move towards the object
-            MoveTowards (_ObjectCollider.ClosestPoint(transform.position));
+            MoveTowards (_ObjectCollider.ClosestPoint (transform.position));
 
             // And check if we're close enough to start attacking
             if (MathUtil.DistanceTo (transform.position, _AttackingObject.transform.position) <= _Data._AttackDistance) {
                 _AttackingData.OnAttackStart (this);
             }
-        } 
-        else if (_CarryingObject != null) {
+        } else if (_CarryingObject != null) {
             // Check if there isn't a spot available for us, or the carrying data doesn't exist
             if (_ObjectCollider == null || _CarryingData == null || _CarryingData.PikminSpotAvailable () == false) {
                 _CarryingObject = null;
@@ -266,7 +265,7 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
             }
 
             // Move towards the object
-            MoveTowards (_ObjectCollider.ClosestPoint(transform.position));
+            MoveTowards (_ObjectCollider.ClosestPoint (transform.position));
 
             // And check if we're close enough to start carrying
             if (MathUtil.DistanceTo (transform.position, _CarryingObject.transform.position) <= _Data._CarryDistance) {
@@ -451,22 +450,20 @@ public class PikminBehavior : MonoBehaviour, IPooledObject {
             transform.parent = null;
 
         // Handle State-specific transitions
-        if (_PreviousState == States.Carrying && _CarryingData != null) {
+        if (_PreviousState == States.Carrying && _CarryingData != null || _CarryingObject != null) {
             _CarryingData.OnCarryLeave (this);
             _CarryingData = null;
 
             _CarryingObject = null;
-        } else if (_PreviousState == States.Attacking && _AttackingData != null) {
+        } else if (_PreviousState == States.Attacking && _AttackingData != null || _AttackingObject != null) {
             _AttackingData.OnAttackEnd (this);
             _AttackingData = null;
 
             _AttackingObject = null;
 
+        } else if (_PreviousState == States.AttackAndFollow) {
+            _ObjectCollider = null;
         }
-        else if (_PreviousState == States.AttackAndFollow)
-            {
-                _ObjectCollider = null;
-            }
     }
     #endregion
 

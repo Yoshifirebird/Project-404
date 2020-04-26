@@ -174,13 +174,13 @@ public class WhistleController : MonoBehaviour {
 
         // Draw default whistle radius
         for (int i = 0; i < _WhistleCircleSegments + 1; i++) {
-            Vector3 pos = transform.position + MathUtil._2Dto3D (MathUtil.PositionInUnit(_WhistleCircleSegments, i)) * _StartingRadius;
+            Vector3 pos = transform.position + MathUtil._2Dto3D (MathUtil.PositionInUnit (_WhistleCircleSegments, i)) * _StartingRadius;
             Gizmos.color = Color.yellow;
             Gizmos.DrawSphere (pos, 0.05f * _StartingRadius);
         }
         // Draw expanded whistle radius
         for (int i = 0; i < _WhistleCircleSegments + 1; i++) {
-            Vector3 pos = transform.position + MathUtil._2Dto3D (MathUtil.PositionInUnit(_WhistleCircleSegments, i)) * _ExpandedRadius;
+            Vector3 pos = transform.position + MathUtil._2Dto3D (MathUtil.PositionInUnit (_WhistleCircleSegments, i)) * _ExpandedRadius;
             Gizmos.color = Color.green;
             Gizmos.DrawSphere (pos, 0.05f * _ExpandedRadius);
         }
@@ -207,7 +207,7 @@ public class WhistleController : MonoBehaviour {
         RaycastHit hitInfo;
         Transform cacheTransform = transform;
         for (int i = 0; i < _ParticleDensity + 1; i++) {
-            Vector3 localPos = MathUtil._2Dto3D (MathUtil.PositionInUnit(_ParticleDensity, i, _TimeBlowing * _ParticleRotationSpeed)) * cacheTransform.localScale.x;
+            Vector3 localPos = MathUtil._2Dto3D (MathUtil.PositionInUnit (_ParticleDensity, i, _TimeBlowing * _ParticleRotationSpeed)) * cacheTransform.localScale.x;
             // Offset the local position to be global
             localPos += cacheTransform.position;
             //Cache the Y for later
