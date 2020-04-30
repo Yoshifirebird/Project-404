@@ -49,8 +49,8 @@ public class PikminAI : MonoBehaviour {
     if (GameManager._IsPaused)
       return;
 
-    float distanceTo = MathUtil.DistanceTo (transform.position, _TargetObject.position);
-    if (_CurrentState == PikminStates.RunningTowards && distanceTo > _Data._StoppingDistance * _Data._StoppingDistance) {
+    float distanceToTarget = MathUtil.DistanceTo (transform.position, _TargetObject.position);
+    if (_CurrentState == PikminStates.RunningTowards && distanceToTarget > _Data._StoppingDistance * _Data._StoppingDistance) {
       if (_Rigidbody.velocity.sqrMagnitude <= _Data._MaxMovementSpeed * _Data._MaxMovementSpeed) {
         _Rigidbody.AddRelativeForce (Vector3.forward * _Data._AccelerationSpeed);
       }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Colour: 0
   _Maturity: 0
-  _MaxMovementSpeed: 2.74
+  _MaxMovementSpeed: 2.5
   _AccelerationSpeed: 10
   _StoppingDistance: 2
   _RotationSpeed: 10
