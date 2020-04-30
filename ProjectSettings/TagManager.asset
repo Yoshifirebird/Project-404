@@ -4,12 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Water
   - Pikmin
-  - Carry Point
-  - Interactable
-  - Game GUI
-  - Game GUI Carrier
+  - PikminInteractable
   layers:
   - Default
   - TransparentFX

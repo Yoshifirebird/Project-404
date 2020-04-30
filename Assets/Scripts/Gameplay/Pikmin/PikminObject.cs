@@ -30,6 +30,9 @@ public class PikminObject : ScriptableObject {
   public float _StoppingDistance;
   public float _RotationSpeed;
 
+  [Header ("Idle")]
+  public float _SearchRadius = 5;
+
   [Header ("Audio")]
   public float _AudioVolume;
 
