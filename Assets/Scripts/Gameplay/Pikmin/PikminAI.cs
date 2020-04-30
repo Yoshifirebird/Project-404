@@ -33,9 +33,9 @@ public class PikminAI : MonoBehaviour {
       case PikminStates.Idle:
         break;
       case PikminStates.RunningTowards:
-                Vector3 delta = (_TargetObject.position - transform.position).normalized;
-                delta.y = 0;
-        transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation(delta), _Data._RotationSpeed * Time.deltaTime);
+        Vector3 delta = (_TargetObject.position - transform.position).normalized;
+        delta.y = 0;
+        transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (delta), _Data._RotationSpeed * Time.deltaTime);
         break;
       default:
         break;
@@ -43,8 +43,8 @@ public class PikminAI : MonoBehaviour {
   }
 
   void FixedUpdate () {
-        float distanceTo = MathUtil.DistanceTo(transform.position, _TargetObject.position);
-        print(distanceTo);
+    float distanceTo = MathUtil.DistanceTo (transform.position, _TargetObject.position);
+    print (distanceTo);
     if (_CurrentState == PikminStates.RunningTowards && distanceTo > _Data._StoppingDistance * _Data._StoppingDistance) {
       if (_Rigidbody.velocity.sqrMagnitude <= _Data._MaxMovementSpeed * _Data._MaxMovementSpeed) {
         _Rigidbody.AddRelativeForce (Vector3.forward * _Data._AccelerationSpeed);
