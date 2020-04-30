@@ -89,7 +89,7 @@ public class PikminAI : MonoBehaviour {
 
   public void StartRunTowards (Transform obj) {
     _TargetObject = obj;
-    ChangeState (PikminStates.Idle);
+    ChangeState (PikminStates.RunningTowards);
   }
 
 }
