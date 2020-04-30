@@ -29,6 +29,9 @@ public class PikminAI : MonoBehaviour {
   }
 
   void Update () {
+    if (GameManager._IsPaused)
+      return;
+
     switch (_CurrentState) {
       case PikminStates.Idle:
         break;
@@ -43,8 +46,10 @@ public class PikminAI : MonoBehaviour {
   }
 
   void FixedUpdate () {
+    if (GameManager._IsPaused)
+      return;
+
     float distanceTo = MathUtil.DistanceTo (transform.position, _TargetObject.position);
-    print (distanceTo);
     if (_CurrentState == PikminStates.RunningTowards && distanceTo > _Data._StoppingDistance * _Data._StoppingDistance) {
       if (_Rigidbody.velocity.sqrMagnitude <= _Data._MaxMovementSpeed * _Data._MaxMovementSpeed) {
         _Rigidbody.AddRelativeForce (Vector3.forward * _Data._AccelerationSpeed);
