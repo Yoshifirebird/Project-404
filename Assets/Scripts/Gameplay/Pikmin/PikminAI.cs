@@ -25,7 +25,7 @@ public class PikminAI : MonoBehaviour {
   // Holds everything that makes a Pikmin unique
   [Header ("Components")]
   public PikminObject _Data = null;
-  [SerializeField] LayerMask _PikminInteractableMask = LayerMask.NameToLayer ("PikminInteractable");
+  [SerializeField] LayerMask _PikminInteractableMask = 0;
 
   [Header ("VFX")]
   [SerializeField] GameObject _DeathParticle = null;

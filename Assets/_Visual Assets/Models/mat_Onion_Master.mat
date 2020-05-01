@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: mat_Master_Onion
+  m_Name: mat_Onion_Master
   m_Shader: {fileID: -6465566751694194690, guid: 994ee18b1d821894aa12cc0ca4ea68de,
     type: 3}
   m_ShaderKeywords: 
@@ -106,6 +106,6 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - Color_F7BC11FD: {r: 0, g: 0, b: 0, a: 1}
+    - Color_F7BC11FD: {r: 1.4142135, g: 1.4142135, b: 1.4142135, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
