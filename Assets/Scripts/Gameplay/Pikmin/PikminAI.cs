@@ -88,8 +88,9 @@ public class PikminAI : MonoBehaviour {
   }
 
   void FixedUpdate () {
-    if (GameManager._IsPaused)
+    if (GameManager._IsPaused) {
       return;
+    }
 
     // Check if we're running towards the object, and 
     if (_CurrentState == PikminStates.RunningTowards) {
