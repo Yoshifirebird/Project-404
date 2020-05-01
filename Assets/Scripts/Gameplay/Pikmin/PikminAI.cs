@@ -25,7 +25,10 @@ public class PikminAI : MonoBehaviour {
   // Holds everything that makes a Pikmin unique
   [Header ("Components")]
   public PikminObject _Data = null;
-  public GameObject _DeathParticle = null;
+  [SerializeField] LayerMask _PikminInteractableMask = LayerMask.NameToLayer ("PikminInteractable");
+
+  [Header ("VFX")]
+  [SerializeField] GameObject _DeathParticle = null;
 
   [Header ("Debugging")]
   // PreviousState is used to null any variables from the state it just changed from
@@ -90,7 +93,7 @@ public class PikminAI : MonoBehaviour {
 
     // Check if we're running towards the object, and 
     if (_CurrentState == PikminStates.RunningTowards) {
-      MoveTowardsTarget ();
+      MoveTowardsTarget (_Data._StoppingDistance);
     }
   }
   #endregion
@@ -100,10 +103,10 @@ public class PikminAI : MonoBehaviour {
     // Check if the target isn't null
     if (_TargetObject != null) {
       // Move towards the target we want to interact with
-      MoveTowardsTarget ();
+      MoveTowardsTarget (_Data._IdleStoppingDistance);
 
       // Check if we're within stopping distance of the object...
-      if (MathUtil.DistanceTo(transform.position, _TargetObject.position) <= _Data._InteractDistance * _Data._InteractDistance) {
+      if (MathUtil.DistanceTo (transform.position, _TargetObject.position) <= _Data._InteractDistance * _Data._InteractDistance) {
         // Run intention-specific logic (attack = OnAttackStart for the target object)
         switch (_Intention) {
           case PikminIntention.Attack:
@@ -130,18 +133,13 @@ public class PikminAI : MonoBehaviour {
     }
 
     // Look for a target object
-    Collider[] objects = Physics.OverlapSphere (transform.position, _Data._SearchRadius);
+    Collider[] objects = Physics.OverlapSphere (transform.position, _Data._SearchRadius, _PikminInteractableMask);
     foreach (Collider collider in objects) {
-      // Check if the collider has the correct tab
-      if (collider.CompareTag ("PikminInteractable") == false) {
-        continue;
-      }
-
       // Check if the object can even be seen by the Pikmin
       Vector3 closestPointToPikmin = collider.ClosestPoint (transform.position);
       if (Physics.Raycast (transform.position, (closestPointToPikmin - transform.position).normalized, out RaycastHit hit, _Data._SearchRadius)) {
-        // See if the Collider we hit wasn't a Pikmin OR the Player OR the closest object, meaning we can't actually get to the object
-        if (hit.collider != collider && hit.transform.CompareTag ("Pikmin") == false && hit.transform.CompareTag ("Player") == false) {
+        // See if the Collider we hit wasn't the Player OR the closest object, meaning we can't actually get to the object
+        if (hit.collider != collider && hit.transform.CompareTag ("Player") == false) {
           continue;
         }
       }
@@ -168,7 +166,7 @@ public class PikminAI : MonoBehaviour {
     // Add to the timer and attack if we've gone past the timer
     _AttackTimer += Time.deltaTime;
     if (_AttackTimer >= _Data._AttackDelay) {
-      _Attacking.OnAttackRecieve ();
+      _Attacking.OnAttackRecieve (_Data._AttackDamage);
       _AttackTimer = 0;
     }
   }
@@ -197,7 +195,7 @@ public class PikminAI : MonoBehaviour {
   }
   #endregion
 
-  void MoveTowardsTarget () {
+  void MoveTowardsTarget (float stoppingDistance) {
     Vector3 closestPoint = ClosestPointOnTarget ();
 
     // Rotate to look at the object we're moving towards
@@ -206,7 +204,7 @@ public class PikminAI : MonoBehaviour {
     transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (delta), _Data._RotationSpeed * Time.deltaTime);
 
     // Check if we're close enough already (stopping distance check)
-    if (MathUtil.DistanceTo (transform.position, closestPoint) > _Data._StoppingDistance * _Data._StoppingDistance) {
+    if (MathUtil.DistanceTo (transform.position, closestPoint) > stoppingDistance * stoppingDistance) {
       // Check if we're exceeding the max velocity, and move if not
       if (_Rigidbody.velocity.sqrMagnitude <= _Data._MaxMovementSpeed * _Data._MaxMovementSpeed) {
         _Rigidbody.AddRelativeForce (Vector3.forward * _Data._AccelerationSpeed);

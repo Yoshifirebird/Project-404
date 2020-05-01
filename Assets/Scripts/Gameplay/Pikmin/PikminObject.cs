@@ -25,20 +25,21 @@ public class PikminObject : ScriptableObject {
   public PikminMaturity _StartingMaturity;
 
   [Header ("Movement")]
-  public float _MaxMovementSpeed;
-  public float _AccelerationSpeed;
-  public float _StoppingDistance;
-  public float _RotationSpeed;
+  public float _MaxMovementSpeed = 2.5f;
+  public float _AccelerationSpeed = 10;
+  public float _StoppingDistance = 0.5f;
+  public float _RotationSpeed = 10;
 
   [Header ("Idle")]
   public float _SearchRadius = 5;
-  public float _InteractDistance = 1;
+  public float _IdleStoppingDistance = 1;
+  public float _InteractDistance = 1.25f;
 
   [Header ("Attacking")]
+  public float _AttackDamage = 2.5f;
   public float _AttackDelay = 1;
 
   [Header ("Audio")]
-  public float _AudioVolume;
-
-  public AudioClip _DeathNoise;
+  public float _AudioVolume = 1;
+  public AudioClip _DeathNoise = null;
 }
