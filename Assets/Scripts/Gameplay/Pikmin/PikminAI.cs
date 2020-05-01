@@ -8,9 +8,8 @@ using UnityEngine;
 
 public enum PikminStates {
   Idle,
-
   RunningTowards,
-
+  Attacking,
   Dead,
 }
 
@@ -38,13 +37,19 @@ public class PikminAI : MonoBehaviour {
   [SerializeField] Transform _TargetObject = null;
   [SerializeField] Collider _TargetObjectCollider = null;
 
+  // Attacking variables
+  [SerializeField] IPikminAttack _Attacking = null;
+  [SerializeField] Transform _AttackingTransform = null;
+
   // Local stats
   PikminMaturity _CurrentMaturity = default;
+  float _AttackTimer = 0;
 
   // Components
   AudioSource _AudioSource = null;
   Rigidbody _Rigidbody = null;
 
+  #region Unity Methods
   void Awake () {
     _Rigidbody = GetComponent<Rigidbody> ();
     _AudioSource = GetComponent<AudioSource> ();
@@ -56,74 +61,23 @@ public class PikminAI : MonoBehaviour {
 
   void Update () {
     if (GameManager._IsPaused) {
-      // Disable Physics for the object
+      // Disable Physics for the object and exit the function early
       if (_Rigidbody.isKinematic == false) {
         _Rigidbody.isKinematic = true;
       }
-
       return;
     }
 
     switch (_CurrentState) {
       case PikminStates.Idle:
-        // Check if the target isn't null
-        if (_TargetObject != null) {
-          // Move towards the target we want to interact with
-          MoveTowardsTarget ();
-
-          // Check if we're within stopping distance of the object...
-          float distanceToTarget = MathUtil.DistanceTo (transform.position, _TargetObject.position);
-          if (distanceToTarget > _Data._StoppingDistance * _Data._StoppingDistance) {
-            print ($"Beginning {_Intention.ToString()}!");
-
-            // Run intention-specific logic (attack = OnAttackStart for the target object)
-            switch (_Intention) {
-              case PikminIntention.Attack:
-                break;
-              case PikminIntention.Carry:
-                break;
-              case PikminIntention.PullWeeds:
-                break;
-              case PikminIntention.Idle:
-                ChangeState (PikminStates.Idle);
-                break;
-              default:
-                break;
-            }
-          }
-
-          break;
-        }
-
-        // Look for a target object
-        Collider[] objects = Physics.OverlapSphere (transform.position, _Data._SearchRadius);
-        foreach (Collider collider in objects) {
-          // Check if the collider has the correct tab
-          if (collider.CompareTag ("PikminInteractable") == false) {
-            continue;
-          }
-
-          // Check if the object can even be seen by the Pikmin
-          Vector3 closestPointToPikmin = collider.ClosestPoint (transform.position);
-          if (Physics.Raycast (transform.position, (closestPointToPikmin - transform.position).normalized, out RaycastHit hit, _Data._SearchRadius)) {
-            // See if the Collider we hit wasn't a Pikmin OR the Player OR the closest object, meaning we can't actually get to the object
-            if (hit.collider != collider && hit.transform.CompareTag ("Pikmin") == false && hit.transform.CompareTag ("Player") == false) {
-              continue;
-            }
-          }
-
-          // We can move to the target object, and it is an interactable, so set our target object
-          _TargetObject = collider.transform;
-          _TargetObjectCollider = collider;
-          _Intention = collider.GetComponent<IPikminInteractable> ().GetIntentionType ();
-        }
-
+        HandleIdle ();
         break;
         // RunningTowards is handled in FixedUpdate
+      case PikminStates.Attacking:
+        HandleAttacking ();
+        break;
       case PikminStates.Dead:
-        Instantiate (_DeathParticle, transform.position, Quaternion.Euler (-90, 0, 0));
-        AudioSource.PlayClipAtPoint (_Data._DeathNoise, transform.position, _Data._AudioVolume);
-        Destroy (gameObject);
+        HandleDeath ();
         break;
       default:
         break;
@@ -139,17 +93,110 @@ public class PikminAI : MonoBehaviour {
       MoveTowardsTarget ();
     }
   }
+  #endregion
+
+  #region States
+  void HandleIdle () {
+    // Check if the target isn't null
+    if (_TargetObject != null) {
+      // Move towards the target we want to interact with
+      MoveTowardsTarget ();
+
+      // Check if we're within stopping distance of the object...
+      float distanceToTarget = MathUtil.DistanceTo (transform.position, _TargetObject.position);
+      if (distanceToTarget <= _Data._InteractDistance * _Data._InteractDistance) {
+        // Run intention-specific logic (attack = OnAttackStart for the target object)
+        switch (_Intention) {
+          case PikminIntention.Attack:
+            _AttackingTransform = _TargetObject;
+
+            _Attacking = _TargetObject.GetComponent<IPikminAttack> ();
+            _Attacking.OnAttackStart (this);
+
+            ChangeState (PikminStates.Attacking);
+            break;
+          case PikminIntention.Carry:
+            break;
+          case PikminIntention.PullWeeds:
+            break;
+          case PikminIntention.Idle:
+            ChangeState (PikminStates.Idle);
+            break;
+          default:
+            break;
+        }
+      }
+
+      return;
+    }
+
+    // Look for a target object
+    Collider[] objects = Physics.OverlapSphere (transform.position, _Data._SearchRadius);
+    foreach (Collider collider in objects) {
+      // Check if the collider has the correct tab
+      if (collider.CompareTag ("PikminInteractable") == false) {
+        continue;
+      }
+
+      // Check if the object can even be seen by the Pikmin
+      Vector3 closestPointToPikmin = collider.ClosestPoint (transform.position);
+      if (Physics.Raycast (transform.position, (closestPointToPikmin - transform.position).normalized, out RaycastHit hit, _Data._SearchRadius)) {
+        // See if the Collider we hit wasn't a Pikmin OR the Player OR the closest object, meaning we can't actually get to the object
+        if (hit.collider != collider && hit.transform.CompareTag ("Pikmin") == false && hit.transform.CompareTag ("Player") == false) {
+          continue;
+        }
+      }
+
+      // We can move to the target object, and it is an interactable, so set our target object
+      _TargetObject = collider.transform;
+      _TargetObjectCollider = collider;
+      _Intention = collider.GetComponent<IPikminInteractable> ().IntentionType;
+    }
+  }
+
+  void HandleDeath () {
+    Instantiate (_DeathParticle, transform.position, Quaternion.Euler (-90, 0, 0));
+    AudioSource.PlayClipAtPoint (_Data._DeathNoise, transform.position, _Data._AudioVolume);
+    Destroy (gameObject);
+  }
+
+  void HandleAttacking () {
+    // The object we were attacking has died, so we can go back to being idle
+    if (_Attacking == null) {
+      ChangeState (PikminStates.Idle);
+    }
+
+    // Add to the timer and attack if we've gone past the timer
+    _AttackTimer += Time.deltaTime;
+    if (_AttackTimer >= _Data._AttackDelay) {
+      _Attacking.OnAttackRecieve ();
+      _AttackTimer = 0;
+    }
+  }
 
   void ChangeState (PikminStates state) {
     _PreviousState = _CurrentState;
     _CurrentState = state;
 
     // Null out the variables we were using in the previous state
-    if (_PreviousState == PikminStates.RunningTowards && _TargetObject != null) {
+    if (_PreviousState == PikminStates.RunningTowards || _PreviousState == PikminStates.Idle && _TargetObject != null) {
       _TargetObject = null;
       _TargetObjectCollider = null;
+    } else if (_PreviousState == PikminStates.Attacking) {
+      // Check if the object we were attacking was still active or not
+      if (_AttackingTransform != null) {
+        _Attacking = null;
+        _AttackingTransform = null;
+        return;
+      }
+
+      // As it is still active, and not null, we can call the appropriate function
+      _Attacking.OnAttackEnd (this);
+      _AttackingTransform = null;
+      _AttackTimer = 0;
     }
   }
+  #endregion
 
   void MoveTowardsTarget () {
     Vector3 closestPoint = ClosestPointOnTarget ();
@@ -160,7 +207,7 @@ public class PikminAI : MonoBehaviour {
     transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (delta), _Data._RotationSpeed * Time.deltaTime);
 
     // Check if we're close enough already (stopping distance check)
-    if (MathUtil.DistanceTo (transform.position, closestPoint) > _Data._StoppingDistance * _Data._StoppingDistance) {
+    if (MathUtil.DistanceTo (transform.position, closestPoint) <= _Data._StoppingDistance * _Data._StoppingDistance) {
       // Check if we're exceeding the max velocity, and move if not
       if (_Rigidbody.velocity.sqrMagnitude <= _Data._MaxMovementSpeed * _Data._MaxMovementSpeed) {
         _Rigidbody.AddRelativeForce (Vector3.forward * _Data._AccelerationSpeed);

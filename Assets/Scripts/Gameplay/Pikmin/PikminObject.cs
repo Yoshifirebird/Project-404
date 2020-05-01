@@ -32,6 +32,10 @@ public class PikminObject : ScriptableObject {
 
   [Header ("Idle")]
   public float _SearchRadius = 5;
+  public float _InteractDistance = 1;
+
+  [Header ("Attacking")]
+  public float _AttackDelay = 1;
 
   [Header ("Audio")]
   public float _AudioVolume;
