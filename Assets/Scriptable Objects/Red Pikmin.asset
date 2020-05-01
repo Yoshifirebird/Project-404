@@ -16,7 +16,10 @@ MonoBehaviour:
   _StartingMaturity: 0
   _MaxMovementSpeed: 2.5
   _AccelerationSpeed: 10
-  _StoppingDistance: 2
+  _StoppingDistance: 0.5
   _RotationSpeed: 10
+  _SearchRadius: 10
+  _InteractDistance: 1.25
+  _AttackDelay: 1
   _AudioVolume: 1
   _DeathNoise: {fileID: 8300000, guid: 11a6aafeffbc4cd4ab27f9a71fcc7f3f, type: 3}

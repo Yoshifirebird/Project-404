@@ -103,8 +103,7 @@ public class PikminAI : MonoBehaviour {
       MoveTowardsTarget ();
 
       // Check if we're within stopping distance of the object...
-      float distanceToTarget = MathUtil.DistanceTo (transform.position, _TargetObject.position);
-      if (distanceToTarget <= _Data._InteractDistance * _Data._InteractDistance) {
+      if (MathUtil.DistanceTo(transform.position, _TargetObject.position) <= _Data._InteractDistance * _Data._InteractDistance) {
         // Run intention-specific logic (attack = OnAttackStart for the target object)
         switch (_Intention) {
           case PikminIntention.Attack:
@@ -207,7 +206,7 @@ public class PikminAI : MonoBehaviour {
     transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (delta), _Data._RotationSpeed * Time.deltaTime);
 
     // Check if we're close enough already (stopping distance check)
-    if (MathUtil.DistanceTo (transform.position, closestPoint) <= _Data._StoppingDistance * _Data._StoppingDistance) {
+    if (MathUtil.DistanceTo (transform.position, closestPoint) > _Data._StoppingDistance * _Data._StoppingDistance) {
       // Check if we're exceeding the max velocity, and move if not
       if (_Rigidbody.velocity.sqrMagnitude <= _Data._MaxMovementSpeed * _Data._MaxMovementSpeed) {
         _Rigidbody.AddRelativeForce (Vector3.forward * _Data._AccelerationSpeed);
