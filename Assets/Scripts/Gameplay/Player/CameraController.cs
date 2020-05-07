@@ -82,12 +82,27 @@ public class CameraController : MonoBehaviour
       _WantedRotationAngle -= _RotationStepSpeed;
     }
 
+    if (Input.GetButton("Right Stick Click"))
+    {
+      _WantedRotationAngle = -_Target.eulerAngles.y;
+    }
+
+    if (_WantedRotationAngle > 360)
+    {
+      _WantedRotationAngle -= 360;
+    }
+    else if (_WantedRotationAngle < 360)
+    {
+      _WantedRotationAngle += 360;
+    }
+
     // Smoothly change values towards their intended target
 
     _RotationAngle = Mathf.SmoothStep(_RotationAngle, _WantedRotationAngle, _RotationSpeed * Time.deltaTime);
     _MainCamera.fieldOfView = Mathf.SmoothStep(_MainCamera.fieldOfView, _CurrentEntry._FOV, _FOVChangeSpeed * Time.deltaTime);
 
-    transform.position = Vector3.SmoothDamp(transform.position, GetWantedCameraPosition(), ref _Velocity, _MovementDampTime, _MovementMaxSpeed);
+    //transform.position = Vector3.SmoothDamp(transform.position, GetWantedCameraPosition(), ref _Velocity, _MovementDampTime, _MovementMaxSpeed);
+    transform.position = Vector3.Lerp(transform.position, GetWantedCameraPosition(), _MovementDampTime * Time.deltaTime);
 
     Vector3 delta = (_Target.position - transform.position).normalized;
     transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(delta), _RotationDampening * Time.deltaTime);
