@@ -46,6 +46,7 @@ public class PikminAI : MonoBehaviour {
 
   // Local stats
   PikminMaturity _CurrentMaturity = default;
+  PikminStatSpecifier _CurrentStatSpecifier = default;
   float _AttackTimer = 0;
 
   // Components
@@ -59,7 +60,8 @@ public class PikminAI : MonoBehaviour {
 
     _CurrentMaturity = _Data._StartingMaturity;
 
-    PikminStatsManager.Add (_Data._Colour, _CurrentMaturity, PikminStatSpecifier.OnField);
+    _CurrentStatSpecifier = PikminStatSpecifier.OnField;
+    PikminStatsManager.Add(_Data._Colour, _CurrentMaturity, _CurrentStatSpecifier);
   }
 
   void Update () {
@@ -152,9 +154,13 @@ public class PikminAI : MonoBehaviour {
     }
   }
 
-  void HandleDeath () {
+  void HandleDeath () { 
+    PikminStatsManager.Remove(_Data._Colour, _CurrentMaturity, _CurrentStatSpecifier);
+    
+    // Create the soul gameobject, and play the death noise
     Instantiate (_DeathParticle, transform.position, Quaternion.Euler (-90, 0, 0));
     AudioSource.PlayClipAtPoint (_Data._DeathNoise, transform.position, _Data._AudioVolume);
+    // Remove the object
     Destroy (gameObject);
   }
 
@@ -221,6 +227,14 @@ public class PikminAI : MonoBehaviour {
     }
 
     return _TargetObject.position;
+  }
+
+  void ChangePikminStat(PikminStatSpecifier newSpecifier)
+  {
+    PikminStatsManager.Remove(_Data._Colour, _CurrentMaturity, _CurrentStatSpecifier);
+    PikminStatsManager.Add(_Data._Colour, _CurrentMaturity, newSpecifier);
+    
+    _CurrentStatSpecifier = newSpecifier;
   }
 
   public void StartRunTowards (Transform obj) {
