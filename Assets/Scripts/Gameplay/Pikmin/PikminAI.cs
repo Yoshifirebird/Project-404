@@ -94,9 +94,16 @@ public class PikminAI : MonoBehaviour {
       return;
     }
 
-    // Check if we're running towards the object, and 
+    // Check if we're running towards the object
     if (_CurrentState == PikminStates.RunningTowards) {
-      MoveTowardsTarget (_Data._StoppingDistance);
+      if (_TargetObject == null)
+      {
+        ChangeState(PikminStates.Idle);
+      }
+      else
+      {
+        MoveTowardsTarget(_Data._StoppingDistance);
+      }
     }
   }
 
