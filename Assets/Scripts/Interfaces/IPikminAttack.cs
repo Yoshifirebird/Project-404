@@ -4,7 +4,6 @@
  * Created on: 30/4/2020 (dd/mm/yy)
  */
 
-// Not explicitly an interface, but acts like one
 public interface IPikminAttack : IPikminInteractable {
   // Called when the Pikmin starts attacking the object, like when latched
   void OnAttackStart (PikminAI pikmin);
