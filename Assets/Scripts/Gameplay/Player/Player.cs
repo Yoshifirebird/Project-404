@@ -15,4 +15,14 @@ public class Player : MonoBehaviour {
       Destroy (gameObject);
     }
   }
+
+  void Update()
+  {
+    // Tab pauses the game, experimental
+    if (Application.isEditor && Input.GetKeyDown(KeyCode.Tab))
+    {
+      GameManager._IsPaused = !GameManager._IsPaused;
+      Time.timeScale = GameManager._IsPaused ? 0 : 1;
+    }
+  }
 }

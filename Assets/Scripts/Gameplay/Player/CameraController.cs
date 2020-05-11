@@ -59,10 +59,17 @@ public class CameraController : MonoBehaviour
     _MainCamera = Camera.main;
 
     _CurrentEntry = _DefaultEntries[0];
+    // Reset position on runtime so we don't get a janky start to the game
+    transform.position = GetWantedCameraPosition();
   }
 
   void Update()
   {
+    if (GameManager._IsPaused)
+    {
+      return;
+    }
+
     if (Input.GetButtonDown("Right Bumper"))
     {
       ChangeCameraZoom();
@@ -85,15 +92,6 @@ public class CameraController : MonoBehaviour
     if (Input.GetButton("Right Stick Click"))
     {
       _WantedRotationAngle = -_Target.eulerAngles.y;
-    }
-
-    if (_WantedRotationAngle > 360)
-    {
-      _WantedRotationAngle -= 360;
-    }
-    else if (_WantedRotationAngle < 360)
-    {
-      _WantedRotationAngle += 360;
     }
 
     // Smoothly change values towards their intended target

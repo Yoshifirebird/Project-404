@@ -99,9 +99,45 @@ public class PikminAI : MonoBehaviour {
       MoveTowardsTarget (_Data._StoppingDistance);
     }
   }
+
+  void OnCollisionEnter(Collision collision)
+  {
+    if (_TargetObjectCollider != null && collision.collider == _TargetObjectCollider)
+    {
+      CarryoutIntention();
+    }
+  }
+
   #endregion
 
   #region States
+  void CarryoutIntention()
+  {
+    // Run intention-specific logic (attack = OnAttackStart for the target object)
+    switch (_Intention)
+    {
+      case PikminIntention.Attack:
+        _AttackingTransform = _TargetObject;
+
+        _Attacking = _TargetObject.GetComponent<IPikminAttack>();
+        _Attacking.OnAttackStart(this);
+
+        ChangeState(PikminStates.Attacking);
+        break;
+      case PikminIntention.Carry:
+        break;
+      case PikminIntention.PullWeeds:
+        break;
+      case PikminIntention.Idle:
+        ChangeState(PikminStates.Idle);
+        break;
+      default:
+        break;
+    }
+
+    _Intention = PikminIntention.Idle;
+  }
+  
   void HandleIdle () {
     // Check if the target isn't null
     if (_TargetObject != null) {
@@ -110,26 +146,7 @@ public class PikminAI : MonoBehaviour {
 
       // Check if we're within stopping distance of the object...
       if (MathUtil.DistanceTo (transform.position, _TargetObject.position) <= _Data._InteractDistance * _Data._InteractDistance) {
-        // Run intention-specific logic (attack = OnAttackStart for the target object)
-        switch (_Intention) {
-          case PikminIntention.Attack:
-            _AttackingTransform = _TargetObject;
-
-            _Attacking = _TargetObject.GetComponent<IPikminAttack> ();
-            _Attacking.OnAttackStart (this);
-
-            ChangeState (PikminStates.Attacking);
-            break;
-          case PikminIntention.Carry:
-            break;
-          case PikminIntention.PullWeeds:
-            break;
-          case PikminIntention.Idle:
-            ChangeState (PikminStates.Idle);
-            break;
-          default:
-            break;
-        }
+        CarryoutIntention();
       }
 
       return;
@@ -154,7 +171,7 @@ public class PikminAI : MonoBehaviour {
     }
   }
 
-  void HandleDeath () { 
+  void HandleDeath () {
     PikminStatsManager.Remove(_Data._Colour, _CurrentMaturity, _CurrentStatSpecifier);
     
     // Create the soul gameobject, and play the death noise
@@ -166,7 +183,7 @@ public class PikminAI : MonoBehaviour {
 
   void HandleAttacking () {
     // The object we were attacking has died, so we can go back to being idle
-    if (_Attacking == null) {
+    if (_AttackingTransform == null) {
       ChangeState (PikminStates.Idle);
     }
 
