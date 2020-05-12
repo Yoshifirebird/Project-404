@@ -20,7 +20,8 @@ public class Test_PikminStats : MonoBehaviour {
     if (Input.GetKeyDown (_KeyToApply)) {
       if (_Add) {
         PikminStatsManager.Add (_Colour, _Maturity, _Specifier);
-      } else {
+      }
+      else {
         PikminStatsManager.Remove (_Colour, _Maturity, _Specifier);
       }
 

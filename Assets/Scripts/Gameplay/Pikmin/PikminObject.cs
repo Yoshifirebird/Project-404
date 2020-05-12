@@ -33,6 +33,7 @@ public class PikminObject : ScriptableObject {
   public float _SearchRadius = 5;
 
   [Header ("Attacking")]
+  public float _AttackJumpDist = 1;
   public float _AttackDamage = 2.5f;
   public float _AttackDelay = 1;
 

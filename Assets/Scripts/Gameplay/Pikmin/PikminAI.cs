@@ -6,34 +6,32 @@
 
 using UnityEngine;
 
-public enum PikminStates
-{
+public enum PikminStates {
   Idle,
   RunningTowards,
   Attacking,
+  Waiting,
   Dead,
 }
 
 // Immediate states after running towards another object/position
-public enum PikminIntention
-{
+public enum PikminIntention {
   Attack, // TODO
   Carry, // TODO
   PullWeeds, // TODO
   Idle, // TODO (disbanding)
 }
 
-public class PikminAI : MonoBehaviour
-{
+public class PikminAI : MonoBehaviour {
   // Holds everything that makes a Pikmin unique
-  [Header("Components")]
+  [Header ("Components")]
   public PikminObject _Data = null;
   [SerializeField] LayerMask _PikminInteractableMask = 0;
 
-  [Header("VFX")]
+  [Header ("VFX")]
   [SerializeField] GameObject _DeathParticle = null;
 
-  [Header("Debugging")]
+  [Header ("Debugging")]
   // PreviousState is used to null any variables from the state it just changed from
   [SerializeField] PikminStates _CurrentState = PikminStates.Idle;
   [SerializeField] PikminStates _PreviousState = PikminStates.Idle;
@@ -53,83 +51,87 @@ public class PikminAI : MonoBehaviour
   [SerializeField] float _CurrentMoveSpeed = 0;
   [SerializeField] float _AttackTimer = 0;
 
+  // Misc
+  LayerMask _PikminMask = 0;
+
   // Components
   AudioSource _AudioSource = null;
   Rigidbody _Rigidbody = null;
-  Collider _Collider = null;
 
   #region Unity Methods
-  void Awake()
-  {
-    _Rigidbody = GetComponent<Rigidbody>();
-    _AudioSource = GetComponent<AudioSource>();
-    _Collider = GetComponent<Collider>();
+  void Awake () {
+    _Rigidbody = GetComponent<Rigidbody> ();
+    _AudioSource = GetComponent<AudioSource> ();
+
+    _PikminMask = LayerMask.NameToLayer ("Pikmin");
 
     _CurrentMaturity = _Data._StartingMaturity;
 
     _CurrentStatSpecifier = PikminStatSpecifier.OnField;
-    PikminStatsManager.Add(_Data._Colour, _CurrentMaturity, _CurrentStatSpecifier);
+    PikminStatsManager.Add (_Data._Colour, _CurrentMaturity, _CurrentStatSpecifier);
   }
 
-  void Update()
-  {
-    if (GameManager._IsPaused)
-    {
+  void Update () {
+    if (GameManager._IsPaused) {
       return;
     }
 
-    switch (_CurrentState)
-    {
+    switch (_CurrentState) {
       case PikminStates.Idle:
-        HandleIdle();
+        HandleIdle ();
         break;
       case PikminStates.RunningTowards:
-        if (_TargetObject == null)
-        {
-          ChangeState(PikminStates.Idle);
+        if (_TargetObject == null) {
+          ChangeState (PikminStates.Idle);
         }
-        else
-        {
-          MoveTowardsTarget();
+        else {
+          MoveTowardsTarget ();
         }
+
+        if (_Intention == PikminIntention.Attack && MathUtil.DistanceTo (transform.position, ClosestPointOnTarget ()) <= _Data._AttackJumpDist) {
+          if (!Physics.Raycast (transform.position, ClosestPointOnTarget () - transform.position, 1.5f, _PikminMask)) {
+            _Rigidbody.velocity = new Vector3 (_Rigidbody.velocity.x, 2.5f, _Rigidbody.velocity.z);
+            ChangeState (PikminStates.Waiting);
+          }
+          else {
+            _Rigidbody.velocity += transform.right * 2;
+          }
+        }
+
         break;
       case PikminStates.Attacking:
-        HandleAttacking();
+        HandleAttacking ();
         break;
       case PikminStates.Dead:
-        HandleDeath();
+        HandleDeath ();
         break;
+      case PikminStates.Waiting:
+        // Intentionally has no behaviour
       default:
         break;
     }
   }
 
-  void OnCollisionEnter(Collision collision)
-  {
-    if (collision.gameObject.layer != LayerMask.NameToLayer ("PikminInteractable"))
-    {
+  void OnCollisionEnter (Collision collision) {
+    if (collision.gameObject.layer != LayerMask.NameToLayer ("PikminInteractable")) {
       return;
     }
 
-    if (_TargetObjectCollider != null && collision.collider == _TargetObjectCollider)
-    {
-      CarryoutIntention();
+    if (_TargetObjectCollider != null && collision.collider == _TargetObjectCollider) {
+      CarryoutIntention ();
     }
   }
 
-  void OnCollisionExit(Collision collision)
-  {
-    if (collision.transform == _AttackingTransform && _CurrentState == PikminStates.Attacking)
-    {
+  void OnCollisionExit (Collision collision) {
+    if (collision.transform == _AttackingTransform && _CurrentState == PikminStates.Attacking) {
       // The object we've been attacking has just been destroyed, or smth else happened so we're gonna go idle
-      if (_Attacking == null)
-      {
-        ChangeState(PikminStates.Idle);
+      if (_Attacking == null) {
+        ChangeState (PikminStates.Idle);
         return;
       }
 
-      _Attacking.OnAttackEnd(this);
-      ChangeState(PikminStates.RunningTowards);
+      _Attacking.OnAttackEnd (this);
+      ChangeState (PikminStates.RunningTowards);
 
       _TargetObject = collision.transform;
       _TargetObjectCollider = collision.collider;
@@ -140,27 +142,25 @@ public class PikminAI : MonoBehaviour
   #endregion
 
   #region States
-  void CarryoutIntention()
-  {
+  void CarryoutIntention () {
     // Run intention-specific logic (attack = OnAttackStart for the target object)
-    switch (_Intention)
-    {
+    switch (_Intention) {
       case PikminIntention.Attack:
         _AttackingTransform = _TargetObject;
 
-        _Attacking = _TargetObject.GetComponent<IPikminAttack>();
-        _Attacking.OnAttackStart(this);
+        _Attacking = _TargetObject.GetComponent<IPikminAttack> ();
+        _Attacking.OnAttackStart (this);
 
-        LatchOnto(_AttackingTransform);
+        LatchOnto (_AttackingTransform);
 
-        ChangeState(PikminStates.Attacking);
+        ChangeState (PikminStates.Attacking);
         break;
       case PikminIntention.Carry:
         break;
       case PikminIntention.PullWeeds:
         break;
       case PikminIntention.Idle:
-        ChangeState(PikminStates.Idle);
+        ChangeState (PikminStates.Idle);
         break;
       default:
         break;
@@ -169,166 +169,132 @@ public class PikminAI : MonoBehaviour
     _Intention = PikminIntention.Idle;
   }
 
-  void HandleIdle()
-  {
+  void HandleIdle () {
     // Look for a target object
-    Collider[] objects = Physics.OverlapSphere(transform.position, _Data._SearchRadius, _PikminInteractableMask);
-    foreach (Collider collider in objects)
-    {
+    Collider[] objects = Physics.OverlapSphere (transform.position, _Data._SearchRadius, _PikminInteractableMask);
+    foreach (Collider collider in objects) {
       // Check if the object can even be seen by the Pikmin
-      Vector3 closestPointToPikmin = collider.ClosestPoint(transform.position);
-      if (Physics.Raycast(transform.position, (closestPointToPikmin - transform.position).normalized, out RaycastHit hit, _Data._SearchRadius))
-      {
+      Vector3 closestPointToPikmin = collider.ClosestPoint (transform.position);
+      if (Physics.Raycast (transform.position, (closestPointToPikmin - transform.position).normalized, out RaycastHit hit, _Data._SearchRadius)) {
         // See if the Collider we hit wasn't the Player OR the closest object, meaning we can't actually get to the object
-        if (hit.collider != collider && hit.transform.CompareTag("Player") == false)
-        {
+        if (hit.collider != collider && hit.transform.CompareTag ("Player") == false) {
           continue;
         }
       }
 
       // We can move to the target object, and it is an interactable, so set our target object
-      ChangeState(PikminStates.RunningTowards);
+      ChangeState (PikminStates.RunningTowards);
       _TargetObject = collider.transform;
       _TargetObjectCollider = collider;
-      _Intention = collider.GetComponent<IPikminInteractable>().IntentionType;
+      _Intention = collider.GetComponent<IPikminInteractable> ().IntentionType;
     }
   }
 
-  void HandleDeath()
-  {
-    PikminStatsManager.Remove(_Data._Colour, _CurrentMaturity, _CurrentStatSpecifier);
+  void HandleDeath () {
+    PikminStatsManager.Remove (_Data._Colour, _CurrentMaturity, _CurrentStatSpecifier);
 
     // Create the soul gameobject, and play the death noise
-    Instantiate(_DeathParticle, transform.position, Quaternion.Euler(-90, 0, 0));
-    AudioSource.PlayClipAtPoint(_Data._DeathNoise, transform.position, _Data._AudioVolume);
+    Instantiate (_DeathParticle, transform.position, Quaternion.Euler (-90, 0, 0));
+    AudioSource.PlayClipAtPoint (_Data._DeathNoise, transform.position, _Data._AudioVolume);
     // Remove the object
-    Destroy(gameObject);
+    Destroy (gameObject);
   }
 
-  void HandleAttacking()
-  {
+  void HandleAttacking () {
     // The object we were attacking has died, so we can go back to being idle
-    if (_AttackingTransform == null)
-    {
-      ChangeState(PikminStates.Idle);
+    if (_AttackingTransform == null) {
+      ChangeState (PikminStates.Idle);
       return;
     }
 
     // Add to the timer and attack if we've gone past the timer
     _AttackTimer += Time.deltaTime;
-    if (_AttackTimer >= _Data._AttackDelay)
-    {
-      _Attacking.OnAttackRecieve(_Data._AttackDamage);
+    if (_AttackTimer >= _Data._AttackDelay) {
+      _Attacking.OnAttackRecieve (_Data._AttackDamage);
       _AttackTimer = 0;
     }
   }
 
-  void ChangeState(PikminStates state)
-  {
+  void ChangeState (PikminStates state) {
     _PreviousState = _CurrentState;
     _CurrentState = state;
 
+    // Waiting relies on the fact we're going to do something when another thing outside of our behaviour is done
+    if (_CurrentState == PikminStates.Waiting) {
+      return;
+    }
+
     // Null out the variables we were using in the previous state
-    if (_PreviousState == PikminStates.RunningTowards || _PreviousState == PikminStates.Idle && _TargetObject != null)
-    {
+    if (_PreviousState == PikminStates.RunningTowards || _PreviousState == PikminStates.Idle && _TargetObject != null) {
       _TargetObject = null;
       _TargetObjectCollider = null;
     }
-    else if (_PreviousState == PikminStates.Attacking)
-    {
-      LatchOnto(null);
+    else if (_PreviousState == PikminStates.Attacking) {
+      LatchOnto (null);
       _Rigidbody.velocity = Vector3.zero;
 
       // Check if the object we were attacking was still active or not
-      if (_AttackingTransform != null)
-      {
+      if (_AttackingTransform != null) {
         _Attacking = null;
         _AttackingTransform = null;
         return;
       }
 
       // As it is still active, and not null, we can call the appropriate function
-      _Attacking.OnAttackEnd(this);
+      _Attacking.OnAttackEnd (this);
       _AttackingTransform = null;
       _AttackTimer = 0;
     }
   }
   #endregion
 
-  void MoveTowardsTarget()
-  {
-    Vector3 closestPoint = ClosestPointOnTarget();
+  #region Misc
+  void MoveTowardsTarget () {
+    Vector3 closestPoint = ClosestPointOnTarget ();
 
     // Rotate to look at the object we're moving towards
     Vector3 delta = (closestPoint - transform.position).normalized;
     delta.y = 0;
-    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(delta), _Data._RotationSpeed * Time.deltaTime);
+    transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (delta), _Data._RotationSpeed * Time.deltaTime);
 
     // To prevent instant, janky movement we step towards the resultant max speed according to _Acceleration
-    _CurrentMoveSpeed = Mathf.SmoothStep(_CurrentMoveSpeed, _Data._MaxMovementSpeed, _Data._AccelerationSpeed * Time.deltaTime);
-
-    if (MathUtil.DistanceTo(transform.position, closestPoint) <= 5)
-    {
-      delta.y = closestPoint.y;
-      if (Physics.Raycast(transform.position, delta, out RaycastHit hit, 2.5f))
-      {
-        if (hit.transform.CompareTag("Pikmin"))
-        {
-          if (Random.Range(0, 1) > 0.5f)
-          {
-            delta += transform.right * 2;
-          }
-          else
-          {
-            delta += -transform.right * 2;
-          }
-          delta += -transform.forward;
-        }
-      }
-      delta.y = 0;
-    }
+    _CurrentMoveSpeed = Mathf.SmoothStep (_CurrentMoveSpeed, _Data._MaxMovementSpeed, _Data._AccelerationSpeed * Time.deltaTime);
 
     Vector3 newVelocity = delta.normalized * _CurrentMoveSpeed;
     newVelocity.y = _Rigidbody.velocity.y;
     _Rigidbody.velocity = newVelocity;
   }
 
-  Vector3 ClosestPointOnTarget()
-  {
+  Vector3 ClosestPointOnTarget () {
     // Check if there is a collider for the target object we're running to
-    if (_TargetObjectCollider != null)
-    {
+    if (_TargetObjectCollider != null) {
       // Our target is the closest point on the collider
-      return _TargetObjectCollider.ClosestPointOnBounds(transform.position);
+      return _TargetObjectCollider.ClosestPoint (transform.position);
     }
 
     return _TargetObject.position;
   }
 
-  void ChangePikminStat(PikminStatSpecifier newSpecifier)
-  {
-    PikminStatsManager.Remove(_Data._Colour, _CurrentMaturity, _CurrentStatSpecifier);
-    PikminStatsManager.Add(_Data._Colour, _CurrentMaturity, newSpecifier);
+  void ChangePikminStat (PikminStatSpecifier newSpecifier) {
+    PikminStatsManager.Remove (_Data._Colour, _CurrentMaturity, _CurrentStatSpecifier);
+    PikminStatsManager.Add (_Data._Colour, _CurrentMaturity, newSpecifier);
 
     _CurrentStatSpecifier = newSpecifier;
   }
 
-  public void StartRunTowards(Transform obj)
-  {
+  #endregion
+
+  #region Public Functions
+
+  public void StartRunTowards (Transform obj) {
     _TargetObject = obj;
-    ChangeState(PikminStates.RunningTowards);
+    ChangeState (PikminStates.RunningTowards);
   }
 
-  public void LatchOnto(Transform obj)
-  {
+  public void LatchOnto (Transform obj) {
     transform.parent = obj;
     _Rigidbody.isKinematic = (obj != null);
-    _Collider.enabled = (obj == null);
-
-    if (obj != null)
-    {
-      transform.position = obj.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
-      transform.position -= transform.forward / 5;
-    }
   }
+
+  #endregion
 }

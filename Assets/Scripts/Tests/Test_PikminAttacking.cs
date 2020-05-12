@@ -5,18 +5,18 @@
  */
 
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class Test_PikminAttacking : MonoBehaviour, IPikminAttack {
   public PikminIntention IntentionType => PikminIntention.Attack;
 
-  [Header("Components")]
+  [Header ("Components")]
   [SerializeField] TextMeshPro _Text;
 
   [Header ("Settings")]
   [SerializeField] float _MaxHealth = 10;
-  
+
   [Header ("Debugging")]
   [SerializeField] float _CurrentHealth = 0;
 
@@ -43,9 +43,8 @@ public class Test_PikminAttacking : MonoBehaviour, IPikminAttack {
 
     if (_CurrentHealth <= 0) {
 
-      foreach (var pikmin in _Attacking)
-      {
-        pikmin.LatchOnto(null);
+      foreach (var pikmin in _Attacking) {
+        pikmin.LatchOnto (null);
       }
 
       Destroy (gameObject);

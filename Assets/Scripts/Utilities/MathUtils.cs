@@ -56,7 +56,7 @@ public static class MathUtil {
   /// </summary>
   /// <param name="conv">The vector to convert</param>
   /// <returns>Vector3 with X and Z set to the X and Y of the Vector2</returns>
-  public static Vector3 _2Dto3D (Vector2 conv, float y = 0) => new Vector3 (conv.x, y, conv.y);
+  public static Vector3 XZToXYZ (Vector2 conv, float y = 0) => new Vector3 (conv.x, y, conv.y);
 
   /// <summary>
   /// Calculates the distance between two positions, without the SQRT, making it more efficient than Vector3.Distance

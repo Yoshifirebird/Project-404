@@ -28,8 +28,7 @@ public class PlayerMovementController : MonoBehaviour {
     Vector3 input = new Vector3 (Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical"));
 
     if (input == Vector3.zero) {
-      if (_CurrentSpeed != 0)
-      {
+      if (_CurrentSpeed != 0) {
         _CurrentSpeed = 0;
       }
       return;
@@ -40,7 +39,7 @@ public class PlayerMovementController : MonoBehaviour {
     transform.rotation = Quaternion.LookRotation (rotation);
 
     // To prevent instant, janky movement we step towards the resultant max speed according to _Acceleration
-    _CurrentSpeed = Mathf.SmoothStep(_CurrentSpeed, _MaxSpeed, _Acceleration * Time.deltaTime);
+    _CurrentSpeed = Mathf.SmoothStep (_CurrentSpeed, _MaxSpeed, _Acceleration * Time.deltaTime);
 
     Vector3 newVelocity = rotation.normalized * _CurrentSpeed;
     newVelocity.y = _Rigidbody.velocity.y;

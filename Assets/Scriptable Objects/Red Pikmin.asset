@@ -17,8 +17,8 @@ MonoBehaviour:
   _MaxMovementSpeed: 3
   _AccelerationSpeed: 10
   _RotationSpeed: 10
-  _TimeBeforeGiveUp: 5
-  _SearchRadius: 10
+  _SearchRadius: 2
+  _AttackJumpDist: 1
   _AttackDamage: 2.5
   _AttackDelay: 1
   _AudioVolume: 1
