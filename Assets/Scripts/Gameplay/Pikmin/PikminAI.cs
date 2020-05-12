@@ -37,22 +37,26 @@ public class PikminAI : MonoBehaviour {
   [SerializeField] PikminStates _PreviousState = PikminStates.Idle;
 
   // Idle detection variables
+  [Header("Idle")]
   [SerializeField] PikminIntention _Intention = PikminIntention.Idle;
   [SerializeField] Transform _TargetObject = null;
   [SerializeField] Collider _TargetObjectCollider = null;
 
   // Attacking variables
+  [Header("Attacking")]
   [SerializeField] IPikminAttack _Attacking = null;
   [SerializeField] Transform _AttackingTransform = null;
+  [SerializeField] float _AttackTimer = 0;
 
   // Local stats
+  [Header("Stats")]
   [SerializeField] PikminMaturity _CurrentMaturity = default;
   [SerializeField] PikminStatSpecifier _CurrentStatSpecifier = default;
   [SerializeField] float _CurrentMoveSpeed = 0;
-  [SerializeField] float _AttackTimer = 0;
 
   // Misc
-  LayerMask _PikminMask = 0;
+  [Header("Misc")]
+  [SerializeField] LayerMask _PikminMask = 0;
 
   // Components
   AudioSource _AudioSource = null;
@@ -88,13 +92,23 @@ public class PikminAI : MonoBehaviour {
           MoveTowardsTarget ();
         }
 
-        if (_Intention == PikminIntention.Attack && MathUtil.DistanceTo (transform.position, ClosestPointOnTarget ()) <= _Data._AttackJumpDist) {
-          if (!Physics.Raycast (transform.position, ClosestPointOnTarget () - transform.position, 1.5f, _PikminMask)) {
-            _Rigidbody.velocity = new Vector3 (_Rigidbody.velocity.x, 2.5f, _Rigidbody.velocity.z);
-            ChangeState (PikminStates.Waiting);
+        if (_Intention == PikminIntention.Attack && _TargetObject != null) {
+          Vector3 directionToObj = ClosestPointOnTarget() - transform.position;
+          if (Physics.Raycast(transform.position, directionToObj, out RaycastHit hit, 2.5f))
+          {
+            if (hit.collider != _TargetObjectCollider && hit.collider.CompareTag("Pikmin"))
+            {
+              // Make the Pikmin move to the right a little to avoid jumping into the other Pikmin
+              _Rigidbody.velocity += transform.right * 2.5f;
+            }
           }
-          else {
-            _Rigidbody.velocity += transform.right * 2;
+
+          if (directionToObj != Vector3.down
+            && MathUtil.DistanceTo (transform.position, ClosestPointOnTarget ()) <= _Data._AttackJumpDist
+            && Physics.Raycast(transform.position, directionToObj, out hit, 2.5f)
+            && hit.collider == _TargetObjectCollider)
+          {
+            _Rigidbody.velocity = new Vector3(_Rigidbody.velocity.x, _Data._AttackJumpPower, _Rigidbody.velocity.z);
           }
         }
 
