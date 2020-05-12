@@ -65,7 +65,7 @@ public class Test_PikminAttacking : MonoBehaviour, IPikminAttack {
       Destroy (gameObject);
     }
 
-    Vector3 delta = _NextPosition - transform.position;
+    Vector3 delta = (_NextPosition - transform.position) * _MoveSpeed;
     delta.y = _Rigidbody.velocity.y;
     _Rigidbody.velocity = delta;
 

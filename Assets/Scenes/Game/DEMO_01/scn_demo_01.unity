@@ -2100,7 +2100,7 @@ MonoBehaviour:
     m_Bits: 512
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
-  _CurrentState: 0
+  _CurrentState: 4
   _PreviousState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
@@ -3562,7 +3562,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Text: {fileID: 180746614020831755}
   _MaxHealth: 500
-  _MoveSpeed: 2.5
+  _MoveSpeed: 0.1
   _CurrentHealth: 0
   _NextPosition: {x: 6.690104, y: 2.5, z: 4.9354925}
 --- !u!198 &814398285 stripped

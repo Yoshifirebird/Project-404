@@ -208,7 +208,9 @@ public class PikminAI : MonoBehaviour {
     PikminStatsManager.Remove (_Data._Colour, _CurrentMaturity, _CurrentStatSpecifier);
 
     // Create the soul gameobject, and play the death noise
-    Instantiate (_DeathParticle, transform.position, Quaternion.Euler (-90, 0, 0));
+    var soul = Instantiate (_DeathParticle, transform.position, Quaternion.Euler (-90, 0, 0));
+    Destroy(soul, 5);
+
     AudioSource.PlayClipAtPoint (_Data._DeathNoise, transform.position, _Data._AudioVolume);
     // Remove the object
     Destroy (gameObject);
