@@ -6,13 +6,19 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Test_PikminAttacking : MonoBehaviour, IPikminAttack {
   public PikminIntention IntentionType => PikminIntention.Attack;
 
+  [Header("Components")]
+  [SerializeField] TextMeshPro _Text;
+
   [Header ("Settings")]
   [SerializeField] float _MaxHealth = 10;
-  float _CurrentHealth = 0;
+  
+  [Header ("Debugging")]
+  [SerializeField] float _CurrentHealth = 0;
 
   List<PikminAI> _Attacking = new List<PikminAI> ();
 
@@ -33,7 +39,14 @@ public class Test_PikminAttacking : MonoBehaviour, IPikminAttack {
   }
 
   void Update () {
+    _Text.text = "Health: " + _CurrentHealth + '\n' + "Attached: " + _Attacking.Count;
+
     if (_CurrentHealth <= 0) {
+
+      foreach (var pikmin in _Attacking)
+      {
+        pikmin.LatchOnto(null);
+      }
 
       Destroy (gameObject);
     }

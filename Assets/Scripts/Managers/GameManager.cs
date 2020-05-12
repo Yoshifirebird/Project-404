@@ -8,4 +8,5 @@ public static class GameManager {
   public static bool _IsPaused = false;
 
   public static Player _Player = null;
+
 }

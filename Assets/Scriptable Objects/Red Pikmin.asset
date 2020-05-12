@@ -14,13 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Colour: 0
   _StartingMaturity: 0
-  _MaxMovementSpeed: 2.5
+  _MaxMovementSpeed: 3
   _AccelerationSpeed: 10
-  _StoppingDistance: 0.5
   _RotationSpeed: 10
+  _TimeBeforeGiveUp: 5
   _SearchRadius: 10
-  _IdleStoppingDistance: 1
-  _InteractDistance: 1.25
   _AttackDamage: 2.5
   _AttackDelay: 1
   _AudioVolume: 1
