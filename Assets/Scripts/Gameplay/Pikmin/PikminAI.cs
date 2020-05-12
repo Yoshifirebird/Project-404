@@ -106,6 +106,11 @@ public class PikminAI : MonoBehaviour
 
   void OnCollisionEnter(Collision collision)
   {
+    if (collision.gameObject.layer != LayerMask.NameToLayer ("PikminInteractable"))
+    {
+      return;
+    }
+
     if (_TargetObjectCollider != null && collision.collider == _TargetObjectCollider)
     {
       CarryoutIntention();
