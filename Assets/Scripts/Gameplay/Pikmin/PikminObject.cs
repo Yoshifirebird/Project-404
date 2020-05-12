@@ -28,7 +28,6 @@ public class PikminObject : ScriptableObject {
   public float _MaxMovementSpeed = 2.5f;
   public float _AccelerationSpeed = 10;
   public float _RotationSpeed = 10;
-  public float _TimeBeforeGiveUp = 5;
 
   [Header ("Idle")]
   public float _SearchRadius = 5;
