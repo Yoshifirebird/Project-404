@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class WhistleController : MonoBehaviour {
   [Header ("Components")]
-  [SerializeField] Transform _ParentParticle = null;
+	[SerializeField] ParticleSystem _ParentParticle = null;
   [SerializeField] ParticleSystem[] _WhistleParticles = null;
 
   [Header ("Settings")]
@@ -46,26 +46,21 @@ public class WhistleController : MonoBehaviour {
     }
 
     if (Input.GetButtonDown ("B Button")) {
-      // Start the particles
-      foreach (var ps in _WhistleParticles) {
-        if (ps.isPlaying) {
-          ps.Stop ();
-        }
+      // Start the particles and audio
+     
+			_ParentParticle.Stop(true);
+			_ParentParticle.Play(true);
 
-        ps.Play ();
-      }
-      
+	  _ParentParticle.GetComponent<AudioSource>().Play();
       _CurrentRadius = _StartRadius;
-      _ParentParticle.localScale = MathUtil.XZToXYZ(Vector2.one * _StartRadius, _StartRadius);
+      _ParentParticle.transform.localScale = MathUtil.XZToXYZ(Vector2.one * _StartRadius, _StartRadius);
       _Blowing = true;
     }
     if (Input.GetButtonUp ("B Button") || _CurrentTime >= _TotalBlowTime) {
-      // Stop the particles
-      foreach (var ps in _WhistleParticles) {
-        if (ps.isPlaying) {
-          ps.Stop ();
-        }
-      }
+      // Stop the particles and audio
+     
+			_ParentParticle.Stop(true);
+			_ParentParticle.gameObject.GetComponent<AudioSource>().Stop();
 
       _CurrentTime = 0;
       _Blowing = false;
@@ -88,7 +83,7 @@ public class WhistleController : MonoBehaviour {
 
       _CurrentRadius = Mathf.SmoothStep(_CurrentRadius, _MaxRadius, frac);
 
-      _ParentParticle.localScale = MathUtil.XZToXYZ (Vector2.one * _CurrentRadius, _CurrentRadius);
+      _ParentParticle.transform.localScale = MathUtil.XZToXYZ (Vector2.one * _CurrentRadius, _CurrentRadius);
 
       Collider[] colliders = Physics.OverlapSphere(transform.position, _CurrentRadius, _WhistleBlowInteractLayer);
       foreach (var collider in colliders)
