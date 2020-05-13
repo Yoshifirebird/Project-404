@@ -75,7 +75,7 @@ public class Test_PikminAttacking : MonoBehaviour, IPikminAttack {
 
   void OnDrawGizmosSelected()
   {
-    Gizmos.DrawCube(_NextPosition, Vector3.one * 5);
+    Gizmos.DrawSphere(_NextPosition, 2.5f);
 
     // Pick a new destination
     Vector3 newPosition = _NextPosition - Vector3.down * 100;

@@ -11,6 +11,7 @@ public enum PikminStates {
   RunningTowards,
   Attacking,
   Waiting,
+  Squad,
   Dead,
 }
 
@@ -32,31 +33,30 @@ public class PikminAI : MonoBehaviour {
   [SerializeField] GameObject _DeathParticle = null;
 
   [Header ("Debugging")]
-  // PreviousState is used to null any variables from the state it just changed from
   [SerializeField] PikminStates _CurrentState = PikminStates.Idle;
+
+  // PreviousState is used to null any variables from the state it just changed from
   [SerializeField] PikminStates _PreviousState = PikminStates.Idle;
 
-  // Idle detection variables
   [Header("Idle")]
   [SerializeField] PikminIntention _Intention = PikminIntention.Idle;
   [SerializeField] Transform _TargetObject = null;
   [SerializeField] Collider _TargetObjectCollider = null;
 
-  // Attacking variables
   [Header("Attacking")]
   [SerializeField] IPikminAttack _Attacking = null;
   [SerializeField] Transform _AttackingTransform = null;
   [SerializeField] float _AttackTimer = 0;
+  [SerializeField] float _AttackJumpTimer = 0;
 
-  // Local stats
   [Header("Stats")]
   [SerializeField] PikminMaturity _CurrentMaturity = default;
   [SerializeField] PikminStatSpecifier _CurrentStatSpecifier = default;
   [SerializeField] float _CurrentMoveSpeed = 0;
 
-  // Misc
   [Header("Misc")]
   [SerializeField] LayerMask _PikminMask = 0;
+  [SerializeField] bool _InSquad = false;
 
   // Components
   AudioSource _AudioSource = null;
@@ -103,12 +103,14 @@ public class PikminAI : MonoBehaviour {
             }
           }
 
-          if (directionToObj != Vector3.down
-            && MathUtil.DistanceTo (transform.position, ClosestPointOnTarget ()) <= _Data._AttackJumpDist
+          _AttackJumpTimer -= Time.deltaTime;
+          if (_AttackJumpTimer <= 0
+            && MathUtil.DistanceTo (transform.position, ClosestPointOnTarget ()) <= _Data._AttackDistToJump
             && Physics.Raycast(transform.position, directionToObj, out hit, 2.5f)
             && hit.collider == _TargetObjectCollider)
           {
             _Rigidbody.velocity = new Vector3(_Rigidbody.velocity.x, _Data._AttackJumpPower, _Rigidbody.velocity.z);
+            _AttackJumpTimer = _Data._AttackJumpTimer;
           }
         }
 
@@ -310,6 +312,26 @@ public class PikminAI : MonoBehaviour {
   public void LatchOnto (Transform obj) {
     transform.parent = obj;
     _Rigidbody.isKinematic = (obj != null);
+  }
+
+  public void AddToSquad()
+  {
+    if (!_InSquad)
+    {
+      _InSquad = true;
+      ChangeState(PikminStates.RunningTowards);
+      _TargetObject = GameManager._Player._FormationCentre;
+    }
+  }
+
+  public void RemoveFromSquad(PikminStates to = PikminStates.Idle)
+  {
+    if (_InSquad)
+    {
+      _InSquad = false;
+      _TargetObject = null;
+      ChangeState(to);
+    }
   }
 
   #endregion

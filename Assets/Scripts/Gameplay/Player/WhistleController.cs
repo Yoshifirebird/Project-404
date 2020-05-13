@@ -40,6 +40,11 @@ public class WhistleController : MonoBehaviour {
   }
 
   void Update () {
+    if (GameManager._IsPaused)
+    {
+      return;
+    }
+
     if (Input.GetButtonDown ("B Button")) {
       // Start the particles
       foreach (var ps in _WhistleParticles) {
@@ -50,7 +55,6 @@ public class WhistleController : MonoBehaviour {
         ps.Play ();
       }
       
-      print("Starting particle system");
       _CurrentRadius = _StartRadius;
       _ParentParticle.localScale = MathUtil.XZToXYZ(Vector2.one * _StartRadius, _StartRadius);
       _Blowing = true;
@@ -63,7 +67,6 @@ public class WhistleController : MonoBehaviour {
         }
       }
 
-      print("Stopping particle system");
       _CurrentTime = 0;
       _Blowing = false;
     }
@@ -71,16 +74,32 @@ public class WhistleController : MonoBehaviour {
     // Move the Player 
     Ray ray = _MainCamera.ScreenPointToRay (Input.mousePosition);
     if (Physics.Raycast (ray, out RaycastHit hit, _MaxWhistleDistance, _WhistleInteractLayer, QueryTriggerInteraction.Ignore)) {
-      transform.position = hit.point + Vector3.up * 2;
+      transform.position = hit.point + Vector3.up / 1.5f;
     }
 
     if (_Blowing) {
       _CurrentTime += Time.deltaTime;
-      float time = (_StartRadius + (_CurrentTime / _TotalBlowTime)) * _MaxRadius;
 
-      _CurrentRadius = time;
+      float frac = (_CurrentTime / _ExpandBlowTime);
+      if (frac > 1)
+      {
+        frac = 1;
+      }
+
+      _CurrentRadius = Mathf.SmoothStep(_CurrentRadius, _MaxRadius, frac);
 
       _ParentParticle.localScale = MathUtil.XZToXYZ (Vector2.one * _CurrentRadius, _CurrentRadius);
+
+      Collider[] colliders = Physics.OverlapSphere(transform.position, _CurrentRadius, _WhistleBlowInteractLayer);
+      foreach (var collider in colliders)
+      {
+        if (!collider.CompareTag("Pikmin"))
+        {
+          continue;
+        }
+
+        collider.GetComponent<PikminAI>().AddToSquad();
+      }
     }
   }
 }

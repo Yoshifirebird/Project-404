@@ -7,6 +7,8 @@
 using UnityEngine;
 
 public class Player : MonoBehaviour {
+  public Transform _FormationCentre = null;
+  
   void Awake () {
     // Apply singleton pattern to allow for the objects in the scene to reference the active Player instance
     if (GameManager._Player == null) {
