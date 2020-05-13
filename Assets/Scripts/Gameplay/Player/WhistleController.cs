@@ -27,10 +27,13 @@ public class WhistleController : MonoBehaviour {
   [SerializeField] float _CurrentRadius = 0;
   [SerializeField] float _TotalBlowTime = 0;
 
+  AudioSource _ParentParticleAudio = null;
   Camera _MainCamera = null;
 
   void Awake () {
     _MainCamera = Camera.main;
+    _ParentParticleAudio = _ParentParticle.GetComponent<AudioSource>();
+
     _TotalBlowTime = _ExpandBlowTime + _HoldingBlowTime;
 
     foreach (var ps in _WhistleParticles) {
@@ -51,7 +54,7 @@ public class WhistleController : MonoBehaviour {
 			_ParentParticle.Stop(true);
 			_ParentParticle.Play(true);
 
-	  _ParentParticle.GetComponent<AudioSource>().Play();
+      _ParentParticleAudio.Play();
       _CurrentRadius = _StartRadius;
       _ParentParticle.transform.localScale = MathUtil.XZToXYZ(Vector2.one * _StartRadius, _StartRadius);
       _Blowing = true;
@@ -60,7 +63,7 @@ public class WhistleController : MonoBehaviour {
       // Stop the particles and audio
      
 			_ParentParticle.Stop(true);
-			_ParentParticle.gameObject.GetComponent<AudioSource>().Stop();
+      _ParentParticleAudio.Stop();
 
       _CurrentTime = 0;
       _Blowing = false;
@@ -85,7 +88,7 @@ public class WhistleController : MonoBehaviour {
 
       _ParentParticle.transform.localScale = MathUtil.XZToXYZ (Vector2.one * _CurrentRadius, _CurrentRadius);
 
-      Collider[] colliders = Physics.OverlapSphere(transform.position, _CurrentRadius, _WhistleBlowInteractLayer);
+      Collider[] colliders = Physics.OverlapSphere(transform.position, _CurrentRadius * 2 * _MaxRadius, _WhistleBlowInteractLayer);
       foreach (var collider in colliders)
       {
         if (!collider.CompareTag("Pikmin"))

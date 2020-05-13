@@ -129,6 +129,7 @@ public class PikminAI : MonoBehaviour {
   }
 
   void OnCollisionEnter (Collision collision) {
+
     if (collision.gameObject.layer != LayerMask.NameToLayer ("PikminInteractable")) {
       return;
     }
@@ -321,6 +322,8 @@ public class PikminAI : MonoBehaviour {
       _InSquad = true;
       ChangeState(PikminStates.RunningTowards);
       _TargetObject = GameManager._Player._FormationCentre;
+
+      PikminStatsManager.AddToSquad(gameObject, _Data._Colour, _CurrentMaturity);
     }
   }
 
@@ -331,6 +334,8 @@ public class PikminAI : MonoBehaviour {
       _InSquad = false;
       _TargetObject = null;
       ChangeState(to);
+
+      PikminStatsManager.RemoveFromSquad(gameObject, _Data._Colour, _CurrentMaturity);
     }
   }
 

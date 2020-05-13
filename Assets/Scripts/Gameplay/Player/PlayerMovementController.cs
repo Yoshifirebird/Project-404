@@ -10,6 +10,8 @@ public class PlayerMovementController : MonoBehaviour {
   [Header ("Settings")]
   [SerializeField] float _MaxSpeed = 3.5f;
   [SerializeField] float _Acceleration = 7.5f;
+
+  [SerializeField] float _JumpSpeed = 5;
   float _CurrentSpeed = 0;
 
   Rigidbody _Rigidbody = null;
@@ -23,6 +25,12 @@ public class PlayerMovementController : MonoBehaviour {
   void FixedUpdate () {
     if (GameManager._IsPaused) {
       return;
+    }
+
+    if (GameManager._FunMode && Input.GetKeyDown(KeyCode.Space))
+    {
+        _Rigidbody.velocity = new Vector3(_Rigidbody.velocity.x, _JumpSpeed, _Rigidbody.velocity.z);
+      print("A");
     }
 
     Vector3 input = new Vector3 (Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical"));
