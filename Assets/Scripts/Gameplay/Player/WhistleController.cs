@@ -86,7 +86,7 @@ public class WhistleController : MonoBehaviour {
 
       _ParentParticle.transform.localScale = MathUtil.XZToXYZ (Vector2.one * _CurrentRadius, _CurrentRadius);
 
-      Collider[] colliders = Physics.OverlapSphere (transform.position, _CurrentRadius * 2 * _MaxRadius, _WhistleBlowInteractLayer);
+      Collider[] colliders = Physics.OverlapSphere (_ParentParticle.transform.position, _CurrentRadius * 2 * _MaxRadius, _WhistleBlowInteractLayer);
       foreach (var collider in colliders) {
         if (!collider.CompareTag ("Pikmin")) {
           continue;

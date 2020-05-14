@@ -14,29 +14,40 @@ public class Fun_GunController : MonoBehaviour {
 
   [Header ("Misc")]
   [SerializeField] LayerMask _PikminLayer = 0;
+  [SerializeField] AudioClip _ShotSound = null;
 
-  List<PikminAI> _ShotPikmin = new List<PikminAI> ();
-
-  AudioSource _AudioSource = null;
-  Camera _MainCamera = null;
+  [Header ("Debugging")]
+  [SerializeField] List<PikminAI> _ShotPikmin = new List<PikminAI> ();
+  [SerializeField] AudioSource _AudioSource = null;
+  [SerializeField] Camera _MainCamera = null;
 
   void Awake () {
     _MainCamera = Camera.main;
+    _AudioSource = GetComponent<AudioSource> ();
   }
 
   void Update () {
     Ray cursorRay = _MainCamera.ScreenPointToRay (Input.mousePosition);
-    if (Physics.Raycast (cursorRay, out RaycastHit hitInfo, _MaxShootDistance, _PikminLayer) &&
-      Input.GetButtonDown ("A Button")) {
-      if (_AudioSource != null) {
-        _AudioSource.Play ();
+    bool cursorOnCollider = Physics.Raycast (cursorRay, out RaycastHit hitInfo, _MaxShootDistance);
+
+    if (Input.GetButtonDown ("A Button")) {
+      _AudioSource.PlayOneShot (_ShotSound);
+
+      // Add force for extra fun points
+      if (hitInfo.rigidbody != null) {
+        hitInfo.rigidbody.AddForce (cursorRay.direction * _ShootForce);
       }
 
-      PikminAI aiComponent = hitInfo.collider.GetComponent<PikminAI> ();
-      if (_ShotPikmin.Contains (aiComponent) == false) {
-        hitInfo.collider.GetComponent<PikminAI> ().Fun_DIE ();
-        hitInfo.collider.GetComponent<Rigidbody> ().AddForce (cursorRay.direction * _ShootForce);
-        _ShotPikmin.Add (aiComponent);
+      if (cursorOnCollider && hitInfo.transform.CompareTag ("Pikmin")) {
+        PikminAI aiComponent = hitInfo.collider.GetComponent<PikminAI> ();
+        if (aiComponent != null && _ShotPikmin.Contains (aiComponent) == false) {
+          // Call the Fun_DIE function, and then disable the AI.
+          aiComponent.Fun_DIE ();
+          aiComponent.enabled = false;
+
+          // Add it to the list so we can't kill it after it's dead
+          _ShotPikmin.Add (aiComponent);
+        }
       }
     }
 
