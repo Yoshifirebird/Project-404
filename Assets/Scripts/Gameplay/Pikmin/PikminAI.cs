@@ -23,7 +23,7 @@ public enum PikminIntention {
   Idle, // TODO (disbanding)
 }
 
-public class PikminAI : MonoBehaviour {
+public class PikminAI : MonoBehaviour, IHealth {
   // Holds everything that makes a Pikmin unique
   [Header ("Components")]
   public PikminObject _Data = null;
@@ -38,29 +38,47 @@ public class PikminAI : MonoBehaviour {
   // PreviousState is used to null any variables from the state it just changed from
   [SerializeField] PikminStates _PreviousState = PikminStates.Idle;
 
-  [Header("Idle")]
+  [Header ("Idle")]
   [SerializeField] PikminIntention _Intention = PikminIntention.Idle;
   [SerializeField] Transform _TargetObject = null;
   [SerializeField] Collider _TargetObjectCollider = null;
 
-  [Header("Attacking")]
+  [Header ("Attacking")]
   [SerializeField] IPikminAttack _Attacking = null;
   [SerializeField] Transform _AttackingTransform = null;
   [SerializeField] float _AttackTimer = 0;
   [SerializeField] float _AttackJumpTimer = 0;
 
-  [Header("Stats")]
+  [Header ("Stats")]
   [SerializeField] PikminMaturity _CurrentMaturity = default;
   [SerializeField] PikminStatSpecifier _CurrentStatSpecifier = default;
   [SerializeField] float _CurrentMoveSpeed = 0;
 
-  [Header("Misc")]
+  [Header ("Misc")]
   [SerializeField] LayerMask _PikminMask = 0;
   [SerializeField] bool _InSquad = false;
 
   // Components
   AudioSource _AudioSource = null;
   Rigidbody _Rigidbody = null;
+
+  #region Interface Methods
+
+  float IHealth.GetCurrentHealth () => 1;
+  float IHealth.GetMaxHealth () => 1;
+
+  // Empty implementation purposely
+  void IHealth.SetHealth (float h) { }
+
+  float IHealth.SubtractHealth (float h) {
+    // Pikmin don't health, they're going to die regardless.
+    ChangeState (PikminStates.Dead);
+    return 0;
+  }
+
+  float IHealth.AddHealth (float h) => 1;
+
+  #endregion
 
   #region Unity Methods
   void Awake () {
@@ -93,23 +111,20 @@ public class PikminAI : MonoBehaviour {
         }
 
         if (_Intention == PikminIntention.Attack && _TargetObject != null) {
-          Vector3 directionToObj = ClosestPointOnTarget() - transform.position;
-          if (Physics.Raycast(transform.position, directionToObj, out RaycastHit hit, 2.5f))
-          {
-            if (hit.collider != _TargetObjectCollider && hit.collider.CompareTag("Pikmin"))
-            {
+          Vector3 directionToObj = ClosestPointOnTarget () - transform.position;
+          if (Physics.Raycast (transform.position, directionToObj, out RaycastHit hit, 2.5f)) {
+            if (hit.collider != _TargetObjectCollider && hit.collider.CompareTag ("Pikmin")) {
               // Make the Pikmin move to the right a little to avoid jumping into the other Pikmin
               _Rigidbody.velocity += transform.right * 2.5f;
             }
           }
 
           _AttackJumpTimer -= Time.deltaTime;
-          if (_AttackJumpTimer <= 0
-            && MathUtil.DistanceTo (transform.position, ClosestPointOnTarget ()) <= _Data._AttackDistToJump
-            && Physics.Raycast(transform.position, directionToObj, out hit, 2.5f)
-            && hit.collider == _TargetObjectCollider)
-          {
-            _Rigidbody.velocity = new Vector3(_Rigidbody.velocity.x, _Data._AttackJumpPower, _Rigidbody.velocity.z);
+          if (_AttackJumpTimer <= 0 &&
+            MathUtil.DistanceTo (transform.position, ClosestPointOnTarget ()) <= _Data._AttackDistToJump &&
+            Physics.Raycast (transform.position, directionToObj, out hit, 2.5f) &&
+            hit.collider == _TargetObjectCollider) {
+            _Rigidbody.velocity = new Vector3 (_Rigidbody.velocity.x, _Data._AttackJumpPower, _Rigidbody.velocity.z);
             _AttackJumpTimer = _Data._AttackJumpTimer;
           }
         }
@@ -207,16 +222,19 @@ public class PikminAI : MonoBehaviour {
     }
   }
 
-  void HandleDeath () {
+  void HandleDeath (bool destroyObj = true) {
     PikminStatsManager.Remove (_Data._Colour, _CurrentMaturity, _CurrentStatSpecifier);
+    AudioSource.PlayClipAtPoint (_Data._DeathNoise, transform.position, _Data._AudioVolume);
 
     // Create the soul gameobject, and play the death noise
     var soul = Instantiate (_DeathParticle, transform.position, Quaternion.Euler (-90, 0, 0));
-    Destroy(soul, 5);
+    Destroy (soul, 5);
 
-    AudioSource.PlayClipAtPoint (_Data._DeathNoise, transform.position, _Data._AudioVolume);
-    // Remove the object
-    Destroy (gameObject);
+    // Sometimes we don't want to remove the visual aspect of the death - keep the object in scene
+    if (destroyObj) {
+      // Remove the object
+      Destroy (gameObject);
+    }
   }
 
   void HandleAttacking () {
@@ -315,29 +333,39 @@ public class PikminAI : MonoBehaviour {
     _Rigidbody.isKinematic = (obj != null);
   }
 
-  public void AddToSquad()
-  {
-    if (!_InSquad)
-    {
+  public void AddToSquad () {
+    if (!_InSquad) {
       _InSquad = true;
-      ChangeState(PikminStates.RunningTowards);
+      ChangeState (PikminStates.RunningTowards);
       _TargetObject = GameManager._Player._FormationCentre;
 
-      PikminStatsManager.AddToSquad(gameObject, _Data._Colour, _CurrentMaturity);
+      PikminStatsManager.AddToSquad (gameObject, _Data._Colour, _CurrentMaturity);
     }
   }
 
-  public void RemoveFromSquad(PikminStates to = PikminStates.Idle)
-  {
-    if (_InSquad)
-    {
+  public void RemoveFromSquad (PikminStates to = PikminStates.Idle) {
+    if (_InSquad) {
       _InSquad = false;
       _TargetObject = null;
-      ChangeState(to);
+      ChangeState (to);
 
-      PikminStatsManager.RemoveFromSquad(gameObject, _Data._Colour, _CurrentMaturity);
+      PikminStatsManager.RemoveFromSquad (gameObject, _Data._Colour, _CurrentMaturity);
     }
   }
+
+  #region Fun
+
+  // Pikmin turn "ragdoll"
+  public void Fun_DIE () {
+    _Rigidbody.constraints = RigidbodyConstraints.None;
+
+    HandleDeath (false);
+
+    _Rigidbody.isKinematic = false;
+    _Rigidbody.useGravity = true;
+  }
+
+  #endregion
 
   #endregion
 }

@@ -25,8 +25,7 @@ public class CameraController : MonoBehaviour {
   [SerializeField] AudioClip _ZoomSound = null;
 
   [Header ("Settings")]
-  [SerializeField] float _MovementDampTime = 0.5f;
-  [SerializeField] float _MovementMaxSpeed = 5f;
+  [SerializeField] float _MoveSpeed = 5;
 
   [SerializeField] float _RotationDampening = 5;
   [SerializeField] float _RotationSpeed = 5;
@@ -88,7 +87,7 @@ public class CameraController : MonoBehaviour {
     _RotationAngle = Mathf.Lerp (_RotationAngle, _WantedRotationAngle, _RotationSpeed * Time.deltaTime);
     _MainCamera.fieldOfView = Mathf.SmoothStep (_MainCamera.fieldOfView, _CurrentEntry._FOV, _FOVChangeSpeed * Time.deltaTime);
 
-    transform.position = Vector3.Lerp (transform.position, GetWantedCameraPosition (), _MovementDampTime * Time.deltaTime);
+    transform.position = Vector3.Lerp (transform.position, GetWantedCameraPosition (), _MoveSpeed * Time.deltaTime);
 
     Vector3 delta = (_Target.position - transform.position).normalized;
     transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation (delta), _RotationDampening * Time.deltaTime);

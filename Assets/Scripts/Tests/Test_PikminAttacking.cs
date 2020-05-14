@@ -39,23 +39,21 @@ public class Test_PikminAttacking : MonoBehaviour, IPikminAttack {
 
   void Awake () {
     _CurrentHealth = _MaxHealth;
-    _Rigidbody = GetComponent<Rigidbody>();
+    _Rigidbody = GetComponent<Rigidbody> ();
   }
 
   void Update () {
     _Text.text = "Health: " + _CurrentHealth + '\n' + "Attached: " + _Attacking.Count;
-    
-    if (MathUtil.DistanceTo(transform.position, _NextPosition) < 1)
-    {
+
+    if (MathUtil.DistanceTo (transform.position, _NextPosition) < 1) {
       // Pick a new destination
       Vector3 newPosition = _NextPosition - Vector3.down * 100;
-      while (!Physics.Raycast(newPosition, Vector3.down))
-      {
-        newPosition = MathUtil.XZToXYZ(Random.insideUnitCircle * 2.5f, 2.5f);
+      while (!Physics.Raycast (newPosition, Vector3.down)) {
+        newPosition = MathUtil.XZToXYZ (Random.insideUnitCircle * 2.5f, 2.5f);
       }
       _NextPosition = newPosition;
     }
-    
+
     if (_CurrentHealth <= 0) {
 
       foreach (var pikmin in _Attacking) {
@@ -70,19 +68,17 @@ public class Test_PikminAttacking : MonoBehaviour, IPikminAttack {
     _Rigidbody.velocity = delta;
 
     delta.y = 0;
-    transform.rotation = Quaternion.LookRotation(delta);
+    transform.rotation = Quaternion.LookRotation (delta);
   }
 
-  void OnDrawGizmosSelected()
-  {
-    Gizmos.DrawSphere(_NextPosition, 2.5f);
+  void OnDrawGizmosSelected () {
+    Gizmos.DrawSphere (_NextPosition, 2.5f);
 
     // Pick a new destination
     Vector3 newPosition = _NextPosition - Vector3.down * 100;
-    while (!Physics.Raycast(_NextPosition, Vector3.down))
-    {
-      _NextPosition = MathUtil.XZToXYZ(Random.insideUnitCircle * 10f, 2.5f);
-      Gizmos.DrawCube(newPosition, Vector3.one * 5);
+    while (!Physics.Raycast (_NextPosition, Vector3.down)) {
+      _NextPosition = MathUtil.XZToXYZ (Random.insideUnitCircle * 10f, 2.5f);
+      Gizmos.DrawCube (newPosition, Vector3.one * 5);
     }
   }
 }

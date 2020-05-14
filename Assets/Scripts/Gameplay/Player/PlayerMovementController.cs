@@ -27,10 +27,9 @@ public class PlayerMovementController : MonoBehaviour {
       return;
     }
 
-    if (GameManager._FunMode && Input.GetKeyDown(KeyCode.Space))
-    {
-        _Rigidbody.velocity = new Vector3(_Rigidbody.velocity.x, _JumpSpeed, _Rigidbody.velocity.z);
-      print("A");
+    if (GameManager._FunMode && Input.GetKeyDown (KeyCode.Space)) {
+      _Rigidbody.velocity = new Vector3 (_Rigidbody.velocity.x, _JumpSpeed, _Rigidbody.velocity.z);
+      print ("A");
     }
 
     Vector3 input = new Vector3 (Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical"));
