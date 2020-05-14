@@ -14243,7 +14243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _MaxShootDistance: 50
-  _ShootForce: 10
+  _ShootForce: 100
   _PikminLayer:
     serializedVersion: 2
     m_Bits: 256
