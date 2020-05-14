@@ -40,6 +40,6 @@ public class Fun_GunController : MonoBehaviour {
       }
     }
 
-    transform.rotation = Quaternion.LookRotation (cursorRay.direction, Vector3.up);
+    transform.rotation = Quaternion.LookRotation (cursorRay.direction, _MainCamera.transform.up);
   }
 }
