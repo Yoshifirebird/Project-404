@@ -22,14 +22,19 @@ public class PlayerMovementController : MonoBehaviour {
     _MainCamera = Camera.main;
   }
 
-  void FixedUpdate () {
+  void Update () {
     if (GameManager._IsPaused) {
       return;
     }
 
     if (GameManager._FunMode && Input.GetKeyDown (KeyCode.Space)) {
       _Rigidbody.velocity = new Vector3 (_Rigidbody.velocity.x, _JumpSpeed, _Rigidbody.velocity.z);
-      print ("A");
+    }
+  }
+
+  void FixedUpdate () {
+    if (GameManager._IsPaused) {
+      return;
     }
 
     Vector3 input = new Vector3 (Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical"));
