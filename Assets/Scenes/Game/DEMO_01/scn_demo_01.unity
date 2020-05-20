@@ -353,6 +353,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &68002571
 AudioSource:
   m_ObjectHideFlags: 0
@@ -851,6 +852,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &210128464
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1093,6 +1095,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &223969433
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1335,6 +1338,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &225831318
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1577,6 +1581,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &289414793
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5009,6 +5014,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &301669614
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7520,6 +7526,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &381740177
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7762,6 +7769,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &387752019
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8004,6 +8012,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &395601478
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8246,6 +8255,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &410088645
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8488,6 +8498,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &411348733
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8730,6 +8741,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &441496217
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8972,6 +8984,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &488506197
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9214,6 +9227,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &494231693
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9423,7 +9437,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 588574275}
   m_LocalRotation: {x: -0, y: -0.13052455, z: -0, w: 0.99144506}
-  m_LocalPosition: {x: 13.681853, y: 0.5, z: -4.2323675}
+  m_LocalPosition: {x: 6.598, y: 0.5, z: -4.2323675}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 1260152584}
@@ -9462,6 +9476,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &588574278
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9704,6 +9719,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &631226052
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10060,6 +10076,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &661326515
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10302,6 +10319,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &683683433
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10544,6 +10562,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &728688654
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10786,6 +10805,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &730028320
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11028,6 +11048,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &734382850
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11399,7 +11420,7 @@ MonoBehaviour:
   _MoveSpeed: 5
   _RotationDampening: 20
   _RotationSpeed: 25
-  _RotationStepSpeed: -0.75
+  _RotationStepSpeed: -10
   _FOVChangeSpeed: 10
   _DefaultEntries:
   - _FOV: 60
@@ -11621,6 +11642,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &803542632
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11863,6 +11885,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &814348194
 AudioSource:
   m_ObjectHideFlags: 0
@@ -12117,6 +12140,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &815384127
 AudioSource:
   m_ObjectHideFlags: 0
@@ -12811,6 +12835,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &852298139
 AudioSource:
   m_ObjectHideFlags: 0
@@ -13134,6 +13159,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &920776013
 AudioSource:
   m_ObjectHideFlags: 0
@@ -13376,6 +13402,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &936676782
 AudioSource:
   m_ObjectHideFlags: 0
@@ -13650,6 +13677,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &1099055730
 AudioSource:
   m_ObjectHideFlags: 0
@@ -13892,6 +13920,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &1112590607
 AudioSource:
   m_ObjectHideFlags: 0
@@ -14477,6 +14506,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &1242375949
 AudioSource:
   m_ObjectHideFlags: 0
@@ -17024,6 +17054,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &1283427699
 AudioSource:
   m_ObjectHideFlags: 0
@@ -17266,6 +17297,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &1284951782
 AudioSource:
   m_ObjectHideFlags: 0
@@ -17508,6 +17540,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &1387946249
 AudioSource:
   m_ObjectHideFlags: 0
@@ -17750,6 +17783,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &1393183917
 AudioSource:
   m_ObjectHideFlags: 0
@@ -17992,6 +18026,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &1403132635
 AudioSource:
   m_ObjectHideFlags: 0
@@ -18591,6 +18626,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &1575716229
 AudioSource:
   m_ObjectHideFlags: 0
@@ -18833,6 +18869,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &1576875058
 AudioSource:
   m_ObjectHideFlags: 0
@@ -19075,6 +19112,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &1602810652
 AudioSource:
   m_ObjectHideFlags: 0
@@ -19317,6 +19355,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &1605040100
 AudioSource:
   m_ObjectHideFlags: 0
@@ -19559,6 +19598,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &1684853655
 AudioSource:
   m_ObjectHideFlags: 0
@@ -20285,6 +20325,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &1832970939
 AudioSource:
   m_ObjectHideFlags: 0
@@ -20527,6 +20568,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &1853616988
 AudioSource:
   m_ObjectHideFlags: 0
@@ -20769,6 +20811,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &1875328514
 AudioSource:
   m_ObjectHideFlags: 0
@@ -21134,6 +21177,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &1933526530
 AudioSource:
   m_ObjectHideFlags: 0
@@ -21376,6 +21420,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _InSquad: 0
+  _RagdollTime: 2
 --- !u!82 &1991903018
 AudioSource:
   m_ObjectHideFlags: 0

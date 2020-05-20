@@ -72,10 +72,10 @@ public class CameraController : MonoBehaviour {
     }
 
     if (Input.GetButton ("Left Trigger")) {
-      _WantedRotationAngle += _RotationStepSpeed;
+      _WantedRotationAngle += _RotationStepSpeed * Time.deltaTime;
     }
     else if (Input.GetButton ("Right Trigger")) {
-      _WantedRotationAngle -= _RotationStepSpeed;
+      _WantedRotationAngle -= _RotationStepSpeed * Time.deltaTime;
     }
 
     if (Input.GetButton ("Right Stick Click")) {
