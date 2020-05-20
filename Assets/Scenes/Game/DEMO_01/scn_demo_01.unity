@@ -14115,8 +14115,8 @@ MonoBehaviour:
   - {fileID: 506851226}
   - {fileID: 1787558463}
   _StartRadius: 0.15
-  _MaxRadius: 0.5
-  _ExpandBlowTime: 2
+  _MaxRadius: 3
+  _ExpandBlowTime: 1
   _HoldingBlowTime: 2
   _MaxWhistleDistance: Infinity
   _WhistleInteractLayer:
