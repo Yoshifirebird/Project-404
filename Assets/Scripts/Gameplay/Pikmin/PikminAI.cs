@@ -57,6 +57,7 @@ public class PikminAI : MonoBehaviour, IHealth {
   [Header ("Misc")]
   [SerializeField] LayerMask _PikminMask = 0;
   [SerializeField] bool _InSquad = false;
+  [SerializeField] float _RagdollTime = 2;
 
   // Components
   AudioSource _AudioSource = null;
@@ -222,7 +223,17 @@ public class PikminAI : MonoBehaviour, IHealth {
     }
   }
 
-  void HandleDeath (bool destroyObj = true) {
+  void HandleDeath () {
+    _Rigidbody.constraints = RigidbodyConstraints.None;
+    _Rigidbody.isKinematic = false;
+    _Rigidbody.useGravity = true;
+    if(_RagdollTime > 0)
+    {
+      _RagdollTime -= Time.deltaTime;
+      return;
+    }
+
+
     PikminStatsManager.Remove (_Data._Colour, _CurrentMaturity, _CurrentStatSpecifier);
     AudioSource.PlayClipAtPoint (_Data._DeathNoise, transform.position, _Data._AudioVolume);
 
@@ -230,11 +241,8 @@ public class PikminAI : MonoBehaviour, IHealth {
     var soul = Instantiate (_DeathParticle, transform.position, Quaternion.Euler (-90, 0, 0));
     Destroy (soul, 5);
 
-    // Sometimes we don't want to remove the visual aspect of the death - keep the object in scene
-    if (destroyObj) {
-      // Remove the object
-      Destroy (gameObject);
-    }
+    // Remove the object
+    Destroy (gameObject);
   }
 
   void HandleAttacking () {
@@ -352,20 +360,6 @@ public class PikminAI : MonoBehaviour, IHealth {
       PikminStatsManager.RemoveFromSquad (gameObject, _Data._Colour, _CurrentMaturity);
     }
   }
-
-  #region Fun
-
-  // Pikmin turn "ragdoll"
-  public void Fun_DIE () {
-    _Rigidbody.constraints = RigidbodyConstraints.None;
-
-    HandleDeath (false);
-
-    _Rigidbody.isKinematic = false;
-    _Rigidbody.useGravity = true;
-  }
-
-  #endregion
 
   #endregion
 }

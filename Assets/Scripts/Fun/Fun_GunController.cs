@@ -40,13 +40,8 @@ public class Fun_GunController : MonoBehaviour {
 
       if (cursorOnCollider && hitInfo.transform.CompareTag ("Pikmin")) {
         PikminAI aiComponent = hitInfo.collider.GetComponent<PikminAI> ();
-        if (aiComponent != null && _ShotPikmin.Contains (aiComponent) == false) {
-          // Call the Fun_DIE function, and then disable the AI.
-          aiComponent.Fun_DIE ();
-          aiComponent.enabled = false;
-
-          // Add it to the list so we can't kill it after it's dead
-          _ShotPikmin.Add (aiComponent);
+        if (aiComponent != null) {
+          aiComponent.GetComponent<IHealth> ().SubtractHealth (1);
         }
       }
     }
