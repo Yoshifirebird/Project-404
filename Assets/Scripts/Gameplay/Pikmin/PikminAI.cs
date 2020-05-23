@@ -209,7 +209,12 @@ public class PikminAI : MonoBehaviour, IHealth {
   }
 
   void HandleDeath (bool destroyObj = true) {
+    if (_InSquad) {
+      RemoveFromSquad (PikminStates.Dead);
+    }
+
     PikminStatsManager.Remove (_Data._Colour, _CurrentMaturity, _CurrentStatSpecifier);
+
     AudioSource.PlayClipAtPoint (_Data._DeathNoise, transform.position, _Data._AudioVolume);
 
     // Create the soul gameobject, and play the death noise
@@ -334,7 +339,7 @@ public class PikminAI : MonoBehaviour, IHealth {
   }
 
   public void AddToSquad () {
-    if (!_InSquad) {
+    if (!_InSquad && _CurrentState != PikminStates.Dead) {
       _InSquad = true;
       ChangeState (PikminStates.RunningTowards);
       _TargetObject = GameManager._Player._FormationCentre;
