@@ -8,7 +8,8 @@ using UnityEngine;
 
 public class Test_PikminStats : MonoBehaviour {
   [Header ("Settings")]
-  [SerializeField] KeyCode _KeyToApply = default;
+  [SerializeField] KeyCode _KeyToApply = KeyCode.Alpha1;
+  [SerializeField] KeyCode _KeyToPrint = KeyCode.Alpha0;
 
   [Header ("Modifiers")]
   [SerializeField] PikminMaturity _Maturity = default;
@@ -24,7 +25,10 @@ public class Test_PikminStats : MonoBehaviour {
       else {
         PikminStatsManager.Remove (_Colour, _Maturity, _Specifier);
       }
-
+    }
+    
+    if (Input.GetKeyDown(_KeyToPrint))
+    {
       PikminStatsManager.Print ();
     }
   }
