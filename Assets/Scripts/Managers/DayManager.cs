@@ -4,23 +4,24 @@
  * Created on: 23/5/2020 (dd/mm/yy)
  */
 
-using System;
-using UnityEngine;
+public enum DayState
+{ 
+  Morning,
+  Afternoon,
+  Evening,
+  CountDown,
+  EndOfDay
+}
+
 
 // TODO: stubbed atm, expand upon this
-public class DayManager : MonoBehaviour
+public static class DayManager
 {
-	[SerializeField] int _LengthOfDay = 50;
-	[SerializeField] string _LengthOfDayMMSS = "00:00";
+  public static int _CurrentDay = 0;
+  // TODO: day limit? etc.
 
-	void Awake()
-	{
-		GameManager._DayManager = this;
-	}
-
-	void OnDrawGizmosSelected()
-	{
-		var ts = TimeSpan.FromSeconds(_LengthOfDay);
-		_LengthOfDayMMSS = string.Format("{0:00}:{1:00}", ts.Minutes, ts.Seconds);
-	}
+  public static int _MorningPeriod = 100;
+  public static int _AfternoonPeriod = 100;
+  public static int _EveningPeriod = 70;
+  // Countdown Timer, starting from 10
 }
