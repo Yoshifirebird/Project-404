@@ -37,6 +37,10 @@ public class PikminMaturityStats {
     Debug.Log ($"{_Maturity.ToString()}\tInSquad: {_InSquad}, OnField: {_OnField}, InOnion: {_InOnion}");
   }
 
+  public override string ToString () {
+    return $"{_Maturity.ToString()}\tInSquad: {_InSquad}, OnField: {_OnField}, InOnion: {_InOnion}\n";
+  }
+
   public void AddTo (PikminStatSpecifier specifier) {
     switch (specifier) {
       case PikminStatSpecifier.InSquad:
@@ -88,6 +92,14 @@ public class PikminTypeStats {
     _Leaf.Print ();
     _Bud.Print ();
     _Flower.Print ();
+  }
+
+  public override string ToString () {
+    string str = $"\tCOLOUR\t{ _Colour.ToString()}\n";
+    str += _Leaf.ToString ();
+    str += _Bud.ToString ();
+    str += _Flower.ToString ();
+    return str;
   }
 
   // Adds a Pikmin to their specified matury level stats
@@ -166,13 +178,13 @@ public static class PikminStatsManager {
   public static void Remove (PikminColour colour, PikminMaturity maturity, PikminStatSpecifier specifier) {
     switch (colour) {
       case PikminColour.Red:
-        _RedStats.AddTo (maturity, specifier);
+        _RedStats.RemoveFrom (maturity, specifier);
         break;
       case PikminColour.Yellow:
-        _YellowStats.AddTo (maturity, specifier);
+        _YellowStats.RemoveFrom (maturity, specifier);
         break;
       case PikminColour.Blue:
-        _BlueStats.AddTo (maturity, specifier);
+        _BlueStats.RemoveFrom (maturity, specifier);
         break;
       default:
         break;
