@@ -11,7 +11,7 @@ using UnityEngine;
 
 // A roaming object that will move from place to place randomly
 [RequireComponent (typeof (Rigidbody), typeof (Rigidbody))]
-public class Test_PikminAttacking : MonoBehaviour, IPikminAttack {
+public class Test_PikminAttacking : MonoBehaviour, IPikminAttack, IHealth {
   public PikminIntention IntentionType => PikminIntention.Attack;
 
   [Header ("Components")]
@@ -128,5 +128,27 @@ public class Test_PikminAttacking : MonoBehaviour, IPikminAttack {
     }
 
     _NextPosition = nextPosition;
+  }
+
+  public float GetCurrentHealth () {
+    return _CurrentHealth;
+  }
+
+  public float GetMaxHealth () {
+    return _MaxHealth;
+  }
+
+  public void SetHealth (float h) {
+    _CurrentHealth = h;
+  }
+
+  public float SubtractHealth (float h) {
+    _CurrentHealth -= h;
+    return _CurrentHealth;
+  }
+
+  public float AddHealth (float h) {
+    _CurrentHealth += h;
+    return _CurrentHealth;
   }
 }
