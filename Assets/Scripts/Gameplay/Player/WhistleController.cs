@@ -36,8 +36,8 @@ public class WhistleController : MonoBehaviour {
   void Awake () {
     _MainCamera = Camera.main;
     _PlayerTransform = GameManager._Player.transform;
-    
-    _Renderer = GetComponent<LineRenderer>();
+
+    _Renderer = GetComponent<LineRenderer> ();
     _ParentParticleAudio = _ParentParticle.GetComponent<AudioSource> ();
 
     _TotalBlowTime = _ExpandBlowTime + _HoldingBlowTime;
@@ -53,8 +53,8 @@ public class WhistleController : MonoBehaviour {
       return;
     }
 
-    _Renderer.SetPosition(0, _PlayerTransform.position);
-    _Renderer.SetPosition(1, _CursorTransform.position);
+    _Renderer.SetPosition (0, _PlayerTransform.position);
+    _Renderer.SetPosition (1, _CursorTransform.position);
 
     if (Input.GetButtonDown ("B Button")) {
       // Start the particles and audio
