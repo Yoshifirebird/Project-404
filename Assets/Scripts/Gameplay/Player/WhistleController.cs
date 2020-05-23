@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class WhistleController : MonoBehaviour {
   [Header ("Components")]
+  [SerializeField] Transform _CursorTransform = null;
   [SerializeField] ParticleSystem _ParentParticle = null;
   [SerializeField] ParticleSystem[] _WhistleParticles = null;
 
@@ -28,10 +29,15 @@ public class WhistleController : MonoBehaviour {
   [SerializeField] float _TotalBlowTime = 0;
 
   AudioSource _ParentParticleAudio = null;
+  Transform _PlayerTransform = null;
   Camera _MainCamera = null;
+  LineRenderer _Renderer = null;
 
   void Awake () {
     _MainCamera = Camera.main;
+    _PlayerTransform = GameManager._Player.transform;
+    
+    _Renderer = GetComponent<LineRenderer>();
     _ParentParticleAudio = _ParentParticle.GetComponent<AudioSource> ();
 
     _TotalBlowTime = _ExpandBlowTime + _HoldingBlowTime;
@@ -47,20 +53,21 @@ public class WhistleController : MonoBehaviour {
       return;
     }
 
+    _Renderer.SetPosition(0, _PlayerTransform.position);
+    _Renderer.SetPosition(1, _CursorTransform.position);
+
     if (Input.GetButtonDown ("B Button")) {
       // Start the particles and audio
-
       _ParentParticle.Stop (true);
       _ParentParticle.Play (true);
-
       _ParentParticleAudio.Play ();
+
       _CurrentRadius = _StartRadius;
       _ParentParticle.transform.localScale = MathUtil.XZToXYZ (Vector2.one * _StartRadius, _StartRadius);
       _Blowing = true;
     }
     if (Input.GetButtonUp ("B Button") || _CurrentTime >= _TotalBlowTime) {
       // Stop the particles and audio
-
       _ParentParticle.Stop (true);
       _ParentParticleAudio.Stop ();
 
@@ -72,6 +79,7 @@ public class WhistleController : MonoBehaviour {
     Ray ray = _MainCamera.ScreenPointToRay (Input.mousePosition);
     if (Physics.Raycast (ray, out RaycastHit hit, _MaxWhistleDistance, _WhistleInteractLayer, QueryTriggerInteraction.Ignore)) {
       transform.position = hit.point + Vector3.up / 1.5f;
+      _CursorTransform.position = hit.point;
     }
 
     if (_Blowing) {
