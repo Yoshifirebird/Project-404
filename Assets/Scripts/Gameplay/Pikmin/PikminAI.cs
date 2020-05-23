@@ -105,34 +105,6 @@ public class PikminAI : MonoBehaviour, IHealth {
       case PikminStates.Idle:
         HandleIdle ();
         break;
-      case PikminStates.RunningTowards:
-        if (_TargetObject == null) {
-          ChangeState (PikminStates.Idle);
-        }
-        else {
-          MoveTowardsTarget ();
-        }
-
-        if (_Intention == PikminIntention.Attack && _TargetObject != null) {
-          Vector3 directionToObj = ClosestPointOnTarget () - transform.position;
-          if (Physics.Raycast (transform.position, directionToObj, out RaycastHit hit, 2.5f)) {
-            if (hit.collider != _TargetObjectCollider && hit.collider.CompareTag ("Pikmin")) {
-              // Make the Pikmin move to the right a little to avoid jumping into the other Pikmin
-              _Rigidbody.velocity += transform.right * 2.5f;
-            }
-          }
-
-          _AttackJumpTimer -= Time.deltaTime;
-          if (_AttackJumpTimer <= 0 &&
-            MathUtil.DistanceTo (transform.position, ClosestPointOnTarget ()) <= _Data._AttackDistToJump &&
-            Physics.Raycast (transform.position, directionToObj, out hit, 2.5f) &&
-            hit.collider == _TargetObjectCollider) {
-            _Rigidbody.velocity = new Vector3 (_Rigidbody.velocity.x, _Data._AttackJumpPower, _Rigidbody.velocity.z);
-            _AttackJumpTimer = _Data._AttackJumpTimer;
-          }
-        }
-
-        break;
       case PikminStates.Attacking:
         HandleAttacking ();
         break;
@@ -143,6 +115,36 @@ public class PikminAI : MonoBehaviour, IHealth {
         // Intentionally has no behaviour
       default:
         break;
+    }
+  }
+
+  void FixedUpdate () {
+    if (_CurrentState == PikminStates.RunningTowards) {
+      if (_TargetObject == null) {
+        ChangeState (PikminStates.Idle);
+      }
+      else {
+        MoveTowardsTarget ();
+      }
+
+      if (_Intention == PikminIntention.Attack && _TargetObject != null) {
+        Vector3 directionToObj = ClosestPointOnTarget () - transform.position;
+        if (Physics.Raycast (transform.position, directionToObj, out RaycastHit hit, 2.5f)) {
+          if (hit.collider != _TargetObjectCollider && hit.collider.CompareTag ("Pikmin")) {
+            // Make the Pikmin move to the right a little to avoid jumping into the other Pikmin
+            _Rigidbody.velocity += transform.right * 2.5f;
+          }
+        }
+
+        _AttackJumpTimer -= Time.deltaTime;
+        if (_AttackJumpTimer <= 0 &&
+          MathUtil.DistanceTo (transform.position, ClosestPointOnTarget ()) <= _Data._AttackDistToJump &&
+          Physics.Raycast (transform.position, directionToObj, out hit, 2.5f) &&
+          hit.collider == _TargetObjectCollider) {
+          _Rigidbody.velocity = new Vector3 (_Rigidbody.velocity.x, _Data._AttackJumpPower, _Rigidbody.velocity.z);
+          _AttackJumpTimer = _Data._AttackJumpTimer;
+        }
+      }
     }
   }
 
