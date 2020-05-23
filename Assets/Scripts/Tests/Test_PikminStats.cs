@@ -26,9 +26,8 @@ public class Test_PikminStats : MonoBehaviour {
         PikminStatsManager.Remove (_Colour, _Maturity, _Specifier);
       }
     }
-    
-    if (Input.GetKeyDown(_KeyToPrint))
-    {
+
+    if (Input.GetKeyDown (_KeyToPrint)) {
       PikminStatsManager.Print ();
     }
   }
