@@ -8,13 +8,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Fun_GunController : MonoBehaviour {
-  [Header ("Gun Settings")]
-  [SerializeField] float _MaxShootDistance = 50;
-  [SerializeField] float _ShootForce = 2.5f;
-
-  [Header ("Misc")]
-  [SerializeField] LayerMask _PikminLayer = 0;
+  [Header ("Components")]
   [SerializeField] AudioClip _ShotSound = null;
+
+  [Header ("Settings")]
+  [SerializeField] float _MaxShootDistance = 50;
+  [SerializeField] float _ShotDamage = 5;
+  [SerializeField] float _BulletForce = 2.5f;
 
   [Header ("Debugging")]
   [SerializeField] List<PikminAI> _ShotPikmin = new List<PikminAI> ();
@@ -35,7 +35,7 @@ public class Fun_GunController : MonoBehaviour {
 
       // Add force for extra fun points
       if (hitInfo.rigidbody != null) {
-        hitInfo.rigidbody.AddForce (cursorRay.direction * _ShootForce);
+        hitInfo.rigidbody.AddForce (cursorRay.direction * _BulletForce);
       }
 
       if (cursorOnCollider && hitInfo.transform.CompareTag ("Pikmin")) {
@@ -47,7 +47,13 @@ public class Fun_GunController : MonoBehaviour {
 
           // Add it to the list so we can't kill it after it's dead
           _ShotPikmin.Add (aiComponent);
+          return;
         }
+      }
+
+      var health = GetComponent<IHealth> ();
+      if (health != null) {
+        health.SubtractHealth (_ShotDamage);
       }
     }
 
