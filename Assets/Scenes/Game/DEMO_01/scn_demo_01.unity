@@ -9843,11 +9843,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1211525291}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b15b49025f8d948438ddf5ce5e07135d, type: 3}
+  m_Script: {fileID: 11500000, guid: e2cc3c4dcf833bf47bd633fdb4e6f58c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _LengthOfDay: 600
-  _LengthOfDayMMSS: 10:00
 --- !u!1 &1213964431
 GameObject:
   m_ObjectHideFlags: 0
