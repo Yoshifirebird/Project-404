@@ -40,7 +40,6 @@ public class Test_PikminAttacking : MonoBehaviour, IPikminAttack {
   }
 
   public void OnAttackRecieve (float damage) {
-    print ("Recieving attack");
     _CurrentHealth -= damage;
   }
 

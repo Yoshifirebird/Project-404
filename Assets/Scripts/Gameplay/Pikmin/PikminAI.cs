@@ -45,6 +45,7 @@ public class PikminAI : MonoBehaviour, IHealth {
 
   [Header ("Attacking")]
   [SerializeField] IPikminAttack _Attacking = null;
+  [SerializeField] Vector3 _LatchOffset = Vector3.zero;
   [SerializeField] Transform _AttackingTransform = null;
   [SerializeField] float _AttackTimer = 0;
   [SerializeField] float _AttackJumpTimer = 0;
@@ -228,6 +229,9 @@ public class PikminAI : MonoBehaviour, IHealth {
       return;
     }
 
+    // Maintain latch offset on object
+    transform.localPosition = _LatchOffset;
+
     // Add to the timer and attack if we've gone past the timer
     _AttackTimer += Time.deltaTime;
     if (_AttackTimer >= _Data._AttackDelay) {
@@ -240,16 +244,11 @@ public class PikminAI : MonoBehaviour, IHealth {
     _PreviousState = _CurrentState;
     _CurrentState = state;
 
-    // Handle latching in a better, less rigidbody intrusive way
-    if (_CurrentState == PikminStates.Attacking)
-    {
-      _Collider.radius /= 2;
-      _Collider.height /= 2;
-    }
-    else if (_PreviousState == PikminStates.Attacking)
-    {
-      _Collider.radius *= 2;
-      _Collider.height *= 2;
+    // Shrink collider and grab latch offset to maintain the same position
+    if (_CurrentState == PikminStates.Attacking) {
+      _Collider.radius /= 5;
+      _Collider.height /= 5;
+      _LatchOffset = transform.localPosition;
     }
 
     // Waiting relies on the fact we're going to do something when another thing outside of our behaviour is done
@@ -263,6 +262,11 @@ public class PikminAI : MonoBehaviour, IHealth {
       _TargetObjectCollider = null;
     }
     else if (_PreviousState == PikminStates.Attacking) {
+      // Reset latching variables aka regrow collider size and reset the latch offset
+      _Collider.radius *= 5;
+      _Collider.height *= 5;
+      _LatchOffset = Vector3.zero;
+
       LatchOnto (null);
       _Rigidbody.velocity = Vector3.zero;
 
