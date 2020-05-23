@@ -4,8 +4,9 @@
  * Created on: 30/4/2020 (dd/mm/yy)
  */
 
-public enum Language
-{ 
+using UnityEngine;
+
+public enum Language {
   English,
   French,
 }
@@ -13,6 +14,7 @@ public enum Language
 public static class GameManager {
   public static bool _IsPaused = false; // Used in checks to see if the game is paused
   public static bool _FunMode = false; // Used in checks when you want to mess around, enables odd features
+  public static bool _DebugGui = Application.isEditor; // Used for debugging
 
   public static Language _Language = Language.English; // Used for alternate texts
 
