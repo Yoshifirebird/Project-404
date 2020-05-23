@@ -61,6 +61,7 @@ public class PikminAI : MonoBehaviour, IHealth {
   // Components
   AudioSource _AudioSource = null;
   Rigidbody _Rigidbody = null;
+  CapsuleCollider _Collider = null;
 
   #region Interface Methods
 
@@ -84,6 +85,7 @@ public class PikminAI : MonoBehaviour, IHealth {
   void Awake () {
     _Rigidbody = GetComponent<Rigidbody> ();
     _AudioSource = GetComponent<AudioSource> ();
+    _Collider = GetComponent<CapsuleCollider> ();
 
     _PikminMask = LayerMask.NameToLayer ("Pikmin");
 
@@ -144,30 +146,12 @@ public class PikminAI : MonoBehaviour, IHealth {
   }
 
   void OnCollisionEnter (Collision collision) {
-
     if (collision.gameObject.layer != LayerMask.NameToLayer ("PikminInteractable")) {
       return;
     }
 
     if (_TargetObjectCollider != null && collision.collider == _TargetObjectCollider) {
       CarryoutIntention ();
-    }
-  }
-
-  void OnCollisionExit (Collision collision) {
-    if (collision.transform == _AttackingTransform && _CurrentState == PikminStates.Attacking) {
-      // The object we've been attacking has just been destroyed, or smth else happened so we're gonna go idle
-      if (_Attacking == null) {
-        ChangeState (PikminStates.Idle);
-        return;
-      }
-
-      _Attacking.OnAttackEnd (this);
-      ChangeState (PikminStates.RunningTowards);
-
-      _TargetObject = collision.transform;
-      _TargetObjectCollider = collision.collider;
-      _Intention = PikminIntention.Attack;
     }
   }
 
@@ -207,11 +191,11 @@ public class PikminAI : MonoBehaviour, IHealth {
     foreach (Collider collider in objects) {
       // Check if the object can even be seen by the Pikmin
       Vector3 closestPointToPikmin = collider.ClosestPoint (transform.position);
-      if (Physics.Raycast (transform.position, (closestPointToPikmin - transform.position).normalized, out RaycastHit hit, _Data._SearchRadius)) {
+      if (Physics.Raycast (transform.position, (closestPointToPikmin - transform.position).normalized, out RaycastHit hit, _Data._SearchRadius) &&
         // See if the Collider we hit wasn't the Player OR the closest object, meaning we can't actually get to the object
-        if (hit.collider != collider && hit.transform.CompareTag ("Player") == false) {
-          continue;
-        }
+        hit.collider != collider &&
+        hit.transform.CompareTag ("Player") == false) {
+        continue;
       }
 
       // We can move to the target object, and it is an interactable, so set our target object
@@ -255,6 +239,18 @@ public class PikminAI : MonoBehaviour, IHealth {
   void ChangeState (PikminStates state) {
     _PreviousState = _CurrentState;
     _CurrentState = state;
+
+    // Handle latching in a better, less rigidbody intrusive way
+    if (_CurrentState == PikminStates.Attacking)
+    {
+      _Collider.radius /= 2;
+      _Collider.height /= 2;
+    }
+    else if (_PreviousState == PikminStates.Attacking)
+    {
+      _Collider.radius *= 2;
+      _Collider.height *= 2;
+    }
 
     // Waiting relies on the fact we're going to do something when another thing outside of our behaviour is done
     if (_CurrentState == PikminStates.Waiting) {
