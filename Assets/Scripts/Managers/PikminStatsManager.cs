@@ -131,7 +131,7 @@ public static class PikminStatsManager {
   public static PikminTypeStats _BlueStats = new PikminTypeStats (PikminColour.Blue);
   public static PikminTypeStats _YellowStats = new PikminTypeStats (PikminColour.Yellow);
 
-  static List<GameObject> _InSquad = new List<GameObject> ();
+  public static List<GameObject> _InSquad = new List<GameObject> ();
 
   // Adds a Pikmin to the squad, and handles adding to the stats
   public static void AddToSquad (GameObject pikmin, PikminColour colour, PikminMaturity maturity) {
