@@ -9361,12 +9361,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfe0e636ab4c15408798e171ad5dd52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MaxShootDistance: 50
-  _ShootForce: 100
-  _PikminLayer:
-    serializedVersion: 2
-    m_Bits: 256
   _ShotSound: {fileID: 8300000, guid: ff0eb6ef018e0f245a8b830b700b13dd, type: 3}
+  _MaxShootDistance: 50
+  _ShotDamage: 5
+  _BulletForce: 2.5
   _ShotPikmin: []
   _AudioSource: {fileID: 1240257526}
   _MainCamera: {fileID: 0}
@@ -13163,6 +13161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _KeyToApply: 49
+  _KeyToPrint: 48
   _Maturity: 0
   _Colour: 0
   _Specifier: 0
