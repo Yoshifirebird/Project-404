@@ -10,6 +10,7 @@ using UnityEditor;
 using UnityEngine;
 
 // A roaming object that will move from place to place randomly
+[RequireComponent (typeof (Rigidbody), typeof (Rigidbody))]
 public class Test_PikminAttacking : MonoBehaviour, IPikminAttack {
   public PikminIntention IntentionType => PikminIntention.Attack;
 
@@ -97,9 +98,15 @@ public class Test_PikminAttacking : MonoBehaviour, IPikminAttack {
     print ("Recalculating Position");
 
     Vector3 nextPosition = Vector3.zero;
+    int tries = -1;
     // Keep running until we find an acceptable position
     while (true) {
       nextPosition = transform.position + (Random.insideUnitSphere * _RandomPositionModifier);
+      tries++;
+
+      if (tries >= 500) {
+        Debug.Break ();
+      }
 
       // Can we even see the spot?
       if (Physics.Raycast (transform.position, (nextPosition - transform.position).normalized, out RaycastHit hitInfo)) {
