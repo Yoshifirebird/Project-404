@@ -10,7 +10,6 @@ public enum PikminStates {
   Idle,
   RunningTowards,
   Attacking,
-  Waiting,
   Squad,
   Dead,
 }
@@ -111,8 +110,6 @@ public class PikminAI : MonoBehaviour, IHealth {
       case PikminStates.Dead:
         HandleDeath ();
         break;
-      case PikminStates.Waiting:
-        // Intentionally has no behaviour
       default:
         break;
     }
@@ -244,52 +241,6 @@ public class PikminAI : MonoBehaviour, IHealth {
     }
   }
 
-  void ChangeState (PikminStates state) {
-    _PreviousState = _CurrentState;
-    _CurrentState = state;
-
-    // Shrink collider and grab latch offset to maintain the same position
-    if (_CurrentState == PikminStates.Attacking) {
-      _Collider.radius /= 5;
-      _Collider.height /= 5;
-      _LatchOffset = transform.localPosition;
-      if (Physics.Raycast (transform.position, (ClosestPointOnTarget () - transform.position).normalized, out RaycastHit info)) {
-        transform.rotation = Quaternion.LookRotation (info.normal);
-      }
-    }
-
-    // Waiting relies on the fact we're going to do something when another thing outside of our behaviour is done
-    if (_CurrentState == PikminStates.Waiting) {
-      return;
-    }
-
-    // Null out the variables we were using in the previous state
-    if (_PreviousState == PikminStates.RunningTowards || _PreviousState == PikminStates.Idle && _TargetObject != null) {
-      _TargetObject = null;
-      _TargetObjectCollider = null;
-    }
-    else if (_PreviousState == PikminStates.Attacking) {
-      // Reset latching variables aka regrow collider size and reset the latch offset
-      _Collider.radius *= 5;
-      _Collider.height *= 5;
-      _LatchOffset = Vector3.zero;
-
-      LatchOnto (null);
-      _Rigidbody.velocity = Vector3.zero;
-
-      // Check if the object we were attacking was still active or not
-      if (_Attacking == null) {
-        _Attacking = null;
-        _AttackingTransform = null;
-        return;
-      }
-
-      // As it is still active, and not null, we can call the appropriate function
-      _Attacking.OnAttackEnd (this);
-      _AttackingTransform = null;
-      _AttackTimer = 0;
-    }
-  }
   #endregion
 
   #region Misc
@@ -329,6 +280,48 @@ public class PikminAI : MonoBehaviour, IHealth {
   #endregion
 
   #region Public Functions
+
+  public void ChangeState (PikminStates state) {
+    _PreviousState = _CurrentState;
+    _CurrentState = state;
+
+    // Shrink collider and grab latch offset to maintain the same position
+    if (_CurrentState == PikminStates.Attacking) {
+      _Collider.radius /= 5;
+      _Collider.height /= 5;
+      _LatchOffset = transform.localPosition;
+      if (Physics.Raycast (transform.position, (ClosestPointOnTarget () - transform.position).normalized, out RaycastHit info)) {
+        transform.rotation = Quaternion.LookRotation (info.normal);
+      }
+    }
+
+    // Null out the variables we were using in the previous state
+    if (_PreviousState == PikminStates.RunningTowards || _PreviousState == PikminStates.Idle && _TargetObject != null) {
+      _TargetObject = null;
+      _TargetObjectCollider = null;
+    }
+    else if (_PreviousState == PikminStates.Attacking) {
+      // Reset latching variables aka regrow collider size and reset the latch offset
+      _Collider.radius *= 5;
+      _Collider.height *= 5;
+
+      LatchOnto (null);
+      _Rigidbody.velocity = Vector3.zero;
+
+      // Check if the object we were attacking was still active or not
+      if (_Attacking == null) {
+        _Attacking = null;
+        _AttackingTransform = null;
+        _LatchOffset = Vector3.zero;
+        return;
+      }
+
+      // As it is still active, and not null, we can call the appropriate function
+      _Attacking.OnAttackEnd (this);
+      _AttackingTransform = null;
+      _AttackTimer = 0;
+    }
+  }
 
   public void StartRunTowards (Transform obj) {
     _TargetObject = obj;
