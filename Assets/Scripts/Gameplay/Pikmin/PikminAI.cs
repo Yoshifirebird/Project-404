@@ -271,7 +271,7 @@ public class PikminAI : MonoBehaviour, IHealth {
       _Rigidbody.velocity = Vector3.zero;
 
       // Check if the object we were attacking was still active or not
-      if (_AttackingTransform != null) {
+      if (_Attacking == null) {
         _Attacking = null;
         _AttackingTransform = null;
         return;
