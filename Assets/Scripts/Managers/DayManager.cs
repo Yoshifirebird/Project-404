@@ -1,11 +1,10 @@
-﻿/*
+/*
  * DayManager.cs
  * Created by: Ambrosia
  * Created on: 23/5/2020 (dd/mm/yy)
  */
 
-public enum DayState
-{ 
+public enum DayState {
   Morning,
   Afternoon,
   Evening,
@@ -13,10 +12,8 @@ public enum DayState
   EndOfDay
 }
 
-
 // TODO: stubbed atm, expand upon this
-public static class DayManager
-{
+public static class DayManager {
   public static int _CurrentDay = 0;
   // TODO: day limit? etc.
 
