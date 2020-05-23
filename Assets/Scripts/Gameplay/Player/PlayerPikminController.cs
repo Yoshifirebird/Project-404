@@ -10,10 +10,7 @@ public class PlayerPikminController : MonoBehaviour {
 
   void Update () {
     if (Input.GetButtonDown ("X Button")) {
-      while (PikminStatsManager._InSquad.Count > 0) {
-        var pikminInSquad = PikminStatsManager._InSquad[0];
-        pikminInSquad.GetComponent<PikminAI> ().RemoveFromSquad ();
-      }
+      PikminStatsManager.ClearSquad();
     }
   }
 

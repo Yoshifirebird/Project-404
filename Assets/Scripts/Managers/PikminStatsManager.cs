@@ -145,6 +145,15 @@ public static class PikminStatsManager {
 
   public static List<GameObject> _InSquad = new List<GameObject> ();
 
+  // Clears the Squad
+  public static void ClearSquad()
+  {
+    while (_InSquad.Count > 0)
+    {
+      _InSquad[0].GetComponent<PikminAI>().RemoveFromSquad();
+    }
+  }
+
   // Adds a Pikmin to the squad, and handles adding to the stats
   public static void AddToSquad (GameObject pikmin, PikminColour colour, PikminMaturity maturity) {
     _InSquad.Add (pikmin);
