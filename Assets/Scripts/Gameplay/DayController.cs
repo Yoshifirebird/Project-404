@@ -23,4 +23,6 @@ public class DayController : MonoBehaviour
   {
     return _CurrentTime;
   }
+
+  #endregion
 }
