@@ -10,7 +10,7 @@ using UnityEngine;
 public class Fun_Trampoline : MonoBehaviour {
   [SerializeField] float _BouncePower = 5;
 
-  void OnTriggerEnter (Collider other) {
+  void OnTriggerStay (Collider other) {
     Rigidbody rb = other.GetComponent<Rigidbody> ();
     if (rb != null) {
       rb.velocity = new Vector3 (rb.velocity.x, _BouncePower, rb.velocity.z);
