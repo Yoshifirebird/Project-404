@@ -251,6 +251,9 @@ public class PikminAI : MonoBehaviour, IHealth {
       _Collider.radius /= 5;
       _Collider.height /= 5;
       _LatchOffset = transform.localPosition;
+      if (Physics.Raycast (transform.position, (ClosestPointOnTarget () - transform.position).normalized, out RaycastHit info)) {
+        transform.rotation = Quaternion.LookRotation (info.normal);
+      }
     }
 
     // Waiting relies on the fact we're going to do something when another thing outside of our behaviour is done
