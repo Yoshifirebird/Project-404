@@ -10,7 +10,7 @@ public class UITimeline : MonoBehaviour
 	public Text debugTime;
 	public AnimationCurve sunOpacity;
 	public Image[] sunPics;
-	public float[] opDiv;
+	public float[] opDiv;	//Opacity division in case you're wondering.
 	public AnimationCurve moonOpacity;
 	public Image moonPic;
 
@@ -23,7 +23,7 @@ public class UITimeline : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		float currentTime = GameManager._DayController._CurrentTime / DayManager._TotalDayTime;
+		float currentTime = GameManager._DayController._CurrentTime;
 
 		int i = 0;
 		foreach(Image target in sunPics)	{
@@ -34,12 +34,12 @@ public class UITimeline : MonoBehaviour
 
 		moonPic.color = new Color(1,1,1,moonOpacity.Evaluate(currentTime % 1));
 
-		playhead.anchorMin = new Vector2(currentTime  %1,0.5f);
-		playhead.anchorMax = new Vector2(currentTime %1,0.5f);
+		playhead.anchorMin = new Vector2((currentTime*2)  %1,0.5f);
+		playhead.anchorMax = new Vector2((currentTime*2) %1,0.5f);
 
-		var td = TimeSpan.FromSeconds(GameManager._DayController._CurrentTime);
+		var td = TimeSpan.FromSeconds(((GameManager._DayController._CurrentTime+0.25)%1)*60*24);
 		if(debugTime) 
-			debugTime.text = string.Format("{0:00}:{1:00}", td.Minutes, td.Seconds);
+			debugTime.text = string.Format("{0:0}:{1:00}", td.Minutes, td.Seconds);
 			
     }
 }
