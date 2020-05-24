@@ -57,6 +57,7 @@ public class PikminAI : MonoBehaviour, IHealth {
   [Header ("Misc")]
   [SerializeField] LayerMask _PikminMask = 0;
   [SerializeField] bool _InSquad = false;
+  [SerializeField] float _RagdollTime = 0;
 
   // Components
   AudioSource _AudioSource = null;
@@ -72,8 +73,8 @@ public class PikminAI : MonoBehaviour, IHealth {
   void IHealth.SetHealth (float h) { }
 
   float IHealth.SubtractHealth (float h) {
-    // Pikmin don't health, they're going to die regardless.
-    ChangeState (PikminStates.Dead);
+    //Pikmin don't have health so they die no matter what
+    Die();
     return 0;
   }
 
@@ -208,9 +209,18 @@ public class PikminAI : MonoBehaviour, IHealth {
     }
   }
 
-  void HandleDeath (bool destroyObj = true) {
+  void HandleDeath () {
     if (_InSquad) {
       RemoveFromSquad (PikminStates.Dead);
+    }
+
+    if(_RagdollTime > 0)
+    {
+      _Rigidbody.constraints = RigidbodyConstraints.None;
+      _Rigidbody.isKinematic = false;
+      _Rigidbody.useGravity = true;
+      _RagdollTime -= Time.deltaTime;
+      return;
     }
 
     PikminStatsManager.Remove (_Data._Colour, _CurrentMaturity, _CurrentStatSpecifier);
@@ -221,11 +231,8 @@ public class PikminAI : MonoBehaviour, IHealth {
     var soul = Instantiate (_DeathParticle, transform.position, Quaternion.Euler (-90, 0, 0));
     Destroy (soul, 5);
 
-    // Sometimes we don't want to remove the visual aspect of the death - keep the object in scene
-    if (destroyObj) {
-      // Remove the object
-      Destroy (gameObject);
-    }
+    // Remove the object
+    Destroy (gameObject);
   }
 
   void HandleAttacking () {
@@ -287,6 +294,10 @@ public class PikminAI : MonoBehaviour, IHealth {
   #region Public Functions
 
   public void ChangeState (PikminStates state) {
+    // There's no saving pikmin from death
+    if (_CurrentState == PikminStates.Dead)
+      return;
+
     _PreviousState = _CurrentState;
     _CurrentState = state;
 
@@ -358,19 +369,10 @@ public class PikminAI : MonoBehaviour, IHealth {
     }
   }
 
-  #region Fun
-
-  // Pikmin turn "ragdoll"
-  public void Fun_DIE () {
-    _Rigidbody.constraints = RigidbodyConstraints.None;
-
-    HandleDeath (false);
-
-    _Rigidbody.isKinematic = false;
-    _Rigidbody.useGravity = true;
+  public void Die(float ragdollTimer = 0) {
+    _RagdollTime = ragdollTimer;
+    ChangeState(PikminStates.Dead);
   }
-
-  #endregion
 
   #endregion
 }

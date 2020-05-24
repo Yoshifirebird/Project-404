@@ -15,6 +15,7 @@ public class Fun_GunController : MonoBehaviour {
   [SerializeField] float _MaxShootDistance = 50;
   [SerializeField] float _ShotDamage = 5;
   [SerializeField] float _BulletForce = 2.5f;
+  [SerializeField] float _PikminRagdollTime = 2;
 
   [Header ("Debugging")]
   [SerializeField] List<PikminAI> _ShotPikmin = new List<PikminAI> ();
@@ -41,9 +42,8 @@ public class Fun_GunController : MonoBehaviour {
       if (cursorOnCollider && hitInfo.transform.CompareTag ("Pikmin")) {
         PikminAI aiComponent = hitInfo.collider.GetComponent<PikminAI> ();
         if (aiComponent != null && _ShotPikmin.Contains (aiComponent) == false) {
-          // Call the Fun_DIE function, and then disable the AI.
-          aiComponent.Fun_DIE ();
-          aiComponent.enabled = false;
+          // Damage the pikmin, which kills it
+          aiComponent.Die(_PikminRagdollTime);
 
           // Add it to the list so we can't kill it after it's dead
           _ShotPikmin.Add (aiComponent);

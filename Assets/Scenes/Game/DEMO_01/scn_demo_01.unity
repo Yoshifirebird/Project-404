@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1907568287}
-  m_IndirectSpecularColor: {r: 0.3542413, g: 0.24811754, b: 0.12580943, a: 1}
+  m_IndirectSpecularColor: {r: 0.35424155, g: 0.24811757, b: 0.12580955, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -383,6 +383,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _InSquad: 0
+  _RagdollTime: 0
 --- !u!82 &218383864
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6119,6 +6120,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _InSquad: 0
+  _RagdollTime: 0
 --- !u!82 &385759200
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6575,6 +6577,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _InSquad: 0
+  _RagdollTime: 0
 --- !u!82 &667700561
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8192,7 +8195,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh25276
+  m_Name: pb_Mesh25396
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -8454,6 +8457,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _InSquad: 0
+  _RagdollTime: 0
 --- !u!82 &935446972
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8697,6 +8701,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _InSquad: 0
+  _RagdollTime: 0
 --- !u!82 &950138929
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8940,6 +8945,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _InSquad: 0
+  _RagdollTime: 0
 --- !u!82 &1032412950
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9183,6 +9189,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _InSquad: 0
+  _RagdollTime: 0
 --- !u!82 &1043363037
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9458,6 +9465,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _InSquad: 0
+  _RagdollTime: 0
 --- !u!82 &1070788016
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9986,7 +9994,8 @@ MonoBehaviour:
   _ShotSound: {fileID: 8300000, guid: ff0eb6ef018e0f245a8b830b700b13dd, type: 3}
   _MaxShootDistance: 50
   _ShotDamage: 5
-  _BulletForce: 2.5
+  _BulletForce: 150
+  _PikminRagdollTime: 0
   _ShotPikmin: []
   _AudioSource: {fileID: 1240257526}
   _MainCamera: {fileID: 0}
@@ -10216,6 +10225,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _InSquad: 0
+  _RagdollTime: 0
 --- !u!82 &1242375949
 AudioSource:
   m_ObjectHideFlags: 0
@@ -12731,6 +12741,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _InSquad: 0
+  _RagdollTime: 0
 --- !u!82 &1300597725
 AudioSource:
   m_ObjectHideFlags: 0
@@ -12974,6 +12985,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _InSquad: 0
+  _RagdollTime: 0
 --- !u!82 &1335321309
 AudioSource:
   m_ObjectHideFlags: 0
@@ -13674,6 +13686,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _InSquad: 0
+  _RagdollTime: 0
 --- !u!82 &1666179418
 AudioSource:
   m_ObjectHideFlags: 0
@@ -14461,7 +14474,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh25024
+  m_Name: pb_Mesh25146
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -14624,7 +14637,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh24892
+  m_Name: pb_Mesh25014
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -14787,7 +14800,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh25184
+  m_Name: pb_Mesh25304
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -14950,7 +14963,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh24906
+  m_Name: pb_Mesh25028
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
