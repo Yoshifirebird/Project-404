@@ -1,4 +1,12 @@
-﻿using System.Collections;
+﻿/*
+ * UITargetPointer.cs
+ * Created by: Newgame+ LD
+ * Created on: ??/??/???? (dd/mm/yy)
+ * 
+ * This script takes an object's onscreen position and plots it onto the UI canvas using normalized values
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

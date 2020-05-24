@@ -1,3 +1,12 @@
+/*
+ * TextLoader.cs
+ * Created by: Newgame+ LD
+ * Created on: ??/??/???? (dd/mm/yy)
+ * 
+ * An instance of this script and just the script alone through various functions can be used to retrieve text from a JSON file
+ * via SimpleJSON. Just make sure a valid language is set.
+ */
+
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;

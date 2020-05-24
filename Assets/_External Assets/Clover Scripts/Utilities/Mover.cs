@@ -1,4 +1,12 @@
-﻿using System.Collections;
+﻿/*
+ * Mover.cs
+ * Created by: Newgame+ LD
+ * Created on: ??/??/???? (dd/mm/yy)
+ * 
+ * Move an object every frame
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

@@ -1,4 +1,12 @@
-﻿using UnityEngine;
+﻿/*
+ * UVScroll.cs
+ * Created by: Newgame+ LD
+ * Created on: ??/??/???? (dd/mm/yy)
+ * 
+ * Scroll some textures out of shader
+ */
+
+using UnityEngine;
 
 public class UVScroll : MonoBehaviour {
 

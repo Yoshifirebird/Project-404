@@ -1,4 +1,12 @@
-﻿using System.Collections;
+﻿/*
+ * InputButtonEvent.cs
+ * Created by: Newgame+ LD
+ * Created on: ??/??/???? (dd/mm/yy)
+ * 
+ * Events to play out when pressing a certain button with CustomInputModule
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;

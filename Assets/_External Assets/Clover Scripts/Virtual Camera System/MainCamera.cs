@@ -1,4 +1,12 @@
-﻿using UnityEngine;
+﻿/*
+ * MainCamera.cs
+ * Created by: Newgame+ LD
+ * Created on: ??/??/???? (dd/mm/yy)
+ * 
+ * Always put this on the main scene camera
+ */
+
+using UnityEngine;
 
 public class MainCamera : MonoBehaviour
 {

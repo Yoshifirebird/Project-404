@@ -1,4 +1,13 @@
-﻿using System.Collections;
+﻿/*
+ * TextBox.cs
+ * Created by: Newgame+ LD
+ * Created on: ??/??/???? (dd/mm/yy)
+ * 
+ * Is fed the acquired text from the TextboxEvent script and displays it.
+ */
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;

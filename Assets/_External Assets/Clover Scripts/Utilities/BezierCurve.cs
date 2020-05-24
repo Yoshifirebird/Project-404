@@ -1,3 +1,9 @@
+/*
+ * BezierCurve.cs
+ * Created by: From Sonic '06 PC
+ * Created on: ??/??/???? (dd/mm/yy)
+ */
+
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;

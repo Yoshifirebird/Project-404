@@ -1,3 +1,12 @@
+/*
+ * CustomInputModule.cs
+ * Created by: Newgame+ LD
+ * Created on: ??/??/???? (dd/mm/yy)
+ * 
+ * Use an instance of this to get input using keycodes instead of the somewhat clunky input system.
+ * (Unless you need to get axes. In which case... You'll have to set it up with a special setup)
+ */
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +17,7 @@ using UnityEngine.Networking;
 
 public class CustomInputModule : MonoBehaviour {
 
-	public int playerIndex;
+	public int playerIndex;	//This is used for the TextAsset to load inputs
 
 	public enum controlScheme {Generic, PS3Mac, PS3Win, PS4Mac, PS4Win, Xb360Mac, Xb360Win} ;
 	public controlScheme m_controlScheme;

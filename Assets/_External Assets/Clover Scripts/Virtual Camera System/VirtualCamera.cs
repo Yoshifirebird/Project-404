@@ -1,4 +1,12 @@
-﻿using System.Collections;
+﻿/*
+ * VirtualCamera.cs
+ * Created by: Newgame+ LD
+ * Created on: ??/??/???? (dd/mm/yy)
+ * 
+ * I bet some peeps will see this as a lite Cinemachine
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

@@ -1,4 +1,13 @@
-﻿using UnityEngine;
+﻿/*
+ * TextVertexAccess.cs
+ * Created by: Newgame+ LD
+ * Created on: ??/??/???? (dd/mm/yy)
+ * 
+ * A modified script from the Gradient effects from Sonic '06 PC. This accesses the UI Text verticies individually.
+ * Particularly used by the TextBoxUI script
+ */
+
+using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 

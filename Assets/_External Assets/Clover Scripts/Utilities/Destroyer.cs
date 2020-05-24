@@ -1,4 +1,12 @@
-﻿using UnityEngine;
+﻿/*
+ * Destroyer.cs
+ * Created by: Newgame+ LD
+ * Created on: ??/??/???? (dd/mm/yy)
+ * 
+ * Destroy an object after some time. Primarily for instantiated particle systems
+ */
+
+using UnityEngine;
 
 public class Destroyer : MonoBehaviour {
 

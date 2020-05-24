@@ -1,4 +1,12 @@
-﻿using System.Collections;
+﻿/*
+ * SceneSwitcher.cs
+ * Created by: Newgame+ LD
+ * Created on: ??/??/???? (dd/mm/yy)
+ * 
+ * Transition a scene with a loading screen!
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;

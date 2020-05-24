@@ -1,4 +1,12 @@
-﻿using System.Collections;
+﻿/*
+ * SceneTransition.cs
+ * Created by: Newgame+ LD
+ * Created on: ??/??/???? (dd/mm/yy)
+ * 
+ * Loading screen
+ */
+
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
