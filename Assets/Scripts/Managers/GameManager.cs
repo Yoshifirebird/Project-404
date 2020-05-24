@@ -18,5 +18,6 @@ public static class GameManager {
 
   public static Language _Language = Language.English; // Used for alternate texts
 
+  public static DayController _DayController = null; // Static reference to the day controller in the current scene
   public static Player _Player = null; // Static reference to the Player in the current scene
 }

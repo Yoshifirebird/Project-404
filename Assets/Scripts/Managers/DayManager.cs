@@ -21,4 +21,6 @@ public static class DayManager {
   public static int _AfternoonPeriod = 100;
   public static int _EveningPeriod = 70;
   // Countdown Timer, starting from 10
+
+  public static int _TotalDayTime => _MorningPeriod + _AfternoonPeriod + _EveningPeriod + 10;
 }

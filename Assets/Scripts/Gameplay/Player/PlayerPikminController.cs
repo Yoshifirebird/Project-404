@@ -16,9 +16,10 @@ public class PlayerPikminController : MonoBehaviour {
 
   void OnGUI () {
     if (GameManager._DebugGui) {
-      GUI.Label (new Rect (10, 10, 300, 500), PikminStatsManager._RedStats.ToString ());
-      GUI.Label (new Rect (10, 80, 300, 500), PikminStatsManager._YellowStats.ToString ());
-      GUI.Label (new Rect (10, 150, 300, 500), PikminStatsManager._BlueStats.ToString ());
+      int yOffset = 200;
+      GUI.Label (new Rect (10, yOffset + 10, 300, 500), PikminStatsManager._RedStats.ToString ());
+      GUI.Label (new Rect (10, yOffset + 80, 300, 500), PikminStatsManager._YellowStats.ToString ());
+      GUI.Label (new Rect (10, yOffset + 150, 300, 500), PikminStatsManager._BlueStats.ToString ());
     }
   }
 }

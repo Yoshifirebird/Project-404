@@ -9,17 +9,15 @@ using UnityEngine;
 public class DayController : MonoBehaviour {
   [Header ("Debugging")]
   [SerializeField] DayState _State = DayState.Morning;
-  [SerializeField] float _CurrentTime = 0;
+  [SerializeField] float _currentTime = 0;
+
+  public float _CurrentTime => _currentTime;
+
+  void Awake() {
+    GameManager._DayController = this;
+  }
 
   void Update () {
-    _CurrentTime += Time.deltaTime;
+    _currentTime += Time.deltaTime;
   }
-
-  #region Public Functions
-
-  public float GetCurrentTime () {
-    return _CurrentTime;
-  }
-
-  #endregion
 }
