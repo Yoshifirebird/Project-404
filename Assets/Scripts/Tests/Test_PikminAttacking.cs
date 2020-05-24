@@ -58,8 +58,8 @@ public class Test_PikminAttacking : MonoBehaviour, IPikminAttack, IHealth {
 
     if (_CurrentHealth <= 0) {
 
-      foreach (var pikmin in _Attacking) {
-        pikmin.LatchOnto (null);
+      while (_Attacking.Count > 0){
+        _Attacking[0].ChangeState(PikminStates.Idle);
       }
 
       Destroy (gameObject);
