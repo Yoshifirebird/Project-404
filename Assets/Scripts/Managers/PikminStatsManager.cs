@@ -207,4 +207,35 @@ public static class PikminStatsManager {
     _BlueStats.Print ();
     _YellowStats.Print ();
   }
+
+  #region getters
+  public static int GetOnField(PikminColour colour)
+  {
+    switch (colour)
+    {
+      case PikminColour.Red:
+        return _RedStats._Leaf._OnField + _RedStats._Bud._OnField + _RedStats._Flower._OnField;
+      case PikminColour.Yellow:
+       return _YellowStats._Leaf._OnField + _YellowStats._Bud._OnField + _YellowStats._Flower._OnField;
+      case PikminColour.Blue:
+        return _BlueStats._Leaf._OnField + _BlueStats._Bud._OnField + _BlueStats._Flower._OnField;
+      default:
+        return 0;
+    }
+  }
+  public static int GetInSquad(PikminColour colour)
+  {
+    switch (colour)
+    {
+      case PikminColour.Red:
+        return _RedStats._Leaf._InSquad + _RedStats._Bud._InSquad + _RedStats._Flower._InSquad;
+      case PikminColour.Yellow:
+        return _YellowStats._Leaf._InSquad + _YellowStats._Bud._InSquad + _YellowStats._Flower._InSquad;
+      case PikminColour.Blue:
+        return _BlueStats._Leaf._InSquad + _BlueStats._Bud._InSquad + _BlueStats._Flower._InSquad;
+      default:
+        return 0;
+    }
+  }
+  #endregion
 }
