@@ -10,272 +10,265 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using SimpleJSON;
+using UnityEngine;
 using UnityEngine.Networking;
-
 
 public class CustomInputModule : MonoBehaviour {
 
-	public int playerIndex;	//This is used for the TextAsset to load inputs
+  public int playerIndex; //This is used for the TextAsset to load inputs
 
-	public enum controlScheme {Generic, PS3Mac, PS3Win, PS4Mac, PS4Win, Xb360Mac, Xb360Win} ;
-	public controlScheme m_controlScheme;
+  public enum controlScheme { Generic, PS3Mac, PS3Win, PS4Mac, PS4Win, Xb360Mac, Xb360Win }
+  public controlScheme m_controlScheme;
 
-	[System.Serializable]
-	public class btn	{
+  [System.Serializable]
+  public class btn {
 
-		public string buttonName;
-		public KeyCode input;
-		public KeyCode negativeInput;
-		public string axisTarget;
+    public string buttonName;
+    public KeyCode input;
+    public KeyCode negativeInput;
+    public string axisTarget;
 
-	}
-	public List<btn> buttons;
+  }
+  public List<btn> buttons;
 
-	public TextAsset controlSettings;
+  public TextAsset controlSettings;
 
+  public void Start () {
 
-	public void Start ()	{
+    //if(isLocalPlayer)
+    refreshInput ();
 
-		//if(isLocalPlayer)
-		refreshInput ();
+    //else this.enabled = false
 
-		//else this.enabled = false
+  }
 
-	}
+  public void refreshInput () {
 
+    if (controlSettings != null) {
+      var N = JSON.Parse (controlSettings.ToString ());
 
-	public void refreshInput ()	{
+      buttons.Clear ();
+      //print ("Cleared Buttons List");
+      //print (N ["players"][playerIndex]["Buttons"][1]["buttonName"].Value);
 
-		if (controlSettings != null) {
-			var N = JSON.Parse (controlSettings.ToString ());
+      for (int i = 0; i < N["players"][playerIndex]["Buttons"].AsArray.Count; i++) {
 
+        buttons.Add (new btn ());
+        //print ("Button Added");
 
-			buttons.Clear ();
-			//print ("Cleared Buttons List");
-			//print (N ["players"][playerIndex]["Buttons"][1]["buttonName"].Value);
+        //print ("Button Name Set! " + N["players"][playerIndex]["Buttons"][i]["buttonName"].Value);
+        buttons[i].buttonName = N["players"][playerIndex]["Buttons"][i]["buttonName"].Value;
 
-			for (int i = 0; i < N["players"][playerIndex]["Buttons"].AsArray.Count; i++) {
+        buttons[i].axisTarget = N["players"][playerIndex]["Buttons"][i]["axisTarget"].Value;
 
+        if (N["players"][playerIndex]["Buttons"][i]["input"].Value != "")
+          buttons[i].input = (KeyCode) Enum.Parse (typeof (KeyCode), N["players"][playerIndex]["Buttons"][i]["input"].Value);
+        //print ("Button Key Set! " + N["players"][playerIndex]["Buttons"][i]["input"].Value);
+        if (N["players"][playerIndex]["Buttons"][i]["negativeInput"].Value != "")
+          buttons[i].negativeInput = (KeyCode) Enum.Parse (typeof (KeyCode), N["players"][playerIndex]["Buttons"][i]["negativeInput"].Value);
+        buttons[i].axisTarget = N["players"][playerIndex]["Buttons"][i]["axisTarget"].Value;
+      }
 
-				buttons.Add(new btn());
-				//print ("Button Added");
+    }
 
-				//print ("Button Name Set! " + N["players"][playerIndex]["Buttons"][i]["buttonName"].Value);
-				buttons[i].buttonName = N["players"][playerIndex]["Buttons"][i]["buttonName"].Value;
+  }
 
-				buttons[i].axisTarget = N["players"][playerIndex]["Buttons"][i]["axisTarget"].Value;
+  public bool GetButton (string target) {
 
-				if(N["players"][playerIndex]["Buttons"][i]["input"].Value != "")
-					buttons[i].input = (KeyCode)Enum.Parse(typeof(KeyCode),N["players"][playerIndex]["Buttons"][i]["input"].Value);
-				//print ("Button Key Set! " + N["players"][playerIndex]["Buttons"][i]["input"].Value);
-				if(N["players"][playerIndex]["Buttons"][i]["negativeInput"].Value != "")
-					buttons[i].negativeInput = (KeyCode)Enum.Parse(typeof(KeyCode),N["players"][playerIndex]["Buttons"][i]["negativeInput"].Value);
-				buttons[i].axisTarget = N["players"][playerIndex]["Buttons"][i]["axisTarget"].Value;
-			}
+    bool buttonFound = false;
+    bool gottenButton = false;
 
-		}
+    for (int i = 0; i < buttons.Count; i++) {
 
+      if (buttons[i].buttonName == target) {
+        buttonFound = true;
+        if (!gottenButton) gottenButton = Input.GetKey (buttons[i].input);
 
-	}
+      }
 
+    }
 
-	public bool GetButton (string target)	{
+    if (!buttonFound) Debug.LogError ("Input name " + target + " does not exist in the list...");
+    return gottenButton;
+  }
 
-		bool buttonFound = false;
-		bool gottenButton = false;
+  public bool GetButtonDown (string target) {
 
-		for (int i = 0; i < buttons.Count; i++) {
+    bool buttonFound = false;
+    bool gottenButton = false;
 
-			if (buttons [i].buttonName == target) {
-				buttonFound = true;
-				if(!gottenButton) gottenButton = Input.GetKey (buttons [i].input);
+    for (int i = 0; i < buttons.Count; i++) {
 
-			}
+      if (buttons[i].buttonName == target) {
+        buttonFound = true;
+        if (!gottenButton) gottenButton = Input.GetKeyDown (buttons[i].input);
 
-		}
+      }
 
-		if(!buttonFound) Debug.LogError("Input name " + target + " does not exist in the list...");
-		return gottenButton;
-	}
+    }
 
-	public bool GetButtonDown (string target)	{
+    if (!buttonFound) Debug.LogError ("Input name " + target + " does not exist in the list...");
+    return gottenButton;
+  }
 
-		bool buttonFound = false;
-		bool gottenButton = false;
+  public bool GetButtonUp (string target) {
 
-		for (int i = 0; i < buttons.Count; i++) {
+    bool buttonFound = false;
+    bool gottenButton = false;
 
-			if (buttons [i].buttonName == target) {
-				buttonFound = true;
-				if(!gottenButton) gottenButton = Input.GetKeyDown (buttons [i].input);
+    for (int i = 0; i < buttons.Count; i++) {
 
-			}
+      if (buttons[i].buttonName == target) {
+        buttonFound = true;
+        if (!gottenButton) gottenButton = Input.GetKeyUp (buttons[i].input);
 
-		}
+      }
 
-		if(!buttonFound) Debug.LogError("Input name " + target + " does not exist in the list...");
-		return gottenButton;
-	}
+    }
 
-	public bool GetButtonUp (string target)	{
+    if (!buttonFound) Debug.LogError ("Input name " + target + " does not exist in the list...");
+    return gottenButton;
+  }
 
-		bool buttonFound = false;
-		bool gottenButton = false;
+  public bool GetNegativeButton (string target) {
 
-		for (int i = 0; i < buttons.Count; i++) {
+    bool buttonFound = false;
+    bool gottenButton = false;
 
-			if (buttons [i].buttonName == target) {
-				buttonFound = true;
-				if(!gottenButton) gottenButton = Input.GetKeyUp (buttons [i].input);
+    for (int i = 0; i < buttons.Count; i++) {
 
-			}
+      if (buttons[i].buttonName == target) {
+        buttonFound = true;
+        if (!gottenButton) gottenButton = Input.GetKey (buttons[i].negativeInput);
 
-		}
+      }
 
-		if(!buttonFound) Debug.LogError("Input name " + target + " does not exist in the list...");
-		return gottenButton;
-	}
+    }
 
-	public bool GetNegativeButton (string target)	{
+    if (!buttonFound) Debug.LogError ("Input name " + target + " does not exist in the list...");
+    return gottenButton;
+  }
 
-		bool buttonFound = false;
-		bool gottenButton = false;
+  public bool GetNegativeButtonDown (string target) {
 
-		for (int i = 0; i < buttons.Count; i++) {
+    bool buttonFound = false;
+    bool gottenButton = false;
 
-			if (buttons [i].buttonName == target) {
-				buttonFound = true;
-				if(!gottenButton) gottenButton = Input.GetKey (buttons [i].negativeInput);
+    for (int i = 0; i < buttons.Count; i++) {
 
-			}
+      if (buttons[i].buttonName == target) {
+        buttonFound = true;
+        if (!gottenButton) gottenButton = Input.GetKeyDown (buttons[i].negativeInput);
 
-		}
+      }
 
-		if(!buttonFound) Debug.LogError("Input name " + target + " does not exist in the list...");
-		return gottenButton;
-	}
+    }
 
-	public bool GetNegativeButtonDown (string target)	{
+    if (!buttonFound) Debug.LogError ("Input name " + target + " does not exist in the list...");
+    return gottenButton;
+  }
 
-		bool buttonFound = false;
-		bool gottenButton = false;
+  public bool GetNegativeButtonUp (string target) {
 
-		for (int i = 0; i < buttons.Count; i++) {
+    bool buttonFound = false;
+    bool gottenButton = false;
 
-			if (buttons [i].buttonName == target) {
-				buttonFound = true;
-				if(!gottenButton) gottenButton =  Input.GetKeyDown (buttons [i].negativeInput);
+    for (int i = 0; i < buttons.Count; i++) {
 
-			}
+      if (buttons[i].buttonName == target) {
+        buttonFound = true;
 
-		}
+        if (!gottenButton) gottenButton = Input.GetKeyUp (buttons[i].negativeInput);
 
-		if(!buttonFound) Debug.LogError("Input name " + target + " does not exist in the list...");
-		return gottenButton;
-	}
+      }
 
-	public bool GetNegativeButtonUp (string target)	{
+    }
 
-		bool buttonFound = false;
-		bool gottenButton = false;
+    if (!buttonFound) Debug.LogError ("Input name " + target + " does not exist in the list...");
+    return gottenButton;
+  }
 
-		for (int i = 0; i < buttons.Count; i++) {
+  public float GetAxis (string target) {
 
-			if (buttons [i].buttonName == target) {
-				buttonFound = true;
+    bool foundAxis = false;
+    float acquiredValue = 0;
 
-				if(!gottenButton) gottenButton = Input.GetKeyUp (buttons [i].negativeInput);
+    for (int i = 0; i < buttons.Count; i++) {
 
-			}
+      //print ("Target is " + target);
+      //print ("We're looking at " + axes [i].axisName);
 
-		}
+      if (buttons[i].buttonName == target) {
 
-		if(!buttonFound) Debug.LogError("Input name " + target + " does not exist in the list...");
-		return gottenButton;
-	}
+        foundAxis = true;
 
+        //print ("Found " + target);
 
-	public float GetAxis (string target)	{
+        if (buttons[i].axisTarget != "") {
+          try {
+            Input.GetAxis (buttons[i].axisTarget);
+            acquiredValue += Input.GetAxis (buttons[i].axisTarget) + (GetButton (target) ? 1 :
+              (GetNegativeButton (target) ? -1 : 0));
 
-		bool foundAxis = false;
-		float acquiredValue = 0;
+          }
+          catch (UnityException) {
+            Debug.LogError ("Axis name " + target + " has an invalid target!");
+          }
+        }
+        acquiredValue += (GetButton (target) ? 1 :
+          (GetNegativeButton (target) ? -1 : 0));
 
+      }
 
-		for (int i = 0; i < buttons.Count; i++) {
+    }
 
-			//print ("Target is " + target);
-			//print ("We're looking at " + axes [i].axisName);
+    if (!foundAxis) Debug.LogError ("Axis name " + target + " does not exist in the list...");
 
-			if (buttons [i].buttonName == target) {
+    //print (target + " acquires " + acquiredValue);
+    acquiredValue = Mathf.Clamp (acquiredValue, -1, 1);
+    return acquiredValue;
+  }
 
-				foundAxis = true;
+  public float GetAxisRaw (string target) {
 
-				//print ("Found " + target);
+    bool foundAxis = false;
+    float acquiredValue = 0;
 
-				if (buttons [i].axisTarget != "") {
-					try {
-						Input.GetAxis (buttons [i].axisTarget);
-						acquiredValue += Input.GetAxis (buttons [i].axisTarget) + (GetButton (target) ? 1 : 
-						(GetNegativeButton (target) ? -1 : 0));
+    for (int i = 0; i < buttons.Count; i++) {
 
-					} catch (UnityException) {
-						Debug.LogError ("Axis name " + target + " has an invalid target!");
-					}
-				}
-				acquiredValue +=  (GetButton(target) ? 1 : 
-					(GetNegativeButton(target) ? -1 : 0));
+      //print ("Target is " + target);
+      //print ("We're looking at " + axes [i].axisName);
 
-			}
+      //print ("Found raw " + target);
 
-		}
+      if (buttons[i].buttonName == target) {
 
-		if (!foundAxis) Debug.LogError("Axis name " + target + " does not exist in the list...");
+        foundAxis = true;
+        if (buttons[i].axisTarget != "") {
 
-		//print (target + " acquires " + acquiredValue);
-		acquiredValue = Mathf.Clamp (acquiredValue, -1, 1);
-		return acquiredValue;
-	}
+          try {
+            Input.GetAxisRaw (buttons[i].axisTarget);
+            acquiredValue += Input.GetAxis (buttons[i].axisTarget) + (GetButton (target) ? 1 :
+              (GetNegativeButton (target) ? -1 : 0));
 
-	public float GetAxisRaw (string target)	{
+          }
+          catch (UnityException) {
+            Debug.LogError ("Axis name " + target + " has an invalid target!");
+          }
+        }
 
-		bool foundAxis = false;
-		float acquiredValue = 0;
+        acquiredValue += (GetButton (target) ? 1 :
+          (GetNegativeButton (target) ? -1 : 0));
+      }
 
-		for (int i = 0; i < buttons.Count; i++) {
+    }
 
-			//print ("Target is " + target);
-			//print ("We're looking at " + axes [i].axisName);
+    if (!foundAxis) Debug.LogError ("Axis name " + target + " does not exist in the list...");
 
-			//print ("Found raw " + target);
-
-			if (buttons [i].buttonName == target) {
-
-				foundAxis = true;
-				if (buttons [i].axisTarget != "") {
-
-					try {
-						Input.GetAxisRaw (buttons [i].axisTarget);
-						acquiredValue += Input.GetAxis (buttons [i].axisTarget) + (GetButton (target) ? 1 : 
-						(GetNegativeButton (target) ? -1 : 0));
-
-					} catch (UnityException) {
-						Debug.LogError ("Axis name " + target + " has an invalid target!");
-					}
-				}
-
-				acquiredValue += (GetButton(target) ? 1 : 
-					(GetNegativeButton(target) ? -1 : 0));
-			}
-
-		}
-
-		if (!foundAxis) Debug.LogError("Axis name " + target + " does not exist in the list...");
-
-		//print ("Raw " + target + " acquires " + acquiredValue);
-		acquiredValue = Mathf.Clamp (acquiredValue, -1, 1);
-		return acquiredValue;
-	}
+    //print ("Raw " + target + " acquires " + acquiredValue);
+    acquiredValue = Mathf.Clamp (acquiredValue, -1, 1);
+    return acquiredValue;
+  }
 
 }

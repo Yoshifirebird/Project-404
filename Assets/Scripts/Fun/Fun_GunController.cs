@@ -43,7 +43,7 @@ public class Fun_GunController : MonoBehaviour {
         PikminAI aiComponent = hitInfo.collider.GetComponent<PikminAI> ();
         if (aiComponent != null && _ShotPikmin.Contains (aiComponent) == false) {
           // Damage the pikmin, which kills it
-          aiComponent.Die(_PikminRagdollTime);
+          aiComponent.Die (_PikminRagdollTime);
 
           // Add it to the list so we can't kill it after it's dead
           _ShotPikmin.Add (aiComponent);

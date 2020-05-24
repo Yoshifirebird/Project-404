@@ -1,4 +1,4 @@
-﻿/*
+/*
  * InputButtonEvent.cs
  * Created by: Newgame+ LD
  * Created on: ??/??/???? (dd/mm/yy)
@@ -13,37 +13,38 @@ using UnityEngine.Events;
 
 public class InputButtonEvent : MonoBehaviour {
 
-	public CustomInputModule inputModule;
+  public CustomInputModule inputModule;
 
-	[System.Serializable]
-	public class menuButtons {
+  [System.Serializable]
+  public class menuButtons {
 
-		public string input;
+    public string input;
 
-		public UnityEvent onButtonDown;
-		public UnityEvent onButtonUp;
-		public bool usable = true;
-		public UnityEvent onButtonBlocked;
+    public UnityEvent onButtonDown;
+    public UnityEvent onButtonUp;
+    public bool usable = true;
+    public UnityEvent onButtonBlocked;
 
-	}
-	public List<menuButtons> m_menuButtons;
+  }
+  public List<menuButtons> m_menuButtons;
 
-	// Update is called once per frame
-	void Update () {
+  // Update is called once per frame
+  void Update () {
 
-		foreach (menuButtons currentButton in m_menuButtons) {
-			if (currentButton.usable) {
-				if (inputModule.GetButtonDown (currentButton.input)) {
-					currentButton.onButtonDown.Invoke ();
-					print ("Get " + currentButton.input + " down!");
-				}
+    foreach (menuButtons currentButton in m_menuButtons) {
+      if (currentButton.usable) {
+        if (inputModule.GetButtonDown (currentButton.input)) {
+          currentButton.onButtonDown.Invoke ();
+          print ("Get " + currentButton.input + " down!");
+        }
 
-				if (inputModule.GetButtonUp (currentButton.input))
-					currentButton.onButtonUp.Invoke ();
+        if (inputModule.GetButtonUp (currentButton.input))
+          currentButton.onButtonUp.Invoke ();
 
-			} else if (inputModule.GetButtonDown (currentButton.input))
-				currentButton.onButtonBlocked.Invoke ();
-		}
+      }
+      else if (inputModule.GetButtonDown (currentButton.input))
+        currentButton.onButtonBlocked.Invoke ();
+    }
 
-	}
+  }
 }

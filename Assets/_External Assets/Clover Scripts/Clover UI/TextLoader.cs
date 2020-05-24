@@ -7,114 +7,107 @@
  * via SimpleJSON. Just make sure a valid language is set.
  */
 
-using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using SimpleJSON;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class TextLoader : MonoBehaviour {
 
-	public string filePath;
+  public string filePath;
 
-	public Text targetText;
+  public Text targetText;
 
-	public bool activateOnPlay = true;
+  public bool activateOnPlay = true;
 
+  // Use this for initialization
+  void Start () {
 
-	// Use this for initialization
-	void Start () {
+    targetText = GetComponent<Text> ();
+    if (activateOnPlay) targetText.text = getText (filePath, targetText.text);
 
-		targetText = GetComponent<Text> ();
-		if(activateOnPlay) targetText.text = getText (filePath, targetText.text);
+  }
 
+  public static string getText (string path, string box) {
 
-	}
-		
+    //print ("Lang access " + accessLang ());
+    TextAsset jsonFinder = Resources.Load ("Text/" + accessLang () + "/" + path + "." + accessLang ()) as TextAsset;
 
-	public static string getText (string path, string box)	{
+    //print ("Text/" + accessLang () + "/" + path + ".json");
 
-		//print ("Lang access " + accessLang ());
-		TextAsset jsonFinder = Resources.Load("Text/" + accessLang() + "/" + path+"."+accessLang()) as TextAsset;
+    //print(jsonFinder.ToString ());
+    if (jsonFinder != null) {
+      var N = JSON.Parse (jsonFinder.ToString ());
+      var textString = N[box][0].Value != null ? N[box][0].Value : path;
+      return textString;
+    }
+    else
+      return ("This message should not appear! If it does, that means the text file is missing!");
 
-		//print ("Text/" + accessLang () + "/" + path + ".json");
+    //print (textString);
 
-		//print(jsonFinder.ToString ());
-		if (jsonFinder != null) {
-			var N = JSON.Parse (jsonFinder.ToString ());
-			var textString = N [box][0].Value != null ? N [box][0].Value : path; 
-			return textString;
-		} else
-			return ("This message should not appear! If it does, that means the text file is missing!");
+  }
 
-		//print (textString);
+  public static List<string> getTextBank (string path, string box) {
 
+    TextAsset jsonFinder = Resources.Load ("Text/" + accessLang () + "/" + path + "." + accessLang ()) as TextAsset;
 
-	}
+    if (jsonFinder != null) {
+      var N = JSON.Parse (jsonFinder.ToString ());
 
-	public static List<string> getTextBank (string path, string box)	{
+      List<string> textArray = new List<string> ();
 
+      print ("Bank array count is " + N[box].Count);
 
-		TextAsset jsonFinder = Resources.Load("Text/" + accessLang() + "/" + path+"."+accessLang()) as TextAsset;
+      for (int i = 0; i < N[box].Count; i++) {
 
-		if (jsonFinder != null) {
-			var N = JSON.Parse (jsonFinder.ToString ());
+        textArray.Add (N[box][i].Value != null ? N[box][i].Value : path);
+        print (N[box][i].Value);
+      }
 
-			List<string> textArray = new List<string> ();
+      //var textString = N [box][0].Value != null ? N [box][0].Value : path; 
 
-			print ("Bank array count is " + N [box].Count);
+      return textArray;
+    }
+    else {
 
-			for (int i = 0; i < N [box].Count; i++) {
+      List<string> errorEntry = new List<string> ();
 
+      errorEntry.Add ("The document is missing!");
+      errorEntry.Add ("Fix it!");
 
-				textArray.Add (N[box][i].Value != null ? N[box][i].Value : path);
-				print (N [box] [i].Value);
-			}
+      return (errorEntry);
 
-			//var textString = N [box][0].Value != null ? N [box][0].Value : path; 
+    }
 
+    //print (textString);
 
-			return textArray;
-		} else {
+  }
 
-			List<string> errorEntry = new List<string> ();
+  public void getTextEvent (string box) {
 
-			errorEntry.Add ("The document is missing!");
-			errorEntry.Add ("Fix it!");
+    TextAsset jsonFinder = Resources.Load ("Text/" + accessLang () + "/" + filePath + "." + accessLang ()) as TextAsset;
 
-			return (errorEntry);
+    var N = JSON.Parse (jsonFinder.ToString ());
+    var textString = N[box][0].Value != null ? N[box][0].Value : filePath;
 
-		}
-			
+    //print (textString + " Called from event");
 
-		//print (textString);
+    //targetText.text = textString;
+    targetText.text = textString;
 
+  }
 
-	}
+  public void changePath (string path) {
 
-	public void getTextEvent (string box)	{
+    filePath = path;
 
-		TextAsset jsonFinder = Resources.Load("Text/" + accessLang() + "/" + filePath+"."+accessLang()) as TextAsset;
+  }
 
-		var N = JSON.Parse(jsonFinder.ToString ());
-		var textString = N [box][0].Value != null ? N [box][0].Value : filePath; 
+  public static string accessLang () {
 
-		//print (textString + " Called from event");
+    return GameManager._Language.ToString ();
 
-		//targetText.text = textString;
-		targetText.text = textString;
+  }
 
-	}
-
-	public void changePath (string path)	{
-
-		filePath = path;
-
-	}
-
-	public static string accessLang ()	{
-
-		return GameManager._Language.ToString();
-
-	}
-			
 }

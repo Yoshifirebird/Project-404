@@ -146,11 +146,9 @@ public static class PikminStatsManager {
   public static List<GameObject> _InSquad = new List<GameObject> ();
 
   // Clears the Squad
-  public static void ClearSquad()
-  {
-    while (_InSquad.Count > 0)
-    {
-      _InSquad[0].GetComponent<PikminAI>().RemoveFromSquad();
+  public static void ClearSquad () {
+    while (_InSquad.Count > 0) {
+      _InSquad[0].GetComponent<PikminAI> ().RemoveFromSquad ();
     }
   }
 
@@ -209,24 +207,20 @@ public static class PikminStatsManager {
   }
 
   #region getters
-  public static int GetOnField(PikminColour colour)
-  {
-    switch (colour)
-    {
+  public static int GetOnField (PikminColour colour) {
+    switch (colour) {
       case PikminColour.Red:
         return _RedStats._Leaf._OnField + _RedStats._Bud._OnField + _RedStats._Flower._OnField;
       case PikminColour.Yellow:
-       return _YellowStats._Leaf._OnField + _YellowStats._Bud._OnField + _YellowStats._Flower._OnField;
+        return _YellowStats._Leaf._OnField + _YellowStats._Bud._OnField + _YellowStats._Flower._OnField;
       case PikminColour.Blue:
         return _BlueStats._Leaf._OnField + _BlueStats._Bud._OnField + _BlueStats._Flower._OnField;
       default:
         return 0;
     }
   }
-  public static int GetInSquad(PikminColour colour)
-  {
-    switch (colour)
-    {
+  public static int GetInSquad (PikminColour colour) {
+    switch (colour) {
       case PikminColour.Red:
         return _RedStats._Leaf._InSquad + _RedStats._Bud._InSquad + _RedStats._Flower._InSquad;
       case PikminColour.Yellow:

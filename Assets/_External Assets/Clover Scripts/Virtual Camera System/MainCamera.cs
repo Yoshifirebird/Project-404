@@ -1,4 +1,4 @@
-﻿/*
+/*
  * MainCamera.cs
  * Created by: Newgame+ LD
  * Created on: ??/??/???? (dd/mm/yy)
@@ -8,15 +8,14 @@
 
 using UnityEngine;
 
-public class MainCamera : MonoBehaviour
-{
-	public static MainCamera instance;
-	public Camera cam;
-	public VirtualCameraTarget vrCam;
+public class MainCamera : MonoBehaviour {
+  public static MainCamera instance;
+  public Camera cam;
+  public VirtualCameraTarget vrCam;
 
-	void Start ()	{
-		if(MainCamera.instance == null)
-		MainCamera.instance = this;
-		else Destroy(gameObject);
-	}
+  void Start () {
+    if (MainCamera.instance == null)
+      MainCamera.instance = this;
+    else Destroy (gameObject);
+  }
 }

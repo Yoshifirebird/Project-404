@@ -1,4 +1,4 @@
-﻿/*
+/*
  * AppQuitter.cs
  * Created by: Newgame+ LD
  * Created on: ??/??/???? (dd/mm/yy)
@@ -10,20 +10,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AppQuitter : MonoBehaviour
-{
-  
+public class AppQuitter : MonoBehaviour {
 
-	public void quitGame (float delay)	{
+  public void quitGame (float delay) {
 
-		Invoke ("finishQuitGame", delay);
-	}
+    Invoke ("finishQuitGame", delay);
+  }
 
-	void finishQuitGame ()	{
+  void finishQuitGame () {
 
-		print ("Game is quit");
-		Application.Quit ();
-	}
-
+    print ("Game is quit");
+    Application.Quit ();
+  }
 
 }

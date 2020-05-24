@@ -10,7 +10,7 @@ public class PlayerPikminController : MonoBehaviour {
 
   void Update () {
     if (Input.GetButtonDown ("X Button")) {
-      PikminStatsManager.ClearSquad();
+      PikminStatsManager.ClearSquad ();
     }
   }
 

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * TextMeshLoad.cs
  * Created by: Newgame+ LD
  * Created on: ??/??/???? (dd/mm/yy)
@@ -10,13 +10,12 @@ using UnityEngine;
 
 public class TextMeshLoad : MonoBehaviour {
 
-	public string path;
+  public string path;
 
-	void Start () {
+  void Start () {
 
-		GetComponent<TextMesh>().text = TextLoader.getText (path, GetComponent<TextMesh>().text);
+    GetComponent<TextMesh> ().text = TextLoader.getText (path, GetComponent<TextMesh> ().text);
 
-	}
-	
+  }
 
 }

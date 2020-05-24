@@ -1,98 +1,90 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ColorLerper : MonoBehaviour {
 
-	[System.Serializable]
-	public class option	{
+  [System.Serializable]
+  public class option {
 
-		public AnimationCurve lerpCurve;
-		public float duration;
+    public AnimationCurve lerpCurve;
+    public float duration;
 
-		public Gradient colorGrad;
+    public Gradient colorGrad;
 
+  }
 
-	}
+  public option[] colorOptions;
 
-	public option[] colorOptions;
+  public Text textColoration;
+  public Image imageColoration;
+  public int index;
+  public bool changeColor = true;
+  public bool changeOpacity = true;
 
-	public Text textColoration;
-	public Image imageColoration;
-	public int index;
-	public bool changeColor = true;
-	public bool changeOpacity = true;
+  // Use this for initialization
+  void Awake () {
 
+    textColoration = GetComponent<Text> ();
+    imageColoration = GetComponent<Image> ();
 
-	// Use this for initialization
-	void Awake () {
+  }
 
-		textColoration = GetComponent<Text> ();
-		imageColoration = GetComponent<Image> ();
+  // Update is called once per frame
+  void Update () {
 
-	}
+    Color targetColor = colorOptions[index].colorGrad.Evaluate (colorLerpMod (index));
 
-	// Update is called once per frame
-	void Update () {
+    if (textColoration != null) {
 
+      var tempText = textColoration.color;
 
-		Color targetColor = colorOptions [index].colorGrad.Evaluate (colorLerpMod (index));
+      if (changeColor) {
 
-		if (textColoration != null)	{
+        tempText.r = targetColor.r;
+        tempText.g = targetColor.g;
+        tempText.b = targetColor.b;
+      }
 
-			var tempText = textColoration.color;
+      if (changeOpacity) {
 
-				if(changeColor){
+        tempText.a = targetColor.a;
+      }
+      textColoration.color = tempText;
+    }
 
-					tempText.r = targetColor.r;
-					tempText.g = targetColor.g;
-					tempText.b = targetColor.b;
-				}
+    if (imageColoration != null) {
 
-				if(changeOpacity)
-				{
+      //imageColoration.color = targetColor;
+      var tempImage = imageColoration.color;
 
-					tempText.a = targetColor.a;
-				}
-			textColoration.color = tempText;
-		}
-			
+      if (changeColor) {
 
-		if(imageColoration != null) {
+        tempImage.r = targetColor.r;
+        tempImage.g = targetColor.g;
+        tempImage.b = targetColor.b;
+      }
 
-			//imageColoration.color = targetColor;
-			var tempImage = imageColoration.color;
+      if (changeOpacity) {
 
-				if(changeColor){
+        tempImage.a = targetColor.a;
+      }
 
-					tempImage.r = targetColor.r;
-					tempImage.g = targetColor.g;
-					tempImage.b = targetColor.b;
-				}
+      imageColoration.color = tempImage;
+    }
 
-				if(changeOpacity)
-				{
+  }
 
-					tempImage.a = targetColor.a;
-				}
+  public float colorLerpMod (int number) {
 
-			imageColoration.color = tempImage;
-		}
+    return colorOptions[number].lerpCurve.Evaluate (Mathf.Repeat (Time.unscaledTime, colorOptions[number].duration) / colorOptions[number].duration);
 
-	}
+  }
 
-	public float colorLerpMod (int number)	{
+  public void switchIntex (int targetIndex) {
 
+    index = targetIndex;
 
-		return colorOptions [number].lerpCurve.Evaluate (Mathf.Repeat(Time.unscaledTime, colorOptions[number].duration) / colorOptions[number].duration);
-
-
-	}
-
-	public void switchIntex (int targetIndex)	{
-
-		index = targetIndex;
-
-	}
+  }
 }

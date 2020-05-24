@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Mover.cs
  * Created by: Newgame+ LD
  * Created on: ??/??/???? (dd/mm/yy)
@@ -12,13 +12,13 @@ using UnityEngine;
 
 public class Mover : MonoBehaviour {
 
-	public Vector3 rotSpeed;
-	public bool local;
+  public Vector3 rotSpeed;
+  public bool local;
 
-	// Update is called once per frame
-	void Update () {
+  // Update is called once per frame
+  void Update () {
 
-		if(local)transform.Rotate (Time.deltaTime * rotSpeed, Space.Self);
-		else transform.Rotate (Time.deltaTime * rotSpeed, Space.World);
-	}
+    if (local) transform.Rotate (Time.deltaTime * rotSpeed, Space.Self);
+    else transform.Rotate (Time.deltaTime * rotSpeed, Space.World);
+  }
 }

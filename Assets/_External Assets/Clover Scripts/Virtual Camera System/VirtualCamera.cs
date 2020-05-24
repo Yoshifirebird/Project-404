@@ -1,4 +1,4 @@
-﻿/*
+/*
  * VirtualCamera.cs
  * Created by: Newgame+ LD
  * Created on: ??/??/???? (dd/mm/yy)
@@ -12,91 +12,86 @@ using UnityEngine;
 
 public class VirtualCamera : MonoBehaviour {
 
-	public float fieldOfView = 60;
-	public float setDuration;
-	public AnimationCurve setCurve;
-	public bool active;
+  public float fieldOfView = 60;
+  public float setDuration;
+  public AnimationCurve setCurve;
+  public bool active;
 
-	public Coroutine camEvent;
+  public Coroutine camEvent;
 
-	//public void setCamera (ActorBase actorTarget)	{
+  //public void setCamera (ActorBase actorTarget)	{
 
-		//print ("Setting camera!");
-		//setCameraTask (actorTarget.cam);
+  //print ("Setting camera!");
+  //setCameraTask (actorTarget.cam);
 
-	//}
+  //}
 
-	public void setCameraDirect (VirtualCameraTarget cam)	{
+  public void setCameraDirect (VirtualCameraTarget cam) {
 
-		print ("Setting camera directly!");
-		setCameraTask (cam);
+    print ("Setting camera directly!");
+    setCameraTask (cam);
 
-	}
+  }
 
-	public void setCameraMain ()	{
+  public void setCameraMain () {
 
-		print ("Setting main camera!");
-		setCameraTask (MainCamera.instance.vrCam);
+    print ("Setting main camera!");
+    setCameraTask (MainCamera.instance.vrCam);
 
-	}
+  }
 
+  public void setCameraTask (VirtualCameraTarget cam) {
+    if (camEvent != null) StopCoroutine (camEvent);
+    cam.changeCameras (this);
+    camEvent = StartCoroutine (lerpCamera (cam, setCurve, setDuration));
 
-	public void setCameraTask (VirtualCameraTarget cam)	{
-		if(camEvent != null)StopCoroutine (camEvent);
-		cam.changeCameras (this);
-		camEvent = StartCoroutine (lerpCamera (cam, setCurve, setDuration));
+  }
 
-	}
+  IEnumerator lerpCamera (VirtualCameraTarget target, AnimationCurve curve, float setTime) {
 
+    float timeElapsed = 0;
 
-	IEnumerator lerpCamera (VirtualCameraTarget target, AnimationCurve curve, float setTime) {
+    while (timeElapsed < setDuration) {
 
-		float timeElapsed = 0;
+      timeElapsed += Time.deltaTime;
+      target.interpolation = curve.Evaluate (timeElapsed / setTime);
 
+      yield return new WaitForEndOfFrame ();
 
-		while (timeElapsed < setDuration) {
+    }
 
-			timeElapsed += Time.deltaTime;
-			target.interpolation = curve.Evaluate (timeElapsed/setTime);
+    target.interpolation = 1;
 
-			yield return new WaitForEndOfFrame ();
+  }
 
-		}
+  //public void resetCamera (ActorBase actorTarget)	{
 
-		target.interpolation = 1;
+  //print ("Reset camera!");
+  //resetCameraTask (actorTarget.cam);
 
-	}
+  //}
 
-	//public void resetCamera (ActorBase actorTarget)	{
+  public void resetCameraDirect (VirtualCameraTarget cam) {
 
-		//print ("Reset camera!");
-		//resetCameraTask (actorTarget.cam);
+    print ("Reset camera directly!");
+    resetCameraTask (cam);
 
-	//}
+  }
 
-	public void resetCameraDirect (VirtualCameraTarget cam)	{
+  public void resetCameraMain () {
 
-		print ("Reset camera directly!");
-		resetCameraTask (cam);
+    print ("Reset main camera!");
+    resetCameraTask (MainCamera.instance.vrCam);
 
-	}
+  }
 
+  public void resetCameraTask (VirtualCameraTarget cam) {
 
-	public void resetCameraMain ()	{
+    if (camEvent != null) StopCoroutine (camEvent);
+    cam.changeCameras (cam.defaultCam);
+    camEvent = StartCoroutine (lerpCamera (cam,
+      cam.defaultCam.setCurve, cam.defaultCam.setDuration));
 
-		print ("Reset main camera!");
-		resetCameraTask (MainCamera.instance.vrCam);
-
-	}
-
-	public void resetCameraTask (VirtualCameraTarget cam)	{
-
-		if(camEvent != null) StopCoroutine (camEvent);
-		cam.changeCameras (cam.defaultCam);
-		camEvent = StartCoroutine (lerpCamera (cam,
-			cam.defaultCam.setCurve, cam.defaultCam.setDuration));
-
-	}
-		
+  }
 
 }

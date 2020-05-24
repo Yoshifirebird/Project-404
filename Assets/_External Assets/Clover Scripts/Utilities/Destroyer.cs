@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Destroyer.cs
  * Created by: Newgame+ LD
  * Created on: ??/??/???? (dd/mm/yy)
@@ -10,25 +10,25 @@ using UnityEngine;
 
 public class Destroyer : MonoBehaviour {
 
-	public float timeLeft = 2;
-	public bool unscaled;
+  public float timeLeft = 2;
+  public bool unscaled;
 
-	void Update () {
+  void Update () {
 
-		if (timeLeft > 0) {
+    if (timeLeft > 0) {
 
-			timeLeft -= unscaled ? Time.unscaledDeltaTime : Time.deltaTime;
-		} else {
+      timeLeft -= unscaled ? Time.unscaledDeltaTime : Time.deltaTime;
+    }
+    else {
 
+      Destroy (gameObject);
+    }
 
-			Destroy (gameObject);
-		}
+  }
 
-	}
+  public void destroyNow () {
 
-	public void destroyNow ()	{
+    Destroy (gameObject);
 
-		Destroy (gameObject);
-
-	}
+  }
 }

@@ -74,7 +74,7 @@ public class PikminAI : MonoBehaviour, IHealth {
 
   float IHealth.SubtractHealth (float h) {
     //Pikmin don't have health so they die no matter what
-    Die();
+    Die ();
     return 0;
   }
 
@@ -214,8 +214,7 @@ public class PikminAI : MonoBehaviour, IHealth {
       RemoveFromSquad (PikminStates.Dead);
     }
 
-    if(_RagdollTime > 0)
-    {
+    if (_RagdollTime > 0) {
       _Rigidbody.constraints = RigidbodyConstraints.None;
       _Rigidbody.isKinematic = false;
       _Rigidbody.useGravity = true;
@@ -369,9 +368,9 @@ public class PikminAI : MonoBehaviour, IHealth {
     }
   }
 
-  public void Die(float ragdollTimer = 0) {
+  public void Die (float ragdollTimer = 0) {
     _RagdollTime = ragdollTimer;
-    ChangeState(PikminStates.Dead);
+    ChangeState (PikminStates.Dead);
   }
 
   #endregion

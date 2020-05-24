@@ -1,10 +1,9 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PikminCounterDebug : MonoBehaviour
-{
-	/*
+public class PikminCounterDebug : MonoBehaviour {
+  /*
 	public PikminCounter counter;
 
     // Start is called before the first frame update
