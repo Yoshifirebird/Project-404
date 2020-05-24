@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1907568287}
-  m_IndirectSpecularColor: {r: 0.35424155, g: 0.24811757, b: 0.12580955, a: 1}
+  m_IndirectSpecularColor: {r: 0.3542413, g: 0.24811754, b: 0.12580943, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -13228,6 +13228,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_CancelButton
       value: B Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 184761114884420350, guid: 374ecb42d13ce4582b7a27228f392539,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1463669458398867821, guid: 374ecb42d13ce4582b7a27228f392539,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 5514414184454143958, guid: 374ecb42d13ce4582b7a27228f392539,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803372771188280296, guid: 374ecb42d13ce4582b7a27228f392539,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803372771327556004, guid: 374ecb42d13ce4582b7a27228f392539,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 374ecb42d13ce4582b7a27228f392539, type: 3}

@@ -609,7 +609,7 @@ Animation:
   m_Animations:
   - {fileID: 7400000, guid: 8bef05c9a34a7479d8855327ac9148e6, type: 2}
   m_WrapMode: 0
-  m_PlayAutomatically: 0
+  m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
 --- !u!1 &5803372770957198755
@@ -938,7 +938,7 @@ Animation:
   m_Animations:
   - {fileID: 7400000, guid: 8bef05c9a34a7479d8855327ac9148e6, type: 2}
   m_WrapMode: 0
-  m_PlayAutomatically: 0
+  m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
 --- !u!1 &5803372771450264730
@@ -1102,6 +1102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _OnFieldText: {fileID: 5803372771289801810}
   _InSquadText: {fileID: 5803372770673145477}
+  flasher: {fileID: 749840401042237657}
 --- !u!1 &5803372771769940936
 GameObject:
   m_ObjectHideFlags: 0
