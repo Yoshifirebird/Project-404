@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/*
+ * AudioLoopSample.cs
+ * Created by: ??? (Is from Gistix's Sonic '06 PC)
+ * Created on: ??/??/???? (dd/mm/yy)
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

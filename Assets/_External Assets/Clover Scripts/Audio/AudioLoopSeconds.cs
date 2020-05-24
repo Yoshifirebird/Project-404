@@ -1,4 +1,12 @@
-﻿using System.Collections;
+﻿/*
+ * AudioLoopSeconds.cs
+ * Created by: ??? (Is from Gistix's Sonic '06 PC)
+ * Created on: ??/??/???? (dd/mm/yy)
+ * 
+ * Edited AudioLoopSample.cs by Newgame+ LD to use Seconds instead of Samples
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

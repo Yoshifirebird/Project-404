@@ -1,8 +1,16 @@
-﻿using UnityEngine;
+﻿/*
+ * Test_FrameRate.cs
+ * Created by: ???
+ * Created on: ??/??/???? (dd/mm/yy)
+ * 
+ * I cannot remember where I originally found this -Newgame+ LD
+ */
+
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
-public class FrameRate : MonoBehaviour
+public class Test_FrameRate : MonoBehaviour
 {
 	public int avgFrameRate;
 	public Text textfield;

@@ -1,4 +1,12 @@
-﻿using System.Collections;
+﻿/*
+ * BufferedEvent.cs
+ * Created by: Newgame+ LD
+ * Created on: ??/??/???? (dd/mm/yy)
+ * 
+ * This script is used to trigger a Unity event after a certain period of time
+ */
+
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 

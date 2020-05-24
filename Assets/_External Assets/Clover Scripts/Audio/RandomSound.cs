@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿/*
+ * RandomSound.cs
+ * Created by: Newgame+ LD
+ * Created on: 27/4/2019 (dd/mm/yy)
+ */
+
+using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
 

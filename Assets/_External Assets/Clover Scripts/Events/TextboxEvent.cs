@@ -1,4 +1,12 @@
-﻿using UnityEngine;
+﻿/*
+ * TextboxEvent.cs
+ * Created by: Newgame+ LD
+ * Created on: ??/??/???? (dd/mm/yy)
+ * 
+ * This script is to be placed on an object where the event is called from. A UI element will display the needed Text
+ */
+
+using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;

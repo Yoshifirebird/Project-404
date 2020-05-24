@@ -1,6 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * UITimeline.cs
+ * Created by: Newgame+ LD
+ * Created on: 6/5/2020 (dd/mm/yy)
+ */
+
+using System;
+//using System.Collections;
+//using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 

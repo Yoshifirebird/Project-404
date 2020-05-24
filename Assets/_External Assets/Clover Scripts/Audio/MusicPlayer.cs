@@ -1,5 +1,8 @@
-﻿//This script is pretty much as finished as it's gonna be
-
+﻿/*
+ * MusicPlayer.cs
+ * Created by: Newgame+ LD
+ * Created on: 28/3/2020 (dd/mm/yy)
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

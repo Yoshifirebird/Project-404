@@ -1,5 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * EveningCountdown.cs
+ * Created by: Newgame+ LD
+ * Created on: 4/5/2020 (dd/mm/yy)
+ */
+
 using UnityEngine;
 using UnityEngine.UI;
 

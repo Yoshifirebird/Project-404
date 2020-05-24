@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿/*
+ * This script is a leftover from Pikmin Colony and should be ignored
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
