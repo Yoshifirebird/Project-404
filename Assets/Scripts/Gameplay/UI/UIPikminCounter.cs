@@ -3,8 +3,10 @@ using UnityEngine.UI;
 
 public class UIPikminCounter : MonoBehaviour {
   [SerializeField] Text _OnFieldText;
+  [SerializeField] Animation _OnFieldChangeAnimation;
   [SerializeField] Text _InSquadText;
-	[SerializeField] ColorLerper flasher;
+  [SerializeField] Animation _InSquadChangeAnimation;
+  [SerializeField] ColorLerper _Flasher;
 
   void Update () {
 
@@ -15,22 +17,18 @@ public class UIPikminCounter : MonoBehaviour {
 			PikminStatsManager.GetInSquad (PikminColour.Yellow) +
 			PikminStatsManager.GetInSquad (PikminColour.Blue));
 
-			if(_OnFieldText.text != areaValue.ToString ())
-			{
-				_OnFieldText.gameObject.SetActive(false);	//Setting them inactive then active to make animation play
-				_OnFieldText.text = areaValue.ToString ();
+		if(_OnFieldText.text != areaValue.ToString ())
+		{
+      _OnFieldChangeAnimation.Play();
+			_OnFieldText.text = areaValue.ToString ();
+		}
 
-				_OnFieldText.gameObject.SetActive(true);
-			}
+		if(_InSquadText.text != squadValue.ToString ())
+		{
+      _InSquadChangeAnimation.Play();
+      _InSquadText.text = squadValue.ToString ();
+		}
 
-			if(_InSquadText.text != squadValue.ToString ())
-			{
-				_InSquadText.gameObject.SetActive(false);
-				_InSquadText.text = squadValue.ToString ();
-
-				_InSquadText.gameObject.SetActive(true);
-			}
-
-		flasher.index = areaValue >= 100 ? 1 : 0;
+		_Flasher.index = areaValue >= 100 ? 1 : 0;
   }
 }

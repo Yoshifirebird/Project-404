@@ -1101,8 +1101,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _OnFieldText: {fileID: 5803372771289801810}
+  _OnFieldChangeAnimation: {fileID: 5661819069102372847}
   _InSquadText: {fileID: 5803372770673145477}
-  flasher: {fileID: 749840401042237657}
+  _InSquadChangeAnimation: {fileID: 5198174496149172292}
+  _Flasher: {fileID: 749840401042237657}
 --- !u!1 &5803372771769940936
 GameObject:
   m_ObjectHideFlags: 0
