@@ -225,8 +225,10 @@ public class PikminAI : MonoBehaviour, IHealth {
     AudioSource.PlayClipAtPoint (_Data._DeathNoise, transform.position, _Data._AudioVolume);
 
     // Create the soul gameobject, and play the death noise
-    var soul = Instantiate (_DeathParticle, transform.position, Quaternion.Euler (-90, 0, 0));
-    Destroy (soul, 5);
+    var soul = Instantiate (_DeathParticle, transform.position, Quaternion.Euler (-90, 0, 0)).GetComponent<ParticleSystem>();
+    var soulEffect = soul.main;
+    soulEffect.startColor = _Data._DeathSpiritColour;
+    Destroy (soul.gameObject, 5);
 
     // Remove the object
     Destroy (gameObject);

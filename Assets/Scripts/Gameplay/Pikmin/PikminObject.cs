@@ -22,6 +22,7 @@ public enum PikminMaturity {
 public class PikminObject : ScriptableObject {
   [Header ("Pikmin Specific")]
   public PikminColour _Colour;
+  public Color _DeathSpiritColour = Color.white;
 
   [Header ("Movement")]
   public float _MaxMovementSpeed = 2.5f;
