@@ -58,8 +58,8 @@ public class Test_PikminAttacking : MonoBehaviour, IPikminAttack, IHealth {
 
     if (_CurrentHealth <= 0) {
 
-      while (_Attacking.Count > 0){
-        _Attacking[0].ChangeState(PikminStates.Idle);
+      while (_Attacking.Count > 0) {
+        _Attacking[0].ChangeState (PikminStates.Idle);
       }
 
       Destroy (gameObject);

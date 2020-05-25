@@ -51,7 +51,7 @@ public class PikminAI : MonoBehaviour, IHealth {
   [SerializeField] PikminStatSpecifier _CurrentStatSpecifier = default;
   [SerializeField] float _CurrentMoveSpeed = 0;
 
-  [Header("Misc")]
+  [Header ("Misc")]
   [SerializeField] LayerMask _PikminMask = 0;
   [SerializeField] bool _InSquad = false;
   [SerializeField] float _RagdollTime = 0;
@@ -222,7 +222,7 @@ public class PikminAI : MonoBehaviour, IHealth {
     AudioSource.PlayClipAtPoint (_Data._DeathNoise, transform.position, _Data._AudioVolume);
 
     // Create the soul gameobject, and play the death noise
-    var soul = Instantiate (_DeathParticle, transform.position, Quaternion.Euler (-90, 0, 0)).GetComponent<ParticleSystem>();
+    var soul = Instantiate (_DeathParticle, transform.position, Quaternion.Euler (-90, 0, 0)).GetComponent<ParticleSystem> ();
     var soulEffect = soul.main;
     soulEffect.startColor = _Data._DeathSpiritColour;
     Destroy (soul.gameObject, 5);

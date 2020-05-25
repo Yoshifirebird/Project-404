@@ -14,7 +14,7 @@ public class Test_PikminStats : MonoBehaviour {
 
   void Update () {
     if (Input.GetKeyDown (_KeyToApply)) {
-      Instantiate(_Pikmin, transform.position, Quaternion.identity);
+      Instantiate (_Pikmin, transform.position, Quaternion.identity);
     }
 
     if (Input.GetKeyDown (_KeyToPrint)) {
