@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1907568287}
-  m_IndirectSpecularColor: {r: 0.35424155, g: 0.24811757, b: 0.12580955, a: 1}
+  m_IndirectSpecularColor: {r: 0.5160888, g: 0.57193846, b: 0.6724062, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -121,6 +121,18 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: 25274ab4bc10bf84b93ab0b9861fddce, type: 2}
+--- !u!114 &41926808 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4174272790218092821, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4840746956818616044}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &51839485
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,7 +281,6 @@ MonoBehaviour:
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
   _CurrentState: 0
-  _PreviousState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
   _TargetObjectCollider: {fileID: 0}
@@ -5972,7 +5983,6 @@ MonoBehaviour:
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
   _CurrentState: 0
-  _PreviousState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
   _TargetObjectCollider: {fileID: 0}
@@ -6254,6 +6264,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 527705492}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &586844879 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 116078852274838961, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4840746956818616044}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &667700558
 GameObject:
   m_ObjectHideFlags: 0
@@ -6309,7 +6331,6 @@ MonoBehaviour:
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
   _CurrentState: 0
-  _PreviousState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
   _TargetObjectCollider: {fileID: 0}
@@ -7474,7 +7495,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh25396
+  m_Name: pb_Mesh18026
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -7721,7 +7742,6 @@ MonoBehaviour:
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
   _CurrentState: 0
-  _PreviousState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
   _TargetObjectCollider: {fileID: 0}
@@ -7965,7 +7985,6 @@ MonoBehaviour:
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
   _CurrentState: 0
-  _PreviousState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
   _TargetObjectCollider: {fileID: 0}
@@ -8209,7 +8228,6 @@ MonoBehaviour:
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
   _CurrentState: 0
-  _PreviousState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
   _TargetObjectCollider: {fileID: 0}
@@ -8453,7 +8471,6 @@ MonoBehaviour:
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
   _CurrentState: 0
-  _PreviousState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
   _TargetObjectCollider: {fileID: 0}
@@ -8729,7 +8746,6 @@ MonoBehaviour:
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
   _CurrentState: 0
-  _PreviousState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
   _TargetObjectCollider: {fileID: 0}
@@ -8975,9 +8991,9 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 30
       inSlope: 0
-      outSlope: 240
+      outSlope: 120
       tangentMode: 65
       weightedMode: 0
       inWeight: 0.33333334
@@ -11382,7 +11398,6 @@ MonoBehaviour:
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
   _CurrentState: 0
-  _PreviousState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
   _TargetObjectCollider: {fileID: 0}
@@ -11626,7 +11641,6 @@ MonoBehaviour:
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
   _CurrentState: 0
-  _PreviousState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
   _TargetObjectCollider: {fileID: 0}
@@ -12074,7 +12088,6 @@ MonoBehaviour:
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
   _CurrentState: 0
-  _PreviousState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
   _TargetObjectCollider: {fileID: 0}
@@ -12763,7 +12776,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1907568285}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0.18301271, y: -0.6830127, z: 0.18301271, w: 0.6830127}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -12868,7 +12881,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh106452
+  m_Name: pb_Mesh17822
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -13031,7 +13044,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh25014
+  m_Name: pb_Mesh17740
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -13194,7 +13207,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh25304
+  m_Name: pb_Mesh17944
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -13357,7 +13370,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh25028
+  m_Name: pb_Mesh17754
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -14551,6 +14564,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 116078852274838961, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1415380961396536041, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -14561,6 +14579,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1977825341754648920, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
+        type: 3}
+      propertyPath: _HealthBar
+      value: 
+      objectReference: {fileID: 586844879}
+    - target: {fileID: 1977825341754648920, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
+        type: 3}
+      propertyPath: _HealthText
+      value: 
+      objectReference: {fileID: 41926808}
     - target: {fileID: 4840746956649536388, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -14625,6 +14653,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6506300032599454162, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
+        type: 3}
+      propertyPath: m_Text
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7962192937145130963, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
+        type: 3}
+      propertyPath: m_FillCenter
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f, type: 3}
