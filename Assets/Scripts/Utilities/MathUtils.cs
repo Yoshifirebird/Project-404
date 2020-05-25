@@ -34,7 +34,7 @@ public static class MathUtil {
   /// <param name="segments">How many corners there are</param>
   /// <param name="index">The index of the corner to calculate the position of</param>
   /// <returns>-1 to 1, -1 to 1</returns>
-  public static Vector2 PositionInUnit (uint segments, int index) {
+  public static Vector2 PositionInUnit (int segments, int index) {
     float theta = (M_TAU / segments) * index;
     return new Vector2 (Mathf.Cos (theta), Mathf.Sin (theta));
   }
@@ -46,7 +46,7 @@ public static class MathUtil {
   /// <param name="index">The index of the corner to calculate the position of</param>
   /// <param name="offset">How much to offset the position by</param>
   /// <returns>-1 to 1, -1 to 1</returns>
-  public static Vector2 PositionInUnit (uint segments, int index, float offset) {
+  public static Vector2 PositionInUnit (int segments, int index, float offset) {
     float theta = (M_TAU / segments) * index;
     return new Vector2 (Mathf.Cos (theta + offset), Mathf.Sin (theta + offset));
   }
