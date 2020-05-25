@@ -50,11 +50,11 @@ public class PikminAI : MonoBehaviour, IHealth {
   [SerializeField] float _AttackJumpTimer = 0;
 
   [Header ("Stats")]
-  [SerializeField] PikminMaturity _CurrentMaturity = default;
+  [SerializeField] PikminMaturity _CurrentMaturity = PikminMaturity.Leaf;
   [SerializeField] PikminStatSpecifier _CurrentStatSpecifier = default;
   [SerializeField] float _CurrentMoveSpeed = 0;
 
-  [Header ("Misc")]
+  [Header("Misc")]
   [SerializeField] LayerMask _PikminMask = 0;
   [SerializeField] bool _InSquad = false;
   [SerializeField] float _RagdollTime = 0;
@@ -89,8 +89,6 @@ public class PikminAI : MonoBehaviour, IHealth {
     _Collider = GetComponent<CapsuleCollider> ();
 
     _PikminMask = LayerMask.NameToLayer ("Pikmin");
-
-    _CurrentMaturity = _Data._StartingMaturity;
 
     _CurrentStatSpecifier = PikminStatSpecifier.OnField;
     PikminStatsManager.Add (_Data._Colour, _CurrentMaturity, _CurrentStatSpecifier);

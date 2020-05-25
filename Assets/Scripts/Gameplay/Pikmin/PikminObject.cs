@@ -22,7 +22,6 @@ public enum PikminMaturity {
 public class PikminObject : ScriptableObject {
   [Header ("Pikmin Specific")]
   public PikminColour _Colour;
-  public PikminMaturity _StartingMaturity;
 
   [Header ("Movement")]
   public float _MaxMovementSpeed = 2.5f;
