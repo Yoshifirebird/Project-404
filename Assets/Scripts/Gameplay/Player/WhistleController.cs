@@ -33,7 +33,7 @@ public class WhistleController : MonoBehaviour {
   Camera _MainCamera = null;
   LineRenderer _Renderer = null;
 
-  void Awake () {
+  void Start () {
     _MainCamera = Camera.main;
     _PlayerTransform = GameManager._Player.transform;
 
