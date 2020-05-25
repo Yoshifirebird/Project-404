@@ -34,9 +34,6 @@ public class PikminAI : MonoBehaviour, IHealth {
   [Header ("Debugging")]
   [SerializeField] PikminStates _CurrentState = PikminStates.Idle;
 
-  // PreviousState is used to null any variables from the state it just changed from
-  [SerializeField] PikminStates _PreviousState = PikminStates.Idle;
-
   [Header ("Idle")]
   [SerializeField] PikminIntention _Intention = PikminIntention.Idle;
   [SerializeField] Transform _TargetObject = null;
@@ -297,11 +294,8 @@ public class PikminAI : MonoBehaviour, IHealth {
     if (_CurrentState == PikminStates.Dead)
       return;
 
-    _PreviousState = _CurrentState;
-    _CurrentState = state;
-
     // Shrink collider and grab latch offset to maintain the same position
-    if (_CurrentState == PikminStates.Attacking) {
+    if (state == PikminStates.Attacking) {
       _Collider.radius /= 5;
       _Collider.height /= 5;
       _LatchOffset = transform.localPosition;
@@ -311,11 +305,11 @@ public class PikminAI : MonoBehaviour, IHealth {
     }
 
     // Null out the variables we were using in the previous state
-    if (_PreviousState == PikminStates.RunningTowards || _PreviousState == PikminStates.Idle && _TargetObject != null) {
+    if (_CurrentState == PikminStates.RunningTowards || _CurrentState == PikminStates.Idle && _TargetObject != null) {
       _TargetObject = null;
       _TargetObjectCollider = null;
     }
-    else if (_PreviousState == PikminStates.Attacking) {
+    else if (_CurrentState == PikminStates.Attacking) {
       // Reset latching variables aka regrow collider size and reset the latch offset
       _Collider.radius *= 5;
       _Collider.height *= 5;
@@ -336,6 +330,8 @@ public class PikminAI : MonoBehaviour, IHealth {
       _AttackingTransform = null;
       _AttackTimer = 0;
     }
+
+    _CurrentState = state;
   }
 
   public void StartRunTowards (Transform obj) {
