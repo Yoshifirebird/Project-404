@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Red Pikmin
   m_EditorClassIdentifier: 
   _Colour: 0
-  _StartingMaturity: 0
+  _DeathSpiritColour: {r: 1, g: 0, b: 0, a: 1}
   _MaxMovementSpeed: 3
   _AccelerationSpeed: 10
   _RotationSpeed: 10
