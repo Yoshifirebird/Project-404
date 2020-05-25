@@ -31,6 +31,8 @@ public class PikminAI : MonoBehaviour, IHealth {
   [Header ("VFX")]
   [SerializeField] GameObject _DeathParticle = null;
 
+  #region Debugging Variables
+
   [Header ("Debugging")]
   [SerializeField] PikminStates _CurrentState = PikminStates.Idle;
 
@@ -55,6 +57,8 @@ public class PikminAI : MonoBehaviour, IHealth {
   [SerializeField] LayerMask _PikminMask = 0;
   [SerializeField] bool _InSquad = false;
   [SerializeField] float _RagdollTime = 0;
+
+  #endregion
 
   // Components
   AudioSource _AudioSource = null;
