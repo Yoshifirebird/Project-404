@@ -319,7 +319,7 @@ public class PikminAI : MonoBehaviour, IHealth {
       // Reset latching variables aka regrow collider size and reset the latch offset
       _Collider.radius *= 5;
       _Collider.height *= 5;
-
+      transform.rotation = Quaternion.identity;
       LatchOnto (null);
       _Rigidbody.velocity = Vector3.zero;
 
