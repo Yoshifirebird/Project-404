@@ -9,13 +9,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UITimeline : MonoBehaviour {
-  [SerializeField] RectTransform playhead;
-  [SerializeField] Text debugTime;
-  [SerializeField] AnimationCurve sunOpacity;
-  [SerializeField] Image[] sunPics;
-  [SerializeField] float[] opDiv; //Opacity division in case you're wondering.
-  [SerializeField] AnimationCurve moonOpacity;
-  [SerializeField] Image moonPic;
+  [SerializeField] RectTransform playhead = null;
+  [SerializeField] Text debugTime = null;
+  [SerializeField] AnimationCurve sunOpacity = null;
+  [SerializeField] Image[] sunPics = null;
+  [SerializeField] float[] opDiv = null; //Opacity division in case you're wondering.
+  [SerializeField] AnimationCurve moonOpacity = null;
+  [SerializeField] Image moonPic = null;
 
   void Update () {
     float currentTime = GameManager._DayController._CurrentTime;
