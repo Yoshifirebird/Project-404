@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1907568287}
-  m_IndirectSpecularColor: {r: 0.3542413, g: 0.24811754, b: 0.12580943, a: 1}
+  m_IndirectSpecularColor: {r: 0.35424155, g: 0.24811757, b: 0.12580955, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9995,7 +9995,7 @@ MonoBehaviour:
   _MaxShootDistance: 50
   _ShotDamage: 5
   _BulletForce: 150
-  _PikminRagdollTime: 0
+  _PikminRagdollTime: 2
   _ShotPikmin: []
   _AudioSource: {fileID: 1240257526}
   _MainCamera: {fileID: 0}
@@ -15154,7 +15154,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2142702592}
-  - component: {fileID: 2142702591}
   m_Layer: 0
   m_Name: StaticLightingSky
   m_TagString: Untagged
@@ -15162,18 +15161,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2142702591
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2142702590}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 441482e8936e35048a1dffac814e3ef8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &2142702592
 Transform:
   m_ObjectHideFlags: 1
