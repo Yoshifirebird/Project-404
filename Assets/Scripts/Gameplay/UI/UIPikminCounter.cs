@@ -19,12 +19,20 @@ public class UIPikminCounter : MonoBehaviour {
 
 		if(_OnFieldText.text != areaValue.ToString ())
 		{
+      if (_OnFieldChangeAnimation.isPlaying)
+      {
+        _OnFieldChangeAnimation.Stop();
+      }
       _OnFieldChangeAnimation.Play();
 			_OnFieldText.text = areaValue.ToString ();
 		}
 
 		if(_InSquadText.text != squadValue.ToString ())
 		{
+      if (_InSquadChangeAnimation.isPlaying)
+      {
+        _InSquadChangeAnimation.Stop();
+      }
       _InSquadChangeAnimation.Play();
       _InSquadText.text = squadValue.ToString ();
 		}
