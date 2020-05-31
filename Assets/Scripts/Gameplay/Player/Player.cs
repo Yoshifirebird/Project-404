@@ -24,7 +24,7 @@ public class Player : MonoBehaviour, IHealth {
   void Awake () {
     _CurrentHealth = _MaxHealth;
 
-    _AudioSource = GetComponent<AudioSource>();
+    _AudioSource = GetComponent<AudioSource> ();
 
     // Apply singleton pattern to allow for the objects in the scene to reference the active Player instance
     if (GameManager._Player == null) {
@@ -37,34 +37,28 @@ public class Player : MonoBehaviour, IHealth {
 
   void Update () {
     // Tab pauses the game, experimental
-    if (Application.isEditor)
-    {
-      if (Input.GetKeyDown(KeyCode.Tab))
-      {
+    if (Application.isEditor) {
+      if (Input.GetKeyDown (KeyCode.Tab)) {
         GameManager._IsPaused = !GameManager._IsPaused;
         Time.timeScale = GameManager._IsPaused ? 0 : 1;
       }
 
-      if (Input.GetKeyDown(KeyCode.Alpha3))
-      {
-        SubtractHealth(_MaxHealth / 10);
+      if (Input.GetKeyDown (KeyCode.Alpha3)) {
+        SubtractHealth (_MaxHealth / 10);
       }
     }
 
-    if (_CurrentHealth <= 0)
-    {
-      Debug.Log("Player is dead!");
-      Debug.Break();
+    if (_CurrentHealth <= 0) {
+      Debug.Log ("Player is dead!");
+      Debug.Break ();
     }
 
     // If the health is less that a quarter of what the max is
-    if (_CurrentHealth / _MaxHealth < 0.25f)
-    {
+    if (_CurrentHealth / _MaxHealth < 0.25f) {
       _LowHealthAudioTimer += Time.deltaTime;
-      if (_LowHealthAudioTimer >= _LowHealthDelay)
-      {
+      if (_LowHealthAudioTimer >= _LowHealthDelay) {
         _LowHealthAudioTimer = 0;
-        _AudioSource.PlayOneShot(_LowHealthClip);
+        _AudioSource.PlayOneShot (_LowHealthClip);
       }
     }
   }

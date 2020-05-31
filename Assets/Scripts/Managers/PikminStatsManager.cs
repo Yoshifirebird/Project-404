@@ -5,6 +5,7 @@
  */
 
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public enum PikminStatSpecifier {
@@ -82,6 +83,7 @@ public class PikminTypeStats {
   public PikminMaturityStats _Bud = new PikminMaturityStats (PikminMaturity.Bud);
   public PikminMaturityStats _Flower = new PikminMaturityStats (PikminMaturity.Flower);
 
+  [MethodImpl (MethodImplOptions.AggressiveInlining)]
   public PikminTypeStats (PikminColour colour) {
     _Colour = colour;
   }
@@ -135,6 +137,16 @@ public class PikminTypeStats {
         break;
     }
   }
+
+  [MethodImpl (MethodImplOptions.AggressiveInlining)]
+  public int GetTotalInSquad () {
+    return _Leaf._InSquad + _Bud._InSquad + _Flower._InSquad;
+  }
+
+  [MethodImpl (MethodImplOptions.AggressiveInlining)]
+  public int GetTotalOnField () {
+    return _Leaf._OnField + _Bud._OnField + _Leaf._OnField;
+  }
 }
 
 public static class PikminStatsManager {
@@ -146,6 +158,7 @@ public static class PikminStatsManager {
   public static List<GameObject> _InSquad = new List<GameObject> ();
 
   // Clears the Squad
+  [MethodImpl (MethodImplOptions.AggressiveInlining)]
   public static void ClearSquad () {
     while (_InSquad.Count > 0) {
       _InSquad[0].GetComponent<PikminAI> ().RemoveFromSquad ();
@@ -153,12 +166,14 @@ public static class PikminStatsManager {
   }
 
   // Adds a Pikmin to the squad, and handles adding to the stats
+  [MethodImpl (MethodImplOptions.AggressiveInlining)]
   public static void AddToSquad (GameObject pikmin, PikminColour colour, PikminMaturity maturity) {
     _InSquad.Add (pikmin);
     Add (colour, maturity, PikminStatSpecifier.InSquad);
   }
 
   // Removes a Pikmin from the squad, and handles decrementing the stats
+  [MethodImpl (MethodImplOptions.AggressiveInlining)]
   public static void RemoveFromSquad (GameObject pikmin, PikminColour colour, PikminMaturity maturity) {
     _InSquad.Remove (pikmin);
     Remove (colour, maturity, PikminStatSpecifier.InSquad);
@@ -206,15 +221,15 @@ public static class PikminStatsManager {
     _YellowStats.Print ();
   }
 
-  #region getters
+  #region Getters
   public static int GetOnField (PikminColour colour) {
     switch (colour) {
       case PikminColour.Red:
-        return _RedStats._Leaf._OnField + _RedStats._Bud._OnField + _RedStats._Flower._OnField;
+        return _RedStats.GetTotalOnField ();
       case PikminColour.Yellow:
-        return _YellowStats._Leaf._OnField + _YellowStats._Bud._OnField + _YellowStats._Flower._OnField;
+        return _YellowStats.GetTotalOnField ();
       case PikminColour.Blue:
-        return _BlueStats._Leaf._OnField + _BlueStats._Bud._OnField + _BlueStats._Flower._OnField;
+        return _BlueStats.GetTotalOnField ();
       default:
         return 0;
     }
@@ -222,14 +237,24 @@ public static class PikminStatsManager {
   public static int GetInSquad (PikminColour colour) {
     switch (colour) {
       case PikminColour.Red:
-        return _RedStats._Leaf._InSquad + _RedStats._Bud._InSquad + _RedStats._Flower._InSquad;
+        return _RedStats.GetTotalInSquad ();
       case PikminColour.Yellow:
-        return _YellowStats._Leaf._InSquad + _YellowStats._Bud._InSquad + _YellowStats._Flower._InSquad;
+        return _YellowStats.GetTotalInSquad ();
       case PikminColour.Blue:
-        return _BlueStats._Leaf._InSquad + _BlueStats._Bud._InSquad + _BlueStats._Flower._InSquad;
+        return _BlueStats.GetTotalInSquad ();
       default:
         return 0;
     }
+  }
+
+  [MethodImpl (MethodImplOptions.AggressiveInlining)]
+  public static int GetTotalInSquad () {
+    return _RedStats.GetTotalInSquad () + _YellowStats.GetTotalInSquad () + _BlueStats.GetTotalInSquad ();
+  }
+
+  [MethodImpl (MethodImplOptions.AggressiveInlining)]
+  public static int GetTotalOnField () {
+    return _RedStats.GetTotalOnField () + _YellowStats.GetTotalOnField () + _BlueStats.GetTotalOnField ();
   }
   #endregion
 }

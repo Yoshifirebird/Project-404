@@ -23,9 +23,9 @@ public class PlayerUIController : MonoBehaviour {
   }
 
   void Update () {
-    float currentHealth = _Player.GetCurrentHealth();
+    float currentHealth = _Player.GetCurrentHealth ();
 
     _HealthBar.fillAmount = Mathf.Lerp (_HealthBar.fillAmount, currentHealth / _Player.GetMaxHealth (), _HealthBarTransitionRate * Time.deltaTime);
-    _HealthText.text = ((int)currentHealth).ToString ();
+    _HealthText.text = ((int) currentHealth).ToString ();
   }
 }

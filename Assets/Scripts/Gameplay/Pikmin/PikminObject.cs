@@ -9,7 +9,7 @@ using UnityEngine;
 public enum PikminColour {
   Red = 0,
   Yellow,
-  Blue
+  Blue,
 }
 
 public enum PikminMaturity {
