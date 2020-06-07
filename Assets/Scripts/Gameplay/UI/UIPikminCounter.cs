@@ -8,28 +8,37 @@ public class UIPikminCounter : MonoBehaviour {
   [SerializeField] Animation _InSquadChangeAnimation;
   [SerializeField] ColorLerper _Flasher;
 
-  void Update () {
+  void PlayChangeAnimation(bool onField)
+  {
+    if (onField)
+    {
+      if (_OnFieldChangeAnimation.isPlaying)
+      {
+        _OnFieldChangeAnimation.Stop();
+      }
+      _OnFieldChangeAnimation.Play();
+    }
+    else
+    {
+      if (_InSquadChangeAnimation.isPlaying)
+      {
+        _InSquadChangeAnimation.Stop();
+      }
+      _InSquadChangeAnimation.Play();
+    }
+  }
 
-    int areaValue = (PikminStatsManager.GetOnField (PikminColour.Red) +
-      PikminStatsManager.GetOnField (PikminColour.Yellow) +
-      PikminStatsManager.GetOnField (PikminColour.Blue));
-    int squadValue = (PikminStatsManager.GetInSquad (PikminColour.Red) +
-      PikminStatsManager.GetInSquad (PikminColour.Yellow) +
-      PikminStatsManager.GetInSquad (PikminColour.Blue));
+  void Update () {
+    int areaValue = PikminStatsManager.GetTotalOnField();
+    int squadValue = PikminStatsManager.GetTotalInSquad();
 
     if (_OnFieldText.text != areaValue.ToString ()) {
-      if (_OnFieldChangeAnimation.isPlaying) {
-        _OnFieldChangeAnimation.Stop ();
-      }
-      _OnFieldChangeAnimation.Play ();
+      PlayChangeAnimation(true);
       _OnFieldText.text = areaValue.ToString ();
     }
 
     if (_InSquadText.text != squadValue.ToString ()) {
-      if (_InSquadChangeAnimation.isPlaying) {
-        _InSquadChangeAnimation.Stop ();
-      }
-      _InSquadChangeAnimation.Play ();
+      PlayChangeAnimation(false);
       _InSquadText.text = squadValue.ToString ();
     }
 
