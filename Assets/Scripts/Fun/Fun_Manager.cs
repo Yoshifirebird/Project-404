@@ -18,7 +18,7 @@ public class Fun_Manager : MonoBehaviour {
   }
 
   void Update () {
-    if (Application.isEditor && Input.GetKeyDown (_KeyToEnable)) {
+    if (Input.GetKeyDown (_KeyToEnable)) {
       GameManager._FunMode = !GameManager._FunMode;
 
       foreach (var obj in _FunObjects) {
