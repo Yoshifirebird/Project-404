@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1907568287}
-  m_IndirectSpecularColor: {r: 0.74975735, g: 0.71688867, b: 0.57035965, a: 1}
+  m_IndirectSpecularColor: {r: 0.52736187, g: 0.48185867, b: 0.30291075, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -12959,7 +12959,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17822
+  m_Name: pb_Mesh14492
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -14657,6 +14657,21 @@ PrefabInstance:
       propertyPath: _LowHealthClip
       value: 
       objectReference: {fileID: 8300000, guid: 230d9a8af74d84846a1ed411960e1b53, type: 3}
+    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
+        type: 3}
+      propertyPath: _PikminGrabRadius
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
+        type: 3}
+      propertyPath: _MaxGrabHeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
+        type: 3}
+      propertyPath: _GrabFXQuality
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 4840746956026011365, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
         type: 3}
       propertyPath: _LowHealthClip
@@ -14721,6 +14736,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player Set
+      objectReference: {fileID: 0}
+    - target: {fileID: 4840746957998538510, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
+        type: 3}
+      propertyPath: _WhistleInteractLayer.m_Bits
+      value: 275
       objectReference: {fileID: 0}
     - target: {fileID: 6296654791427606636, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
         type: 3}
