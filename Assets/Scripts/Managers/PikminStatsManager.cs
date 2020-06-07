@@ -145,7 +145,7 @@ public class PikminTypeStats {
 
   [MethodImpl (MethodImplOptions.AggressiveInlining)]
   public int GetTotalOnField () {
-    return _Leaf._OnField + _Bud._OnField + _Leaf._OnField;
+    return _Leaf._OnField + _Bud._OnField + _Flower._OnField;
   }
 }
 
