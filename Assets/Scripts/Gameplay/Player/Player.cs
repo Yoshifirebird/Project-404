@@ -53,7 +53,7 @@ public class Player : MonoBehaviour, IHealth {
       Debug.Break ();
     }
 
-    // If the health is less that a quarter of what the max is
+    // If the health is less that a quarter of what the max is, then play the low health audio
     if (_CurrentHealth / _MaxHealth < 0.25f) {
       _LowHealthAudioTimer += Time.deltaTime;
       if (_LowHealthAudioTimer >= _LowHealthDelay) {
