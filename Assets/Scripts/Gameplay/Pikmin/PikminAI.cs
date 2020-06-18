@@ -10,7 +10,11 @@ public enum PikminStates {
   Idle,
   RunningTowards,
   Attacking,
+
+  // Holding/Throwing States
   BeingHeld,
+  Thrown,
+
   Dead,
   Waiting,
 }
@@ -158,12 +162,21 @@ public class PikminAI : MonoBehaviour, IHealth {
     if (_TargetObjectCollider != null && collision.collider == _TargetObjectCollider) {
       CarryoutIntention ();
     }
+
+    if (_CurrentState == PikminStates.Thrown) {
+      _TargetObject = collision.transform;
+      _TargetObjectCollider = collision.collider;
+      _Intention = collision.gameObject.GetComponent<IPikminInteractable> ().IntentionType;
+      CarryoutIntention ();
+    }
   }
 
   #endregion
 
   #region States
   void CarryoutIntention () {
+    PikminStates previousState = _CurrentState;
+
     // Run intention-specific logic (attack = OnAttackStart for the target object)
     switch (_Intention) {
       case PikminIntention.Attack:
@@ -185,6 +198,10 @@ public class PikminAI : MonoBehaviour, IHealth {
         break;
       default:
         break;
+    }
+
+    if (previousState == _CurrentState && _CurrentState != PikminStates.Idle) {
+      ChangeState (PikminStates.Idle);
     }
 
     _Intention = PikminIntention.Idle;
