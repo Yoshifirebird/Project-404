@@ -10,8 +10,9 @@ public enum PikminStates {
   Idle,
   RunningTowards,
   Attacking,
-  Squad,
+  BeingHeld,
   Dead,
+  Waiting,
 }
 
 // Immediate states after running towards another object/position
@@ -110,6 +111,8 @@ public class PikminAI : MonoBehaviour, IHealth {
       case PikminStates.Dead:
         HandleDeath ();
         break;
+
+      case PikminStates.BeingHeld:
       default:
         break;
     }
@@ -293,13 +296,13 @@ public class PikminAI : MonoBehaviour, IHealth {
 
   #region Public Functions
 
-  public void ChangeState (PikminStates state) {
+  public void ChangeState (PikminStates newState) {
     // There's no saving pikmin from death
     if (_CurrentState == PikminStates.Dead)
       return;
 
     // Shrink collider and grab latch offset to maintain the same position
-    if (state == PikminStates.Attacking) {
+    if (newState == PikminStates.Attacking) {
       _Collider.radius /= 5;
       _Collider.height /= 5;
       _LatchOffset = transform.localPosition;
@@ -308,7 +311,6 @@ public class PikminAI : MonoBehaviour, IHealth {
       }
     }
 
-    // Null out the variables we were using in the previous state
     if (_CurrentState == PikminStates.RunningTowards || _CurrentState == PikminStates.Idle && _TargetObject != null) {
       _TargetObject = null;
       _TargetObjectCollider = null;
@@ -335,7 +337,16 @@ public class PikminAI : MonoBehaviour, IHealth {
       _AttackTimer = 0;
     }
 
-    _CurrentState = state;
+    _CurrentState = newState;
+  }
+
+  public void StartThrowHold () {
+    ChangeState (PikminStates.BeingHeld);
+  }
+
+  // We've been thrown!
+  public void EndThrowHold (Vector3 EndPoint) {
+
   }
 
   public void StartRunTowards (Transform obj) {
