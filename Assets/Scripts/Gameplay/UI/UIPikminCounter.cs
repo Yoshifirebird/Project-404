@@ -2,11 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UIPikminCounter : MonoBehaviour {
-  [SerializeField] Text _OnFieldText;
-  [SerializeField] Animation _OnFieldChangeAnimation;
-  [SerializeField] Text _InSquadText;
-  [SerializeField] Animation _InSquadChangeAnimation;
-  [SerializeField] ColorLerper _Flasher;
+  [SerializeField] Text _OnFieldText = null;
+  [SerializeField] Animation _OnFieldChangeAnimation = null;
+  [SerializeField] Text _InSquadText = null;
+  [SerializeField] Animation _InSquadChangeAnimation = null;
+  [SerializeField] ColorLerper _Flasher = null;
 
   void PlayChangeAnimation(bool onField)
   {

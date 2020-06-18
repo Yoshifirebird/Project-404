@@ -10,7 +10,7 @@ public class Test_PikminStats : MonoBehaviour {
   [Header ("Settings")]
   [SerializeField] KeyCode _KeyToApply = KeyCode.Alpha1;
   [SerializeField] KeyCode _KeyToPrint = KeyCode.Alpha0;
-  [SerializeField] GameObject _Pikmin;
+  [SerializeField] GameObject _Pikmin = null;
 
   void Update () {
     if (Input.GetKeyDown (_KeyToApply)) {

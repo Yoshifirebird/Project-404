@@ -19,7 +19,7 @@ public class VirtualCameraTarget : MonoBehaviour {
   public Quaternion lastRot;
   public float lastFov;
   public float interpolation = 1;
-  public Camera camera;
+  public new Camera camera;
 
   // Use this for initialization
   void Awake () {

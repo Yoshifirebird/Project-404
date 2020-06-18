@@ -39,11 +39,9 @@ public class InteractibleEvent : CommonBase {
 
   //public CustomInputModule control;
 
-  public void Update () {
+  public new void Update () {
 
-    if (GameManager._IsPaused == false)
-      UnpauseUpdate ();
-
+    base.Update();
   }
 
   public new void UnpauseUpdate () {
