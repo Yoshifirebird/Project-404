@@ -38,6 +38,7 @@ public class PlayerPikminController : MonoBehaviour
     if (_HoldingPikmin != null)
     {
       // TODO: Add holding and throwing
+      print("Holding pikmin");
     }
     else if (attemptedGrab)
     {
@@ -83,18 +84,16 @@ public class PlayerPikminController : MonoBehaviour
 
     foreach (var pikmin in PikminStatsManager._InSquad)
     {
-      // Check the distance between the Pikmin and the Player
-      float pikDist = MathUtil.DistanceTo(transform.position, pikmin.transform.position, false);
-      if (pikDist >= _PikminGrabRadius * _PikminGrabRadius)
+      // Check the height difference between the Pikmin and the Player
+      float yDist = Mathf.Abs(transform.position.y - pikmin.transform.position.y);
+
+      if (yDist >= _MaxGrabHeight)
       {
         continue;
       }
 
-      float yDist = Mathf.Abs(transform.position.y - pikmin.transform.position.y);
-      if (yDist >= _MaxGrabHeight || yDist <= -_MaxGrabHeight)
-      {
-        continue;
-      }
+      // Check the distance between the Pikmin and the Player
+      float pikDist = MathUtil.DistanceTo(transform.position, pikmin.transform.position, false);
 
       if (pikDist < cPikDist)
       {
