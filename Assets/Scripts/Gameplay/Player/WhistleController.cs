@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class WhistleController : MonoBehaviour {
   [Header ("Components")]
-  [SerializeField] Transform _CursorTransform = null;
+  public Transform _CursorTransform = null;
   [SerializeField] ParticleSystem _ParentParticle = null;
   [SerializeField] ParticleSystem[] _WhistleParticles = null;
 
@@ -66,6 +66,7 @@ public class WhistleController : MonoBehaviour {
       _ParentParticle.transform.localScale = MathUtil.XZToXYZ (Vector2.one * _StartRadius, _StartRadius);
       _Blowing = true;
     }
+
     if (Input.GetButtonUp ("B Button") || _CurrentTime >= _TotalBlowTime) {
       // Stop the particles and audio
       _ParentParticle.Stop (true);
