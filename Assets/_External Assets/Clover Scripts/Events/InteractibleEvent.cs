@@ -41,7 +41,7 @@ public class InteractibleEvent : CommonBase {
 
   public new void Update () {
 
-    base.Update();
+    base.Update ();
   }
 
   public new void UnpauseUpdate () {
