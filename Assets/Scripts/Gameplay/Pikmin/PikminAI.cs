@@ -385,7 +385,7 @@ public class PikminAI : MonoBehaviour, IHealth {
       int squadValue = PikminStatsManager.GetTotalInSquad();
       _TargetObject = GameManager._Player._FormationCenter._Positions[squadValue];
 
-      PikminStatsManager.AddToSquad (gameObject, _Data._Colour, _CurrentMaturity);
+      PikminStatsManager.AddToSquad (this, _Data._Colour, _CurrentMaturity);
     }
   }
 
@@ -395,7 +395,7 @@ public class PikminAI : MonoBehaviour, IHealth {
       _TargetObject = null;
       ChangeState (to);
 
-      PikminStatsManager.RemoveFromSquad (gameObject, _Data._Colour, _CurrentMaturity);
+      PikminStatsManager.RemoveFromSquad (this, _Data._Colour, _CurrentMaturity);
     }
   }
 

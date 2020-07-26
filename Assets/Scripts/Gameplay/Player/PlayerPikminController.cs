@@ -128,7 +128,7 @@ public class PlayerPikminController : MonoBehaviour {
 
       if (pikDist < cPikDist) {
         cPikDist = pikDist;
-        cPik = pikmin;
+        cPik = pikmin.gameObject;
       }
     }
 
