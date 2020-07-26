@@ -62,7 +62,6 @@ public class PikminAI : MonoBehaviour, IHealth {
   [SerializeField] LayerMask _PikminMask = 0;
   [SerializeField] bool _InSquad = false;
   [SerializeField] float _RagdollTime = 0;
-
   #endregion
 
   // Components
@@ -383,7 +382,8 @@ public class PikminAI : MonoBehaviour, IHealth {
     if (!_InSquad && _CurrentState != PikminStates.Dead) {
       _InSquad = true;
       ChangeState (PikminStates.RunningTowards);
-      _TargetObject = GameManager._Player._FormationCentre;
+      int squadValue = PikminStatsManager.GetTotalInSquad();
+      _TargetObject = GameManager._Player._FormationCenter._Positions[squadValue];
 
       PikminStatsManager.AddToSquad (gameObject, _Data._Colour, _CurrentMaturity);
     }

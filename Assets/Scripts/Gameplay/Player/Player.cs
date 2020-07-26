@@ -8,13 +8,17 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IHealth {
   [Header ("Components")]
-  public Transform _FormationCentre = null;
+  public FormationCenter _FormationCenter = null;
   [SerializeField] AudioClip _LowHealthClip = null;
   AudioSource _AudioSource = null;
 
   [Header ("Settings")]
   [SerializeField] float _MaxHealth = 100;
   [SerializeField] float _LowHealthDelay = 1;
+
+  [Header("Formation")]
+  [SerializeField] float _StartingDistance = 1;
+  [SerializeField] float _DistancePerPikmin = 0.1f;
 
   [Header ("Debugging")]
   [SerializeField] float _CurrentHealth = 0;
@@ -61,6 +65,10 @@ public class Player : MonoBehaviour, IHealth {
         _AudioSource.PlayOneShot (_LowHealthClip);
       }
     }
+
+    Vector3 targetPosition = _FormationCenter.transform.position - transform.position;
+    _FormationCenter.transform.position = 
+      transform.position + Vector3.ClampMagnitude(targetPosition, _StartingDistance + _DistancePerPikmin * PikminStatsManager.GetTotalInSquad());
   }
 
   #region Health Implementation
