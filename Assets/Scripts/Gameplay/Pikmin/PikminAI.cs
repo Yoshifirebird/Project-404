@@ -340,17 +340,16 @@ public class PikminAI : MonoBehaviour, IHealth {
       LatchOnto (null);
       _Rigidbody.velocity = Vector3.zero;
 
+      _AttackingTransform = null;
+
       // Check if the object we were attacking was still active or not
       if (_Attacking == null) {
-        _Attacking = null;
-        _AttackingTransform = null;
         _LatchOffset = Vector3.zero;
         return;
       }
 
       // As it is still active, and not null, we can call the appropriate function
       _Attacking.OnAttackEnd (this);
-      _AttackingTransform = null;
       _AttackTimer = 0;
     }
 
@@ -363,7 +362,11 @@ public class PikminAI : MonoBehaviour, IHealth {
 
   // We've been thrown!
   public void EndThrowHold (Vector3 EndPoint) {
-
+    //TODD: put some formulas or some shit to properly move the pikmin, for now teleporting works fine
+    //Replacing this with an offset throwing (when its implemented of course) would prevent the pikmin from getting caught on olimar
+    transform.position = EndPoint;
+    //TODO: not set pikmin to idle state, but making the thrown state would just be the arc, which isn't needed right now because teleporting
+    RemoveFromSquad();
   }
 
   public void StartRunTowards (Transform obj) {

@@ -36,7 +36,7 @@ public class PlayerPikminController : MonoBehaviour {
     }
 
     if (_HoldingPikmin != null) {
-      // TODO: Add holding and throwing
+      // TODO: Add throwing
       if (Input.GetButton ("A Button")) {
         _HoldingPikmin.transform.position = transform.position + transform.forward;
       }
