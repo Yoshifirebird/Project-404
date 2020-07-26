@@ -155,26 +155,26 @@ public static class PikminStatsManager {
   public static PikminTypeStats _BlueStats = new PikminTypeStats (PikminColour.Blue);
   public static PikminTypeStats _YellowStats = new PikminTypeStats (PikminColour.Yellow);
 
-  public static List<GameObject> _InSquad = new List<GameObject> ();
+  public static List<PikminAI> _InSquad = new List<PikminAI> ();
 
   // Clears the Squad
   [MethodImpl (MethodImplOptions.AggressiveInlining)]
   public static void ClearSquad () {
     while (_InSquad.Count > 0) {
-      _InSquad[0].GetComponent<PikminAI> ().RemoveFromSquad ();
+      _InSquad[0].RemoveFromSquad ();
     }
   }
 
   // Adds a Pikmin to the squad, and handles adding to the stats
   [MethodImpl (MethodImplOptions.AggressiveInlining)]
-  public static void AddToSquad (GameObject pikmin, PikminColour colour, PikminMaturity maturity) {
+  public static void AddToSquad (PikminAI pikmin, PikminColour colour, PikminMaturity maturity) {
     _InSquad.Add (pikmin);
     Add (colour, maturity, PikminStatSpecifier.InSquad);
   }
 
   // Removes a Pikmin from the squad, and handles decrementing the stats
   [MethodImpl (MethodImplOptions.AggressiveInlining)]
-  public static void RemoveFromSquad (GameObject pikmin, PikminColour colour, PikminMaturity maturity) {
+  public static void RemoveFromSquad (PikminAI pikmin, PikminColour colour, PikminMaturity maturity) {
     _InSquad.Remove (pikmin);
     Remove (colour, maturity, PikminStatSpecifier.InSquad);
   }
