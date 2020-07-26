@@ -82,7 +82,7 @@ public class PlayerPikminController : MonoBehaviour {
   GameObject GetClosestPikmin () {
     // C = closest, Pik = Pikmin, Dist = Distance
     GameObject cPik = null;
-    float cPikDist = _PikminGrabRadius;
+    float cPikDist = Mathf.Pow(_PikminGrabRadius, 2);
 
     foreach (var pikmin in PikminStatsManager._InSquad) {
       // Check the height difference between the Pikmin and the Player

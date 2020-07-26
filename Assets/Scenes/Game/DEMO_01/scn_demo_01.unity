@@ -7471,7 +7471,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18010
+  m_Name: pb_Mesh14844
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -8149,6 +8149,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 950138926}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &980881413 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4840746956211171827, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4840746956818616044}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1032412947
 GameObject:
   m_ObjectHideFlags: 0
@@ -12836,7 +12842,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17928
+  m_Name: pb_Mesh14762
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -13122,7 +13128,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17802
+  m_Name: pb_Mesh14636
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -13285,7 +13291,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17720
+  m_Name: pb_Mesh14554
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -13448,7 +13454,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17734
+  m_Name: pb_Mesh14568
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -14672,6 +14678,26 @@ PrefabInstance:
       propertyPath: _GrabFXQuality
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
+        type: 3}
+      propertyPath: _HoldingOffset.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
+        type: 3}
+      propertyPath: _HoldingOffset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
+        type: 3}
+      propertyPath: _HoldingOffset.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
+        type: 3}
+      propertyPath: _ReticleTransform
+      value: 
+      objectReference: {fileID: 980881413}
     - target: {fileID: 4840746956026011365, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
         type: 3}
       propertyPath: _LowHealthClip
@@ -14740,7 +14766,12 @@ PrefabInstance:
     - target: {fileID: 4840746957998538510, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
         type: 3}
       propertyPath: _WhistleInteractLayer.m_Bits
-      value: 275
+      value: 787
+      objectReference: {fileID: 0}
+    - target: {fileID: 4856242238813814587, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 6296654791427606636, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
         type: 3}
