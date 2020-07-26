@@ -12,10 +12,22 @@ public class PlayerPikminController : MonoBehaviour {
   [SerializeField] float _MaxGrabHeight = 1;
   [SerializeField] Transform _ReticleTransform = null;
 
+  [Header("Punching")]
+  [SerializeField] float _PunchDamage = 1;
+  [SerializeField] float _PunchCooldown = 0.5f;
+  [SerializeField] Vector3 _PunchBoxSize = Vector3.one / 2;
+  [SerializeField] float _PunchBoxFwdOffset = 1; // Relative to transform.forward
+  [SerializeField] LayerMask _PunchAffectedLayers = 0;
+
   [Header ("Debug")]
   [SerializeField] int _GrabFXQuality = 50;
   [SerializeField] GameObject _HoldingPikmin = null;
+  [SerializeField] float _PunchTimer = 0;
   PikminAI _HoldingPikminAI = null;
+
+  void Awake() {
+    Debug.Assert(_ReticleTransform != null);
+  }
 
   void Update () {
     if (Input.GetButtonDown ("X Button")) {
@@ -48,10 +60,26 @@ public class PlayerPikminController : MonoBehaviour {
         _HoldingPikminAI = null;
       }
     }
-    else if (attemptedGrab) {
+    else if (attemptedGrab && _PunchTimer <= 0) {
       // We couldn't grab a Pikmin, we can punch now
 
-      print ("Starting punch");
+      Collider[] pCollided = Physics.OverlapBox(transform.position + transform.forward - transform.right / 2, _PunchBoxSize / 2, transform.rotation, _PunchAffectedLayers);
+      foreach (var pHit in pCollided)
+      {
+        var hComponent = pHit.GetComponent<IHealth>();
+        
+        // Hit the object!
+        hComponent.SubtractHealth(_PunchDamage);
+        // TODO: figure out a particular system to allow for custom hit particles / sounds
+      }
+
+      _PunchTimer = _PunchCooldown;
+    }
+
+    // Decrease the punch timer if we've punched, effectively acts as a cooldown so you can't spam
+    if (_PunchTimer > 0)
+    {
+      _PunchTimer -= Time.deltaTime;
     }
   }
 
@@ -77,6 +105,9 @@ public class PlayerPikminController : MonoBehaviour {
       Gizmos.DrawLine (endPosition, endPosition + (Vector3.down * _MaxGrabHeight));
       Gizmos.DrawLine (endPosition + (Vector3.down * _MaxGrabHeight), transform.position);
     }
+
+    Gizmos.color = Color.red;
+    Gizmos.DrawCube(transform.position + transform.forward - transform.right / 2, _PunchBoxSize);
   }
 
   GameObject GetClosestPikmin () {
