@@ -365,7 +365,7 @@ public class PikminAI : MonoBehaviour, IHealth {
     //Replacing this with an offset throwing (when its implemented of course) would prevent the pikmin from getting caught on olimar
     transform.position = EndPoint;
     //TODO: not set pikmin to idle state, but making the thrown state would just be the arc, which isn't needed right now because teleporting
-    RemoveFromSquad();
+    RemoveFromSquad ();
   }
 
   public void StartRunTowards (Transform obj) {
@@ -382,7 +382,7 @@ public class PikminAI : MonoBehaviour, IHealth {
     if (!_InSquad && _CurrentState != PikminStates.Dead) {
       _InSquad = true;
       ChangeState (PikminStates.RunningTowards);
-      int squadValue = PikminStatsManager.GetTotalInSquad();
+      int squadValue = PikminStatsManager.GetTotalInSquad ();
       _TargetObject = GameManager._Player._FormationCenter._Positions[squadValue];
 
       PikminStatsManager.AddToSquad (this, _Data._Colour, _CurrentMaturity);

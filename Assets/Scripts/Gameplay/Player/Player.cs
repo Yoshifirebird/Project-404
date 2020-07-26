@@ -16,7 +16,7 @@ public class Player : MonoBehaviour, IHealth {
   [SerializeField] float _MaxHealth = 100;
   [SerializeField] float _LowHealthDelay = 1;
 
-  [Header("Formation")]
+  [Header ("Formation")]
   [SerializeField] float _StartingDistance = 1;
   [SerializeField] float _DistancePerPikmin = 0.1f;
 
@@ -67,8 +67,8 @@ public class Player : MonoBehaviour, IHealth {
     }
 
     Vector3 targetPosition = _FormationCenter.transform.position - transform.position;
-    _FormationCenter.transform.position = 
-      transform.position + Vector3.ClampMagnitude(targetPosition, _StartingDistance + _DistancePerPikmin * PikminStatsManager.GetTotalInSquad());
+    _FormationCenter.transform.position =
+      transform.position + Vector3.ClampMagnitude (targetPosition, _StartingDistance + _DistancePerPikmin * PikminStatsManager.GetTotalInSquad ());
   }
 
   #region Health Implementation

@@ -12,7 +12,7 @@ public class PlayerPikminController : MonoBehaviour {
   [SerializeField] float _MaxGrabHeight = 1;
   [SerializeField] Transform _ReticleTransform = null;
 
-  [Header("Punching")]
+  [Header ("Punching")]
   [SerializeField] float _PunchDamage = 1;
   [SerializeField] float _PunchCooldown = 0.5f;
   [SerializeField] Vector3 _PunchBoxSize = Vector3.one / 2;
@@ -25,8 +25,8 @@ public class PlayerPikminController : MonoBehaviour {
   [SerializeField] float _PunchTimer = 0;
   PikminAI _HoldingPikminAI = null;
 
-  void Awake() {
-    Debug.Assert(_ReticleTransform != null);
+  void Awake () {
+    Debug.Assert (_ReticleTransform != null);
   }
 
   void Update () {
@@ -63,13 +63,12 @@ public class PlayerPikminController : MonoBehaviour {
     else if (attemptedGrab && _PunchTimer <= 0) {
       // We couldn't grab a Pikmin, we can punch now
 
-      Collider[] pCollided = Physics.OverlapBox(transform.position + transform.forward - transform.right / 2, _PunchBoxSize / 2, transform.rotation, _PunchAffectedLayers);
-      foreach (var pHit in pCollided)
-      {
-        var hComponent = pHit.GetComponent<IHealth>();
-        
+      Collider[] pCollided = Physics.OverlapBox (transform.position + transform.forward - transform.right / 2, _PunchBoxSize / 2, transform.rotation, _PunchAffectedLayers);
+      foreach (var pHit in pCollided) {
+        var hComponent = pHit.GetComponent<IHealth> ();
+
         // Hit the object!
-        hComponent.SubtractHealth(_PunchDamage);
+        hComponent.SubtractHealth (_PunchDamage);
         // TODO: figure out a particular system to allow for custom hit particles / sounds
       }
 
@@ -77,8 +76,7 @@ public class PlayerPikminController : MonoBehaviour {
     }
 
     // Decrease the punch timer if we've punched, effectively acts as a cooldown so you can't spam
-    if (_PunchTimer > 0)
-    {
+    if (_PunchTimer > 0) {
       _PunchTimer -= Time.deltaTime;
     }
   }
@@ -107,13 +105,13 @@ public class PlayerPikminController : MonoBehaviour {
     }
 
     Gizmos.color = Color.red;
-    Gizmos.DrawCube(transform.position + transform.forward - transform.right / 2, _PunchBoxSize);
+    Gizmos.DrawCube (transform.position + transform.forward - transform.right / 2, _PunchBoxSize);
   }
 
   GameObject GetClosestPikmin () {
     // C = closest, Pik = Pikmin, Dist = Distance
     GameObject cPik = null;
-    float cPikDist = Mathf.Pow(_PikminGrabRadius, 2);
+    float cPikDist = Mathf.Pow (_PikminGrabRadius, 2);
 
     foreach (var pikmin in PikminStatsManager._InSquad) {
       // Check the height difference between the Pikmin and the Player
