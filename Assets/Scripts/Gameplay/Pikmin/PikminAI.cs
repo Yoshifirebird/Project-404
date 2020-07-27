@@ -64,7 +64,8 @@ public class PikminAI : MonoBehaviour, IHealth {
   [SerializeField] bool _InSquad = false;
   [SerializeField] float _RagdollTime = 0;
   [SerializeField] Vector3 _MovementVector = Vector3.zero;
-  [SerializeField] float _PushScale = 30;
+  [SerializeField] float _PlayerPushScale = 30;
+  [SerializeField] float _PikminPushScale = 15;
   #endregion
 
   // Components
@@ -175,7 +176,19 @@ public class PikminAI : MonoBehaviour, IHealth {
 
     if(MathUtil.DistanceTo(transform.position, GameManager._Player.transform.position, true) < Mathf.Pow(1.5f, 2))
     {
-      _MovementVector += (transform.position - GameManager._Player.transform.position).normalized * Time.deltaTime * _PushScale;
+      _MovementVector += (transform.position - GameManager._Player.transform.position).normalized * Time.deltaTime * _PlayerPushScale;
+    }
+
+    Collider[] objects = Physics.OverlapSphere(transform.position, 0.5f);
+    foreach (Collider collider in objects)
+    {
+      if (collider.CompareTag("Pikmin"))
+      {
+        Vector3 direction = transform.position - collider.transform.position;
+        direction.y = 0;
+
+        _MovementVector += direction.normalized * Time.deltaTime * _PikminPushScale;
+      }
     }
 
     float storedY = _Rigidbody.velocity.y;

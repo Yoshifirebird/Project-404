@@ -330,7 +330,8 @@ MonoBehaviour:
   _InSquad: 0
   _RagdollTime: 0
   _MovementVector: {x: 0, y: 0, z: 0}
-  _PushScale: 80
+  _PlayerPushScale: 80
+  _PikminPushScale: 30
 --- !u!82 &218383864
 AudioSource:
   m_ObjectHideFlags: 0
@@ -576,7 +577,8 @@ MonoBehaviour:
   _InSquad: 0
   _RagdollTime: 0
   _MovementVector: {x: 0, y: 0, z: 0}
-  _PushScale: 80
+  _PlayerPushScale: 80
+  _PikminPushScale: 30
 --- !u!82 &255170295
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6281,7 +6283,8 @@ MonoBehaviour:
   _InSquad: 0
   _RagdollTime: 0
   _MovementVector: {x: 0, y: 0, z: 0}
-  _PushScale: 80
+  _PlayerPushScale: 80
+  _PikminPushScale: 30
 --- !u!82 &385759200
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6620,7 +6623,8 @@ MonoBehaviour:
   _InSquad: 0
   _RagdollTime: 0
   _MovementVector: {x: 0, y: 0, z: 0}
-  _PushScale: 80
+  _PlayerPushScale: 80
+  _PikminPushScale: 30
 --- !u!82 &667700561
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8034,7 +8038,8 @@ MonoBehaviour:
   _InSquad: 0
   _RagdollTime: 0
   _MovementVector: {x: 0, y: 0, z: 0}
-  _PushScale: 80
+  _PlayerPushScale: 80
+  _PikminPushScale: 30
 --- !u!82 &935446972
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8280,7 +8285,8 @@ MonoBehaviour:
   _InSquad: 0
   _RagdollTime: 0
   _MovementVector: {x: 0, y: 0, z: 0}
-  _PushScale: 80
+  _PlayerPushScale: 80
+  _PikminPushScale: 30
 --- !u!82 &950138929
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8454,12 +8460,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 950138926}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &980881413 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4840746956211171827, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-    type: 3}
-  m_PrefabInstance: {fileID: 4840746956818616044}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1032412947
 GameObject:
   m_ObjectHideFlags: 0
@@ -8532,7 +8532,8 @@ MonoBehaviour:
   _InSquad: 0
   _RagdollTime: 0
   _MovementVector: {x: 0, y: 0, z: 0}
-  _PushScale: 80
+  _PlayerPushScale: 80
+  _PikminPushScale: 30
 --- !u!82 &1032412950
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8778,7 +8779,8 @@ MonoBehaviour:
   _InSquad: 0
   _RagdollTime: 0
   _MovementVector: {x: 0, y: 0, z: 0}
-  _PushScale: 80
+  _PlayerPushScale: 80
+  _PikminPushScale: 30
 --- !u!82 &1043363037
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9057,7 +9059,8 @@ MonoBehaviour:
   _InSquad: 0
   _RagdollTime: 0
   _MovementVector: {x: 0, y: 0, z: 0}
-  _PushScale: 80
+  _PlayerPushScale: 80
+  _PikminPushScale: 30
 --- !u!82 &1070788016
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9231,108 +9234,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1070788013}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1098093198 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4840746956026011370, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-    type: 3}
-  m_PrefabInstance: {fileID: 4840746956818616044}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &1098093208
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1098093198}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &1211525291
 GameObject:
   m_ObjectHideFlags: 0
@@ -11816,7 +11717,8 @@ MonoBehaviour:
   _InSquad: 0
   _RagdollTime: 0
   _MovementVector: {x: 0, y: 0, z: 0}
-  _PushScale: 80
+  _PlayerPushScale: 80
+  _PikminPushScale: 30
 --- !u!82 &1300597725
 AudioSource:
   m_ObjectHideFlags: 0
@@ -12062,7 +11964,8 @@ MonoBehaviour:
   _InSquad: 0
   _RagdollTime: 0
   _MovementVector: {x: 0, y: 0, z: 0}
-  _PushScale: 80
+  _PlayerPushScale: 80
+  _PikminPushScale: 30
 --- !u!82 &1335321309
 AudioSource:
   m_ObjectHideFlags: 0
@@ -12796,7 +12699,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1666179415}
   m_LocalRotation: {x: -0, y: 0.1305268, z: -0, w: 0.9914448}
-  m_LocalPosition: {x: 15.960118, y: 3.82, z: -1.4798465}
+  m_LocalPosition: {x: 7.957, y: 3.82, z: -0.23}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 1260152584}
@@ -12838,7 +12741,8 @@ MonoBehaviour:
   _InSquad: 0
   _RagdollTime: 0
   _MovementVector: {x: 0, y: 0, z: 0}
-  _PushScale: 80
+  _PlayerPushScale: 80
+  _PikminPushScale: 30
 --- !u!82 &1666179418
 AudioSource:
   m_ObjectHideFlags: 0
@@ -14984,121 +14888,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1977825341754648920, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _LowHealthClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 230d9a8af74d84846a1ed411960e1b53, type: 3}
-    - target: {fileID: 2922173620548703315, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: m_Radius
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2922173620548703315, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: m_Center.y
-      value: -0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _PikminGrabRadius
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _MaxGrabHeight
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _GrabFXQuality
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _HoldingOffset.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _HoldingOffset.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _HoldingOffset.z
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _ReticleTransform
-      value: 
-      objectReference: {fileID: 980881413}
-    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _PunchBoxSize
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _PunchAffectedLayers.m_Bits
-      value: 512
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _PunchBoxOffset.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _PunchBoxSize.z
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _PunchBoxOffset.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _PunchBoxSize.y
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _PunchBoxSize.x
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _PunchBoxOffset.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840746956026011365, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _LowHealthClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 230d9a8af74d84846a1ed411960e1b53, type: 3}
-    - target: {fileID: 4840746956026011365, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _FormationCentre
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840746956026011365, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _StartingDistance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840746956026011365, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _DistancePerPikmin
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840746956026011371, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4840746956649536388, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15158,21 +14947,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player Set
-      objectReference: {fileID: 0}
-    - target: {fileID: 4840746957998538510, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _WhistleInteractLayer.m_Bits
-      value: 787
-      objectReference: {fileID: 0}
-    - target: {fileID: 4856242238813814587, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 32
-      objectReference: {fileID: 0}
-    - target: {fileID: 5551569808984137837, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
-        type: 3}
-      propertyPath: _IterationScale
-      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 6296654791427606636, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
         type: 3}
@@ -15379,7 +15153,8 @@ MonoBehaviour:
   _InSquad: 0
   _RagdollTime: 0
   _MovementVector: {x: 0, y: 0, z: 0}
-  _PushScale: 80
+  _PlayerPushScale: 80
+  _PikminPushScale: 30
 --- !u!33 &6707741673575746106
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -15493,6 +15268,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Red Pikmin
+      objectReference: {fileID: 0}
+    - target: {fileID: 7197550717069938495, guid: e758233af26524e488aa41156e91a34a,
+        type: 3}
+      propertyPath: _PlayerPushScale
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 7197550717069938495, guid: e758233af26524e488aa41156e91a34a,
+        type: 3}
+      propertyPath: _PikminPushScale
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e758233af26524e488aa41156e91a34a, type: 3}
