@@ -7524,7 +7524,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh65280
+  m_Name: pb_Mesh159366
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -11994,7 +11994,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh65066
+  m_Name: pb_Mesh159152
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -12361,7 +12361,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh64984
+  m_Name: pb_Mesh159070
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -13246,7 +13246,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh65194
+  m_Name: pb_Mesh159280
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -13532,7 +13532,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh64998
+  m_Name: pb_Mesh159084
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -14999,11 +14999,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pikmin
-      objectReference: {fileID: 0}
-    - target: {fileID: 7197550717069938495, guid: e758233af26524e488aa41156e91a34a,
-        type: 3}
-      propertyPath: _PushScale
-      value: 80
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e758233af26524e488aa41156e91a34a, type: 3}

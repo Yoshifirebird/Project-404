@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 7197550717069938493}
   - component: {fileID: 7197550717069938494}
   - component: {fileID: 7197550717069938495}
-  - component: {fileID: 4179639514676002035}
   m_Layer: 8
   m_Name: Red Pikmin
   m_TagString: Pikmin
@@ -44,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7197550717069938489}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -3075933476747633976, guid: 4a536b30ececf7047988eff242307579, type: 3}
 --- !u!23 &7197550717069938467
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 823653d234ce6434db7b5966642ff3ea, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -91,13 +90,13 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7197550717069938489}
-  m_Material: {fileID: 13400000, guid: 84e40ede7df66e841898417c23e89937, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.35
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &7197550717069938493
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -247,17 +246,3 @@ MonoBehaviour:
   _RagdollTime: 0
   _MovementVector: {x: 0, y: 0, z: 0}
   _PushScale: 80
---- !u!136 &4179639514676002035
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7197550717069938489}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.2
-  m_Height: 0
-  m_Direction: 1
-  m_Center: {x: 0, y: -0.82, z: 0}
