@@ -178,9 +178,9 @@ public class PikminAI : MonoBehaviour, IHealth {
       _MovementVector += (transform.position - GameManager._Player.transform.position).normalized * Time.deltaTime * _PushScale;
     }
 
-
+    float storedY = _Rigidbody.velocity.y;
     _Rigidbody.velocity = _MovementVector;
-    _MovementVector = new Vector3(0, _Rigidbody.velocity.y, 0);
+    _MovementVector = new Vector3(0, storedY, 0);
   }
 
   void OnCollisionEnter (Collision collision) {
