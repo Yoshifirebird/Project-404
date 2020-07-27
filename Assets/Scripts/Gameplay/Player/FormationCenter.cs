@@ -7,9 +7,9 @@
  using UnityEngine;
 
  public class FormationCenter : MonoBehaviour {
-   //Affects how close the points can be to one another
-   [SerializeField] float _PointRadius;
-   [SerializeField] GameObject _TargetObject;
+  [SerializeField] GameObject _TargetObject = null;
+  [SerializeField] float _IterationScale = 1;
+
    //Relative points to avoid calculating them each frame
    public Transform[] _Positions;
 
@@ -19,10 +19,23 @@
    }
 
    void AssignPositions () {
-     for (int i = 0; i < _Positions.Length; i++) {
-       _Positions[i] = Instantiate (_TargetObject, transform).transform;
-       _Positions[i].localPosition = Vector3.forward * i * _PointRadius;
-     }
+    //Based from Test_OrbitFormation.cs
+    int currentOnLevel = 0;
+    int maxOnLevel = 4;
+    int currentIteration = 1;
+    for (int i = 0; i < _Positions.Length; i++)
+    {
+      _Positions[i] = Instantiate(_TargetObject, transform).transform;
+      if (currentOnLevel >= maxOnLevel)
+      {
+        maxOnLevel += 4;
+        currentIteration++;
+        currentOnLevel = 0;
+      }
+      currentOnLevel++;
 
-   }
- }
+      Vector3 offset = MathUtil.XZToXYZ(MathUtil.PositionInUnit(maxOnLevel, currentOnLevel) * currentIteration * _IterationScale);
+      _Positions[i].localPosition = offset;
+    }
+  }
+}

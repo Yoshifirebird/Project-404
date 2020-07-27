@@ -14,7 +14,7 @@ public class Test_OrbitFormation : MonoBehaviour {
     int maxOnLevel = 4;
     int currentIteration = 1;
     for (int i = 0; i < _AmountInSquad; i++) {
-      if (currentOnLevel > maxOnLevel) {
+      if (currentOnLevel >= maxOnLevel) {
         maxOnLevel += 4;
         currentIteration++;
         currentOnLevel = 0;
