@@ -15,8 +15,9 @@ GameObject:
   - component: {fileID: 7197550717069938493}
   - component: {fileID: 7197550717069938494}
   - component: {fileID: 7197550717069938495}
+  - component: {fileID: 4179639514676002035}
   m_Layer: 8
-  m_Name: Pikmin (25)
+  m_Name: Red Pikmin
   m_TagString: Pikmin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,7 +91,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7197550717069938489}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 84e40ede7df66e841898417c23e89937, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
@@ -228,7 +229,6 @@ MonoBehaviour:
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
   _CurrentState: 0
-  _PreviousState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
   _TargetObjectCollider: {fileID: 0}
@@ -244,3 +244,17 @@ MonoBehaviour:
     m_Bits: 256
   _InSquad: 0
   _RagdollTime: 0
+--- !u!136 &4179639514676002035
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7197550717069938489}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.2
+  m_Height: 0
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.82, z: 0}
