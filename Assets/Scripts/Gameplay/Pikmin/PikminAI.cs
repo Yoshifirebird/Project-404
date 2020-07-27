@@ -35,7 +35,7 @@ public class PikminAI : MonoBehaviour, IHealth {
 
   [Header ("VFX")]
   [SerializeField] GameObject _DeathParticle = null;
-  [SerializeField] Transform _FormationPosition = null;
+  public Transform _FormationPosition = null;
 
   #region Debugging Variables
 
@@ -419,10 +419,9 @@ public class PikminAI : MonoBehaviour, IHealth {
     if (!_InSquad && _CurrentState != PikminStates.Dead) {
       _InSquad = true;
       ChangeState (PikminStates.RunningTowards);
-      int squadValue = PikminStatsManager.GetTotalInSquad ();
-      _FormationPosition.position = GameManager._Player._FormationCenter.GetPositionAt (squadValue);
 
       PikminStatsManager.AddToSquad (this, _Data._Colour, _CurrentMaturity);
+      PikminStatsManager.ReassignFormation();
     }
   }
 
@@ -433,6 +432,7 @@ public class PikminAI : MonoBehaviour, IHealth {
       ChangeState (to);
 
       PikminStatsManager.RemoveFromSquad (this, _Data._Colour, _CurrentMaturity);
+      PikminStatsManager.ReassignFormation();
     }
   }
 

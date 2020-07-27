@@ -221,6 +221,16 @@ public static class PikminStatsManager {
     _YellowStats.Print ();
   }
 
+  //Sets up formations for the pikmin to use
+  public static void ReassignFormation()
+  {
+    for (int i = 0; i < _InSquad.Count; i++)
+    {
+      _InSquad[i]._FormationPosition.position = GameManager._Player._FormationCenter.GetPositionAt(i);
+    }
+  }
+
+
   #region Getters
   public static int GetOnField (PikminColour colour) {
     switch (colour) {
