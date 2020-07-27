@@ -239,7 +239,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 166412732}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1054084522}
@@ -257,7 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54ee69421433c4845afa51e189d9b07c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _AmountInSquad: 122
+  _AmountInSquad: 37
 --- !u!1 &218383861
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,6 +312,7 @@ MonoBehaviour:
     m_Bits: 512
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
+  _FormationPosition: {fileID: 0}
   _CurrentState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
@@ -6014,6 +6015,7 @@ MonoBehaviour:
     m_Bits: 512
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
+  _FormationPosition: {fileID: 0}
   _CurrentState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
@@ -6350,6 +6352,7 @@ MonoBehaviour:
     m_Bits: 512
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
+  _FormationPosition: {fileID: 0}
   _CurrentState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
@@ -7761,6 +7764,7 @@ MonoBehaviour:
     m_Bits: 512
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
+  _FormationPosition: {fileID: 0}
   _CurrentState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
@@ -8004,6 +8008,7 @@ MonoBehaviour:
     m_Bits: 512
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
+  _FormationPosition: {fileID: 0}
   _CurrentState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
@@ -8253,6 +8258,7 @@ MonoBehaviour:
     m_Bits: 512
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
+  _FormationPosition: {fileID: 0}
   _CurrentState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
@@ -8496,6 +8502,7 @@ MonoBehaviour:
     m_Bits: 512
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
+  _FormationPosition: {fileID: 0}
   _CurrentState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
@@ -8772,6 +8779,7 @@ MonoBehaviour:
     m_Bits: 512
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
+  _FormationPosition: {fileID: 0}
   _CurrentState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
@@ -11526,6 +11534,7 @@ MonoBehaviour:
     m_Bits: 512
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
+  _FormationPosition: {fileID: 0}
   _CurrentState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
@@ -11769,6 +11778,7 @@ MonoBehaviour:
     m_Bits: 512
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
+  _FormationPosition: {fileID: 0}
   _CurrentState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
@@ -12542,6 +12552,7 @@ MonoBehaviour:
     m_Bits: 512
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
+  _FormationPosition: {fileID: 0}
   _CurrentState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
@@ -14801,7 +14812,7 @@ PrefabInstance:
     - target: {fileID: 4840746956026011365, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
         type: 3}
       propertyPath: _DistancePerPikmin
-      value: 0.3
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 4840746956026011371, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
         type: 3}

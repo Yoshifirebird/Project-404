@@ -9,20 +9,23 @@ using UnityEngine;
 public class Test_OrbitFormation : MonoBehaviour {
   [SerializeField] int _AmountInSquad = 50;
 
-  void OnDrawGizmosSelected () {
-    int currentOnLevel = 0;
+  Vector3 GetPositionAt (int index) {
+    int currentOnLevel = index;
     int maxOnLevel = 4;
     int currentIteration = 1;
-    for (int i = 0; i < _AmountInSquad; i++) {
-      if (currentOnLevel >= maxOnLevel) {
-        maxOnLevel += 4;
-        currentIteration++;
-        currentOnLevel = 0;
-      }
-      currentOnLevel++;
 
-      Vector3 offset = MathUtil.XZToXYZ (MathUtil.PositionInUnit (maxOnLevel, currentOnLevel) * currentIteration);
-      Gizmos.DrawWireSphere (transform.position + offset, 1);
+    while (currentOnLevel >= maxOnLevel) {
+      currentOnLevel -= maxOnLevel;
+      maxOnLevel += 4;
+      currentIteration++;
+    }
+
+    return MathUtil.XZToXYZ (MathUtil.PositionInUnit (maxOnLevel, currentOnLevel) * currentIteration);
+  }
+
+  void OnDrawGizmosSelected () {
+    for (int i = 0; i < _AmountInSquad; i++) {
+      Gizmos.DrawWireSphere (transform.position + GetPositionAt (i), 1);
     }
   }
 }

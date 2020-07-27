@@ -28,13 +28,14 @@ public enum PikminIntention {
 }
 
 public class PikminAI : MonoBehaviour, IHealth {
-  // Holds everything that makes a Pikmin unique
   [Header ("Components")]
+  // Holds everything that makes a Pikmin unique
   public PikminObject _Data = null;
   [SerializeField] LayerMask _PikminInteractableMask = 0;
 
   [Header ("VFX")]
   [SerializeField] GameObject _DeathParticle = null;
+  [SerializeField] Transform _FormationPosition = null;
 
   #region Debugging Variables
 
@@ -88,6 +89,11 @@ public class PikminAI : MonoBehaviour, IHealth {
   #endregion
 
   #region Unity Methods
+  void OnEnable () {
+    GameObject fObject = new GameObject ($"{name}_formation_pos");
+    _FormationPosition = fObject.transform;
+  }
+
   void Awake () {
     _Rigidbody = GetComponent<Rigidbody> ();
     _AudioSource = GetComponent<AudioSource> ();
@@ -97,6 +103,10 @@ public class PikminAI : MonoBehaviour, IHealth {
 
     _CurrentStatSpecifier = PikminStatSpecifier.OnField;
     PikminStatsManager.Add (_Data._Colour, _CurrentMaturity, _CurrentStatSpecifier);
+  }
+
+  void Start () {
+    _FormationPosition.SetParent (GameManager._Player._FormationCenter.transform);
   }
 
   void Update () {
@@ -126,8 +136,11 @@ public class PikminAI : MonoBehaviour, IHealth {
       return;
     }
 
-    if (_TargetObject == null) {
+    if (!_InSquad && _TargetObject == null) {
       ChangeState (PikminStates.Idle);
+    }
+    else if (_InSquad) {
+      MoveTowards (_FormationPosition.position);
     }
     else {
       MoveTowardsTarget ();
@@ -275,13 +288,17 @@ public class PikminAI : MonoBehaviour, IHealth {
   #endregion
 
   #region Misc
-  void MoveTowardsTarget () {
-    Vector3 closestPoint = ClosestPointOnTarget ();
-
+  void MoveTowards (Vector3 position) {
     // Rotate to look at the object we're moving towards
-    Vector3 delta = (closestPoint - transform.position).normalized;
+    Vector3 delta = (position - transform.position).normalized;
     delta.y = 0;
     transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (delta), _Data._RotationSpeed * Time.deltaTime);
+
+    if (MathUtil.DistanceTo (transform.position, position) < 0.5f) {
+      _CurrentMoveSpeed = Mathf.SmoothStep (_CurrentMoveSpeed, 0, 0.125f);
+      // Don't overshoot so exit early
+      return;
+    }
 
     // To prevent instant, janky movement we step towards the resultant max speed according to _Acceleration
     _CurrentMoveSpeed = Mathf.SmoothStep (_CurrentMoveSpeed, _Data._MaxMovementSpeed, _Data._AccelerationSpeed * Time.deltaTime);
@@ -289,6 +306,10 @@ public class PikminAI : MonoBehaviour, IHealth {
     Vector3 newVelocity = delta.normalized * _CurrentMoveSpeed;
     newVelocity.y = _Rigidbody.velocity.y;
     _Rigidbody.velocity = newVelocity;
+  }
+
+  void MoveTowardsTarget () {
+    MoveTowards (ClosestPointOnTarget ());
   }
 
   Vector3 ClosestPointOnTarget () {
@@ -299,13 +320,6 @@ public class PikminAI : MonoBehaviour, IHealth {
     }
 
     return _TargetObject.position;
-  }
-
-  void ChangePikminStat (PikminStatSpecifier newSpecifier) {
-    PikminStatsManager.Remove (_Data._Colour, _CurrentMaturity, _CurrentStatSpecifier);
-    PikminStatsManager.Add (_Data._Colour, _CurrentMaturity, newSpecifier);
-
-    _CurrentStatSpecifier = newSpecifier;
   }
 
   #endregion
@@ -383,7 +397,7 @@ public class PikminAI : MonoBehaviour, IHealth {
       _InSquad = true;
       ChangeState (PikminStates.RunningTowards);
       int squadValue = PikminStatsManager.GetTotalInSquad ();
-      _TargetObject = GameManager._Player._FormationCenter._Positions[squadValue];
+      _FormationPosition.position = GameManager._Player._FormationCenter.GetPositionAt (squadValue);
 
       PikminStatsManager.AddToSquad (this, _Data._Colour, _CurrentMaturity);
     }
@@ -402,6 +416,10 @@ public class PikminAI : MonoBehaviour, IHealth {
   public void Die (float ragdollTimer = 0) {
     _RagdollTime = ragdollTimer;
     ChangeState (PikminStates.Dead);
+  }
+
+  public void SetTarget (Vector3 position) {
+
   }
 
   #endregion
