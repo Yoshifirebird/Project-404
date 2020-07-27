@@ -180,12 +180,7 @@ public class PikminAI : MonoBehaviour, IHealth {
 
 
     _Rigidbody.velocity = _MovementVector;
-    _MovementVector = Vector3.zero;
-  }
-
-  void LateUpdate ()
-  {
-    
+    _MovementVector = new Vector3(0, _Rigidbody.velocity.y, 0);
   }
 
   void OnCollisionEnter (Collision collision) {
