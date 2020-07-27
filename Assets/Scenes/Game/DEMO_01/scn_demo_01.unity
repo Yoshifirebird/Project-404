@@ -329,6 +329,8 @@ MonoBehaviour:
     m_Bits: 256
   _InSquad: 0
   _RagdollTime: 0
+  _MovementVector: {x: 0, y: 0, z: 0}
+  _PushScale: 80
 --- !u!82 &218383864
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6032,6 +6034,8 @@ MonoBehaviour:
     m_Bits: 256
   _InSquad: 0
   _RagdollTime: 0
+  _MovementVector: {x: 0, y: 0, z: 0}
+  _PushScale: 80
 --- !u!82 &385759200
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6369,6 +6373,8 @@ MonoBehaviour:
     m_Bits: 256
   _InSquad: 0
   _RagdollTime: 0
+  _MovementVector: {x: 0, y: 0, z: 0}
+  _PushScale: 80
 --- !u!82 &667700561
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7518,7 +7524,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh20096
+  m_Name: pb_Mesh65280
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -7781,6 +7787,8 @@ MonoBehaviour:
     m_Bits: 256
   _InSquad: 0
   _RagdollTime: 0
+  _MovementVector: {x: 0, y: 0, z: 0}
+  _PushScale: 80
 --- !u!82 &935446972
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8025,6 +8033,8 @@ MonoBehaviour:
     m_Bits: 256
   _InSquad: 0
   _RagdollTime: 0
+  _MovementVector: {x: 0, y: 0, z: 0}
+  _PushScale: 80
 --- !u!82 &950138929
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8275,6 +8285,8 @@ MonoBehaviour:
     m_Bits: 256
   _InSquad: 0
   _RagdollTime: 0
+  _MovementVector: {x: 0, y: 0, z: 0}
+  _PushScale: 80
 --- !u!82 &1032412950
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8519,6 +8531,8 @@ MonoBehaviour:
     m_Bits: 256
   _InSquad: 0
   _RagdollTime: 0
+  _MovementVector: {x: 0, y: 0, z: 0}
+  _PushScale: 80
 --- !u!82 &1043363037
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8796,6 +8810,8 @@ MonoBehaviour:
     m_Bits: 256
   _InSquad: 0
   _RagdollTime: 0
+  _MovementVector: {x: 0, y: 0, z: 0}
+  _PushScale: 80
 --- !u!82 &1070788016
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11551,6 +11567,8 @@ MonoBehaviour:
     m_Bits: 256
   _InSquad: 0
   _RagdollTime: 0
+  _MovementVector: {x: 0, y: 0, z: 0}
+  _PushScale: 80
 --- !u!82 &1300597725
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11795,6 +11813,8 @@ MonoBehaviour:
     m_Bits: 256
   _InSquad: 0
   _RagdollTime: 0
+  _MovementVector: {x: 0, y: 0, z: 0}
+  _PushScale: 80
 --- !u!82 &1335321309
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11974,7 +11994,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh19868
+  m_Name: pb_Mesh65066
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -12341,7 +12361,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh19786
+  m_Name: pb_Mesh64984
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -12569,6 +12589,8 @@ MonoBehaviour:
     m_Bits: 256
   _InSquad: 0
   _RagdollTime: 0
+  _MovementVector: {x: 0, y: 0, z: 0}
+  _PushScale: 80
 --- !u!82 &1666179418
 AudioSource:
   m_ObjectHideFlags: 0
@@ -13224,7 +13246,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh19996
+  m_Name: pb_Mesh65194
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -13510,7 +13532,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh19800
+  m_Name: pb_Mesh64998
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -14719,6 +14741,16 @@ PrefabInstance:
       propertyPath: _LowHealthClip
       value: 
       objectReference: {fileID: 8300000, guid: 230d9a8af74d84846a1ed411960e1b53, type: 3}
+    - target: {fileID: 2922173620548703315, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2922173620548703315, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
+        type: 3}
+      propertyPath: m_Center.y
+      value: -0.75
+      objectReference: {fileID: 0}
     - target: {fileID: 4840746956026011362, guid: 3ec8ea0ef1cce2c49a9c393fc2c3d67f,
         type: 3}
       propertyPath: _PikminGrabRadius
@@ -14921,7 +14953,7 @@ PrefabInstance:
     - target: {fileID: 7197550717069938488, guid: e758233af26524e488aa41156e91a34a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.48
+      value: 3.82
       objectReference: {fileID: 0}
     - target: {fileID: 7197550717069938488, guid: e758233af26524e488aa41156e91a34a,
         type: 3}
@@ -14967,6 +14999,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pikmin
+      objectReference: {fileID: 0}
+    - target: {fileID: 7197550717069938495, guid: e758233af26524e488aa41156e91a34a,
+        type: 3}
+      propertyPath: _PushScale
+      value: 80
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e758233af26524e488aa41156e91a34a, type: 3}

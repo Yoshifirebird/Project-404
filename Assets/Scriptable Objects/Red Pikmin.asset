@@ -15,7 +15,7 @@ MonoBehaviour:
   _Colour: 0
   _DeathSpiritColour: {r: 1, g: 0, b: 0, a: 1}
   _MaxMovementSpeed: 3
-  _AccelerationSpeed: 10
+  _AccelerationSpeed: 8
   _RotationSpeed: 10
   _SearchRadius: 5
   _AttackDistToJump: 1

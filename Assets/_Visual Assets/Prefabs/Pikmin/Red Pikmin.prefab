@@ -30,7 +30,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7197550717069938489}
-  m_LocalRotation: {x: -0, y: 0.1305268, z: -0, w: 0.9914448}
+  m_LocalRotation: {x: 0, y: 0.13052616, z: 0, w: 0.9914449}
   m_LocalPosition: {x: 14.96, y: 0.5, z: -1.48}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
@@ -228,6 +228,7 @@ MonoBehaviour:
     m_Bits: 512
   _DeathParticle: {fileID: 2138605511974278871, guid: bfeedab288a7b9b45ad6c4578f866f10,
     type: 3}
+  _FormationPosition: {fileID: 0}
   _CurrentState: 0
   _Intention: 3
   _TargetObject: {fileID: 0}
@@ -244,6 +245,8 @@ MonoBehaviour:
     m_Bits: 256
   _InSquad: 0
   _RagdollTime: 0
+  _MovementVector: {x: 0, y: 0, z: 0}
+  _PushScale: 80
 --- !u!136 &4179639514676002035
 CapsuleCollider:
   m_ObjectHideFlags: 0

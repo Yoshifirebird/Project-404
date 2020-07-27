@@ -1,6 +1,6 @@
 /*
  * PikminAI.cs
- * Created by: Ambrosia
+ * Created by: Ambrosia, Kman
  * Created on: 30/4/2020 (dd/mm/yy)
  */
 
@@ -63,6 +63,8 @@ public class PikminAI : MonoBehaviour, IHealth {
   [SerializeField] LayerMask _PikminMask = 0;
   [SerializeField] bool _InSquad = false;
   [SerializeField] float _RagdollTime = 0;
+  [SerializeField] Vector3 _MovementVector = Vector3.zero;
+  [SerializeField] float _PushScale = 30;
   #endregion
 
   // Components
@@ -132,38 +134,58 @@ public class PikminAI : MonoBehaviour, IHealth {
   }
 
   void FixedUpdate () {
-    if (_CurrentState != PikminStates.RunningTowards) {
-      return;
-    }
+    if (_CurrentState == PikminStates.RunningTowards)
+    {
+      if (!_InSquad && _TargetObject == null)
+      {
+        ChangeState(PikminStates.Idle);
+      }
+      else if (_InSquad)
+      {
+        MoveTowards(_FormationPosition.position);
+      }
+      else
+      {
+        MoveTowardsTarget();
+      }
 
-    if (!_InSquad && _TargetObject == null) {
-      ChangeState (PikminStates.Idle);
-    }
-    else if (_InSquad) {
-      MoveTowards (_FormationPosition.position);
-    }
-    else {
-      MoveTowardsTarget ();
-    }
+      if (_Intention == PikminIntention.Attack && _TargetObject != null)
+      {
+        Vector3 directionToObj = ClosestPointOnTarget() - transform.position;
+        if (Physics.Raycast(transform.position, directionToObj, out RaycastHit hit, 2.5f))
+        {
+          if (hit.collider != _TargetObjectCollider && hit.collider.CompareTag("Pikmin"))
+          {
+            // Make the Pikmin move to the right a little to avoid jumping into the other Pikmin
+            _MovementVector += transform.right * 2.5f;
+          }
+        }
 
-    if (_Intention == PikminIntention.Attack && _TargetObject != null) {
-      Vector3 directionToObj = ClosestPointOnTarget () - transform.position;
-      if (Physics.Raycast (transform.position, directionToObj, out RaycastHit hit, 2.5f)) {
-        if (hit.collider != _TargetObjectCollider && hit.collider.CompareTag ("Pikmin")) {
-          // Make the Pikmin move to the right a little to avoid jumping into the other Pikmin
-          _Rigidbody.velocity += transform.right * 2.5f;
+        _AttackJumpTimer -= Time.deltaTime;
+        if (_AttackJumpTimer <= 0 &&
+          MathUtil.DistanceTo(transform.position, ClosestPointOnTarget()) <= _Data._AttackDistToJump &&
+          Physics.Raycast(transform.position, directionToObj, out hit, 2.5f) &&
+          hit.collider == _TargetObjectCollider)
+        {
+          _MovementVector = new Vector3(_Rigidbody.velocity.x, _Data._AttackJumpPower, _Rigidbody.velocity.z);
+          _AttackJumpTimer = _Data._AttackJumpTimer;
         }
       }
-
-      _AttackJumpTimer -= Time.deltaTime;
-      if (_AttackJumpTimer <= 0 &&
-        MathUtil.DistanceTo (transform.position, ClosestPointOnTarget ()) <= _Data._AttackDistToJump &&
-        Physics.Raycast (transform.position, directionToObj, out hit, 2.5f) &&
-        hit.collider == _TargetObjectCollider) {
-        _Rigidbody.velocity = new Vector3 (_Rigidbody.velocity.x, _Data._AttackJumpPower, _Rigidbody.velocity.z);
-        _AttackJumpTimer = _Data._AttackJumpTimer;
-      }
     }
+
+    if(MathUtil.DistanceTo(transform.position, GameManager._Player.transform.position, true) < Mathf.Pow(1.5f, 2))
+    {
+      _MovementVector += (transform.position - GameManager._Player.transform.position).normalized * Time.deltaTime * _PushScale;
+    }
+
+
+    _Rigidbody.velocity = _MovementVector;
+    _MovementVector = Vector3.zero;
+  }
+
+  void LateUpdate ()
+  {
+    
   }
 
   void OnCollisionEnter (Collision collision) {
@@ -294,18 +316,19 @@ public class PikminAI : MonoBehaviour, IHealth {
     delta.y = 0;
     transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (delta), _Data._RotationSpeed * Time.deltaTime);
 
-    if (MathUtil.DistanceTo (transform.position, position) < 0.5f) {
-      _CurrentMoveSpeed = Mathf.SmoothStep (_CurrentMoveSpeed, 0, 0.125f);
-      // Don't overshoot so exit early
-      return;
-    }
 
-    // To prevent instant, janky movement we step towards the resultant max speed according to _Acceleration
-    _CurrentMoveSpeed = Mathf.SmoothStep (_CurrentMoveSpeed, _Data._MaxMovementSpeed, _Data._AccelerationSpeed * Time.deltaTime);
+    if (MathUtil.DistanceTo (transform.position, position, false) < Mathf.Pow(0.5f, 2)) {
+      _CurrentMoveSpeed = Mathf.SmoothStep (_CurrentMoveSpeed, 0, 0.25f);
+    }
+    else
+    {
+      // To prevent instant, janky movement we step towards the resultant max speed according to _Acceleration
+      _CurrentMoveSpeed = Mathf.SmoothStep(_CurrentMoveSpeed, _Data._MaxMovementSpeed, _Data._AccelerationSpeed * Time.deltaTime);
+    }
 
     Vector3 newVelocity = delta.normalized * _CurrentMoveSpeed;
     newVelocity.y = _Rigidbody.velocity.y;
-    _Rigidbody.velocity = newVelocity;
+    _MovementVector = newVelocity;
   }
 
   void MoveTowardsTarget () {
@@ -351,7 +374,7 @@ public class PikminAI : MonoBehaviour, IHealth {
       _Collider.height *= 5;
       transform.rotation = Quaternion.identity;
       LatchOnto (null);
-      _Rigidbody.velocity = Vector3.zero;
+      _MovementVector = Vector3.zero;
 
       _AttackingTransform = null;
 
