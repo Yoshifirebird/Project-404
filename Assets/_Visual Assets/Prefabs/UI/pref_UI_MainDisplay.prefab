@@ -1581,6 +1581,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Day Counter
       objectReference: {fileID: 0}
+    - target: {fileID: 4052764290871887213, guid: 4a4b29712097f4eee9d0d5971a00d602,
+        type: 3}
+      propertyPath: m_Text
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a4b29712097f4eee9d0d5971a00d602, type: 3}
 --- !u!224 &4141559368451317699 stripped
@@ -1746,6 +1751,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Leader
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891511118332142962, guid: 0539655fc646c45c4bf59e33c2c14408,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0539655fc646c45c4bf59e33c2c14408, type: 3}

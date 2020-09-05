@@ -165,6 +165,7 @@ MonoBehaviour:
   _MaxSpeed: 5
   _Acceleration: 10
   _JumpSpeed: 10
+  _Paralyzed: 0
 --- !u!114 &4840746956026011362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1454,16 +1455,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1830375550431906003, guid: 374ecb42d13ce4582b7a27228f392539,
-        type: 3}
-      propertyPath: m_Text
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4805812132383351984, guid: 374ecb42d13ce4582b7a27228f392539,
-        type: 3}
-      propertyPath: m_FillAmount
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5803372771188280296, guid: 374ecb42d13ce4582b7a27228f392539,
         type: 3}
