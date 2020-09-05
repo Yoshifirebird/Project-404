@@ -30,6 +30,10 @@ public class PlayerPikminController : MonoBehaviour {
   }
 
   void Update () {
+    if (GameManager._Player._Paralyzed) {
+      return;
+    }
+
     if (Input.GetButtonDown ("X Button")) {
       PikminStatsManager.ClearSquad ();
     }

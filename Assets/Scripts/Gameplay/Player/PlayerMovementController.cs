@@ -33,7 +33,7 @@ public class PlayerMovementController : MonoBehaviour {
   }
 
   void FixedUpdate () {
-    if (GameManager._IsPaused) {
+    if (GameManager._IsPaused || GameManager._Player._Paralyzed) {
       return;
     }
 

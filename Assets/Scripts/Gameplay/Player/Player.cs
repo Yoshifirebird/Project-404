@@ -22,6 +22,7 @@ public class Player : MonoBehaviour, IHealth {
 
   [Header ("Debugging")]
   [SerializeField] float _CurrentHealth = 0;
+  [HideInInspector] public bool _Paralyzed = false;
 
   float _LowHealthAudioTimer = 0;
 
