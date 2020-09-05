@@ -15,6 +15,7 @@ Shader "UI/Additive"
     {
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
+        _Multiplier ("Multiplier", Float) = 1.5
      
         _StencilComp ("Stencil Comparison", Float) = 8
         _Stencil ("Stencil ID", Float) = 0
@@ -79,6 +80,7 @@ Shader "UI/Additive"
             {
                 float4 vertex   : SV_POSITION;
                 fixed4 color    : COLOR;
+
                 float2 texcoord  : TEXCOORD0;
                 float4 worldPosition : TEXCOORD1;
                 UNITY_VERTEX_OUTPUT_STEREO
@@ -98,15 +100,16 @@ Shader "UI/Additive"
  
                 OUT.texcoord = IN.texcoord;
              
-                OUT.color = IN.color * _Color;
+                OUT.color = (IN.color * _Color);
                 return OUT;
             }
  
             sampler2D _MainTex;
+            float _Multiplier;
  
             fixed4 frag(v2f IN) : SV_Target
             {
-                half4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color;
+                half4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color *_Multiplier;
              
                 color.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);
              
