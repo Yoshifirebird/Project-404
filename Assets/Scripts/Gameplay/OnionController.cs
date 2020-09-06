@@ -21,7 +21,7 @@ public class OnionController : MonoBehaviour
   }
 		
 
-	public void callMenu ()	{
+	public void CallMenu ()	{
 
 		GameManager._Player._Paralyzed = true;
 		OnionMenu newMenu = Instantiate(menuSpawn, MainGUI.instance.transform).GetComponent<OnionMenu>();
@@ -30,7 +30,7 @@ public class OnionController : MonoBehaviour
 	}
 
 
-	public void signalEndGet ()	{
+	public void SignalEndGet ()	{
 
 		GameManager._Player._Paralyzed = false;
 

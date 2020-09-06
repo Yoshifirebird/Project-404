@@ -9813,7 +9813,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2663302862404223862}
-        m_MethodName: callMenu
+        m_MethodName: CallMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

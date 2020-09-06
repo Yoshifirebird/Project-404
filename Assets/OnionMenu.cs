@@ -16,7 +16,7 @@ public class OnionMenu : MonoBehaviour
     // Start is called before the first frame update
     public void SignalMasterEnd()
     {
-		master.signalEndGet();
+		master.SignalEndGet();
     }
 
    
