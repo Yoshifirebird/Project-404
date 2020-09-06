@@ -1,6 +1,6 @@
 ﻿/*
  * OnionController.cs
- * Created by: Ambrosia
+ * Created by: Ambrosia / Newgame + LD
  * Created on: 5/9/2020 (dd/mm/yy)
  */
 
@@ -11,46 +11,33 @@ public class OnionController : MonoBehaviour
   [Header("Components")]
   [SerializeField] GameObject _UIComponentsParent = null;
 
-  bool _InTrigger = false;
+  //bool _InTrigger = false;
   PlayerMovementController _Movement = null;
+	public OnionMenu menuSpawn;
 
   void Start()
   {
     _Movement = GameManager._Player.GetComponent<PlayerMovementController>();
   }
+		
 
-  void Update()
-  {
-    if (_InTrigger)
-    {
-      if (Input.GetButtonDown("A Button"))
-      {
-        GameManager._Player._Paralyzed = !GameManager._Player._Paralyzed;
-        _UIComponentsParent.SetActive(GameManager._Player._Paralyzed);
-      }
-    }
-  }
+	public void callMenu ()	{
 
-  void OnTriggerEnter(Collider other)
-  {
-    if (!other.CompareTag("Player"))
-    {
-      return;
-    }
+		GameManager._Player._Paralyzed = true;
+		OnionMenu newMenu = Instantiate(menuSpawn, MainGUI.instance.transform).GetComponent<OnionMenu>();
 
-    _InTrigger = true;
-  }
+		newMenu.master = this;
+	}
 
-  void OnTriggerExit(Collider other)
-  {
-    if (!other.CompareTag("Player"))
-    {
-      return;
-    }
 
-    _InTrigger = false;
-  }
+	public void signalEndGet ()	{
 
+		GameManager._Player._Paralyzed = false;
+
+	}
+
+
+	/*
   void OnGUI()
   {
     if (GameManager._DebugGui)
@@ -59,4 +46,5 @@ public class OnionController : MonoBehaviour
       GUI.Label(new Rect(400, yOffset, 300, 500), $"OnionDebug Trigger:{_InTrigger} Paralyzed:{GameManager._Player._Paralyzed}");
     }
   }
+  */
 }

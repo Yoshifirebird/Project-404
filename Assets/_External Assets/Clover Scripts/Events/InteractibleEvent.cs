@@ -11,111 +11,115 @@ using UnityEngine.Events;
 
 public class InteractibleEvent : CommonBase {
 
-  [Tooltip ("This script is for when there's a small event for a player to interact with using the action button")]
-  public float radius;
-  //public bool playerDetected;
-  public InteractorKey actorTarget;
-  //public PlayerActorExtension playerTarget;
+	[Tooltip ("This script is for when there's a small event for a player to interact with using the action button")]
+	public float radius;
+	//public bool playerDetected;
+	public InteractorKey actorTarget;
+	//public PlayerActorExtension playerTarget;
 
-  public Vector3 offset;
-  [System.Serializable]
-  public class enterEvent : UnityEvent<InteractorKey> { }
-  public enterEvent m_enterEvent;
-  [System.Serializable]
-  public class stayEvent : UnityEvent<InteractorKey> { }
-  public stayEvent m_stayEvent;
-  [System.Serializable]
-  public class exitEvent : UnityEvent<InteractorKey> { }
-  public exitEvent m_exitEvent;
-  [System.Serializable]
-  public class actionEvent : UnityEvent<InteractorKey> { }
-  public actionEvent m_actionEvent;
+	public Vector3 offset;
+	[System.Serializable]
+	public class enterEvent : UnityEvent<InteractorKey> { }
+	public enterEvent m_enterEvent;
+	[System.Serializable]
+	public class stayEvent : UnityEvent<InteractorKey> { }
+	public stayEvent m_stayEvent;
+	[System.Serializable]
+	public class exitEvent : UnityEvent<InteractorKey> { }
+	public exitEvent m_exitEvent;
+	[System.Serializable]
+	public class actionEvent : UnityEvent<InteractorKey> { }
+	public actionEvent m_actionEvent;
 
-  public int priority;
-  public bool playerOnly;
-  public bool holdDebugDraw;
-  public bool logDebugInfo;
-  public bool noAction = false;
+	public int priority;
+	public bool playerOnly;
+	public bool holdDebugDraw;
+	public bool logDebugInfo;
+	public bool noAction = false;
 
-  //public CustomInputModule control;
+	//public CustomInputModule control;
 
-  public new void Update () {
 
-    base.Update ();
-  }
+	public void Update () {
 
-  public new void UnpauseUpdate () {
+		//if (GameManager.instance == null || GameManager.instance.pause == false)	{
 
-    //base.UnpauseUpdate ();
+			//print("Unpaused or no game manager X");
+			UnpauseUpdate ();
+		//}
+	}
 
-    //print ("UU Scan");
-    scanforactor ();
+	public void UnpauseUpdate () {
 
-  }
+		//print("Scanning");
+		scanforactor ();
 
-  //InteractorKey targetActor = null;
 
-  void scanforactor () {
+	}
 
-    //print ("scan");
+	//InteractorKey targetActor = null;
 
-    foreach (Collider checker in (Physics.OverlapSphere (transform.position + offset, radius))) {
-      if (logDebugInfo)
-        print (checker);
-      //if (checker.gameObject.tag == "Player") {
-      if (checker.GetComponent<InteractorKey> ()) {
+	void scanforactor () {
 
-        if (!playerOnly || (playerOnly && checker.tag == "Player")) {
+		//print ("scan");
 
-          if (actorTarget == null) {
+		foreach (Collider checker in (Physics.OverlapSphere (transform.position + offset, radius))) {
+			if (logDebugInfo)
+				print (checker);
+			//if (checker.gameObject.tag == "Player") {
+			if (checker.GetComponent<InteractorKey> ()) {
 
-            actorTarget = checker.GetComponent<InteractorKey> ();
+				if (!playerOnly || (playerOnly && checker.tag == "Player")) {
 
-            if (actorTarget.eventTarget != null && actorTarget.eventTarget.priority > priority) {
+					if (actorTarget == null) {
 
-              actorTarget = null;
-              return;
-            }
+						actorTarget = checker.GetComponent<InteractorKey> ();
 
-            if (!noAction) {
-              actorTarget.eventTarget = this;
-            }
-            m_enterEvent.Invoke (actorTarget);
+						if (actorTarget.eventTarget != null && actorTarget.eventTarget.priority > priority) {
 
-          }
+							actorTarget = null;
+							return;
+						}
 
-          m_stayEvent.Invoke (actorTarget);
-          if (logDebugInfo) print ("Stay Event");
+						if (!noAction) {
+							actorTarget.eventTarget = this;
+						}
+						m_enterEvent.Invoke (actorTarget);
 
-          return;
-        }
-      }
-    }
+					}
 
-    if (actorTarget != null) {
+					m_stayEvent.Invoke (actorTarget);
+					if (logDebugInfo) print ("Stay Event");
 
-      m_exitEvent.Invoke (actorTarget);
+					return;
+				}
+			}
+		}
 
-      actorTarget.eventTarget = null;
+		if (actorTarget != null) {
 
-      actorTarget = null;
-    }
+			m_exitEvent.Invoke (actorTarget);
 
-  }
+			actorTarget.eventTarget = null;
 
-  void OnDrawGizmosSelected () {
+			actorTarget = null;
+		}
 
-    if (!holdDebugDraw) {
-      Gizmos.color = Color.white;
-      Gizmos.DrawWireSphere (transform.position + offset, radius);
-    }
-  }
+	}
 
-  void OnDrawGizmos () {
-    if (holdDebugDraw) {
-      Gizmos.color = Color.white;
-      Gizmos.DrawWireSphere (transform.position + offset, radius);
-    }
-  }
+	void OnDrawGizmosSelected () {
+
+		if (!holdDebugDraw) {
+			Gizmos.color = Color.white;
+			Gizmos.DrawWireSphere (transform.position + offset, radius);
+		}
+	}
+
+	void OnDrawGizmos () {
+		if (holdDebugDraw) {
+			Gizmos.color = Color.white;
+			Gizmos.DrawWireSphere (transform.position + offset, radius);
+		}
+	}
 
 }
