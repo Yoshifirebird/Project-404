@@ -18,6 +18,11 @@ public class UITimeline : MonoBehaviour {
   [SerializeField] Image moonPic = null;
 
   void Update () {
+    if (GameManager._IsPaused || GameManager._Player._Paralyzed)
+    {
+      return;
+    }
+
     float currentTime = GameManager._DayController._CurrentTime;
 
     for (int i = 0; i < sunPics.Length; i++) {
