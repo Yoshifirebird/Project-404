@@ -229,6 +229,7 @@ MonoBehaviour:
   _DistancePerPikmin: 0.15
   _CurrentHealth: 0
   _Paralyzed: 0
+  interactorKey: {fileID: 2314773997336212270}
 --- !u!114 &4840746956026011364
 MonoBehaviour:
   m_ObjectHideFlags: 0

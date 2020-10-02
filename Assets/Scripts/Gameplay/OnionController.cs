@@ -36,6 +36,16 @@ public class OnionController : MonoBehaviour
 
 	}
 
+	public void SignalDispenseGet (int[] pikminToDispense)	{
+
+
+		print("<color=red>Dispensing " + pikminToDispense[0] + " Red Pikmin</color>");
+		print("<color=yellow>Dispensing " + pikminToDispense[1] + " Yellow Pikmin</color>");
+		print("<color=blue>Dispensing " + pikminToDispense[2] + " Blue Pikmin</color>");
+
+
+	}
+
 
 	/*
   void OnGUI()

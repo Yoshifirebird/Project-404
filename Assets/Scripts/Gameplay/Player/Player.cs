@@ -23,6 +23,8 @@ public class Player : MonoBehaviour, IHealth {
   [Header ("Debugging")]
   [SerializeField] float _CurrentHealth = 0;
   [HideInInspector] public bool _Paralyzed = false;
+	//Added by Chirz
+	[SerializeField] InteractorKey interactorKey;
 
   float _LowHealthAudioTimer = 0;
 
@@ -70,7 +72,12 @@ public class Player : MonoBehaviour, IHealth {
     Vector3 targetPosition = _FormationCenter.transform.position - transform.position;
     _FormationCenter.transform.position =
       transform.position + Vector3.ClampMagnitude (targetPosition, _StartingDistance + _DistancePerPikmin * PikminStatsManager.GetTotalInSquad ());
-  }
+  
+	//Added by Chirz
+		interactorKey.action = Input.GetKeyDown (KeyCode.Space);
+
+	
+	}
 
   #region Health Implementation
 
