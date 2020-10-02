@@ -20,11 +20,6 @@ public class DayController : MonoBehaviour {
   }
 
   void Update () {
-    if (GameManager._IsPaused || GameManager._Player._Paralyzed)
-    {
-      return;
-    }
-
     _currentTime += Time.deltaTime / (30 * 60);
 
     sunRotator.eulerAngles = new Vector3 (sunHeight.Evaluate (_currentTime), (360 * _currentTime) - 90, 0);

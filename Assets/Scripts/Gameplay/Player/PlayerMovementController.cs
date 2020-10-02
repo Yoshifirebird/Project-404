@@ -23,7 +23,7 @@ public class PlayerMovementController : MonoBehaviour {
   }
 
   void Update () {
-    if (GameManager._IsPaused || GameManager._Player._Paralyzed) {
+    if (GameManager._IsPaused) {
       return;
     }
 
