@@ -9,35 +9,36 @@ using UnityEngine;
 public class OnionController : MonoBehaviour
 {
   [Header("Components")]
-  [SerializeField] GameObject _UIComponentsParent = null;
+  [SerializeField] GameObject _MainUI = null;
+  [SerializeField] GameObject _MenuUI = null;
+  bool _InTrigger = false;
 
-  //bool _InTrigger = false;
-  PlayerMovementController _Movement = null;
-	public OnionMenu menuSpawn;
-
-  void Start()
+  void OnTriggerEnter(Collider other)
   {
-    _Movement = GameManager._Player.GetComponent<PlayerMovementController>();
+    if (other.CompareTag("Player"))
+    {
+      _InTrigger = true;
+    }
   }
-		
 
-	public void CallMenu ()	{
+  void OnTriggerExit(Collider other)
+  {
+    if (other.CompareTag("Player"))
+    {
+      _InTrigger = false;
+    }
+  }
 
-		GameManager._Player._Paralyzed = true;
-		OnionMenu newMenu = Instantiate(menuSpawn, MainGUI.instance.transform).GetComponent<OnionMenu>();
+  void Update()
+  {
+    if (_InTrigger && Input.GetButtonDown("A Button"))
+    {
+      GameManager._Player._Paralyzed = !GameManager._Player._Paralyzed;
+      _MenuUI.SetActive(GameManager._Player._Paralyzed);
+      _MainUI.SetActive(!GameManager._Player._Paralyzed);
+    }
+  }
 
-		newMenu.master = this;
-	}
-
-
-	public void SignalEndGet ()	{
-
-		GameManager._Player._Paralyzed = false;
-
-	}
-
-
-	/*
   void OnGUI()
   {
     if (GameManager._DebugGui)
@@ -46,5 +47,4 @@ public class OnionController : MonoBehaviour
       GUI.Label(new Rect(400, yOffset, 300, 500), $"OnionDebug Trigger:{_InTrigger} Paralyzed:{GameManager._Player._Paralyzed}");
     }
   }
-  */
 }
