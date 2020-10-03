@@ -19,29 +19,27 @@ public class OnionMenu : MonoBehaviour
 
 	void Update ()	{
 
+		//Check if the arrays are matched up
 		if(pikminNumbers.Length != pikminToDispense.Length)	{
-
 			print("Mismatching parallel array lengths");
 			return;
 		}
 			
-
+		//Get numbers from text
 		for(int i = 0; i<pikminToDispense.Length;i++)	{
-
 			pikminToDispense[i] = int.Parse("0" + pikminNumbers[i].text);
-
 		}
 
 	}
 
 
-  
+  //This function will be called using the UI system
     public void SignalMasterEnd()
     {
 		master.SignalEndGet();
     }
 
-
+	//This function will be called using the UI system
 	public void Dispense ()	{
 
 		print("<color=red>Master must dispense " + pikminToDispense[0] + " Red Pikmin</color>");

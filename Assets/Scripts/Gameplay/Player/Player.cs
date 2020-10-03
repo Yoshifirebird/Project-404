@@ -74,7 +74,7 @@ public class Player : MonoBehaviour, IHealth {
       transform.position + Vector3.ClampMagnitude (targetPosition, _StartingDistance + _DistancePerPikmin * PikminStatsManager.GetTotalInSquad ());
   
 	//Added by Chirz
-		interactorKey.action = Input.GetKeyDown (KeyCode.Space);
+		if(!_Paralyzed)interactorKey.action = Input.GetKeyDown (KeyCode.Space);
 
 	
 	}
