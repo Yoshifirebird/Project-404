@@ -15,10 +15,11 @@ public class InteractorKey : MonoBehaviour {
 
 
 	void Update ()	{
+		if(action)	{
+			eventTarget?.m_actionEvent.Invoke(this);
+		}
 
-		if(action)	eventTarget.m_actionEvent.Invoke(this);
-
-			action = false;
+		action = false;
 	}
 
 }
