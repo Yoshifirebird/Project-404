@@ -12,10 +12,9 @@ public class UITimeline : MonoBehaviour {
   [SerializeField] RectTransform playhead = null;
   [SerializeField] Text debugTime = null;
   [SerializeField] AnimationCurve sunOpacity = null;
-  [SerializeField] Image[] sunPics = null;
-  [SerializeField] float[] opDiv = null; //Opacity division in case you're wondering.
+  [SerializeField] CanvasGroup sunPic = null;
   [SerializeField] AnimationCurve moonOpacity = null;
-  [SerializeField] Image moonPic = null;
+  [SerializeField] CanvasGroup moonPic = null;
 
   void Update () {
     if (GameManager._IsPaused || GameManager._Player._Paralyzed)
@@ -25,11 +24,10 @@ public class UITimeline : MonoBehaviour {
 
     float currentTime = GameManager._DayController._CurrentTime;
 
-    for (int i = 0; i < sunPics.Length; i++) {
-      sunPics[i].color = new Color (sunPics[i].color.r, sunPics[i].color.g, sunPics[i].color.b, sunOpacity.Evaluate (currentTime % 1) * opDiv[i]);
-    }
+		sunPic.alpha = sunOpacity.Evaluate(currentTime%1);
 
-    moonPic.color = new Color (1, 1, 1, moonOpacity.Evaluate (currentTime % 1));
+		moonPic.alpha = moonOpacity.Evaluate(currentTime%1);
+
     playhead.anchorMin = playhead.anchorMax = new Vector2 (currentTime * 2 % 1, 0.5f);
 
     if (debugTime) {
