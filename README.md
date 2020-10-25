@@ -1,12 +1,4 @@
-# Project-404
-Project 404 is a WIP Pikmin fangame, developed in Unity.
-
-Project 404 was originally worked on as a Pikmin 1 HD remake,
-however it has since developed into something more of a fully
-fledged Pikmin fan project.
-
-It is currently being worked on by members of the Pikmin
-community including musicians, programmers, and others
-wanting to help out where they can.
-
-Join the discord at: https://discord.gg/gSFrveJ
+# Project 404
+Project 404 was a fangame being developed by a team of fans of Pikmin.
+I have left the project to move onto other projects, and a lack of motivation.
+If anyone can fork and continue the work that'd be great.
