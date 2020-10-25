@@ -63,7 +63,7 @@ public class InteractibleEvent : CommonBase {
 
 		//print ("scan");
 
-		foreach (Collider checker in (Physics.OverlapSphere (transform.position + offset, radius))) {
+		foreach (Collider checker in Physics.OverlapSphere (transform.position + offset, radius)) {
 			if (logDebugInfo)
 				print (checker);
 			//if (checker.gameObject.tag == "Player") {
